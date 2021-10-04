@@ -2,6 +2,10 @@
 - name: Converge
   hosts: all
   tasks:
-    - name: "Include bash"
+    # - name: Update apt cache
+    #   apt:
+    #     name: '*'
+    #     update_cache: true
+    - name: Include bash role
       include_role:
-        name: "bash"
+        name: bash
