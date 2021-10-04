@@ -1,2 +1,12 @@
 ---
 # tasks file for bash
+- name: Ensure bash is installed
+  package:
+    name: bash
+    state: present
+
+- name: Set bash to default shell if dots_bash_set_default_shell
+  become: true
+  user:
+    name: "{{ ansible_user_id }}"
+    shell: /bin/bash

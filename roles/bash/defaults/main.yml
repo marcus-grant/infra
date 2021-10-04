@@ -1,2 +1,3 @@
 ---
 # defaults file for bash
+bash_set_default_shell: false
