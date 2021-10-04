@@ -1,0 +1,22 @@
+---
+# prepare playbook called to provision an instance
+# use this to bring instance to a testable state
+- name: Prepare
+  hosts: all
+  tasks:
+    - name: Update apt cache
+      apt:
+        name: git
+        state: present
+        update_cache: true
+        cache_valid_time: 3600
+      when: ansible_facts['os_family'] == "Debian"
+    - name: Ensure git is installed, needed for cloning
+      package:
+        name: git
+        state: present
+    - name: Set default shell to /bin/sh to test bash set default
+      become: true
+      user:
+        name: "{{ ansible_user_id }}"
+        shell: /bin/sh

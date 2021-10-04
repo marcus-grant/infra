@@ -2,15 +2,6 @@
 - name: Converge
   hosts: all
   tasks:
-    # - name: Update apt cache
-    #   apt:
-    #     name: '*'
-    #     update_cache: true
-    - name: Set default shell to /bin/sh to test bash set default
-      become: true
-      user:
-        name: "{{ ansible_user_id }}"
-        shell: /bin/sh
     - name: Include bash role
       include_role:
         name: bash
