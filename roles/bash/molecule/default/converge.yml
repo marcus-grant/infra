@@ -7,3 +7,7 @@
         name: bash
       vars:
         bash_set_default_shell: true
+        bash_dotfiles_url: 'https://github.com/marcus-grant/dots-bash'
+        bash_dotfiles_dir: ~/.config/bash
+        bash_dotfiles_update: true
+

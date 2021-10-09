@@ -13,6 +13,15 @@ Role Variables
 
 A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
 
+* `bash_set_default_shell`
+  * Default value: `false`
+  * Whether to set a user's default shell to `/bin/bash`
+* `bash_dotfiles_url`
+  * The git repositository remote URL, meant for HTTP references, but if there is a SSH key permitted on the git server that will work as well, but you may want to leave `bash_dotfiles_set_ssh_remote` as undefined or its default value `false`.
+* `bash_dotfiles_dir`
+  * **Required**
+  * The directory
+
 Dependencies
 ------------
 

@@ -1,3 +1,5 @@
 ---
 # defaults file for bash
 bash_set_default_shell: false
+bash_dotfiles_update: false
+bash_dotfiles_set_ssh_remote: false

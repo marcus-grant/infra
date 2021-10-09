@@ -15,6 +15,10 @@
       package:
         name: git
         state: present
+    - name: Make sure XDG config dir exists
+      file:
+        path: "{{ ansible_env.HOME }}/.config"
+        state: directory
     - name: Set default shell to /bin/sh to test bash set default
       become: true
       user:

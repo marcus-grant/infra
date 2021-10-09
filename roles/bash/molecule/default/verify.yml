@@ -8,3 +8,14 @@
   - name: Example assertion
     assert:
       that: true
+  - name: Get the current git remote origin of bash_dotfile_dir
+    shell: 'cd ~/.config/bash && git remote -v'
+    register: bash_shell_git_remote
+
+  - name: print bash_shell_git_remote
+    debug:
+      msg: '{{ bash_shell_git_remote.stdout }}'
+
+  - name: Assert that git remote has an SSH based URI
+    assert:
+      that: "'git@github.com' in bash_shell_git_remote"
