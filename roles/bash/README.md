@@ -43,6 +43,10 @@ Dependencies
 
 A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
 
+** MY ADDITIONS **
+
+The `git` role from this collection is necessary in any playbook that will run this due to the use of the git module. If ssh is used in the variable `bash_dotfiles_repo` to clone/pull repositories to machines using this rule then role variables either must set a public SSH key to the git server the bash dotfiles are stored in the `git` role or it must have already been set manually using that git server's web interface.
+
 Example Playbook
 ----------------
 
