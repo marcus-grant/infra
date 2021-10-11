@@ -16,15 +16,15 @@
 
 - name: Ensure entire path of directories of bash_dotfiles_dir present
   file:
-    path: "{{ bash_dotfiles_dir }}"
+    path: "{{ bash_dotfiles_dest }}"
     state: directory
 
-# - name: Ensure dotfiles repo is cloned locally
-#   git:
-#     repo: "{{ bash_dotfiles_url }}"
-#     dest: "{{ bash_dotfiles_dir }}"
-#     version: "{{ bash_dotfile_version | default('HEAD') }}"
-#     update: "{{ bash_dotfiles_update and not bash_dotfiles_set_ssh_remote  }}"
+- name: Ensure dotfiles repo is cloned locally
+  git:
+    repo: "{{ bash_dotfiles_repo }}"
+    version: "{{ bash_dotfiles_version | default('HEAD') }}"
+    force: "{{ bash_dotfiles_git_force | default('false') }}"
+    dest: "{{ bash_dotfiles_dest }}"
 #
 # - name: Check current remote URL for local bash dotfile repo
 #   shell: "cd {{ bash_dotfiles_dir }} && git remote -v"

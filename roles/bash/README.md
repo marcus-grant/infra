@@ -16,14 +16,26 @@ A description of the settable variables for this role should go here, including 
 * `bash_set_default_shell`
   * Default value: `false`
   * Whether to set a user's default shell to `/bin/bash`
-* `bash_dotfiles_url`
-  * The git repositository remote URL, meant for HTTP references, but if there is a SSH key permitted on the git server that will work as well, but you may want to leave `bash_dotfiles_set_ssh_remote` as undefined or its default value `false`.
-* `bash_dotfiles_dir`
+* `bash_dotfiles_repo`
   * **Required**
-  * The directory
+  * Corresponds to `ansible.builtin.git` parameter `repo`
+  * The git repositository remote URL, meant for HTTP references, but if there is a SSH key permitted on the git server that will work as well, but you may want to leave `bash_dotfiles_set_ssh_remote` as undefined or its default value `false`.
+* `bash_dotfiles_version`
+  * Default value: `HEAD`
+  * Corresponds to `ansible.builtin.git` parameter `version`
+  * What version of remote repository to clone/pull
+  * Can be a branch name, a tag or even a commit hash
+* `bash_dotfiles_git_force`
+  * Default value: `false`
+  * Corresponds to `ansible.builtin.git` parameter `force`
+  * Whether this role should forcefully discard any local files in the dotfiles directory to update it with remote content
 * `bash_dotfile_version`
   * Default value of `HEAD`, *ie the latest default branch*
   * A version tag, branch name or commit hash to clone/pull from the remote repository
+* `bash_dotfiles_dest`
+  * **Required**
+  * Corresponds to `ansible.builtin.git` parameter `dest`
+  * The directory to clone the dotfile repo into
 
 
 Dependencies

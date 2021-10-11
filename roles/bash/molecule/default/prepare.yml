@@ -24,3 +24,11 @@
       user:
         name: "{{ ansible_user_id }}"
         shell: /bin/sh
+    - name: Clone a git repository using commit hash for role to update
+      git:
+        repo: "https://github.com/marcus-grant/dots-bash"
+        version: "7641a15"
+        dest: "~/.config/bash"
+    - name: Create file in git repo to test whether it will be discarded by role
+      shell: "cd ~/.config/bash;rm .gitignore; echo 'ANSIBLE FAILI SHOULDNT BE HERE!' > .gitignore"
+

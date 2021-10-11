@@ -16,6 +16,15 @@
     debug:
       msg: '{{ bash_shell_git_remote.stdout }}'
 
+  - name: Register dotfile repo gitignore to check for forced checkout
+    shell: cat ~/.config/bash/.gitignore
+    register: gitignore
+
+  - name: Assert prepare play string not in gitignore, assuring force checkout works 
+    assert:
+      that: "'ANSIBLE FAILI SHOULDNT BE HERE!' not in gitignore.stdout"
+
+
   # - name: Assert that git remote has an SSH based URI
   #   assert:
   #     that: "'git@github.com' in bash_shell_git_remote"
