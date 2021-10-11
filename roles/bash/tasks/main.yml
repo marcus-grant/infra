@@ -12,27 +12,23 @@
   user:
     name: "{{ ansible_user_id }}"
     shell: /bin/bash
-  when: bash_set_default_shell
+  when: bash_set_default_shell | default('false')
 
 - name: Ensure entire path of directories of bash_dotfiles_dir present
   file:
     path: "{{ bash_dotfiles_dir }}"
     state: directory
 
-# - name: Prepare to update local dotfiles by first removing local
-#   file: "{{ bash_dotfiles_dir }}"
+# - name: Ensure dotfiles repo is cloned locally
+#   git:
+#     repo: "{{ bash_dotfiles_url }}"
+#     dest: "{{ bash_dotfiles_dir }}"
+#     version: "{{ bash_dotfile_version | default('HEAD') }}"
+#     update: "{{ bash_dotfiles_update and not bash_dotfiles_set_ssh_remote  }}"
 #
-
-- name: Ensure dotfiles repo is cloned locally
-  git:
-    repo: "{{ bash_dotfiles_url }}"
-    dest: "{{ bash_dotfiles_dir }}"
-    version: "{{ bash_dotfile_repo_version | default('HEAD') }}"
-    update: "{{ bash_dotfiles_update and not bash_dotfiles_set_ssh_remote  }}"
-
-- name: Check current remote URL for local bash dotfile repo
-  shell: "cd {{ bash_dotfiles_dir }} && git remote -v"
-  register: bash_dotfile_git_remote_cmd
-  when: 
+# - name: Check current remote URL for local bash dotfile repo
+#   shell: "cd {{ bash_dotfiles_dir }} && git remote -v"
+#   register: bash_dotfile_git_remote_cmd
+#   when:
 
 # - name: Check current remote URL for

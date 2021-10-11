@@ -16,6 +16,6 @@
     debug:
       msg: '{{ bash_shell_git_remote.stdout }}'
 
-  - name: Assert that git remote has an SSH based URI
-    assert:
-      that: "'git@github.com' in bash_shell_git_remote"
+  # - name: Assert that git remote has an SSH based URI
+  #   assert:
+  #     that: "'git@github.com' in bash_shell_git_remote"

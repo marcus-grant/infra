@@ -21,6 +21,10 @@ A description of the settable variables for this role should go here, including 
 * `bash_dotfiles_dir`
   * **Required**
   * The directory
+* `bash_dotfile_version`
+  * Default value of `HEAD`, *ie the latest default branch*
+  * A version tag, branch name or commit hash to clone/pull from the remote repository
+
 
 Dependencies
 ------------
