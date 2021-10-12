@@ -18,6 +18,7 @@
   file:
     path: "{{ bash_dotfiles_dest }}"
     state: directory
+    mode: 0700
 
 - name: Ensure dotfiles repo is cloned locally
   git:
@@ -25,10 +26,58 @@
     version: "{{ bash_dotfiles_version | default('HEAD') }}"
     force: "{{ bash_dotfiles_git_force | default('false') }}"
     dest: "{{ bash_dotfiles_dest }}"
-#
-# - name: Check current remote URL for local bash dotfile repo
-#   shell: "cd {{ bash_dotfiles_dir }} && git remote -v"
-#   register: bash_dotfile_git_remote_cmd
-#   when:
 
-# - name: Check current remote URL for
+- name: Stat ~/.bashrc to see if it exists & is a file
+  stat:
+    path: ~/.bashrc
+  register: _bashrc
+
+- name: Debug _bashrc register
+  debug:
+    msg: "{{ _bashrc }}"
+
+- name: Rename current bashrc if it exists as a file and we want to keep it as a backup
+  command: "mv ~/.bashrc ~/.bashrc.{{ ansible_date_time.iso8601_basic_short }}.bak"
+  when:
+    - _bashrc.stat.isreg | default(false)
+    - bash_dotfiles_backup | default(false)
+  # when: >
+  #   _bashrc.stat.isreg | default(false) and
+  #   bash_dotfiles_backup
+
+- name: Remove original bashrc file
+  file:
+    path: ~/.bashrc
+    state: absent
+  when: _bashrc.stat.isreg | default(false)
+
+- name: Create symlink at bashrc path to dotfiles repo
+  file:
+    state: link
+    src: "{{ bash_dotfiles_bashrc }}"
+    dest: ~/.bashrc
+    force: true
+
+- name: Stat ~/.bash_profile to see if it exists & is a file
+  stat:
+    path: ~/.bash_profile
+  register: bash_profile
+
+- name: Rename current bash_profile if it exists as a file and we want to keep it as a backup
+  command: "mv ~/.bashrc ~/.bash_profile.{{ ansible_date_time.iso8601_basic_short }}.bak"
+  when:
+    - bash_profile.stat.isreg | default(false)
+    - bash_dotfiles_backup | default(false)
+
+- name: Remove original bash_profile file
+  file:
+    path: ~/.bash_profile
+    state: absent
+  when: bash_profile.stat.isreg | default(false)
+
+- name: Create symlink at bash_profile path to dotfiles repo
+  file:
+    state: link
+    src: "{{ bash_dotfiles_profile }}"
+    dest: ~/.bash_profile
+    force: true

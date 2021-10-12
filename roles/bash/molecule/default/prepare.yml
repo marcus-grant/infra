@@ -30,5 +30,5 @@
         version: "7641a15"
         dest: "~/.config/bash"
     - name: Create file in git repo to test whether it will be discarded by role
+      changed_when: false
       shell: "cd ~/.config/bash;rm .gitignore; echo 'ANSIBLE FAILI SHOULDNT BE HERE!' > .gitignore"
-
