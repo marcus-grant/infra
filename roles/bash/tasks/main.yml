@@ -14,18 +14,18 @@
     shell: /bin/bash
   when: bash_set_default_shell | default('false')
 
-- name: Ensure entire path of directories of bash_dotfiles_dir present
+- name: Ensure entire path of directories of dotfiles_bash_dir present
   file:
-    path: "{{ bash_dotfiles_dest }}"
+    path: "{{ dotfiles_bash_dest }}"
     state: directory
     mode: 0700
 
 - name: Ensure dotfiles repo is cloned locally
   git:
-    repo: "{{ bash_dotfiles_repo }}"
-    version: "{{ bash_dotfiles_version | default('HEAD') }}"
-    force: "{{ bash_dotfiles_git_force | default('false') }}"
-    dest: "{{ bash_dotfiles_dest }}"
+    repo: "{{ dotfiles_bash_repo }}"
+    version: "{{ dotfiles_bash_version | default('HEAD') }}"
+    force: "{{ dotfiles_bash_git_force | default('false') }}"
+    dest: "{{ dotfiles_bash_dest }}"
 
 - name: Stat ~/.bashrc to see if it exists & is a file
   stat:
@@ -40,10 +40,7 @@
   command: "mv ~/.bashrc ~/.bashrc.{{ ansible_date_time.iso8601_basic_short }}.bak"
   when:
     - _bashrc.stat.isreg | default(false)
-    - bash_dotfiles_backup | default(false)
-  # when: >
-  #   _bashrc.stat.isreg | default(false) and
-  #   bash_dotfiles_backup
+    - dotfiles_bash_backup | default(false)
 
 - name: Remove original bashrc file
   file:
@@ -54,7 +51,7 @@
 - name: Create symlink at bashrc path to dotfiles repo
   file:
     state: link
-    src: "{{ bash_dotfiles_bashrc }}"
+    src: "{{ dotfiles_bash_bashrc }}"
     dest: ~/.bashrc
     force: true
 
@@ -67,7 +64,7 @@
   command: "mv ~/.bashrc ~/.bash_profile.{{ ansible_date_time.iso8601_basic_short }}.bak"
   when:
     - bash_profile.stat.isreg | default(false)
-    - bash_dotfiles_backup | default(false)
+    - dotfiles_bash_backup | default(false)
 
 - name: Remove original bash_profile file
   file:
@@ -78,6 +75,6 @@
 - name: Create symlink at bash_profile path to dotfiles repo
   file:
     state: link
-    src: "{{ bash_dotfiles_profile }}"
+    src: "{{ dotfiles_bash_profile }}"
     dest: ~/.bash_profile
     force: true

@@ -7,9 +7,9 @@
         name: bash
       vars:
         bash_set_default_shell: true
-        bash_dotfiles_repo: 'https://github.com/marcus-grant/dots-bash'
-        bash_dotfiles_dest: "{{ ansible_env.HOME }}/.config/bash"
-        bash_dotfiles_git_force: true
-        bash_dotfiles_bashrc: "{{ bash_dotfiles_dest }}/rc.bash"
-        bash_dotfiles_profile: "{{ bash_dotfiles_dest }}/profile.bash"
-        bash_dotfiles_backup: true
+        dotfiles_bash_repo: 'https://github.com/marcus-grant/dots-bash'
+        dotfiles_bash_dest: "{{ ansible_env.HOME }}/.config/bash"
+        dotfiles_bash_git_force: true
+        dotfiles_bash_bashrc: "{{ dotfiles_bash_dest }}/rc.bash"
+        dotfiles_bash_profile: "{{ dotfiles_bash_dest }}/profile.bash"
+        dotfiles_bash_backup: true
