@@ -1,0 +1,7 @@
+---
+- name: Converge
+  hosts: all
+  tasks:
+    - name: "Include not-coreutil"
+      include_role:
+        name: "not-coreutil"

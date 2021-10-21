@@ -1,0 +1,13 @@
+---
+# - name: Check the corresponding fd package name
+#   debug:
+#     msg: "fd: {{ pkg_fd[ansible_os_family] }}"
+- name: Ensure coreutil package replacements are installed
+  package:
+    name: "{{ item }}"
+    state: present
+  when: item is defined
+  loop:
+    - "{{ pkg_fd[ansible_os_family] }}"
+    - "{{ pkg_fzf[ansible_os_family] }}"
+    - "{{ pkg_rg[ansible_os_family] }}"

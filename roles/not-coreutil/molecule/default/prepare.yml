@@ -1,0 +1,39 @@
+---
+# prepare playbook called to provision an instance
+# use this to bring instance to a testable state
+- name: Prepare
+  hosts: all
+  tasks:
+    - name: Update apt cache
+      apt:
+        name: git
+        state: present
+        update_cache: true
+        cache_valid_time: 10000
+      when: ansible_facts['os_family'] == "Debian"
+    - name: Ensure git is installed, needed for cloning
+      package:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - git
+        - vim
+    - name: Clone dots-vim into instance to test that vim works with the install
+      git:
+        repo: https://github.com/marcus-grant/dots-vim
+        dest: "{{ ansible_env.HOME }}/vim"
+    - name: Link dotfiles for test vim config
+      file:
+        state: link
+        src: "{{ ansible_env.HOME }}/vim/vimrc"
+        dest: ~/.vimrc
+        force: true
+    - name: Link dotfiles for test vim config
+      file:
+        state: link
+        src: "{{ ansible_env.HOME }}/vim"
+        dest: ~/.vim
+        force: true
+
+# TODO add verification step ala vim +'PlugInstall --sync' +qa
+
