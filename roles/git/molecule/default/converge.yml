@@ -2,6 +2,13 @@
 - name: Converge
   hosts: all
   tasks:
-    - name: "Include vim"
+    - name: Update apt cache
+      apt:
+        name: git
+        state: present
+        update_cache: true
+        cache_valid_time: 3600
+      when: ansible_facts['os_family'] == "Debian"
+    - name: "Include git"
       include_role:
-        name: "vim"
+        name: "git"

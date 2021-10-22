@@ -1,2 +1,3 @@
 ---
-# defaults file for vim
+# defaults file for git
+git_default_branch: main
