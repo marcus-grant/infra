@@ -1,2 +1,22 @@
 ---
 # tasks file for git
+# TODO This should include other deps like gitui, gpg signing helpers etc
+# There's too many deps for other roles unimplemented to do this new, revisit
+- name: Ensure git packages are installed
+  package:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - git
+    # TODO handle more installs in future after deps finished
+
+- name: "Set several .gitconfig 'SECTION.PROPERTY' to 'VALUE' pairs at global scope"
+  community.general.git_config:
+    name: "{{ item.prop }}"
+    scope: global
+    state: present
+    value: "{{ item.value }}"
+  loop:
+    - { prop: init.defaultBranch, value: "{{ git_default_branch }}" }
+    - { prop: user.name, value: "{{ git_user_name }}" }
+    - { prop: pull.rebase, value: "{{ git_pull_rebase | ternary('true', 'false', omit) }}" }

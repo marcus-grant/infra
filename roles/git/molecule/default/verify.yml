@@ -5,6 +5,37 @@
   hosts: all
   gather_facts: false
   tasks:
-  - name: Example assertion
+  - name: Check git packages status
+    package:
+      name: "{{ item }}"
+      state: present
+    check_mode: true
+    register: git_pkg_check
+    loop:
+      - git
+      # - gitui
+      # TODO check against helper utils like gitui once rustup/cargo dep finished
+      # TODO Check against gpg stuff once that dep is done
+
+  - name: Assert git pakcages are intalled
     assert:
-      that: true
+      that: git_pkg_check is succeeded
+
+  - name: Register all current gitconfig values
+    community.general.git_config:
+      list_all: true
+      scope: global
+    register: gitconfig
+
+  - name: Assert several config key-value pairs in gitconfig
+    assert:
+      that: item.real == item.expected
+    loop:
+      - real: "{{ gitconfig.config_values['init.defaultbranch'] }}"
+        expected: main
+      - real: "{{ gitconfig.config_values['user.name'] }}"
+        expected: Ivana Tinkle
+      - real: "{{ gitconfig.config_values['user.email'] }}"
+        expected: ivanatinkle@microsoft.com
+      - real: "{{ gitconfig.config_values['pull.rebase'] }}"
+        expected: 'false'
