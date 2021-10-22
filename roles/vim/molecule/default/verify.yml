@@ -1,0 +1,37 @@
+---
+# This is an example playbook to execute Ansible tests.
+
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+
+  - name: Check installed packages facts
+    package_facts: manager=auto
+
+  - name: Assert vim is installed
+    assert:
+      that: ansible_facts.packages['vim'] is defined
+
+  # - name: Stat vim git clone destination by checking
+  #   stat:
+  #     path: ~/.config/vim
+
+  # - name: Register all current gitconfig values
+  #   community.general.git_config:
+  #     list_all: true
+  #     scope: global
+  #   register: gitconfig
+  #
+  # - name: Assert several config key-value pairs in gitconfig
+  #   assert:
+  #     that: item.real == item.expected
+  #   loop:
+  #     - real: "{{ gitconfig.config_values['init.defaultbranch'] }}"
+  #       expected: main
+  #     - real: "{{ gitconfig.config_values['user.name'] }}"
+  #       expected: Ivana Tinkle
+  #     - real: "{{ gitconfig.config_values['user.email'] }}"
+  #       expected: ivanatinkle@microsoft.com
+  #     - real: "{{ gitconfig.config_values['pull.rebase'] }}"
+  #       expected: 'false'

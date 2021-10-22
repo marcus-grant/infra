@@ -1,0 +1,6 @@
+---
+# tasks file for vim
+- name: Ensure vim is installed
+  package:
+    name: vim
+    state: present
