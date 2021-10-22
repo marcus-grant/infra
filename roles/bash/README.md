@@ -65,8 +65,8 @@ Example Playbook
             dotfiles_bash_repo: 'https://github.com/marcus-grant/dots-bash'
             dotfiles_bash_dest: ~/.config/bash
             dotfiles_bash_git_force: true
-            dotfiles_bash_bashrc: '{{ dotfiles_bash_repo }}/bashrc'
-            dotfiles_bash_profile: '{{ dotfiles_bash_repo }}/bashprofile'
+            dotfiles_bash_bashrc: '{{ dotfiles_bash_dest }}/bashrc'
+            dotfiles_bash_profile: '{{ dotfiles_bash_dest }}/bashprofile'
             dotfiles_bash_backup: false
 
 
