@@ -1,0 +1,7 @@
+---
+- name: Converge
+  hosts: all
+  tasks:
+    - name: "Include gpg"
+      include_role:
+        name: "gpg"
