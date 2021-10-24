@@ -67,13 +67,15 @@
     mode: 0644
   when: git_gh_install_deb
 
+- name: DEBUG
+  debug: var=git_gh_install_deb
+
 - name: Update apt registry if Debian based linux
   become: true
   apt:
     update_cache: true
-    cache_valid_time: 600
-    force: "{{ git_gh_install_deb | default(omit) }}"
-  when: ansible_os_family == 'Debian' 
+  changed_when: false
+  when: ansible_os_family == 'Debian' and git_gh_install_deb
 
 # TODO This should include other deps like gitui, gpg signing helpers etc
 # There's too many deps for other roles unimplemented to do this new, revisit
