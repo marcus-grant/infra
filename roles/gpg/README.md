@@ -1,36 +1,59 @@
-Role Name
-=========
+GPG Role
+========
 
-A brief description of the role goes here.
+Role to install GPG with several helper utilities like pinentry and gpgme and optionally transfer keys from the ansible controller machine to the remote machine.
+
 
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+The only requirements are a gpg made `~/.gnupg` directory to copy its keyring from the ansible controller to the remote host **if** the `gpg_copy_keyring` variable is set to true. And along with that read permission must be given to the ansible controller user to read the keyring.
 
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+All role variables are listed below, along with default values, which you can see in `defaults/main.yml`.
+
+```yaml
+gpg_gpgme_enable: false
+gpg_pinentry_enable: false
+gpg_copy_keyring: false
+gpg_copy_keyring_force: false
+
+# Variables without defaults
+gpg_extra_packages:
+    - seahorse
+    - pinentry-qt4
+```
+
+Extra packages can be installed using `gpg_extrapackages` as a list of any package manager name for packages, so technically you could install any valid package name from here as well.
+
+The `gpg_gpgme_enable` variable installs the distro-specific gpgme software package many programs use to interact seamlessly with gpg keys. `gpg_pinentry_enable` installs pinentry which prompts you for the gpg passphrase whenever the keyring needs to be unlocked either through the terminal or through a dialog window on your GUI.
+
+Then there's the option to copy your whole keyring directory, typically located in `~/.gnupg` from the machine running ansible to any remote host this role is being run on. This is enabled by `gpg_copy_keyring` and if you want to force the copy to go happen despite local files existing *potentially dangerous*, you enable that with `gpg_copy_keyring_force`. You'll want to be careful with forcing the copy, because you might lose any non backed up keyrings that exist locally already.
 
 Dependencies
 ------------
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+None <!-- TODO this might need to include ansible.posix.synchronize in the future -->
 
 Example Playbook
 ----------------
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
-
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+```yaml
+- hosts: all
+    roles:
+    - role: marcus_grant.dotfiles.gpg
+      vars:
+        gpg_extra_packages: [pinentry-gtk2, seahore]
+        gpg_pinentry_enable: true
+        gpg_copy_keyring: true
+```
 
 License
 -------
 
-BSD
+GPL
 
 Author Information
 ------------------
