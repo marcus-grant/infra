@@ -1,2 +1,7 @@
 ---
 # vars file for git
+pkg_gh:
+  Debian: gh
+  RedHat: gh
+  Suse: gh
+  Archlinux: github-cli

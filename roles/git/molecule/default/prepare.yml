@@ -1,0 +1,10 @@
+- name: Prepare
+  hosts: all
+  tasks:
+    - name: Update apt cache
+      apt:
+        name: gpg
+        state: present
+        update_cache: true
+        cache_valid_time: 600
+      when: ansible_facts['os_family'] == "Debian"

@@ -23,6 +23,7 @@ Available variables are listed below, along with the default values as shown in 
 git_default_branch: main
 git_user_name: Ivana Tinkle
 git_user_email: ivanatinkle@microsoft.com
+git_gh_enabled: false
 ```
 
 These three are some of the most common configuration changes people will make to git. The default branch defaults to `main` as that is the most common default branch for most git servers. The `git_user_name` and `git_user_email` however cannot be generalized by defaults and will be left undefined if not given as variables for the role.

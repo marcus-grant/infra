@@ -1,5 +1,80 @@
 ---
 # tasks file for git
+# - name: Add GitHub cli to repositories if Debian based linux
+#   become: true
+#   changed_when: false
+#   shell:
+#     argv:
+#       - 'curl'
+#       - '-fsSL'
+#       - 'https://cli.github.com/packages/githubcli-archive-keyring.gpg'
+#       - '|'
+#       - 'gpg'
+#       - '--dearmor'
+#       - '-o'
+#       - '/usr/share/keyrings/githubcli-archive-keyring.gpg'
+#   when: ansible_os_family == 'Debian' and git_gh_enabled
+
+- name: Register if Github CLI already installed
+  command: gh --version
+  register: ghvers
+  changed_when: false
+  failed_when: false
+  when: ansible_os_family == 'Debian' and git_gh_enabled
+
+- name: Set fact for installing Github CLI for Debian-based hosts
+  set_fact:
+    git_gh_install_deb: true
+  when: ansible_os_family == 'Debian' and git_gh_enabled and ghvers.rc != 0
+
+- name: Set fact for installing Github CLI for Debian-based hosts DEFAULT
+  set_fact:
+    git_gh_install_deb: "{{ git_gh_install_deb | default(false) }}"
+
+# - name: Debug ghvers
+#   debug: var=ghvers
+
+- name: Get Github CLI package keyring
+  become: true
+  get_url:
+    url: https://cli.github.com/packages/githubcli-archive-keyring.gpg
+    dest: /usr/share/keyrings/githubcli-archive-keyring.gpg
+    owner: root
+    group: root
+    mode: 0644
+  register: git_gh_get_apt_keyring
+  when: git_gh_install_deb
+
+- name: De-armor the downloaded Github CLI apt keyring
+  become: true
+  command: gpg --dearmor /usr/share/keyrings/githubcli-archive-keyring.gpg
+  when: git_gh_install_deb and git_gh_get_apt_keyring.changed
+
+- name: Get dpkg architecture string for Github CLI apt package
+  become: true
+  command: dpkg --print-architecture
+  register: git_gh_dpkg_arch
+  changed_when: false
+  when: git_gh_install_deb
+
+- name: Add Github cli repo to apt sources file
+  become: true
+  template:
+    src: github-cli.list.j2
+    dest: /etc/apt/sources.list.d/github-cli.list
+    owner: root
+    group: root
+    mode: 0644
+  when: git_gh_install_deb
+
+- name: Update apt registry if Debian based linux
+  become: true
+  apt:
+    update_cache: true
+    cache_valid_time: 600
+    force: "{{ git_gh_install_deb | default(omit) }}"
+  when: ansible_os_family == 'Debian' 
+
 # TODO This should include other deps like gitui, gpg signing helpers etc
 # There's too many deps for other roles unimplemented to do this new, revisit
 - name: Ensure git packages are installed
@@ -8,6 +83,7 @@
     state: present
   loop:
     - git
+    - "{{ git_gh_enabled | ternary(pkg_gh[ansible_os_family], omit, omit) }}"
     # TODO handle more installs in future after deps finished
 
 - name: "Set several .gitconfig 'SECTION.PROPERTY' to 'VALUE' pairs at global scope"
@@ -19,4 +95,5 @@
   loop:
     - { prop: init.defaultBranch, value: "{{ git_default_branch }}" }
     - { prop: user.name, value: "{{ git_user_name }}" }
+    - { prop: user.email, value: "{{ git_user_email }}" }
     - { prop: pull.rebase, value: "{{ git_pull_rebase | ternary('true', 'false', omit) }}" }

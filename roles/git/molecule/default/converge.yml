@@ -4,14 +4,13 @@
   tasks:
     - name: Update apt cache
       apt:
-        name: git
-        state: present
         update_cache: true
         cache_valid_time: 3600
-      when: ansible_facts['os_family'] == "Debian"
+      when: ansible_facts['os_family'] != "Debian"
     - name: "Include git"
       include_role:
         name: "git"
       vars:
         git_user_name: Ivana Tinkle
         git_user_email: ivanatinkle@microsoft.com
+        git_gh_enabled: true
