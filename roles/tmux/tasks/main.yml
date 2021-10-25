@@ -1,2 +1,20 @@
 ---
 # tasks file for tmux
+- name: Ensure package for tmux installed
+  package:
+    name: tmux
+    state: present
+
+- name: Ensure tmux config path is a directory
+  file:
+    path: "{{ tmux_config_dir }}"
+    state: directory
+    mode: umask
+
+- name: Clone with git the dotfile repo for tmux
+  git:
+    repo: "{{ tmux_git_repo }}"
+    dest: "{{ tmux_config_dir }}"
+    version: "{{ tmux_git_version }}"
+    force: "{{ tmux_git_force }}"
+  register: tmux_git_pull
