@@ -1,10 +1,69 @@
 ---
 # This is an example playbook to execute Ansible tests.
-
 - name: Verify
   hosts: all
-  gather_facts: false
+  # gather_facts: true
   tasks:
-  - name: Example assertion
+
+  - name: Check installed packages facts
+    package_facts: manager=auto
+
+  - name: Assert tmux is installed
     assert:
-      that: true
+      that: ansible_facts.packages['tmux'] is defined
+
+  - name: Register stat of tmux git clone destination
+    stat:
+      path: ~/.config/tmux
+    register: tmuxconfigdir
+    changed_when: false
+
+  - name: Assert that tmux config directory exists
+    assert:
+      that: tmuxconfigdir.stat.exists
+
+  - name: Register git remote output for tmux dotfiles repo
+    command:
+      cmd: git remote -v
+      chdir: ~/.config/tmux
+    register: tmuxgitremote
+    changed_when: false
+    tags: [skip_ansible_lint]
+
+  - name: Assert that given remote URL for tmux dotfiles present
+    assert:
+      that: "'https://github.com/marcus-grant' in tmuxgitremote.stdout"
+
+  - name: Register ~/.config directory to check for backup of tmux config
+    command:
+      cmd: ls -l
+      chdir: ~/.config
+    register: tmuxconfigls
+    changed_when: false
+
+  # If he only directory in ~/.config is tmux, then 2 lines show up in ls -l
+  # total XX
+  # drwxrwxr-- 5 root root 4096 MMM DD HH:mm tmux
+  - name: "Assert backup of tmux config occurred so ls should have 3 lines"
+    assert:
+      that: (tmuxconfigls.stdout_lines | length) > 2
+
+  - name: Regsiter stat of expected ~/.tmuxrc
+    stat:
+      path: ~/.tmuxrc
+    register: expected_tmuxrc
+    changed_when: false
+
+  - name: Assert expected tmuxrc file links to cloned tmuxrc in config dir
+    assert:
+      that: expected_tmuxrc.stat.lnk_source == '/root/.config/tmux/tmux.conf'
+
+  - name: Regsiter stat of expected ~/.tmux
+    stat:
+      path: ~/.tmux
+    register: expected_tmux
+    changed_when: false
+
+  - name: Assert expected tmux file links to cloned tmux dir in config dir
+    assert:
+      that: expected_tmux.stat.lnk_source == '/root/.config/tmux'
