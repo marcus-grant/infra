@@ -7,7 +7,8 @@
         name: "tmux"
       vars:
         tmux_config_dir: ~/.config/tmux
-        tmux_conf_path: ~/.config/tmux/tmux.conf
+        tmux_conf_path: "{{ tmux_config_dir }}/tmux.conf"
+        tmux_tpm_enable: true
         tmux_git_repo: https://github.com/marcus-grant/dots-tmux
         tmux_git_version: HEAD
         tmux_git_force: true

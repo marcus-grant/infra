@@ -66,3 +66,43 @@
   - name: Assert expected tmux file links to cloned tmux dir in config dir
     assert:
       that: expected_tmux.stat.lnk_source == '/root/.config/tmux'
+
+  - name: Stat plugins directory of tmux config directory
+    stat:
+      path: ~/.config/tmux/plugins
+    register: tmuxplug
+    changed_when: false
+
+  - name: Assert tmux plugins directory exists
+    assert:
+      that: tmuxplug.stat.exists and tmuxplug.stat.isdir
+
+  - name: Stat tpm in plugins directory of tmux config directory
+    stat:
+      path: ~/.config/tmux/plugins/tpm
+    register: tmuxtpm
+    changed_when: false
+
+  - name: Assert tpm directory exists
+    assert:
+      that: tmuxtpm.stat.exists and tmuxtpm.stat.isdir
+
+  - name: Stat tpm executable in tpm directory
+    stat:
+      path: ~/.config/tmux/plugins/tpm/tpm
+    register: tpmexec
+    changed_when: false
+
+  - name: Assert tpm executable exists
+    assert:
+      that: tpmexec.stat.exists and tpmexec.stat.executable
+
+  - name: Stat tpm repo .git dir removed
+    stat:
+      path: ~/.config/tmux/plugins/tpm/.git
+    register: tpmgit
+    changed_when: false
+
+  - name: Assert tpm .git repo dir not there
+    assert:
+      that: not tpmgit.stat.exists

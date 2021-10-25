@@ -44,3 +44,40 @@
   loop:
     - { src: "{{ tmux_config_dir }}", dest: ~/.tmux }
     - { src: "{{ tmux_conf_path }}", dest: ~/.tmux.conf }
+
+- name: Ensure tmux plugins directory exists
+  file:
+    path: "{{ tmux_config_dir }}/plugins"
+    state: directory
+    mode: umask
+  when: tmux_tpm_enable
+
+- name: Ensure TPM plugin directory exists
+  file:
+    path: "{{ tmux_config_dir }}/plugins/tpm"
+    state: directory
+    mode: umask
+  when: tmux_tpm_enable
+
+- name: Stat tpm executable exists
+  stat:
+    path: ~/.config/tmux/plugins/tpm/tpm
+  register: _tpm_exec
+  changed_when: false
+  when: tmux_tpm_enable
+
+- name: Git pull tpm
+  git:
+    repo: https://github.com/tmux-plugins/tpm
+    dest: "{{ tmux_config_dir }}/plugins/tpm"
+    update: false
+  when:
+    - tmux_tpm_enable
+    - not _tpm_exec.stat.exists
+    - not _tpm_exec.stat.executable
+
+- name: Remove backup of tmux config directory if git did not change it
+  file:
+    path: "{{ tmux_config_dir }}/plugins/tpm/.git"
+    state: absent
+  when: tmux_tpm_enable
