@@ -15,4 +15,6 @@
         state: present
       loop:
         - git
-    # - include_role: name=marcus_grant.dotfiles.not_coreutil
+        - ripgrep
+        - fd-find
+        - fzf

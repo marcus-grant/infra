@@ -4,3 +4,16 @@
   package:
     name: vim
     state: present
+
+- name: Ensure vim config path is a directory
+  file:
+    path: "{{ vim_config_dir }}"
+    state: directory
+    mode: 0774
+
+- name: Clone with git the dotfile repo for vim
+  git:
+    repo: "{{ vim_git_repo }}"
+    dest: "{{ vim_config_dir }}"
+    version: "{{ vim_git_version }}"
+    force: "{{ vim_git_force }}"

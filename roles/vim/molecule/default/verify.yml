@@ -13,9 +13,28 @@
     assert:
       that: ansible_facts.packages['vim'] is defined
 
-  # - name: Stat vim git clone destination by checking
-  #   stat:
-  #     path: ~/.config/vim
+  - name: Register stat of vim git clone destination
+    stat:
+      path: ~/.config/vim
+    register: vimconfigdir
+    changed_when: false
+
+  - name: Assert that vim config directory exists
+    assert:
+      that: vimconfigdir.stat.exists
+
+  - name: Register git remote output for vim dotfiles repo
+    command:
+      cmd: git remote -v
+      chdir: ~/.config/vim
+    register: vimgitremote
+    changed_when: false
+    tags: [skip_ansible_lint]
+
+  - name: Assert that given remote URL for vim dotfiles present
+    assert:
+      that: "'https://github.com/marcus-grant' in vimgitremote.stdout"
+
 
   # - name: Register all current gitconfig values
   #   community.general.git_config:
