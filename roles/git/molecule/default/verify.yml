@@ -46,15 +46,15 @@
       - "git_config_list.stdout is search('user.email=ivanatinkle@microsoft.com')"
       - "git_config_list.stdout is search('pull.rebase=false')"
 
-  - name: Register stat of ~/.ssh/git.key
-    stat:
-      path: ~/.ssh/git.key
-    register: stat_git_key
-    changed_when: false
-
-  - name: Assert ~/.ssh/git.key is a regular file
-    assert:
-      that: stat_git_key.stat.isreg is defined | stat_git_key.stat.isreg
+  # - name: Register stat of ~/.ssh/git.key
+  #   stat:
+  #     path: ~/.ssh/git.key
+  #   register: stat_git_key
+  #   changed_when: false
+  #
+  # - name: Assert ~/.ssh/git.key is a regular file
+  #   assert:
+  #     that: stat_git_key.stat.isreg is defined | stat_git_key.stat.isreg
 
   # TODO consider adding a verification for the ssh key being present on gh
   # TODO find a better way to upload ssh pubkeys to github
