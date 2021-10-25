@@ -11,10 +11,26 @@
     state: directory
     mode: umask
 
-- name: Clone with git the dotfile repo for tmux
+- name: Copy tmux config directory renaming it with timestamp if tmux_git_force
+  copy:
+    remote_src: true
+    src: "{{ tmux_config_dir }}"
+    dest: "{{ tmux_config_dir }}_{{ ansible_date_time.iso8601_basic_short }}"
+    mode: umask
+  changed_when: false
+  when: tmux_git_force
+
+- name: Clone with git the config repo for tmux
   git:
     repo: "{{ tmux_git_repo }}"
     dest: "{{ tmux_config_dir }}"
     version: "{{ tmux_git_version }}"
     force: "{{ tmux_git_force }}"
   register: tmux_git_pull
+
+- name: Remove backup of tmux config directory if git did not change it
+  file:
+    path: "{{ tmux_config_dir }}_{{ ansible_date_time.iso8601_basic_short }}"
+    state: absent
+  changed_when: false
+  when: tmux_git_force and not tmux_git_pull.changed
