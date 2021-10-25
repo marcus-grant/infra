@@ -10,4 +10,4 @@
         vim_vimrc_path: "{{ vim_config_dir }}/vimrc"
         vim_git_version: HEAD
         vim_git_repo: https://github.com/marcus-grant/dots-vim
-        vim_git_force: false
+        vim_git_force: true

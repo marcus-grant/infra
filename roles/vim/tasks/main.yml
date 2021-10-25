@@ -11,9 +11,25 @@
     state: directory
     mode: 0774
 
+- name: Copy vim config directory renaming it with timestamp if vim_git_force
+  copy:
+    remote_src: true
+    src: "{{ vim_config_dir }}"
+    dest: "{{ vim_config_dir }}_{{ ansible_date_time.iso8601_basic_short }}"
+    mode: 0774
+  when: vim_git_force
+
 - name: Clone with git the dotfile repo for vim
   git:
     repo: "{{ vim_git_repo }}"
     dest: "{{ vim_config_dir }}"
     version: "{{ vim_git_version }}"
+    update: true
     force: "{{ vim_git_force }}"
+  register: vim_git_pull
+
+- name: Remove backup of vim config directory if git didn't change
+  file:
+    path: "{{ vim_config_dir }}_{{ ansible_date_time.iso8601_basic_short }}"
+    state: absent
+  when: vim_git_force and not vim_git_pull.changed

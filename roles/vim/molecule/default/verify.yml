@@ -35,22 +35,16 @@
     assert:
       that: "'https://github.com/marcus-grant' in vimgitremote.stdout"
 
+  - name: Register ~/.config directory to check for backup of vim config
+    command:
+      cmd: ls -l
+      chdir: ~/.config
+    register: vimconfigls
+    changed_when: false
 
-  # - name: Register all current gitconfig values
-  #   community.general.git_config:
-  #     list_all: true
-  #     scope: global
-  #   register: gitconfig
-  #
-  # - name: Assert several config key-value pairs in gitconfig
-  #   assert:
-  #     that: item.real == item.expected
-  #   loop:
-  #     - real: "{{ gitconfig.config_values['init.defaultbranch'] }}"
-  #       expected: main
-  #     - real: "{{ gitconfig.config_values['user.name'] }}"
-  #       expected: Ivana Tinkle
-  #     - real: "{{ gitconfig.config_values['user.email'] }}"
-  #       expected: ivanatinkle@microsoft.com
-  #     - real: "{{ gitconfig.config_values['pull.rebase'] }}"
-  #       expected: 'false'
+  # If he only directory in ~/.config is vim, then 2 lines show up in ls -l
+  # total XX
+  # drwxrwxr-- 5 root root 4096 MMM DD HH:mm vim
+  - name: "Assert backup of vim config occurred so ls should have 3 lines"
+    assert:
+      that: (vimconfigls.stdout_lines | length) > 2
