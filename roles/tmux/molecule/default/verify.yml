@@ -47,15 +47,15 @@
     assert:
       that: (tmuxconfigls.stdout_lines | length) > 2
 
-  - name: Regsiter stat of expected ~/.tmuxrc
+  - name: Regsiter stat of expected ~/.tmux.conf
     stat:
-      path: ~/.tmuxrc
-    register: expected_tmuxrc
+      path: ~/.tmux.conf
+    register: expected_tmuxconf
     changed_when: false
 
   - name: Assert expected tmuxrc file links to cloned tmuxrc in config dir
     assert:
-      that: expected_tmuxrc.stat.lnk_source == '/root/.config/tmux/tmux.conf'
+      that: expected_tmuxconf.stat.lnk_source == '/root/.config/tmux/tmux.conf'
 
   - name: Regsiter stat of expected ~/.tmux
     stat:
