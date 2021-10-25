@@ -1,0 +1,7 @@
+---
+- name: Converge
+  hosts: all
+  tasks:
+    - name: "Include asdf"
+      include_role:
+        name: "asdf"
