@@ -22,6 +22,7 @@
       file:
         path: ~/.config
         state: directory
+        mode: umask
     - name: Clone an older commit of vim dotfiles repo to test git.force
       git:
         repo: https://github.com/marcus-grant/dots-vim

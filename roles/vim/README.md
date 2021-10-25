@@ -1,25 +1,15 @@
 Role Name
 =========
 
-A brief description of the role goes here.
+Installs vim, clones a dotfile repository to your specified location then links the expected `~/.vimrc` & `~/.vim` references to it.
 
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+Git being installed is the only real requirement for this role
 
 Role Variables
 --------------
-
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
-
-Dependencies
-------------
-
-This dependency is entirely optional based on my specific git preferences. I use [`fzf`](marcus_grant.not_coreutil) along with [`fd`](https://github.com/sharkdp/fd) and [`ripgrep`](https://github.com/BurntSushi/ripgrep) as replacements to several GNU coreutil programs. Junegun's utility `fzf` also has a corresponding vim plugin that makes these work together nicely in vim so they make an optional dependency for my particular configuration in this collection called `not_coreutil` since they're rust alternatives to GNU coreutil.
-
-Example Playbook
-----------------
 
 Here are the available variables along with their default values, you can also see `defaults/main.yml` for defaults.
 
@@ -48,6 +38,31 @@ vim_git_force: false
 
 When pulling or cloning by using git it's always possible that changes exist on the remote machine that have yet to be comitted and this variable tells `ansible.builtin.git` what to do with the unstaged work that already exists before cloning or pulling. If the default `false` is used then it simply won't do anything unless there's no uncommitted/unstaged changes present. If `true`, this role will create a backup directory in the parent directory of `vim_config_dir` before cloning/pulling.
 
+Dependencies
+------------
+
+Git is a non-role dependency for this role, the remote system must have it inorder to complete this role under any variable combination.
+
+This dependency is entirely optional based on my specific git preferences. I use [`fzf`](marcus_grant.not_coreutil) along with [`fd`](https://github.com/sharkdp/fd) and [`ripgrep`](https://github.com/BurntSushi/ripgrep) as replacements to several GNU coreutil programs. Junegun's utility `fzf` also has a corresponding vim plugin that makes these work together nicely in vim so they make an optional dependency for my particular configuration in this collection called `not_coreutil` since they're rust alternatives to GNU coreutil.
+
+Example Playbook
+----------------
+
+```yaml
+- name: Converge
+  hosts: all
+  tasks:
+    - name: "Include vim"
+      include_role:
+        name: "vim"
+      vars:
+        vim_config_dir: ~/.config/vim
+        vim_vimrc_path: "{{ vim_config_dir }}/vimrc"
+        vim_git_version: HEAD
+        vim_git_repo: https://github.com/marcus-grant/dots-vim
+        vim_git_force: true
+```
+
 License
 -------
 
@@ -56,4 +71,4 @@ GPL3
 Author Information
 ------------------
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+Marcus Grant (2021) marcusgrant.dev
