@@ -3,7 +3,7 @@
 
 - name: Verify
   hosts: all
-  gather_facts: false
+  # gather_facts: true
   tasks:
 
   - name: Check installed packages facts
@@ -48,3 +48,23 @@
   - name: "Assert backup of vim config occurred so ls should have 3 lines"
     assert:
       that: (vimconfigls.stdout_lines | length) > 2
+
+  - name: Regsiter stat of expected ~/.vimrc
+    stat:
+      path: ~/.vimrc
+    register: expected_vimrc
+    changed_when: false
+
+  - name: Assert expected vimrc file links to cloned vimrc in config dir
+    assert:
+      that: expected_vimrc.stat.lnk_source == '/root/.config/vim/vimrc'
+
+  - name: Regsiter stat of expected ~/.vim
+    stat:
+      path: ~/.vim
+    register: expected_vim
+    changed_when: false
+
+  - name: Assert expected vim file links to cloned vim dir in config dir
+    assert:
+      that: expected_vim.stat.lnk_source == '/root/.config/vim'
