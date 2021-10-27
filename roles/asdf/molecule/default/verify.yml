@@ -1,10 +1,18 @@
 ---
 # This is an example playbook to execute Ansible tests.
-
 - name: Verify
   hosts: all
   gather_facts: false
   tasks:
-  - name: Example assertion
-    assert:
-      that: true
+    - name: Register asdf command output 
+      command: ~/.local/asdf/bin/asdf --version
+      register: asdfcmd
+      failed_when: false
+      changed_when: false
+
+    - name: Assert that registered asdf command was successful
+      assert:
+        that: asdfcmd.rc == 0
+        fail_msg: "Asdf command out must be a zero return code:\n {{ asdfcmd }}"
+
+

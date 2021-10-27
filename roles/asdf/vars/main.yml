@@ -1,2 +1,21 @@
 ---
 # vars file for asdf
+asdf_deps:
+  Debian:
+    - unzip
+    - git
+    - curl
+    - autoconf
+    - automake
+    - gcc
+    - g++
+    - make
+    - patch
+    - pkg-config
+    - binutils
+    - libtool
+    - bison
+    - libreadline-dev
+# asdf_python_deps:
+#   Debian:
+#     -

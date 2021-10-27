@@ -1,2 +1,5 @@
 ---
 # tasks file for asdf
+- name: "Install asdf core & its dependencies"
+  import_tasks: install-core.yml
+  tags: [asdf, asdf-install]

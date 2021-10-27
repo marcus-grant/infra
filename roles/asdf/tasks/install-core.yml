@@ -1,0 +1,44 @@
+---
+# Install tasks for several host os families
+# TODO consider using `getent` module to gather user info
+- name: 'Install asdf core dependencies with apt'
+  become: true
+  apt:
+    # name: "{{ item }}"
+    name: "{{ asdf_deps[ansible_os_family] }}"
+    install_recommends: false
+  # loop: "{{ asdf_build_pkgs[ansible_os_family] }}"
+  register: apt_deps_result
+  until: apt_deps_result is succeeded
+  when: ansible_os_family == 'Debian'
+
+# - name: Install asdf (MacOS)
+#   community.general.homebrew:
+#     name: brew
+#     state: present
+#     update_homebrew: true
+#   when: ansible_os_family == 'Darwin'
+#
+# - name: Install asdf using git (most systems)
+#   git:
+#     repo: https://github.com/asdf-vm/asdf.git
+#     dest: '{{ asdf_data_dir }}'
+#     version: '{{ asdf_branch }}'
+#   when: ansible_os_family != 'Darwin'
+#
+
+- name: Ensure data and config dir are the present
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: umask
+  loop:
+    # NOTE these two can be the same if preffered
+    - "{{ asdf_data_dir }}"
+    - "{{ asdf_config_dir }}"
+
+- name: Install asdf
+  git:
+    repo: 'https://github.com/asdf-vm/asdf.git'
+    dest: "{{ asdf_data_dir }}"
+    version: "{{ asdf_version }}"
