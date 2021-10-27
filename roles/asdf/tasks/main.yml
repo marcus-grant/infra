@@ -3,3 +3,7 @@
 - name: "Install asdf core & its dependencies"
   import_tasks: install-core.yml
   tags: [asdf, asdf-install]
+
+# - name: "Install asdf plugins & their dependencies"
+#   import_tasks: install-plugins.yml
+#   tags: [asdf, asdf-plugins]
