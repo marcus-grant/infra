@@ -1,0 +1,41 @@
+---
+- name: Prepare
+  hosts: all
+  tasks:
+    - name: For OS family Debian update apt cache
+      apt:
+        update_cache: true
+        cache_valid_time: 1800
+      when: ansible_os_family == 'Debian'
+
+    - name: Add user test to test out the asdf_user and the profile.d template
+      become: true
+      user:
+        name: test
+        shell: /bin/bash
+    - name: "Include asdf"
+      include_role:
+        name: "asdf"
+      vars:
+        asdf_user: test
+        asdf_data_dir: .local/asdf
+        asdf_config_dir: .config/asdf
+        asdf_add_profile_source: true
+        asdf_add_bashrc_sources: true
+        asdf_apt_optional_dependencies: [cowsay]
+        asdf_plugins:
+          - name: python
+            versions:
+              - 2.7.18
+
+    - name: For OS family Debian update apt cache
+      apt:
+        update_cache: true
+        cache_valid_time: 1800
+      when: ansible_os_family == 'Debian'
+
+    - name: Add user test to test out the asdf_user and the profile.d template
+      become: true
+      user:
+        name: test
+        shell: /bin/bash

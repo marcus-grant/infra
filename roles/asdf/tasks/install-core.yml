@@ -68,3 +68,25 @@
     group: 'root'
     mode: 0755
   when: asdf_add_profile_source
+
+- name: 'Set fact for asdf_config_file to point to the desired config file path'
+  set_fact:
+    asdf_config_file: "{{ asdf_user_home }}/{{ asdf_config_dir }}/{{ asdf_config_file }}"
+
+- name: 'Add sources to asdf in .bashrc'
+  lineinfile:
+    path: "{{ asdf_user_home }}/.bashrc"
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+  loop:
+    - regexp: 'export ASDF_DIR='
+      line: "export ASDF_DIR='{{ asdf_user_home }}/{{ asdf_data_dir }}'"
+    - regexp: 'export ASDF_DATA_DIR='
+      line: 'export ASDF_DATA_DIR=$ASDF_DIR'
+    - regexp: 'export ASDF_CONFIG_FILE='
+      line: "export ASDF_CONFIG_FILE='{{ asdf_config_file }}'"
+    - regexp: 'asdf\/asdf.sh'
+      line: '. "$ASDF_DIR/asdf.sh"'
+    - regexp: 'completions\/asdf.bash'
+      line: '. "$ASDF_DIR/completions/asdf.bash"'
+  when: asdf_add_bashrc_sources
