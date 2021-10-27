@@ -58,10 +58,13 @@ asdf_deps:
     - autoconf
     - openssl
     - libyaml
-    - readline
     - libxslt
     - libtool
+    - zlib
     - unixodbc
+    - readline
+    - sqlite3
+    - xz
     - unzip
     - curl
 # asdf_python_deps:

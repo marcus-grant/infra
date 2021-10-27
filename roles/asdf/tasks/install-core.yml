@@ -5,27 +5,23 @@
   become: true
   apt:
     # name: "{{ item }}"
-    name: "{{ asdf_deps[ansible_os_family] }}"
+    name: "{{ asdf_deps['Debian'] }}"
     install_recommends: false
   # loop: "{{ asdf_build_pkgs[ansible_os_family] }}"
   register: apt_deps_result
   until: apt_deps_result is succeeded
   when: ansible_os_family == 'Debian'
 
-# - name: Install asdf (MacOS)
-#   community.general.homebrew:
-#     name: brew
-#     state: present
-#     update_homebrew: true
-#   when: ansible_os_family == 'Darwin'
-#
-# - name: Install asdf using git (most systems)
-#   git:
-#     repo: https://github.com/asdf-vm/asdf.git
-#     dest: '{{ asdf_data_dir }}'
-#     version: '{{ asdf_branch }}'
-#   when: ansible_os_family != 'Darwin'
-#
+- name: Install asdf (MacOS)
+  community.general.homebrew:
+    name: asdf_deps['Darwin']
+    state: present
+    update_homebrew: true
+  when: ansible_os_family == 'Darwin'
+
+# TODO Do the same for RedHat based using yum/dnf
+
+# TODO Do the same for Archlinux based using pacman/aur
 
 - name: Ensure data and config dir are the present
   file:
@@ -42,3 +38,13 @@
     repo: 'https://github.com/asdf-vm/asdf.git'
     dest: "{{ asdf_data_dir }}"
     version: "{{ asdf_version }}"
+
+- name: Add asdf script source directive to global profile
+  become: true
+  template:
+    src: 'asdf.sh.j2'
+    dest: '/etc/profile.d/asdf.sh'
+    owner: 'root'
+    group: 'root'
+    mode: 0755
+  when: asdf_add_profile_source

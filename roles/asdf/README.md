@@ -13,6 +13,12 @@ Role Variables
 
 A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
 
+```yaml
+asdf_add_profile_source: false
+```
+
+This will template in a single purpose shell file into `/etc/profile.d/asdf.sh` containing the relevant asdf.sh script path that asdf uses to make itself available to all users running a `sh` compatible shell. If you want to individually manage access to asdf on a per user basis or different shell than bash or sh then make sure their respective config file *(think ~/.bashrc)* has a line sourcing this file. ASDF has a relevant document detailing what is necessary for each kind of system [here](https://asdf-vm.com/guide/getting-started.html#_3-install-asdf). The bash and zsh roles in this collection could manage dotfile repositories that have references to `$ASDF_DIR` and source `$ASDF_DIR/asdf.sh` inside them making this variable unnecessary.
+
 Dependencies
 ------------
 
