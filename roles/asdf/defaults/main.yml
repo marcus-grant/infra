@@ -1,2 +1,5 @@
 ---
 # defaults file for asdf
+asdf_data_dir: ~/.asdf
+asdf_config_dir: "{{ asdf_data_dir }}"
+asdf_version: HEAD
