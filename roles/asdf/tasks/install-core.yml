@@ -1,6 +1,15 @@
 ---
 # Install tasks for several host os families
-# TODO consider using `getent` module to gather user info
+- name: 'Find user HOME using getent'
+  getent:
+    database: passwd
+    key: "{{ asdf_user }}"
+    split: ':'
+
+- name: 'Set asdf_user_home fact'
+  set_fact:
+    asdf_user_home: "{{ getent_passwd[asdf_user][4] }}"
+
 - name: 'Install asdf core dependencies with apt'
   become: true
   apt:
@@ -12,31 +21,42 @@
   until: apt_deps_result is succeeded
   when: ansible_os_family == 'Debian'
 
-- name: Install asdf (MacOS)
+- name: 'Install asdf core dependencies (MacOS)'
   community.general.homebrew:
-    name: asdf_deps['Darwin']
+    name: "{{ asdf_deps['Darwin'] }}"
     state: present
     update_homebrew: true
   when: ansible_os_family == 'Darwin'
 
-# TODO Do the same for RedHat based using yum/dnf
+- name: "install asdf global dependencies with yum"
+  become: true
+  yum:
+    name: "{{ asdf_deps['RedHat'] }}"
+  register: yum_deps_result
+  until: yum_deps_result is succeeded
+  when: ansible_os_family == "RedHat"
 
 # TODO Do the same for Archlinux based using pacman/aur
+# TODO Do the same for Suse based using zypper
 
-- name: Ensure data and config dir are the present
+- name: 'Ensure data and config dir are the present'
+  become: true
+  become_user: "{{ asdf_user }}"
   file:
     path: "{{ item }}"
     state: directory
     mode: umask
   loop:
-    # NOTE these two can be the same if preffered
-    - "{{ asdf_data_dir }}"
-    - "{{ asdf_config_dir }}"
+    # NOTE these two can be the same if prefered
+    - "{{ asdf_user_home }}/{{ asdf_data_dir }}"
+    - "{{ asdf_user_home }}/{{ asdf_config_dir }}"
 
 - name: Install asdf
+  become: true
+  become_user: "{{ asdf_user }}"
   git:
     repo: 'https://github.com/asdf-vm/asdf.git'
-    dest: "{{ asdf_data_dir }}"
+    dest: "{{ asdf_user_home }}/{{ asdf_data_dir }}"
     version: "{{ asdf_version }}"
 
 - name: Add asdf script source directive to global profile

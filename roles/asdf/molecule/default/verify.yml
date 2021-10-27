@@ -5,7 +5,7 @@
   gather_facts: false
   tasks:
     - name: Register asdf command output 
-      command: ~/.local/asdf/bin/asdf --version
+      command: /home/test/.local/asdf/bin/asdf --version
       register: asdfcmd
       failed_when: false
       changed_when: false
