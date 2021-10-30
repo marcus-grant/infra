@@ -1,0 +1,5 @@
+---
+dotfiles_bash_repo: https://github.com/marcus-grant/dots-bash
+dotfiles_bash_dest: ~/.config/bash
+dotfiles_bash_bashrc: "{{ dotfiles_bash_dest }}/rc.bash"
+dotfiles_bash_profile: "{{ dotfiles_bash_dest }}/profile.bash"
