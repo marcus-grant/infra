@@ -1,0 +1,15 @@
+---
+- hosts: all
+  gather_facts: true
+  become: true
+  roles:
+    - role: geerlingguy.docker
+      tags: [docker]
+    - role: marcus_grant.dotfiles.bash
+      tags: [dots, dotfiles, bash]
+
+- hosts: all
+  gather_facts: true
+  roles:
+    - role: marcus_grant.dotfiles.bash
+      tags: [dots, dotfiles, bash]
