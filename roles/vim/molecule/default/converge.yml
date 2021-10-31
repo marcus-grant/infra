@@ -2,6 +2,15 @@
 - name: Converge
   hosts: all
   tasks:
+    - name: "Include vim (no backups & git force)"
+      include_role:
+        name: "vim"
+      vars:
+        vim_config_dir: ~/.dots/vim
+        vim_vimrc_path: "{{ vim_config_dir }}/vimrc"
+        vim_git_repo: https://github.com/marcus-grant/dots-vim
+        vim_git_force: true
+        vim_git_backup: false
     - name: "Include vim"
       include_role:
         name: "vim"
@@ -11,3 +20,4 @@
         vim_git_version: HEAD
         vim_git_repo: https://github.com/marcus-grant/dots-vim
         vim_git_force: true
+        vim_git_backup: true

@@ -38,6 +38,12 @@ vim_git_force: false
 
 When pulling or cloning by using git it's always possible that changes exist on the remote machine that have yet to be comitted and this variable tells `ansible.builtin.git` what to do with the unstaged work that already exists before cloning or pulling. If the default `false` is used then it simply won't do anything unless there's no uncommitted/unstaged changes present. If `true`, this role will create a backup directory in the parent directory of `vim_config_dir` before cloning/pulling.
 
+```yaml
+vim_git_backup: true
+```
+
+When `vim_git_force` is enabled, there's a chance that local changes get overwritten by the git pull that occurs. To preserve those changes as a copied directory set `vim_git_backup` as `true` the default value. However, this creates a lot of directory copies, one for each git pull that changes the local repository. To avoid this set `vim_git_backup` to `false`.
+
 Dependencies
 ------------
 

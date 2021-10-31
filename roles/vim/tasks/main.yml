@@ -18,7 +18,9 @@
     dest: "{{ vim_config_dir }}_{{ ansible_date_time.iso8601_basic_short }}"
     mode: umask
   changed_when: false
-  when: vim_git_force
+  when:
+    - vim_git_force
+    - not vim_git_backup
 
 - name: Clone with git the dotfile repo for vim
   git:
@@ -33,7 +35,9 @@
     path: "{{ vim_config_dir }}_{{ ansible_date_time.iso8601_basic_short }}"
     state: absent
   changed_when: false
-  when: vim_git_force and not vim_git_pull.changed
+  when:
+    - vim_git_force
+    - not vim_git_pull.changed
 
 - name: Link expected config file locations to config repo
   file:

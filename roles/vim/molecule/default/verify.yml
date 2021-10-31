@@ -1,6 +1,5 @@
 ---
 # This is an example playbook to execute Ansible tests.
-
 - name: Verify
   hosts: all
   # gather_facts: true
@@ -35,20 +34,6 @@
     assert:
       that: "'https://github.com/marcus-grant' in vimgitremote.stdout"
 
-  - name: Register ~/.config directory to check for backup of vim config
-    command:
-      cmd: ls -l
-      chdir: ~/.config
-    register: vimconfigls
-    changed_when: false
-
-  # If he only directory in ~/.config is vim, then 2 lines show up in ls -l
-  # total XX
-  # drwxrwxr-- 5 root root 4096 MMM DD HH:mm vim
-  - name: "Assert backup of vim config occurred so ls should have 3 lines"
-    assert:
-      that: (vimconfigls.stdout_lines | length) > 2
-
   - name: Regsiter stat of expected ~/.vimrc
     stat:
       path: ~/.vimrc
@@ -68,3 +53,27 @@
   - name: Assert expected vim file links to cloned vim dir in config dir
     assert:
       that: expected_vim.stat.lnk_source == '/root/.config/vim'
+
+  - name: Register find of ~/.dots/vim directory to test backups
+    find:
+      paths: ~/.dots
+      file_type: directory
+    register: dots_vim_find
+
+  # - name: Debug dots_vim_find
+  #   debug:
+  #     var: (dots_vim_find['files'] | map(attribute='path') | join(',')) is not search('vim_20')
+
+  - name: Assert that ~/.dots/vim has backups
+    assert:
+      that: (dots_vim_find['files'] | map(attribute='path') | join(',')) is search('vim_20')
+
+  - name: Register find of ~/.config/vim directory to test backups
+    find:
+      paths: ~/.config
+      file_type: directory
+    register: cfg_vim_find
+
+  - name: Assert that ~/.config/vim DOES NOT have backups
+    assert:
+      that: (cfg_vim_find['files'] | map(attribute='path') | join(',')) is not search('vim_20')
