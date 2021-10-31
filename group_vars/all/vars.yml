@@ -1,5 +1,16 @@
 ---
+# Dotfiles
+dotfiles_root: ~/.config
+
+### Bash
 dotfiles_bash_repo: https://github.com/marcus-grant/dots-bash
-dotfiles_bash_dest: ~/.config/bash
+dotfiles_bash_dest: "{{ dotfiles_root }}/bash"
 dotfiles_bash_bashrc: "{{ dotfiles_bash_dest }}/rc.bash"
 dotfiles_bash_profile: "{{ dotfiles_bash_dest }}/profile.bash"
+
+### Vim
+vim_git_repo: https://github.com/marcus-grant/dots-vim
+vim_config_dir: "{{ dotfiles_root }}/vim"
+vim_config_vimrc: "{{ vim_dest }}/vimrc"
+vim_git_force: false
+vim_git_backup: false
