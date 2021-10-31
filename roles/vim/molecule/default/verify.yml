@@ -54,20 +54,6 @@
     assert:
       that: expected_vim.stat.lnk_source == '/root/.config/vim'
 
-  - name: Register find of ~/.dots/vim directory to test backups
-    find:
-      paths: ~/.dots
-      file_type: directory
-    register: dots_vim_find
-
-  # - name: Debug dots_vim_find
-  #   debug:
-  #     var: (dots_vim_find['files'] | map(attribute='path') | join(',')) is not search('vim_20')
-
-  - name: Assert that ~/.dots/vim has backups
-    assert:
-      that: (dots_vim_find['files'] | map(attribute='path') | join(',')) is search('vim_20')
-
   - name: Register find of ~/.config/vim directory to test backups
     find:
       paths: ~/.config
@@ -76,4 +62,4 @@
 
   - name: Assert that ~/.config/vim DOES NOT have backups
     assert:
-      that: (cfg_vim_find['files'] | map(attribute='path') | join(',')) is not search('vim_20')
+      that: (cfg_vim_find['files'] | map(attribute='path') | join(',')) is search('vim_20')

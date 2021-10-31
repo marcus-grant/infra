@@ -39,6 +39,18 @@
     - vim_git_force
     - not vim_git_pull.changed
 
+- name: Stat ~/.vim
+  stat:
+    path: ~/.vim
+  register: stat_home_vim
+  changed_when: false
+
+- name: Remove ~/.vim if a directory or file
+  file:
+    path: ~/.vim
+    state: absent
+  when: stat_home_vim.stat.isreg or stat_home_vim.stat.isdir
+
 - name: Link expected config file locations to config repo
   file:
     src: "{{ item.src }}"

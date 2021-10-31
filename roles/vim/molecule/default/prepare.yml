@@ -23,6 +23,15 @@
         path: ~/.config
         state: directory
         mode: umask
+    - name: 'Add pre-existing vimrc config file & vim directory'
+      file:
+        path: "{{ item.path }}"
+        state: "{{ item.state }}"
+        mode: umask
+      loop:
+        - { path: ~/.vimrc , state: touch }
+        - { path: ~/.vim , state: directory }
+        - { path: ~/.vim/helloworld.txt , state: touch }
     - name: Clone an older commit of vim dotfiles repo to test git.force
       git:
         repo: https://github.com/marcus-grant/dots-vim
