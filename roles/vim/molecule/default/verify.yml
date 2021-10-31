@@ -60,6 +60,7 @@
       file_type: directory
     register: cfg_vim_find
 
-  - name: Assert that ~/.config/vim DOES NOT have backups
+  - name: Assert that ~/.config/vim DOES have backups
     assert:
       that: (cfg_vim_find['files'] | map(attribute='path') | join(',')) is search('vim_20')
+      fail_msg: "Failed with directory find of ~/.config containing: {{ cfg_vim_find }}"

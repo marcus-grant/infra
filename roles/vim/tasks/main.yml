@@ -20,7 +20,7 @@
   changed_when: false
   when:
     - vim_git_force
-    - not vim_git_backup
+    - vim_git_backup
 
 - name: Clone with git the dotfile repo for vim
   git:
@@ -49,7 +49,9 @@
   file:
     path: ~/.vim
     state: absent
-  when: stat_home_vim.stat.isreg or stat_home_vim.stat.isdir
+  when: |
+    (stat_home_vim.stat.isreg | default(false)) or
+    (stat_home_vim.stat.isdir | default(false))
 
 - name: Link expected config file locations to config repo
   file:
