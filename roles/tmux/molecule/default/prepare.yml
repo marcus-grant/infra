@@ -18,6 +18,15 @@
         path: ~/.config
         state: directory
         mode: umask
+    - name: Ensure pre-existing tmux config files exist to test replacing them
+      file:
+        path: "{{ item.path }}"
+        state: "{{ item.state }}"
+        mode: umask
+      loop:
+        - { path: ~/.tmux.conf, state: touch }
+        - { path: ~/.tmux, state: directory }
+        - { path: ~/.tmux/i_should_not_exist.txt, state: touch }
     - name: Clone an older commit of tmux dotfiles repo to test git.force
       git:
         repo: https://github.com/marcus-grant/dots-tmux

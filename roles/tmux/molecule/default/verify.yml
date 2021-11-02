@@ -57,6 +57,17 @@
     assert:
       that: expected_tmuxconf.stat.lnk_source == '/root/.config/tmux/tmux.conf'
 
+  - name: Register find module of ~/.config directory to test backups
+    find:
+      paths: ~/.config
+      file_type: directory
+    register: cfg_tmux_find
+
+  - name: Assert that ~/.config/tmux DOES have backups
+    assert:
+      that: (cfg_tmux_find['files'] | map(attribute='path') | join(',')) is search('tmux_20')
+      fail_msg: "Failed with directory find of ~/.config containing: {{ cfg_tmux_find }}"
+
   - name: Regsiter stat of expected ~/.tmux
     stat:
       path: ~/.tmux

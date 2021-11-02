@@ -12,3 +12,4 @@
         tmux_git_repo: https://github.com/marcus-grant/dots-tmux
         tmux_git_version: HEAD
         tmux_git_force: true
+        tmux_git_backup: true

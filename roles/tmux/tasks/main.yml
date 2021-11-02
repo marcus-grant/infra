@@ -18,7 +18,9 @@
     dest: "{{ tmux_config_dir }}_{{ ansible_date_time.iso8601_basic_short }}"
     mode: umask
   changed_when: false
-  when: tmux_git_force
+  when:
+    - tmux_git_force
+    - tmux_git_backup
 
 - name: Clone with git the config repo for tmux
   git:
@@ -33,7 +35,23 @@
     path: "{{ tmux_config_dir }}_{{ ansible_date_time.iso8601_basic_short }}"
     state: absent
   changed_when: false
-  when: tmux_git_force and not tmux_git_pull.changed
+  when:
+    - tmux_git_force
+    - not tmux_git_pull.changed
+
+- name: Stat ~/.tmux
+  stat:
+    path: ~/.tmux
+  register: stat_home_tmux
+  changed_when: false
+
+- name: Remove ~/.tmux if a directory or file
+  file:
+    path: ~/.tmux
+    state: absent
+  when: |
+    (stat_home_tmux.stat.isreg | default(false)) or
+    (stat_home_tmux.stat.isdir | default(false))
 
 - name: Link expected config file locations to config repo
   file:
@@ -73,8 +91,8 @@
     update: false
   when:
     - tmux_tpm_enable
-    - not _tpm_exec.stat.exists
-    - not _tpm_exec.stat.executable
+    - not (_tpm_exec.stat.exists | default(false))
+    - not (_tpm_exec.stat.executable | default(false))
 
 - name: Remove backup of tmux config directory if git did not change it
   file:
