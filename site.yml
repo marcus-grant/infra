@@ -9,6 +9,8 @@
       tags: [dots, dotfiles, coreutil, fd, rg, ripgrep, fzf]
     - role: marcus_grant.dotfiles.vim
       tags: [dots, dotfiles, vim]
+    - role: marcus_grant.dotfiles.tmux
+      tags: [dots, dotfiles, tmux]
     - role: geerlingguy.docker
       tags: [docker]
 
@@ -19,3 +21,5 @@
       tags: [dots, dotfiles, bash]
     - role: marcus_grant.dotfiles.vim
       tags: [dots, dotfiles, vim]
+    - role: marcus_grant.dotfiles.tmux
+      tags: [dots, dotfiles, tmux]

@@ -14,3 +14,11 @@ vim_config_dir: "{{ dotfiles_root }}/vim"
 vim_config_vimrc: "{{ vim_dest }}/vimrc"
 vim_git_force: false
 vim_git_backup: false
+
+### TMux
+tmux_git_repo: https://github.com/marcus-grant/dots-tmux
+tmux_config_dir: "{{ dotfiles_root }}/tmux"
+tmux_conf_path: "{{ tmux_config_dir }}/.tmux.conf"
+tmux_git_force: false
+tmux_git_backup: false
+tmux_tpm_enable: true
