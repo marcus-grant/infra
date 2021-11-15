@@ -2,6 +2,11 @@
 - hosts: all
   gather_facts: true
   become: true
+  pre_tasks:
+    - name: debug docker_apt_gpg_key
+      debug: var=docker_apt_gpg_key
+      tags: docker
+
   roles:
     - role: marcus_grant.dotfiles.bash
       tags: [dots, dotfiles, bash]

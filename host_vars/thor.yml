@@ -1,0 +1,10 @@
+---
+# Docker
+# ------
+
+# NOTE fixes a bug in geerlingguy.docker where instead of giving 'ubuntu' as ansible_distribution which docker expects in its url it gives pop!_os 
+docker_apt_repository: "deb [arch={{ docker_apt_arch }}] {{ docker_repo_url }}/ubuntu {{ ansible_distribution_release }} {{ docker_apt_release_channel }}"
+docker_apt_gpg_key: "{{ docker_repo_url }}/ubuntu/gpg"
+
+foobar: hello
+
