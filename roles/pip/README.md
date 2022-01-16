@@ -1,38 +1,76 @@
-Role Name
-=========
+Ansible Role: Pip (for Python)
+==============================
 
-A brief description of the role goes here.
+An Ansible Role that installs [Pip](https://pip.pypa.io) on Linux. Based on [geerlingguy/ansible-role-pip](https://github.com/geerlingguy/ansible-role-pip) but with additions for Archlinux by myself.
 
-Requirements
-------------
+## Requirements
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+On RedHat/CentOS, you may need to have EPEL installed before running this role. You can use the `geerlingguy.repo-epel` role if you need a simple way to ensure it's installed.
 
-Role Variables
---------------
+## Role Variables
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+Available variables are listed below, along with default values (see `defaults/main.yml`):
 
-Dependencies
-------------
+    pip_package: python3-pip
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+The name of the packge to install to get `pip` on the system. For older systems that don't have Python 3 available, you can set this to `python-pip`.
 
-Example Playbook
-----------------
+    pip_executable: pip3
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+The role will try to autodetect the pip executable based on the `pip_package` (e.g. `pip` for Python 2 and `pip3` for Python 3). You can also override this explicitly, e.g. `pip_executable: pip3.6`.
 
-    - hosts: servers
+    pip_install_packages: []
+
+A list of packages to install with pip. Examples below:
+
+    pip_install_packages:
+      # Specify names and versions.
+      - name: docker
+        version: "1.2.3"
+      - name: awscli
+        version: "1.11.91"
+    
+      # Or specify bare packages to get the latest release.
+      - docker
+      - awscli
+    
+      # Or uninstall a package.
+      - name: docker
+        state: absent
+    
+      # Or update a package to the latest version.
+      - name: docker
+        state: latest
+    
+      # Or force a reinstall.
+      - name: docker
+        state: forcereinstall
+    
+      # Or install a package in a particular virtualenv.
+      - name: docker
+        virtualenv: /my_app/venv
+
+## Dependencies
+
+None.
+
+## Example Playbook
+
+    - hosts: all
+    
+      vars:
+        pip_install_packages:
+          - name: docker
+          - name: awscli
+    
       roles:
-         - { role: username.rolename, x: 42 }
+        - geerlingguy.pip
 
-License
--------
+## License
 
-BSD
+GPL3
 
-Author Information
-------------------
+## Author Information
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+This role was created in 2017 by [Jeff Geerling](https://www.jeffgeerling.com/), author of [Ansible for DevOps](https://www.ansiblefordevops.com/).
+
