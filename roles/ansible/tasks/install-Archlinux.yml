@@ -1,0 +1,4 @@
+---
+- name: TODO Implement this subtask
+  fail:
+    msg: Ansible install needs to be implemented for this distribution
