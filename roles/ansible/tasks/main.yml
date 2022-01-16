@@ -35,4 +35,3 @@
   when:
     - ansible_os_family == 'Archlinux'
     - ansible_install_method == 'package'
-
