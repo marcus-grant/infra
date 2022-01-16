@@ -1,4 +1,15 @@
 ---
-- name: TODO Implement this subtask
-  fail:
-    msg: Ansible install needs to be implemented for this distribution
+- name: Ensure dirmngr is installed (gnupg dependency).
+  apt:
+    name: dirmngr
+    state: present
+
+- name: Add ansible repository.
+  apt_repository:
+    repo: 'ppa:ansible/ansible'
+    update_cache: true
+
+- name: Install Ansible.
+  apt:
+    name: ansible
+    state: "{{ ansible_package_state }}"
