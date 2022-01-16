@@ -36,6 +36,14 @@
   until: yum_deps_result is succeeded
   when: ansible_os_family == "RedHat"
 
+- name: "install asdf global dependencies with pacman"
+  become: true
+  pacman:
+    name: "{{ asdf_deps['Archlinux'] }}"
+  register: yum_deps_result
+  until: yum_deps_result is succeeded
+  when: ansible_os_family == "RedHat"
+
 # TODO Do the same for Archlinux based using pacman/aur
 # TODO Do the same for Suse based using zypper
 
