@@ -2,14 +2,29 @@
 - hosts: all
   gather_facts: true
   become: true
+  pre_tasks:
+    - name: debug docker_apt_gpg_key
+      debug: var=docker_apt_gpg_key
+      tags: docker
+
   roles:
-    - role: geerlingguy.docker
-      tags: [docker]
     - role: marcus_grant.dotfiles.bash
       tags: [dots, dotfiles, bash]
+    - role: marcus_grant.dotfiles.not_coreutil
+      tags: [dots, dotfiles, coreutil, fd, rg, ripgrep, fzf]
+    - role: marcus_grant.dotfiles.vim
+      tags: [dots, dotfiles, vim]
+    - role: marcus_grant.dotfiles.tmux
+      tags: [dots, dotfiles, tmux]
+    - role: geerlingguy.docker
+      tags: [docker]
 
 - hosts: all
   gather_facts: true
   roles:
     - role: marcus_grant.dotfiles.bash
       tags: [dots, dotfiles, bash]
+    - role: marcus_grant.dotfiles.vim
+      tags: [dots, dotfiles, vim]
+    - role: marcus_grant.dotfiles.tmux
+      tags: [dots, dotfiles, tmux]

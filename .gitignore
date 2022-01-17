@@ -8,3 +8,9 @@
 
 # Ansible Vault Password file
 .vault_pass
+<<<<<<< HEAD
+=======
+
+# Ansible navigator
+ansible-navigator.log
+>>>>>>> 1a4c006d6536a4241e504ae126bc3720dedc82ac
