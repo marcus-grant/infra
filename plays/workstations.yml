@@ -1,0 +1,11 @@
+---
+- name: Workstations group play
+  hosts: workstations
+  gather_facts: true
+  become: true
+  roles:
+    - role: marcus_grant.pip
+      tags: [apt, pip]
+
+    - role: marcus_grant.ansible
+      tags: [apt, ansible]
