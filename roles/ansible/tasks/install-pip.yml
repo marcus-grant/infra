@@ -1,4 +1,5 @@
 ---
-- name: TODO Implement this subtask
-  fail:
-    msg: Ansible install needs to be implemented for this distribution
+- name: Install Ansible via Pip.
+  pip:
+    name: ansible
+    version: "{{ ansible_install_version_pip | default(omit) }}"

@@ -1,0 +1,11 @@
+---
+- name: Converge
+  hosts: all
+  become: true
+  vars:
+    ansible_install_method: pip
+    ansible_install_version_pip: '2.11.1'
+  # TODO: This needs to be fixed to work with my roles locally
+  # roles:
+  #   - role: geerlinguy.pip
+  #   - role: geerlingguy.ansible
