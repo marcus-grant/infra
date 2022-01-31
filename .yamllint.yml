@@ -1,0 +1,5 @@
+---
+extends: default
+
+ignore: |
+  group_vars/all/vault.yml

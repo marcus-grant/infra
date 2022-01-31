@@ -1,4 +1,7 @@
 ---
+# Main admin user
+admin_user: "{{ vault_admin_user }}"
+
 # Dotfiles
 dotfiles_root: ~/.config
 
