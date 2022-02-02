@@ -35,3 +35,6 @@ traefik_acme_server: "https://acme-v02.api.letsencrypt.org/directory"
 # Provisioning
 traefik_memory: omit # omit means default docker allocation
 traefik_cpu: omit # omit means default docker allocation
+
+# TODO: Add all of these variables to a README
+# NOTE: server_base_domain is required for TLS certs
