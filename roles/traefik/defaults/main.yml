@@ -6,7 +6,7 @@ traefik_enabled: false
 
 # Storage
 # The traefik persistent data directory to store configurations, logs, certs
-traefik_data_directory: "{{ docker_home | default('/mnt/docker/home') }}/traefik"
+traefik_data_directory: "{{ docker_home }}/traefik"
 
 # Network
 traefik_port_http: '80'
@@ -33,8 +33,9 @@ traefik_environment_variables:
 traefik_acme_server: "https://acme-v02.api.letsencrypt.org/directory"
 
 # Provisioning
-traefik_memory: omit # omit means default docker allocation
-traefik_cpu: omit # omit means default docker allocation
+# TODO: Figure out how to safely omit this docker module prop
+traefik_memory: omit  # omit means default docker allocation
+traefik_cpu: omit  # omit means default docker allocation
 
 # TODO: Add all of these variables to a README
 # NOTE: server_base_domain is required for TLS certs

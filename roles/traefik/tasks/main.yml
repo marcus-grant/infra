@@ -14,4 +14,25 @@
   template:
     src: traefik.toml
     dest: "{{ traefik_data_directory }}/traefik.toml"
+    mode: 0770
+    owner: "{{ admin_user }}"
+    group: docker
   register: template_config
+
+- name: Debug admin_user
+  debug: var=admin_user
+
+- name: Traefik Docker Container
+  docker_container:
+    name: traefik
+    image: "{{ traefik_docker_image }}"
+    pull: true
+    network_mode: host
+    volumes:
+      - "{{ traefik_data_directory }}/traefik.toml:/etc/traefik/traefik.toml:ro"
+      - "{{ traefik_data_directory }}/letsencrypt:/letsencrypt:rw"
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+    env: "{{ traefik_environment_variables }}"
+    restart_policy: unless-stopped
+    recreate: "{{ template_config is changed }}"
+    # memory: "{{ traefik_memory }}"
