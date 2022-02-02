@@ -25,6 +25,8 @@
       tags: [selfhost, docker]
     - role: roles/traefik
       tags: [docker, traefik, proxy, www]
+    - role: roles/gitea
+      tags: [docker, git, gitea]
 
 # - hosts: njord
 #   gather_facts: true

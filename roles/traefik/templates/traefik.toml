@@ -13,9 +13,9 @@
         certResolver = "letsencrypt"
 
         [entryPoints.websecure.http.tls.domains]
-          main = "{{ server_base_domain }}"
+          main = "{{ dev_base_domain }}"
           sans = [
-            "*.{{ server_base_domain }}"
+            "*.{{ dev_base_domain }}"
           ]
 
   [entryPoints.traefik]

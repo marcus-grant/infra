@@ -1,0 +1,21 @@
+---
+# Gitea role defaults
+gitea_enabled: false
+gitea_available_externally: "false"
+
+# directories
+gitea_data_directory: "{{ docker_home }}/gitea"
+
+# network
+gitea_hostname: "gitea"
+gitea_port_http: "3001"
+gitea_port_ssh: "22222"
+
+# Docker
+gitea_db_docker_image: mysql:8
+gitea_docker_image: gitea/gitea:1.16.0
+
+# specs
+# TODO: figure out how to make omit work woth docker_container
+# gitea_memory: omit
+# gitea_mysql_memory: omit
