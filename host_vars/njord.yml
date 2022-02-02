@@ -1,2 +1,4 @@
 ---
-foobar: hello
+# host_vars for njord
+# Docker
+docker_home: /mnt/docker

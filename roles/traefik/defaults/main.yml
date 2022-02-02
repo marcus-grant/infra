@@ -1,0 +1,37 @@
+---
+# role traefik defaults
+# Whether to turn on or off traefik idempotently.
+# Not some kind of certification resolution will be necessary
+traefik_enabled: false
+
+# Storage
+# The traefik persistent data directory to store configurations, logs, certs
+traefik_data_directory: "{{ docker_home | default('/mnt/docker/home') }}/traefik"
+
+# Network
+traefik_port_http: '80'
+traefik_port_https: '443'
+traefik_port_ui: '8083'
+
+# Docker
+traefik_docker_image: traefik:v2.6
+
+# Logs
+traefik_log_level: INFO
+
+# External DNS provider if necessary
+traefik_use_dns_provider: false
+traefik_dns_provider: cloudflare
+traefik_environment_variables:
+  CF_DNS_API_TOKEN: 'deadbeef1234567890'
+
+# ACME Server
+# Use this to specify either the 'staging' or 'production' server.
+# Staging doesn't give you real certs, but it has massive rate limits.
+# traefik_acme_server: "https://acme-staging-v02.api.letsencrypt.org/directory"
+# ABOVE: staging, BELOW: production
+traefik_acme_server: "https://acme-v02.api.letsencrypt.org/directory"
+
+# Provisioning
+traefik_memory: omit # omit means default docker allocation
+traefik_cpu: omit # omit means default docker allocation
