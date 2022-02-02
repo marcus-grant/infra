@@ -1,0 +1,32 @@
+---
+- hosts: njord
+  gather_facts: true
+  become: true
+  pre_tasks:
+    # TODO: Move docker preparation tasks to own role
+    # TODO: Change ssh entrypoint to an empty user with no permissions
+    # ... other than change user. This prevents attack surface where
+    # ... ssh key is comprimised.
+    - name: Set admin user to docker group
+      user:
+        name: "{{ admin_user }}"
+        group: docker
+      tags: [docker, user]
+    - name: Add main docker persistant volumes directory to docker_home
+      file:
+        path: "{{ docker_home }}"
+        state: directory
+        owner: "{{ admin_user }}"
+        group: docker
+        mode: 0770
+      tags: [docker, user]
+  roles:
+    - role: geerlingguy.docker
+      tags: [selfhost, docker]
+    - role: roles/traefik
+      tags: [docker, traefik, proxy, www]
+
+# - hosts: njord
+#   gather_facts: true
+#   become: false
+#   roles:
