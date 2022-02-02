@@ -1,0 +1,10 @@
+- name: Create Traefik directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ admin_user }}"
+    group: docker
+    mode: 0770
+  loop:
+    - "{{ traefik_data_directory }}"
+    - "{{ traefik_data_directory }}/letsencrypt"
