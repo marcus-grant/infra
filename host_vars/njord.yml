@@ -45,7 +45,7 @@ cloudflare_dns_token: !vault |
           3634316637636331396139623437626465356433656338306466
 
 # Docker
-docker_home: /mnt/docker
+# docker_home: /mnt/docker
 
 # Traefik
 traefik_environment_variables:

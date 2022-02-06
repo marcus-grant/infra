@@ -27,8 +27,5 @@
       tags: [docker, traefik, proxy, www]
     - role: roles/gitea
       tags: [docker, git, gitea]
-
-# - hosts: njord
-#   gather_facts: true
-#   become: false
-#   roles:
+    - role: roles/tig_server
+      tags: [docker, tig, telegraf, influxdb, grafana, stats, monitor]

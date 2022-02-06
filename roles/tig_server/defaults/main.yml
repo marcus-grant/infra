@@ -1,0 +1,8 @@
+---
+# Home directories for the TIG stack containers
+telegraf_data_directory: "{{ docker_home | default('/mnt/docker') }}/telegraf"
+influxdb_data_directory: "{{ docker_home | default('/mnt/docker') }}/influxdb"
+grafana_data_directory: "{{ docker_home | default('/mnt/docker') }}/grafana"
+
+# Network
+grafana_influxdb_port: "8086"

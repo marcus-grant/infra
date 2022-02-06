@@ -1,0 +1,41 @@
+---
+# TODO: Continue work here when you understand the tig stack better
+# # TIG stack installation. ie Telegraf, InfluxDB, Grafana
+# - name: Create InfluxDB & Telegraf directories
+#   file:
+#     path: "{{ item }}"
+#     state: directory
+#   loop:
+#     - "{{ influxdb_data_directory }}"
+#     - "{{ telegraf_data_directory }}"
+#
+# - name: Create Grafana and its many subdirectories
+#   file:
+#     path: "{{ item }}"
+#     state: directory
+#     owner: "472"  # The expected user for the grafana container
+#     recurse: true
+#   loop:
+#     - "{{ grafana_data_directory }}"
+#     - "{{ grafana_data_directory }}/data"
+#     - "{{ grafana_data_directory }}/data/dashboards/main"
+#     - "{{ grafana_data_directory }}/config/"
+#     - "{{ grafana_data_directory }}/config/provisioning"
+#     - "{{ grafana_data_directory }}/config/provisioning/datasources"
+#     - "{{ grafana_data_directory }}/config/provisioning/dashboards"
+#
+# - name: InfluxDB docker container
+#   docker_container:
+#     name: influxdb
+#     image: influxdb
+#     pull: true
+#     volumes:
+#       - "{{ influxdb_data_directory }}:/var/lib/influxdb:rw"
+#     ports:
+#       - "{{ grafana_influxdb_port }}:8086"
+#     restart_policy: unless-stopped
+#     env:
+#       INFLUXDB_LOGGING_LEVEL: "error"
+#     # TODO: manage cpu/ram resources
+#     # memory: 1g
+#
