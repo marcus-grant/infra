@@ -54,7 +54,7 @@
       - "{{ gitea_data_directory }}/gitea:/data:rw"
     ports:
       - "{{ gitea_port_http }}:3000"
-      - "{{ gitea_port_ssh }}:22"
+      - "{{ gitea_ssh_port }}:{{ gitea_ssh_port }}"
     env:
       DB_TYPE: "mysql"
       DB_HOST: "db:3306"
@@ -63,7 +63,7 @@
       DB_PASSWD: "{{ gitea_db_password }}"
       RUN_MODE: "prod"
       SSH_DOMAIN: "{{ dev_base_domain }}"
-      SSH_PORT: "{{ gitea_port_ssh }}"
+      SSH_PORT: "{{ gitea_ssh_port }}"
       ROOT_URL: "http://{{ gitea_hostname }}:{{ gitea_port_http }}/"
       USER_UID: "1309"
       USER_GID: "1309"

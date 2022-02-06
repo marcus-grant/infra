@@ -9,7 +9,7 @@ gitea_data_directory: "{{ docker_home }}/gitea"
 # network
 gitea_hostname: "gitea"
 gitea_port_http: "3001"
-gitea_port_ssh: "22222"
+gitea_ssh_port: "22222"
 
 # Docker
 gitea_db_docker_image: mysql:8
