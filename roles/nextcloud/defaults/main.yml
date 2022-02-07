@@ -1,0 +1,3 @@
+---
+# Main defaults file for nextcloud role
+nextcloud_data_directory: "{{ docker_home | default('/mnt/docker') }}/nextcloud"
