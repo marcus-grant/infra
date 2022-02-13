@@ -25,3 +25,31 @@
     restart_policy: unless-stopped
     # TODO: Setup management for container memory use
     # memory: "{{ nextcloud_mysql_memory }}"
+
+- name: Nextcloud Docker Container
+  docker_container:
+    name: nextcloud
+    image: "{{ nextcloud_docker_image }}"
+    pull: true
+    links:
+      - nextcloud-mysql:mysql
+    volumes:
+      - "{{ nextcloud_data_directory }}/nextcloud:/var/www/html:rw"
+    ports:
+      - "{{ nextcloud_port }}:80"
+    env:
+      MYSQL_HOST: "mysql"
+      MYSQL_DATABASE: "nextcloud"
+      MYSQL_USER: "{{ nextcloud_sql_user }}"
+      MYSQL_PASSWORD: "{{ nextcloud_sql_password }}"
+      NEXTCLOUD_TRUSTED_DOMAINS: "{{ nextcloud_hostname }}.{{ server_base_domain }}"
+    restart_policy: unless-stopped
+    # TODO: Control memory usage of container
+    # memory: "{{ nextcloud_memory }}"
+    labels:
+      traefik.enable: "{{ nextcloud_available_externally }}"
+      traefik.http.routers.nextcloud.rule: "Host(`{{ nextcloud_hostname }}.{{ server_base_domain }}`)"
+      traefik.http.routers.nextcloud.tls.certresolver: "letsencrypt"
+      traefik.http.routers.nextcloud.tls.domains[0].main: "{{ server_base_domain }}"
+      traefik.http.routers.nextcloud.tls.domains[0].sans: "*.{{ server_base_domain }}"
+      traefik.http.services.nextcloud.loadbalancer.server.port: "80"

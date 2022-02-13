@@ -62,7 +62,7 @@
       DB_USER: "gitea"
       DB_PASSWD: "{{ gitea_db_password }}"
       RUN_MODE: "prod"
-      SSH_DOMAIN: "{{ dev_base_domain }}"
+      SSH_DOMAIN: "{{ server_base_domain }}"
       SSH_PORT: "{{ gitea_ssh_port }}"
       ROOT_URL: "http://{{ gitea_hostname }}:{{ gitea_port_http }}/"
       USER_UID: "1309"
