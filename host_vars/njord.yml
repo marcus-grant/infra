@@ -86,4 +86,3 @@ nextcloud_sql_password: !vault |
           3637643032653563340a323533366539386430613537646138333162303337393961373765333936
           6365
 nextcloud_sql_root_password: "{{ nextcloud_sql_password }}"
-
