@@ -4,27 +4,41 @@
   file:
     path: "{{ item }}"
     state: directory
-    owner: "{{ admin_user }}"
+    # owner: "{{ admin_user }}"
+    owner: www-data
     group: docker
+    mode: 0775
   loop:
-    - "{{ nextcloud_data_directory }}/nextcloud"
-    - "{{ nextcloud_data_directory }}/mysql"
+    - "{{ nextcloud_data_directory }}/app"
+    - "{{ nextcloud_data_directory }}/db"
+    - "{{ nextcloud_data_directory }}/cache"
+    - "{{ nextcloud_data_directory }}/data"
 
-- name: Nextcloud MariaDB Docker container
+- name: Nextcloud database Docker container
   docker_container:
-    name: nextcloud-mysql
+    name: nextcloud-db
     image: "{{ nextcloud_db_docker_image }}"
     pull: true
     volumes:
-      - "{{ nextcloud_data_directory }}/mysql:/var/lib/mysql:rw"
+      - "{{ nextcloud_data_directory }}/db:/var/lib/postgresql/data:rw"
     env:
-      MYSQL_DATABASE: "nextcloud"
-      MYSQL_USER: "{{ nextcloud_sql_user }}"
-      MYSQL_PASSWORD: "{{ nextcloud_sql_password }}"
-      MYSQL_ROOT_PASSWORD: "{{ nextcloud_sql_root_password }}"
+      POSTGRES_DB: "nextcloud"
+      POSTGRES_USER: "{{ nextcloud_sql_user }}"
+      POSTGRES_PASSWORD: "{{ nextcloud_sql_password }}"
     restart_policy: unless-stopped
     # TODO: Setup management for container memory use
-    # memory: "{{ nextcloud_mysql_memory }}"
+    # memory: "{{ nextcloud_db_memory }}"
+
+- name: Nextcloud Redis cache Docker container
+  docker_container:
+    name: nextcloud-cache
+    image: "{{ nextcloud_cache_docker_image }}"
+    pull: true
+    volumes:
+      - "{{ nextcloud_data_directory }}/cache:/var/lib/redis:rw"
+    restart_policy: unless-stopped
+    # TODO: Setup management for container memory use
+    # memory: "{{ nextcloud_cache_memory }}"
 
 - name: Nextcloud Docker Container
   docker_container:
@@ -32,17 +46,21 @@
     image: "{{ nextcloud_docker_image }}"
     pull: true
     links:
-      - nextcloud-mysql:mysql
+      - "nextcloud-db"
+      - "nextcloud-cache"
     volumes:
-      - "{{ nextcloud_data_directory }}/nextcloud:/var/www/html:rw"
+      - "{{ nextcloud_data_directory }}/app:/var/www/html:rw"
+      - "{{ nextcloud_data_directory }}/data:/var/www/html/data:rw"
     ports:
       - "{{ nextcloud_port }}:80"
     env:
-      MYSQL_HOST: "mysql"
-      MYSQL_DATABASE: "nextcloud"
-      MYSQL_USER: "{{ nextcloud_sql_user }}"
-      MYSQL_PASSWORD: "{{ nextcloud_sql_password }}"
-      NEXTCLOUD_TRUSTED_DOMAINS: "{{ nextcloud_hostname }}.{{ server_base_domain }}"
+      POSTGRES_DB: "nextcloud"
+      POSTGRES_USER: "{{ nextcloud_sql_user }}"
+      POSTGRES_PASSWORD: "{{ nextcloud_sql_password }}"
+      POSTGRES_HOST: "nextcloud-db"
+      REDIS_HOST: "nextcloud-cache"
+      # TODO: Add the other domains as encrypted vars later (space delim)
+      # NEXTCLOUD_TRUSTED_DOMAINS: "{{ nextcloud_hostname }}.{{ server_base_domain }}"
     restart_policy: unless-stopped
     # TODO: Control memory usage of container
     # memory: "{{ nextcloud_memory }}"

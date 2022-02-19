@@ -72,10 +72,7 @@ gitea_db_password: !vault |
           6434
 
 # Nextcloud container vars
-nextcloud_enabled: true
 nextcloud_available_externally: "true"  # string "true" | "false"
-nextcloud_db_docker_image: "mariadb:10.7" 
-nextcloud_docker_image: "nextcloud:21"
 nextcloud_hostname: "next"
 nextcloud_sql_user: "{{ admin_user }}"
 nextcloud_sql_password: !vault |
