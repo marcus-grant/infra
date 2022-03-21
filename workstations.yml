@@ -14,6 +14,9 @@
       vars:
         dotfiles_bash_default_shell: true
 
+    - role: marcus_grant.dotfiles.vim
+      tags: [dotfiles,vim]
+
 
 - hosts: loki
   gather_facts: true
@@ -24,4 +27,7 @@
 
     - role: marcus_grant.dotfiles.bash
       tags: [dotfiles,bash]
+
+    - role: marcus_grant.dotfiles.vim
+      tags: [dotfiles,vim]
 

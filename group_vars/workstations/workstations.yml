@@ -18,7 +18,7 @@ bash_set_default_shell: false
 dotfiles_bash_git_force: false
 
 ### Vim
-vim_git_repo: https://github.com/marcus-grant/dots-vim
+vim_git_repo: git@github.com:marcus-grant/dots-vim
 
 ### TMux
 tmux_git_repo: https://github.com/marcus-grant/dots-tmux
