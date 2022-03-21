@@ -13,3 +13,15 @@
       tags: [dotfiles,bash]
       vars:
         dotfiles_bash_default_shell: true
+
+
+- hosts: loki
+  gather_facts: true
+  become_user: "{{ admin_user }}"
+  roles:
+    - role: marcus_grant.dotfiles.git
+      tags: [dotfiles,git,gitea]
+
+    - role: marcus_grant.dotfiles.bash
+      tags: [dotfiles,bash]
+
