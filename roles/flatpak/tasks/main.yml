@@ -1,12 +1,28 @@
 ---
 - name: Install flatpak 
+  become: true
   package:
     name: flatpak
     state: present
 
 - name: Install gnome-software if desired
+  become: true
   package:
     name: gnome-software
     state: present
   when: flatpak_install_gnome_software
 
+- name: Ensure FlatHub present in flatpak remotes (non arch, theres a bug)
+  become: true
+  community.general.flatpak_remote:
+    name: flathub
+    state: present
+    flatpakrepo_url: https://dl.flathub.org/repo/flathub.flatpakrepo
+    method: system
+
+- name: Ensure FlatHub present in flatpak remotes (non arch, theres a bug)
+  community.general.flatpak_remote:
+    name: flathub
+    state: present
+    flatpakrepo_url: https://dl.flathub.org/repo/flathub.flatpakrepo
+    method: user

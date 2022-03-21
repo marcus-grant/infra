@@ -42,4 +42,3 @@
 
     - role: roles/flatpak
       tags: [gui,flatpak]
-
