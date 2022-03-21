@@ -1,0 +1,2 @@
+---
+pacman_extra_packages: [curl]  # Must be a list of valid package names

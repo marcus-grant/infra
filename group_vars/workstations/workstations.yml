@@ -21,3 +21,21 @@ vim_git_repo: git@github.com:marcus-grant/dots-vim
 
 ### TMux
 tmux_git_repo: git@github.com:marcus-grant/dots-tmux
+
+### Pacman Packages
+pacman_extra_packages:
+  - flatpak
+  - git
+  - gnome-software
+  - htop
+  - iotop
+  - lazygit
+  - ncdu
+  - pandoc
+  - ranger
+  - snapper
+  - snap-pac
+  - tldr
+  - tree
+  - wl-clipboard
+  - xclip
