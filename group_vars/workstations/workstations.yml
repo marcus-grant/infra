@@ -2,6 +2,16 @@
 # Dotfiles
 # --------
 
+
+### Git / Gitea
+git_default_branch: main  # [main]
+git_user_name: Marcus Grant
+git_user_email: marcusfg@protonmail.com
+git_pull_rebase: false  # [false]
+# git_gh_enabled: true  # [false]
+# git_ssh_enabled: true  # [false]
+# git_gh_token: "{{ vault_git_gh_token }}"
+
 ### Bash
 dotfiles_bash_repo: git@github.com:marcus-grant/dots-bash
 bash_set_default_shell: false

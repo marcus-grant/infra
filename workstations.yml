@@ -5,3 +5,6 @@
   roles:
     - role: marcus_grant.dotfiles.not_coreutil
       tags: [dotfiles,not_coreutil,coreutil]
+
+    - role: marcus_grant.dotfiles.git
+      tags: [dotfiles,git,gitea]
