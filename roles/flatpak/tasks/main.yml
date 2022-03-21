@@ -4,3 +4,9 @@
     name: flatpak
     state: present
 
+- name: Install gnome-software if desired
+  package:
+    name: gnome-software
+    state: present
+  when: flatpak_install_gnome_software
+

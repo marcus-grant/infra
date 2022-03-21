@@ -39,3 +39,7 @@ pacman_extra_packages:
   - tree
   - wl-clipboard
   - xclip
+
+###### GUI
+### Flatpak
+flatpak_install_gnome_software: true
