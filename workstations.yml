@@ -17,6 +17,9 @@
     - role: marcus_grant.dotfiles.vim
       tags: [dotfiles,vim]
 
+    - role: marcus_grant.dotfiles.tmux
+      tags: [dotfiles,tmux]
+
 
 - hosts: loki
   gather_facts: true
@@ -30,4 +33,7 @@
 
     - role: marcus_grant.dotfiles.vim
       tags: [dotfiles,vim]
+
+    - role: marcus_grant.dotfiles.tmux
+      tags: [dotfiles,tmux]
 
