@@ -36,12 +36,13 @@
   when:
     - flatpak_user_flatpaks | length > 0
 
-- name: Install specified flatpaks system-wide
-  become: true
-  flatpak:
-    name: "{{ item }}"
-    state: present
-    method: system
-  loop: "{{ flatpak_system_flatpaks }}"
-  when:
-    - flatpak_user_flatpaks | length > 0
+# TODO fix this, it doesn't install correctly right now it throws user errors?
+# - name: Install specified flatpaks system-wide
+#   become: true
+#   flatpak:
+#     name: "{{ item }}"
+#     state: present
+#     method: system
+#   loop: "{{ flatpak_system_flatpaks }}"
+#   when:
+#     - flatpak_system_flatpaks | length > 0

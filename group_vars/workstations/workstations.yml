@@ -49,9 +49,13 @@ flatpak_user_flatpaks:
   - com.discordapp.Discord
   - com.mojang.Minecraft
   - org.libretro.RetroArch
-flatpak_system_flatpaks:
   - com.spotify.Client
   - com.usebottles.bottles
   - org.chromium.Chromium
   - com.github.liferooter.textpieces
+# flatpak_system_flatpaks:
+#   - com.spotify.Client
+#   - com.usebottles.bottles
+#   - org.chromium.Chromium
+#   - com.github.liferooter.textpieces
 
