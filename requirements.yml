@@ -2,5 +2,6 @@
 roles:
   - geerlingguy.docker
 collections:
+  - name: community.general
   - name: https://github.com/marcus-grant/ansible-collection-dotfiles
     type: git

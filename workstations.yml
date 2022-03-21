@@ -1,0 +1,7 @@
+---
+- hosts: loki
+  gather_facts: true
+  become: true
+  roles:
+    - role: marcus_grant.dotfiles.not_coreutil
+      tags: [dotfiles,not_coreutil,coreutil]
