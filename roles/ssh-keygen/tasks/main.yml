@@ -1,0 +1,61 @@
+---
+# TODO fix this up to be specifically a github/gitlab/gitea key passing system
+# TODO that includes renaming
+# TODO this geerlingguy article gives some insights below:
+# https://bit.ly/3udquSN
+- name: Generate an SSH key
+  user:
+    name: "{{ ssh_keygen_user_name }}"
+    generate_ssh_key: true
+    ssh_key_type: "{{ ssh_keygen_key_type }}"
+    ssh_key_bits: "{{ ssh_keygen_key_bits }}"
+    ssh_key_file: ".ssh/{{ ssh_keygen_key_file }}"
+    ssh_key_passphrase: "{{ ssh_keygen_passphrase | default(omit) }}"
+    ssh_key_comment: "{{ ssh_keygen_comment }}"
+    force: "{{ ssh_keygen_force }}"
+  register: ssh_keygen_return
+
+- name: "A new key was generated so play is paused, take the generated public key!"
+  pause:
+    prompt: | 
+      Please copy this newly generated SSH public key:
+      {{ ssh_keygen_return.ssh_public_key }}
+      When done, press ENTER to continue:
+    echo: false
+  when: ssh_keygen_return.changed and ssh_keygen_pause_on_change
+
+# TODO: Add a remove task to remove previous nown hosts
+
+- name: "Add key to list of known hosts if changed"
+  known_hosts:
+    name: "{{ item }}"
+    # key: "{{ ssh_keygen_return.ssh_public_key }}"
+    key: "{{ ssh_keygen_return.ssh_fingerprint }}"
+    state: "present"
+  loop: "{{ ssh_keygen_known_hosts }}"
+  when:
+    - ssh_keygen_return.changed
+    - ssh_keygen_known_hosts | length > 0
+
+### Taken from vars and play files that was once running this
+### This is from group_vars/workstations/workstations.yml
+### SSH Keygen
+# ssh_keygen_key_type: rsa  # [rsa]
+# ssh_keygen_key_bits: 4096  # [4096] NOT used for ed25519
+# # ssh_keygen_key_file: omit  # [omit]
+# # ssh_keygen_passphrase: omit  # [omit]
+# ssh_keygen_comment: omit  # [omit]
+# ssh_keygen_pause_on_change: false  # [false]
+# ssh_keygen_force: false  # [false]
+# ssh_keygen_known_hosts: [github.com]  # [undefined]
+### ./workstations.yml play role invocation of this role
+    # - role: roles/ssh-keygen
+    #   vars:
+    #     ssh_keygen_user_name: root
+    #     ssh_keygen_key_file: git.key
+    #     ssh_keygen_comment: "root@{{ ansible_hostname }}"
+    #     ssh_keygen_pause_on_change: true
+    #     # ssh_keygen_config_list: ["{{ ssh_keygen_github_config_root_user }}"]
+    #   tags: [ssh,keygen,ssh-keygen]
+
+

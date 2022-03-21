@@ -1,0 +1,8 @@
+---
+# Role ssh-keygen defaults
+ssh_keygen_key_type: rsa
+ssh_keygen_key_bits: 4096
+ssh_keygen_key_file: omit
+# ssh_keygen_passphrase: omit
+ssh_keygen_force: false
+ssh_keygen_pause_on_change: false
