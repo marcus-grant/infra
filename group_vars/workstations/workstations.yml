@@ -43,3 +43,15 @@ pacman_extra_packages:
 ###### GUI
 ### Flatpak
 flatpak_install_gnome_software: true
+flatpak_user_flatpaks:
+  - org.freecadweb.FreeCAD
+  - org.mozilla.firefox
+  - com.discordapp.Discord
+  - com.mojang.Minecraft
+  - org.libretro.RetroArch
+flatpak_system_flatpaks:
+  - com.spotify.Client
+  - com.usebottles.bottles
+  - org.chromium.Chromium
+  - com.github.liferooter.textpieces
+

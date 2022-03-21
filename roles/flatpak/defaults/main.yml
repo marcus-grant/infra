@@ -1,2 +1,4 @@
 ---
 flatpak_install_gnome_software: false
+flatpak_user_flatpaks: [org.gnome.gedit]
+flatpak_user_flatpaks: [org.gnome.Calender]

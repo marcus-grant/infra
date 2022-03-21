@@ -26,3 +26,22 @@
     state: present
     flatpakrepo_url: https://dl.flathub.org/repo/flathub.flatpakrepo
     method: user
+
+- name: Install specified flatpaks for user
+  flatpak:
+    name: "{{ item }}"
+    state: present
+    method: user
+  loop: "{{ flatpak_user_flatpaks }}"
+  when:
+    - flatpak_user_flatpaks | length > 0
+
+- name: Install specified flatpaks system-wide
+  become: true
+  flatpak:
+    name: "{{ item }}"
+    state: present
+    method: system
+  loop: "{{ flatpak_system_flatpaks }}"
+  when:
+    - flatpak_user_flatpaks | length > 0
