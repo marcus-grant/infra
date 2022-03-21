@@ -1,5 +1,6 @@
 ---
-- name: Install packages with pacman 
-  pacman:
-    name: "{{ pacman_extra_packages }}"
+- name: Install flatpak 
+  package:
+    name: flatpak
     state: present
+
