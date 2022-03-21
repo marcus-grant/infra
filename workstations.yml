@@ -4,7 +4,7 @@
   become: true
   roles:
     - role: roles/pacman-install
-      tags: [dotfiles,tmux]
+      tags: [pacman,pkg]
 
     - role: marcus_grant.dotfiles.not_coreutil
       tags: [dotfiles,not_coreutil,coreutil]
@@ -39,4 +39,7 @@
 
     - role: marcus_grant.dotfiles.tmux
       tags: [dotfiles,tmux]
+
+    - role: roles/flatpak
+      tags: [gui,flatpak]
 
