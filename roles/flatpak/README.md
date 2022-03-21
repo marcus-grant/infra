@@ -1,7 +1,7 @@
-Pacman-Install
-==============
+Flatpak
+=======
 
-Install packages with pacman on Archlinux family hosts and install/configure AUR.
+Install flatpak and helper programs along with any desired flatpaks
 
 Requirements
 ------------
@@ -16,10 +16,10 @@ Role Variables
 Available variables are listed below, along with the default values as shown in this role's `defaults/main.yml`.
 
 ```yaml
-pacman_extra_packages: [curl]  # Must be a list of valid package names
+flatpak_install_gnome_software: false
 ```
 
-The variable `pacman_extra_packages` is a list of packages for pacman to install.
+Whether the flatpak GUI for GNOME should be installed, defaults to `false`.
 
 
 
@@ -40,9 +40,9 @@ Including an example of how to use your role (for instance, with variables passe
 ```yaml
 - hosts: laptops
   roles:
-  - role: marcus_grant.pacman-install
+  - role: marcus_grant.flatpak
     vars:
-      pacman_extra_packages: [curl,git,cowsay]
+      flatpak_install_gnome_software: true
 ```
 
 License
