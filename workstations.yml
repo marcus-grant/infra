@@ -23,6 +23,13 @@
     - role: marcus_grant.dotfiles.tmux
       tags: [dotfiles,tmux]
 
+  post_tasks: # move these to own taskfiles or roles
+    - name: Enable s2idle (sleep mode)
+      shell:
+        cmd: "echo s2idle > /sys/power/mem_sleep"
+      changed_when: false
+      tags: [gpd,idle,sleep,suspend,fix]
+
 
 - hosts: loki
   gather_facts: true
