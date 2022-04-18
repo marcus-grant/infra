@@ -8,15 +8,23 @@
 # wp_app_image_name: wordpress:php8.1-apache
 
 # Main tasks file of WordPress role
+- name: Create user for WordPress files and capibilities assignments
+  user:
+    name: wordpress
+    comment: For use with wordpress services only
+    uid: "{{ wordpress_uid | int }}"
+  when: wordpress_uid is defined
+
 - name: Create WordPress directories
   file:
     path: "{{ item }}"
     state: directory
-    # owner: "{{ admin_user }}"
-    owner: www-data  # TODO should this be its own user or admin_user?
+    # TODO find a better default behavior
+    owner: "{{ wordpress_uid | default('999') }}"
     group: docker
     mode: 0755
   loop:
+    - "{{ wordpress_data_directory }}"
     - "{{ wordpress_data_directory }}/db"
     - "{{ wordpress_data_directory }}/wp"
     # - "{{ wordpress_data_directory }}/wp/wp-content"
@@ -32,6 +40,8 @@
     name: wp-db
     image: "{{ wordpress_db_docker_image }}"
     pull: true
+    restart_policy: unless-stopped
+    user: "{{ wordpress_uid | default(omit) }}"
     volumes:
       - "{{ wordpress_data_directory }}/db:/var/lib/mysql:rw"
     networks:
@@ -50,6 +60,7 @@
     image: "{{ wordpress_docker_image }}"
     pull: true
     restart_policy: unless-stopped
+    user: "{{ wordpress_uid | default(omit) }}"
     volumes:
       - "{{ wordpress_data_directory }}/wp:/var/www/html"
     networks:
