@@ -25,6 +25,8 @@
       tags: [selfhost, docker]
     - role: roles/traefik
       tags: [docker, traefik, proxy, www]
+    - role: roles/wordpress
+      tags: [docker, wordpress, wp]
     - role: roles/gitea
       tags: [docker, git, gitea]
     - role: roles/nextcloud

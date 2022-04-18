@@ -1,0 +1,71 @@
+---
+# vars
+# wp_db_version: '10.4'
+# wp_db_image_name: "mariadb:{{ wp_db_version }}"
+# # wp_app_base_version: '7.4'
+# # wp_app_base_tag: "php{{ wp_app_base_version }}-apache"
+# # wp_app_base_image_name: "wordpress:{{ wp_app_base_tag }}"
+# wp_app_image_name: wordpress:php8.1-apache
+
+# Main tasks file of WordPress role
+- name: Create WordPress directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    # owner: "{{ admin_user }}"
+    owner: www-data  # TODO should this be its own user or admin_user?
+    group: docker
+    mode: 0755
+  loop:
+    - "{{ wordpress_data_directory }}/db"
+    - "{{ wordpress_data_directory }}/wp"
+    # - "{{ wordpress_data_directory }}/wp/wp-content"
+    # - "{{ wordpress_data_directory }}/wp/wp-content/themes"
+    # - "{{ wordpress_data_directory }}/wp/wp-content/plugins"
+
+- name: Create the Docker network wp-net for Wordpress related containers
+  docker_network:
+    name: wp-net
+
+- name: Start the MariaDB database container before Wordpress container
+  docker_container:
+    name: wp-db
+    image: "{{ wordpress_db_docker_image }}"
+    pull: true
+    volumes:
+      - "{{ wordpress_data_directory }}/db:/var/lib/mysql:rw"
+    networks:
+      - name: wp-net
+    env:
+      MYSQL_ROOT_PASSWORD: "{{ wordpress_db_password }}"
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wordpress
+      MYSQL_PASSWORD: "{{ wordpress_db_password }}"
+    # TODO: Setup management for container memory use
+    # memory: "{{ wordpress_db_memory }}"
+
+- name: Run the WordPress container
+  docker_container:
+    name: wp-app
+    image: "{{ wordpress_docker_image }}"
+    pull: true
+    restart_policy: unless-stopped
+    volumes:
+      - "{{ wordpress_data_directory }}/wp:/var/www/html"
+    networks:
+      - name: wp-net
+    ports: "{{ wordpress_port }}:80"
+    env:
+      WORDPRESS_DB_HOST: wp-db
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: "{{ wordpress_db_password }}"
+      WORDPRESS_DB_NAME: wordpress
+    labels:
+      traefik.enable: "{{ wordpress_available_externally }}"
+      traefik.http.routers.wordpress.rule: "Host(`{{ wordpress_subdomain }}.{{ server_base_domain }}`)"
+      traefik.http.routers.wordpress.tls.certresolver: "letsencrypt"
+      traefik.http.routers.wordpress.tls.domains[0].main: "{{ server_base_domain }}"
+      traefik.http.routers.wordpress.tls.domains[0].sans: "*.{{ server_base_domain }}"
+      traefik.http.services.wordpress.loadbalancer.server.port: "80"
+    # TODO: Setup management for container memory use
+    # memory: "{{ wordpress_db_memory }}"

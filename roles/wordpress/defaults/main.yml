@@ -1,0 +1,21 @@
+---
+# Main defaults file for nextcloud role
+wordpress_available_externally: "false" # this must be a string "true"|"false"
+
+# Directories
+wordpress_data_directory: "{{ docker_home | default('/mnt/docker') }}/wordpress"
+
+# Network
+wordpress_port: "8081"
+wordpress_subdomain: wp
+wordpress_extra_fqdn: []
+
+# Docker
+wordpress_docker_image: wordpress:latest
+wordpress_db_docker_image: mariadb:latest
+# wordpress_cache_docker_image: redis
+
+# Allocation
+wordpress_memory: 256m
+wordpress_db_memory: 256m
+# wordpress_cache_memory: 128m

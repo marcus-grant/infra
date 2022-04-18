@@ -83,3 +83,12 @@ nextcloud_sql_password: !vault |
           3637643032653563340a323533366539386430613537646138333162303337393961373765333936
           6365
 nextcloud_sql_root_password: "{{ nextcloud_sql_password }}"
+
+# Wordpress containers vars
+wordpress_available_externally: "true"  # string "true" | "false"
+wordpress_data_directory: "{{ docker_home }}/wordpress"
+wordpress_port: "8081"
+wordpress_subdomain: wp
+wordpress_docker_image: wordpress:php8.1-apache
+wordpress_db_docker_image: mariadb:10.4
+wordpress_db_password: "{{ vault_wordpress_db_password }}"
