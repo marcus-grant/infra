@@ -3,7 +3,6 @@ WordPress
 
 A role that installs WordPress with MariaDB in its own container.
 
-
 Requirements
 ------------
 
@@ -67,4 +66,4 @@ GPL3
 Author Information
 ------------------
 
-https://marcusgrant.me
+<https://marcusgrant.me>
