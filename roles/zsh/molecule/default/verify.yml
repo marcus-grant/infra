@@ -1,0 +1,44 @@
+---
+# This is an example playbook to execute Ansible tests.
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+
+  - name: Check installed packages ansible fact
+    ansible.builtin.package_facts: manager=auto
+
+  - name: Assert zsh is installed
+    ansible.builtin.assert:
+      that: ansible_facts.packages['zsh'] is defined
+
+  - name: Register user modules shell property
+    ansible.builtin.user:
+      name: root
+    register: rootuser
+
+  - name: Assert zsh is the default shell for root user
+    ansible.builtin.assert:
+      that: rootuser.shell == '/usr/bin/zsh'
+
+  - name: Register stat module for default zsh_config_dir at /root/.config/zsh
+    ansible.builtin.stat:
+      path: /root/.config/zsh
+    register: zsh_path
+
+  - name: Assert that zsh_path exists as directory
+    ansible.builtin.assert:
+      that: zsh_path.stat.isdir
+
+  - name: Register current git remote of /root/.config/zsh
+    ansible.builtin.shell: 'cd /root/.config/zsh; git remote -v'
+    changed_when: false
+    register: shell_git_remote
+
+  - name: Assert that either a SSH or HTTPS git remote exists on repo
+    ansible.builtin.assert:
+      that: >
+        'git@github.com:marcus-grant/dots-zsh' in shell_git_remote.stdout or
+        'https://github.com/marcus-grant/dots-zsh' in shell_git_remote.stdout
+
+

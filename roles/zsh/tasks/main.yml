@@ -1,0 +1,43 @@
+---
+# tasks file for zsh
+- name: Ensure zsh is installed
+  become: true
+  ansible.builtin.package:
+    name: zsh
+    state: present
+
+- name: Set ZSH to be the default shell of ansible user
+  ansible.builtin.user:
+    name: "{{ ansible_user_id }}"
+    shell: /usr/bin/zsh
+  when: zsh_set_default_shell
+
+- name: Touch the directory of zsh_config_dir
+  file:
+    path: "{{ zsh_config_dir }}"
+    state: directory
+    recurse: true
+    owner: "{{ ansible_user_id }}"
+    group: "{{ ansible_user_id }}"
+    mode: '0770'
+
+- name: Register stat of path at zsh_config_dir
+  ansible.builtin.stat: path="{{ zsh_config_dir }}"
+  register: stat_zsh_config_dir
+
+- name: Rename current dotfiles repository at zsh_config_dir if zsh_git_backup
+  ansible.builtin.command:
+    argv:
+      - mv
+      - "{{ zsh_config_dir }}"
+      - "{{ zsh_config_dir }}.{{ ansible_date_time.iso8601_basic_short }}.bak"
+  when:
+    - stat_zsh_config_dir.stat.isdir
+    - zsh_git_backup
+
+- name: Git clone the zsh dotfiles repository
+  ansible.builtin.git:
+    repo: "{{ zsh_git_repo }}"
+    version: "{{ zsh_git_version }}"
+    force: "{{ zsh_git_force }}"
+    dest: "{{ zsh_config_dir }}"
