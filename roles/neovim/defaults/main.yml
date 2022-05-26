@@ -1,0 +1,10 @@
+---
+# defaults file for zsh
+zsh_config_dir: ~/.config/zsh
+zsh_git_version: HEAD
+zsh_set_default_shell: false
+zsh_rc_file: zshrc
+zsh_profile_file: zprofile
+zsh_env_file: zshenv
+zsh_git_force: false
+# zsh_git_backup: false
