@@ -21,8 +21,8 @@ Below is a table of variables, some optional usually with default values or nece
 | zsh_zshenv_file  | false  | .zshenv    | filename     | Filename inside config_dir representing .zshenv  |
 | zsh_git_repo     | true   | n/a        | git repo url | Where to clone/pull dotfile repo from            |
 | zsh_git_version  | false  | HEAD       |git branch/tag| Which branch/tag to clone or pull                |
-| zsh_git_force    | false  | false      | boolean      | Whether to force pull repositories on config_dir |
-| zsh_git_backup   | false  | true       | boolean      | Backup dotfile directory if zsh_git_force        |
+<!-- | zsh_git_force    | false  | false      | boolean      | Whether to force pull repositories on config_dir | -->
+<!-- | zsh_git_backup   | false  | true       | boolean      | Backup dotfile directory if zsh_git_force        | -->
 
 Dependencies
 ------------

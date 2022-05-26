@@ -41,14 +41,14 @@
         'git@github.com:marcus-grant/dots-zsh' in shell_git_remote.stdout or
         'https://github.com/marcus-grant/dots-zsh' in shell_git_remote.stdout
 
-  - name: Register parent directory of zsh git repo for its contents 
-    ansible.builtin.command:
-      cmd: "ls -a"
-      chdir: /root/.config
-    register: zsh_config_parent_dir
-    changed_when: false
-
-  - name: Assert the backed up zsh dotfile repo exists
-    # ansible.builtin.debug: var=zsh_config_parent_dir
-    ansible.builtin.assert:
-      that: zsh_config_parent_dir.stdout_lines | length > 3
+  # - name: Register parent directory of zsh git repo for its contents 
+  #   ansible.builtin.command:
+  #     cmd: "ls -a"
+  #     chdir: /root/.config
+  #   register: zsh_config_parent_dir
+  #   changed_when: false
+  #
+  # - name: Assert the backed up zsh dotfile repo exists
+  #   # ansible.builtin.debug: var=zsh_config_parent_dir
+  #   ansible.builtin.assert:
+  #     that: zsh_config_parent_dir.stdout_lines | length > 3

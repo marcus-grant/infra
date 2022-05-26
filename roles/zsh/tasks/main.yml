@@ -12,18 +12,12 @@
     shell: /usr/bin/zsh
   when: zsh_set_default_shell
 
-- name: Touch the directory of zsh_config_dir
-  file:
-    path: "{{ zsh_config_dir }}"
-    state: directory
-    recurse: true
-    owner: "{{ ansible_user_id }}"
-    group: "{{ ansible_user_id }}"
-    mode: '0770'
-
-- name: Register stat of path at zsh_config_dir
-  ansible.builtin.stat: path="{{ zsh_config_dir }}"
-  register: stat_zsh_config_dir
+# Note getting the backup of git to work idempotently is a pain.
+# It's a feature I don't use much and I'm considering scrapping it.
+# DELETEME : if this doesn't ever get used just delete it
+# - name: Register stat of path at zsh_config_dir
+#   ansible.builtin.stat: path="{{ zsh_config_dir }}"
+#   register: stat_zsh_config_dir
 
 # - name: Register status of remote changes on git repository
 #   ansible.builtin.git:
@@ -38,23 +32,23 @@
 # - name: Debug git_stat_zsh
 #   debug: var=git_stat_zsh
 
-- name: Set fact for zsh config backup directory with timestamp
-  ansible.builtin.set_fact:
-    zsh_config_backup_dir: >
-      {{ zsh_config_dir }}.{{ ansible_date_time.iso8601_basic_short }}.bak
-  when: zsh_git_backup
+# - name: Set fact for zsh config backup directory with timestamp
+#   ansible.builtin.set_fact:
+#     zsh_config_backup_dir: >
+#       {{ zsh_config_dir }}.{{ ansible_date_time.iso8601_basic_short }}.bak
+#   when: zsh_git_backup
 
-- name: Rename current dotfiles repository at zsh_config_dir if zsh_git_backup
-  ansible.builtin.command:
-    argv:
-      - "cp"
-      - "-r"
-      - "{{ zsh_config_dir }}"
-      - "{{ zsh_config_backup_dir }}"
-  changed_when: false
-  when:
-    - stat_zsh_config_dir.stat.isdir
-    - zsh_git_backup
+# - name: Rename current dotfiles repository at zsh_config_dir if zsh_git_backup
+#   ansible.builtin.command:
+#     argv:
+#       - "cp"
+#       - "-r"
+#       - "{{ zsh_config_dir }}"
+#       - "{{ zsh_config_backup_dir }}"
+#   changed_when: false
+#   when:
+#     - stat_zsh_config_dir.stat.isdir
+#     - zsh_git_backup
 
 - name: Git clone the zsh dotfiles repository
   ansible.builtin.git:
@@ -62,13 +56,13 @@
     version: "{{ zsh_git_version }}"
     force: "{{ zsh_git_force }}"
     dest: "{{ zsh_config_dir }}"
-  register: zsh_git_reg
+  # register: zsh_git_reg
 
-- name: If the git clone/update didn't change, delete the local repo backup
-  ansible.builtin.file:
-    path: "{{ zsh_config_backup_dir }}"
-    state: absent
-  changed_when: false
-  when:
-    - zsh_git_backup
-    - zsh_git_reg.before == zsh_git_reg.after
+# - name: If the git clone/update didn't change, delete the local repo backup
+#   ansible.builtin.file:
+#     path: "{{ zsh_config_backup_dir }}"
+#     state: absent
+#   changed_when: false
+#   when:
+#     - zsh_git_backup
+#     - zsh_git_reg.before == zsh_git_reg.after
