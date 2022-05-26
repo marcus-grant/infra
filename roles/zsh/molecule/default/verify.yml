@@ -52,3 +52,26 @@
   #   # ansible.builtin.debug: var=zsh_config_parent_dir
   #   ansible.builtin.assert:
   #     that: zsh_config_parent_dir.stdout_lines | length > 3
+
+  - name: Register stat for zshrc
+    ansible.builtin.stat: path=/root/.zshrc
+    register: zsh_rc
+
+  - name: Register stat for zprofile
+    ansible.builtin.stat: path=/root/.zprofile
+    register: zsh_profile
+
+  - name: Register stat for zshenv
+    ansible.builtin.stat: path=/root/.zshenv
+    register: zsh_env
+
+  - name: Assert that all the expected zsh files are linked to the dotfiles
+    ansible.builtin.assert:
+      that:
+        - item.stat.islnk is defined 
+        - item.stat.lnk_target is defined
+        - item.stat.lnk_target == item.dest
+    loop:
+      - { stat: "{{ zsh_rc.stat }}", dest: /root/.config/zsh/rc.zsh }
+      - { stat: "{{ zsh_profile.stat }}", dest: /root/.config/zsh/profile.zsh }
+      - { stat: "{{ zsh_env.stat }}", dest: /root/.config/zsh/env.zsh }
