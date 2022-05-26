@@ -47,7 +47,8 @@
 - name: Rename current dotfiles repository at zsh_config_dir if zsh_git_backup
   ansible.builtin.command:
     argv:
-      - mv
+      - "cp"
+      - "-r"
       - "{{ zsh_config_dir }}"
       - "{{ zsh_config_backup_dir }}"
   changed_when: false
