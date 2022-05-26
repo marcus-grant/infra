@@ -3,5 +3,5 @@
 zsh_config_dir: ~/.config/zsh
 zsh_git_version: HEAD
 zsh_git_force: false
-zsh_git_backup: false
+# zsh_git_backup: false
 zsh_set_default_shell: false
