@@ -1,7 +1,8 @@
 galaxy_info:
+  role_name: neovim
   author: marcus_grant
   description: |
-    A role to clone a git-controlled directory containing zsh dotfiles,
+    A role to clone a git-controlled directory containing neovim dotfiles,
     then linking them and being able to pull new changes in the future.
   issue_tracker_url: https://github.com/marcus-grant/ansible-collection-dotfiles/issues
   license: GPL-2.0-or-later
@@ -28,7 +29,8 @@ galaxy_info:
     - dotfiles
     - dots
     - git
-    - zsh
+    - neovim
+    - nvim
     - config
     - shell
 
