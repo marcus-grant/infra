@@ -1,4 +1,5 @@
 galaxy_info:
+  role_name: zsh
   author: marcus_grant
   description: |
     A role to clone a git-controlled directory containing zsh dotfiles,
