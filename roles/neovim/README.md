@@ -19,8 +19,13 @@ Below is a table of variables, some optional usually with default values or thei
 | nvim_config_dir | false |~/.config/nvim| folder path  | Where the dotfiles should be stored/linked      |
 | nvim_git_version| false | HEAD         |git branch/tag| Which branch/tag to clone or pull               |
 | nvim_git_force  | false | false        | boolean      | Whether to force pull repositories on config_dir|
-|nvim_default_editor|false| false        | boolean      |Whether nvim should be the default (EDITOR=nvim) |
+| nvim_appimage   | false | false        | boolean      | Whether to install nvim as an appimage          |
+| nvim_version    | false | latest       | semver string| A semver string or 'latest' to download         |
 
+When using an AppImage to install a custom version of neovim which may be quite desirable since a lot of big changes are happening quickly to neovim with regards to its use of lua a few things to keep in mind:
+- `nvim_appimage` must be set to true
+- `nvim_version` defaults to 'latest' but can be set to any released version of the AppImage as seen on the project's Github releases page:
+  - The [Neovim Github Releases](https://github.com/neovim/neovim/releases)
 
 Dependencies
 ------------
