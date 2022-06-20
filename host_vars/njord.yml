@@ -49,12 +49,16 @@ cloudflare_dns_token: !vault |
 docker_home: /mnt/docker
 
 # Traefik
+traefik_port_ui: "8079"
 traefik_environment_variables:
-  CF_DNS_API_TOKEN: "{{ cloudflare_dns_token }}"
+  # CF_DNS_API_TOKEN: "{{ cloudflare_dns_token }}"
+  CLOUDFLARE_DNS_API_TOKEN: "{{ cloudflare_dns_token }}"
+  CLOUDFLARE_EMAIL: "{{ cloudflare_email }}"
 
 # Gitea
 gitea_enabled: true
 gitea_available_externally: 'true'
+gitea_port_http: "8082"
 gitea_hostname: "git"
 gitea_ssh_port: !vault |
           $ANSIBLE_VAULT;1.1;AES256

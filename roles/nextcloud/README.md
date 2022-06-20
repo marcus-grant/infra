@@ -19,6 +19,7 @@ Below are all role variables *along with their default values if they have one o
 nextcloud_available_externally: "true"  # MUST BE STRING "true" | "false"
 nextcloud_data_directory: "/mnt/docker/nextcloud"
 nextcloud_port: "8080"
+nextcloud_uid: # An int representing a linux user id, to skip & use container default, leave blank
 nextcloud_hostname: "nextcloud"  # The subdomain to use for nextcloud
 nextcloud_docker_image: "nextcloud:22"  # The docker image for nextcloud app
 nextcloud_db_docker_image: "postgres:14" # The database docker image to use
@@ -56,4 +57,4 @@ GPL3
 Author Information
 ------------------
 
-https://marcusgrant.me
+<https://marcusgrant.me>

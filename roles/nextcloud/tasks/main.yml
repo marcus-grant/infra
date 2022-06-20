@@ -1,11 +1,18 @@
 ---
 # Main tasks file of nextcloud role
+- name: Ensure Nextcloud user exists
+  user:
+    name: nextcloud
+    comment: For use with nextcloud services/files only
+    uid: "{{ nextcloud_uid | int }}"
+  when: nextcloud_uid is defined
+
 - name: Create Nextcloud directories
   file:
     path: "{{ item }}"
     state: directory
     # owner: "{{ admin_user }}"
-    owner: www-data
+    owner: "{{ nextcloud_uid | default('www-data') }}"  # Is this the right defaults?
     group: docker
     mode: 0775
   loop:
@@ -19,13 +26,14 @@
     name: nextcloud-db
     image: "{{ nextcloud_db_docker_image }}"
     pull: true
+    restart_policy: unless-stopped
+    user: "{{ nextcloud_uid | default(omit) }}"
     volumes:
       - "{{ nextcloud_data_directory }}/db:/var/lib/postgresql/data:rw"
     env:
       POSTGRES_DB: "nextcloud"
       POSTGRES_USER: "{{ nextcloud_sql_user }}"
       POSTGRES_PASSWORD: "{{ nextcloud_sql_password }}"
-    restart_policy: unless-stopped
     # TODO: Setup management for container memory use
     # memory: "{{ nextcloud_db_memory }}"
 
@@ -34,9 +42,10 @@
     name: nextcloud-cache
     image: "{{ nextcloud_cache_docker_image }}"
     pull: true
+    restart_policy: unless-stopped
+    user: "{{ nextcloud_uid | default(omit) }}"
     volumes:
       - "{{ nextcloud_data_directory }}/cache:/var/lib/redis:rw"
-    restart_policy: unless-stopped
     # TODO: Setup management for container memory use
     # memory: "{{ nextcloud_cache_memory }}"
 
@@ -45,6 +54,8 @@
     name: nextcloud
     image: "{{ nextcloud_docker_image }}"
     pull: true
+    restart_policy: unless-stopped
+    user: "{{ nextcloud_uid | default(omit) }}"
     links:
       - "nextcloud-db"
       - "nextcloud-cache"
@@ -61,7 +72,6 @@
       REDIS_HOST: "nextcloud-cache"
       # TODO: Add the other domains as encrypted vars later (space delim)
       # NEXTCLOUD_TRUSTED_DOMAINS: "{{ nextcloud_hostname }}.{{ server_base_domain }}"
-    restart_policy: unless-stopped
     # TODO: Control memory usage of container
     # memory: "{{ nextcloud_memory }}"
     labels:
