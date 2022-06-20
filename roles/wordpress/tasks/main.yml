@@ -1,12 +1,4 @@
 ---
-# vars
-# wp_db_version: '10.4'
-# wp_db_image_name: "mariadb:{{ wp_db_version }}"
-# # wp_app_base_version: '7.4'
-# # wp_app_base_tag: "php{{ wp_app_base_version }}-apache"
-# # wp_app_base_image_name: "wordpress:{{ wp_app_base_tag }}"
-# wp_app_image_name: wordpress:php8.1-apache
-
 # Main tasks file of WordPress role
 - name: Create user for WordPress files and capibilities assignments
   user:
