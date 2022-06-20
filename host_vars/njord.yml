@@ -86,6 +86,8 @@ gitea_db_password: !vault |
 # Nextcloud container vars
 nextcloud_available_externally: "true"  # string "true" | "false"
 nextcloud_hostname: "next"
+nextcloud_port: "8080"
+nextcloud_uid: 10000
 nextcloud_sql_user: "{{ admin_user }}"
 nextcloud_sql_password: !vault |
           $ANSIBLE_VAULT;1.1;AES256
