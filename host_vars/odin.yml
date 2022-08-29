@@ -1,0 +1,10 @@
+---
+
+# Mac Property Configs
+mac_caps_lock_esc: true
+
+# Dotfiles
+# --------
+# Bash
+dotfiles_bash_repo: git@github.com:marcus-grant/dots-bash
+

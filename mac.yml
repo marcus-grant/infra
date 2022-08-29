@@ -1,0 +1,15 @@
+---
+- hosts: odin
+  connection: local
+  gather_facts: true
+  become: true
+  pre_tasks:
+    - name: test
+      debug:
+        msg: 'Hello World!'
+  roles:
+    - role: elliotweiser.osx-command-line-tools
+      tags: [mac, xcode, clitools, pre]
+    - role: roles/mac-config
+      tags: [mac, properties, system]
+  # when: ansible_facts['os_family'] == 'Darwin'

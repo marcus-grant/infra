@@ -1,0 +1,46 @@
+---
+- name: Check if Caps-Lock is already set to Escape
+  ansible.builtin.command: 'hidutil property --get "UserKeyMapping"'
+  changed_when: false
+  register: hdutil_prop_get_cmd 
+
+- name: Debug hidutil output
+  debug:
+    var: hdutil_prop_get_cmd 
+
+# Solution comes from this stack overflow:
+# https://stackoverflow.com/questions/127591/using-caps-lock-as-esc-in-mac-os-x
+- name: Set caps lock according to escape
+  ansible.builtin.command: >
+    hidutil property --set '{"UserKeyMapping":[{"HIDKeyboardModifierMappingSrc":0x700000039,"HIDKeyboardModifierMappingDst":0x700000029}]}'
+  changed_when: hdutil_prop_get_cmd == '(null)' and mac_caps_lock_esc
+  when:
+    - mac_caps_lock_esc
+    - hdutil_prop_get_cmd.rc  == 0
+    - "'Dst = 30064771113' not in hdutil_prop_get_cmd.stdout"
+    - "'Src = 30064771129' not in hdutil_prop_get_cmd.stdout"
+
+# ok: [odin] => {
+#     " hdutil_prop_get_cmd": {
+#         "changed": true,
+#         "cmd": [
+#             "hidutil",
+#             "property",
+#             "--get",
+#             "UserKeyMapping"
+#         ],
+#         "delta": "0:00:00.010320",
+#         "end": "2022-08-29 12:58:42.909509",
+#         "failed": false,
+#         "msg": "",
+#         "rc": 0,
+#         "start": "2022-08-29 12:58:42.899189",
+#         "stderr": "",
+#         "stderr_lines": [],
+#         "stdout": "(null)",
+#         "stdout_lines": [
+#             "(null)"
+#         ]
+#     }
+# }
+
