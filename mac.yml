@@ -3,13 +3,38 @@
   connection: local
   gather_facts: true
   become: true
+  environment:
+    PATH: "$HOME/Library/Python/3.8/bin:/opt/homebrew/bin:{{ ansible_env.PATH }}"
+
   pre_tasks:
-    - name: test
-      debug:
-        msg: 'Hello World!'
+    - name: Ensure Homebrew is installed
+      ansible.builtin.stat:
+        path: /opt/homebrew/bin/brew
+      register: homebrew_bin_check
+
+    - name: Fail if Homebrew not installed and homebrew_install_if_missing not true
+      ansible.builtin.fail:
+        msg: 'Homebrew is missing, install it from https://brew.sh'
+      when: not (homebrew_bin_check.stat.exists or homebrew_install_if_missing)
+    
+    - name: Set fact as shorter alias for homebrew install script URL
+      ansible.builtin.set_fact:
+        brew_url: >
+          https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh
+    
+    - name: Install Homebrew
+      ansible.builtin.shell:
+        argv:
+          - /bin/bash
+          - -c
+          - '"$(curl -fsSL {{ brew_url }})"'
+      when: homebrew_install_if_missing and not homebrew_bin_check.stat.exists
   roles:
-    - role: elliotweiser.osx-command-line-tools
-      tags: [mac, xcode, clitools, pre]
-    - role: roles/mac-config
-      tags: [mac, properties, system]
-  # when: ansible_facts['os_family'] == 'Darwin'
+    # - role: elliotweiser.osx-command-line-tools
+    #   tags: [mac, xcode, clitools, pre]
+    # - role: geerlingguy.mac.homebrew
+    #   tags: [mac, homebrew, brew, packages]
+    # - role: roles/mac-config
+    #   tags: [mac, properties, system]
+  # post_tasks:
+  #   - 

@@ -1,5 +1,4 @@
 ---
-
 # Mac Property Configs
 mac_caps_lock_esc: true
 
@@ -8,3 +7,30 @@ mac_caps_lock_esc: true
 # Bash
 dotfiles_bash_repo: git@github.com:marcus-grant/dots-bash
 
+# Homebrew
+# --------
+homebrew_install_if_missing: true
+homebrew_taps:
+  - homebrew/core
+  - homebrew/cask
+  - borgbackup/tap
+homebrew_installed_packages:
+  # - asdf
+  - cowsay
+  # - fd
+  # - fzf
+  # - gh
+  - git
+  - gpg
+  # - httpie
+  # - kopia
+  # - ncdu
+  # - neovim
+  # - pass
+  # - ripgrep
+  # - tldr
+  # - tmux
+  # - tree
+  # - vim
+  # - wget
+  # - xplr
