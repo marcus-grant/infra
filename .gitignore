@@ -11,3 +11,6 @@
 
 # Ansible navigator logs
 ansible-navigator.log
+
+# venv
+venv/*
