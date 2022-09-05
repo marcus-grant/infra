@@ -33,6 +33,9 @@ No role dependencies
   become: someguy
   vars:
     fonts_to_user: true
+    fonts_to_get:
+      url: https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/FiraCode.zip
+      file_pattern: Fira*
   tags: [font, fonts, ui]
 ```
 
