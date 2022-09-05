@@ -2,6 +2,22 @@
 # Mac Property Configs
 mac_caps_lock_esc: true
 
+# Fonts
+# --------
+fonts_to_user: false
+fonts_to_get:
+  # NOTE: Test pattern for role fonts
+  # - pattern: blah*
+  - file_pattern: Iosevka*
+    url: https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/Iosevka.zip
+  - file_pattern: BigBlue*
+    url: https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/BigBlueTerminal.zip
+  - file_pattern: Fira*
+    url: https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/FiraCode.zip
+  - file_pattern: Sauce*
+    url: https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/SourceCodePro.zip
+
+
 # Dotfiles
 # --------
 # Bash

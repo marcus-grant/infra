@@ -36,5 +36,7 @@
     #   tags: [mac, homebrew, brew, packages]
     # - role: roles/mac-config
     #   tags: [mac, properties, system]
+    - role: roles/fonts
+      tags: [font, fonts, ui]
   # post_tasks:
   #   - 

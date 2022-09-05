@@ -1,0 +1,36 @@
+---
+- name: Set fact for directory to install font into based on fonts_to_user
+  ansible.builtin.set_fact:
+    fonts_dir: "{{ fonts_to_user | ternary('~/Library/Fonts', '/Library/Fonts') }}"
+
+- name: Ensure fonts directory in previous fact fonts_to_user exists
+  ansible.builtin.file:
+    path: "{{ fonts_dir }}"
+    state: directory
+  when: fonts_to_user
+
+- name: Stat fonts path to register existing font files
+  ansible.builtin.find:
+    paths: "{{ fonts_dir }}"
+    pattern: "{{ item.file_pattern }}"
+  register: stat_fonts
+  loop: "{{ fonts_to_get }}"
+
+# - name: Debug fonts_results
+#   ansible.builtin.debug:
+#     msg: "{{ item.files | length }}"
+#   loop: "{{ stat_fonts.results }}"
+    
+# According to post in:
+# https://dev.to/waylonwalker/installing-system-nerd-fonts-with-ansible-35kh
+- name: Download fonts
+  # TODO needs to be looped somehow
+  # when: hack_exists is failed
+  ansible.builtin.unarchive:
+    src: "{{ item.url }}"
+    dest: "{{ fonts_dir }}"
+    remote_src: true
+  loop: "{{ fonts_to_get }}"
+  loop_control:
+    index_var: idx
+  when: stat_fonts.results[idx].files | length <= 0

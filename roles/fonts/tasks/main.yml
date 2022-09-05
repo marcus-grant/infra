@@ -1,0 +1,13 @@
+---
+# If on macOS load the macOS tasks file
+- name: Import tasks for macOS systems
+  ansible.builtin.import_tasks: mac.yml
+  when: ansible_facts['os_family'] == 'Darwin'
+
+# TODO - If on Linux, load task file
+- name: TODO - Import tasks for linux systems
+  ansible.builtin.debug:
+    msg: TODO - Not yet implemented
+  when:
+    - ansible_facts['os_family'] != 'Windows'
+    - ansible_facts['os_family'] != 'Darwin'
