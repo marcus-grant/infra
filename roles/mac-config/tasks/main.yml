@@ -1,4 +1,7 @@
 ---
+# # Some more defaults to add
+# https://gist.github.com/tylerwalts/9375263
+# https://developer.apple.com/documentation/devicemanagement/dock
 - name: Set fact for valid dock orientations
   ansible.builtin.set_fact:
     mac_dock_valid_orientations: [left, bottom, right]
@@ -18,6 +21,19 @@
 - name: Restart dock when defaults to dock settings have changed
   ansible.builtin.command: killall Dock
   when: mac_dock_orientation_set_defaults.changed
+
+- name: Set macOS initial key repeat interval
+  community.general.osx_defaults:
+    key: InitialKeyRepeat
+    type: int
+    value: "{{ mac_init_key_repeat_time }}"
+
+- name: Set macOS initial key repeat interval
+  community.general.osx_defaults:
+    key: KeyRepeat
+    type: int
+    value: "{{ mac_key_repeat_time }}"
+  
 
 # TODO The caps lock tasks don't persist after reboots, still need to find out how to do this properly
 # - name: Check if Caps-Lock is already set to Escape

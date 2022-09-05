@@ -1,6 +1,12 @@
 ---
 # Mac Property Configs
 mac_caps_lock_esc: true
+mac_dock_orientation: left
+# The values can be calculated here: https://mac-key-repeat.zaymon.dev
+mac_key_repeat_time: 2
+mac_init_key_repeat_time: 8
+
+
 
 # Fonts
 # --------
@@ -31,22 +37,21 @@ homebrew_taps:
   - homebrew/cask
   - borgbackup/tap
 homebrew_installed_packages:
-  # - asdf
   - cowsay
-  # - fd
-  # - fzf
-  # - gh
+  - fd
+  - fzf
+  - gh
   - git
   - gpg
-  # - httpie
-  # - kopia
-  # - ncdu
-  # - neovim
-  # - pass
-  # - ripgrep
-  # - tldr
-  # - tmux
-  # - tree
-  # - vim
-  # - wget
-  # - xplr
+  - httpie
+  - kopia
+  - ncdu
+  - neovim
+  - pass
+  - ripgrep
+  - tldr
+  - tmux
+  - tree
+  - vim
+  - wget
+  - xplr
