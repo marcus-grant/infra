@@ -1,24 +1,45 @@
 ---
-- name: Check if Caps-Lock is already set to Escape
-  ansible.builtin.command: 'hidutil property --get "UserKeyMapping"'
-  changed_when: false
-  register: hdutil_prop_get_cmd 
+- name: Set fact for valid dock orientations
+  ansible.builtin.set_fact:
+    mac_dock_valid_orientations: [left, bottom, right]
 
-- name: Debug hidutil output
-  debug:
-    var: hdutil_prop_get_cmd 
+- name: Set dock orientation
+  community.general.osx_defaults:
+    domain: com.apple.dock
+    key: orientation
+    type: string
+    value: "{{ mac_dock_orientation }}"
+    state: present
+  register: mac_dock_orientation_set_defaults
+  when: 
+    - mac_dock_orientation is defined
+    - mac_dock_orientation in mac_dock_valid_orientations
 
-# Solution comes from this stack overflow:
-# https://stackoverflow.com/questions/127591/using-caps-lock-as-esc-in-mac-os-x
-- name: Set caps lock according to escape
-  ansible.builtin.command: >
-    hidutil property --set '{"UserKeyMapping":[{"HIDKeyboardModifierMappingSrc":0x700000039,"HIDKeyboardModifierMappingDst":0x700000029}]}'
-  changed_when: hdutil_prop_get_cmd == '(null)' and mac_caps_lock_esc
-  when:
-    - mac_caps_lock_esc
-    - hdutil_prop_get_cmd.rc  == 0
-    - "'Dst = 30064771113' not in hdutil_prop_get_cmd.stdout"
-    - "'Src = 30064771129' not in hdutil_prop_get_cmd.stdout"
+- name: Restart dock when defaults to dock settings have changed
+  ansible.builtin.command: killall Dock
+  when: mac_dock_orientation_set_defaults.changed
+
+# TODO The caps lock tasks don't persist after reboots, still need to find out how to do this properly
+# - name: Check if Caps-Lock is already set to Escape
+#   ansible.builtin.command: 'hidutil property --get "UserKeyMapping"'
+#   changed_when: false
+#   register: hdutil_prop_get_cmd 
+
+# - name: Debug hidutil output
+#   debug:
+#     var: hdutil_prop_get_cmd 
+
+# # Solution comes from this stack overflow:
+# # https://stackoverflow.com/questions/127591/using-caps-lock-as-esc-in-mac-os-x
+# - name: Set caps lock according to escape
+#   ansible.builtin.command: >
+#     hidutil property --set '{"UserKeyMapping":[{"HIDKeyboardModifierMappingSrc":0x700000039,"HIDKeyboardModifierMappingDst":0x700000029}]}'
+#   changed_when: hdutil_prop_get_cmd.stdout == '(null)' and mac_caps_lock_esc
+#   when:
+#     - mac_caps_lock_esc
+#     - hdutil_prop_get_cmd.rc  == 0
+#     - "'Dst = 30064771113' not in hdutil_prop_get_cmd.stdout"
+#     - "'Src = 30064771129' not in hdutil_prop_get_cmd.stdout"
 
 # ok: [odin] => {
 #     " hdutil_prop_get_cmd": {
