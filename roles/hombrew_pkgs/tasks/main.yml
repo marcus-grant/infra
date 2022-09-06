@@ -1,0 +1,20 @@
+---
+- name: Ensure homebrew taps are in place
+  community.general.homebrew_tap:
+    name: "{{ item }}"
+    state: present
+  loop: "{{ homebrew_taps }}"
+
+- name: Ensure homebrew packages are installed
+  community.general.homebrew:
+    name: "{{ item }}"
+    state: present
+    path: /opt/homebrew/bin  # TODO make this programatic based on Mx CPUs
+  loop: "{{ homebrew_installed_packages }}"
+
+- name: Ensure homebrew CASKS are installed
+  community.general.homebrew_cask:
+    name: "{{ item }}"
+    state: present
+    path: /opt/homebrew/bin  # TODO same as the other todo
+  loop: "{{ homebrew_installed_casks }}"
