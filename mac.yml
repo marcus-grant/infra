@@ -6,14 +6,17 @@
   environment:
     PATH: "$HOME/Library/Python/3.8/bin:/opt/homebrew/bin:{{ ansible_env.PATH }}"
   roles:
+    # - role: geerlingguy.mac.homebrew
     - role: elliotweiser.osx-command-line-tools
       tags: [mac, xcode, clitools, pre]
-    # - role: geerlingguy.mac.homebrew
-    #   tags: [mac, homebrew, brew, packages]
+    - role: roles/hombrew_pkgs
+      become_user: "{{ admin_user }}"
+      tags: [mac, pre, homebrew, brew, packages, package, pkgs]
     # - role: marcus-grant.dotfiles.
     - role: roles/mac-config
       tags: [mac, properties, system, keyboard]
     - role: roles/fonts
       tags: [font, fonts, ui]
-  # post_tasks:
-  #   - 
+    - role: geerlingguy.mas
+      become_user: "{{ admin_user }}"
+      tags: [mac, mas, app, store, install, uninstall, remove]
