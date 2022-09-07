@@ -60,6 +60,8 @@ homebrew_installed_packages:
   - ncdu
   - neovim
   - pass
+  - pipx
+  - pwgen
   - ripgrep
   - tldr
   - tmux
