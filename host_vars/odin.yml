@@ -35,10 +35,6 @@ fonts_to_get:
 # Bash
 dotfiles_bash_repo: git@github.com:marcus-grant/dots-bash
 # ZSH
-zsh_git_repo: https://github.com/marcus-grant/dots-zsh
-zsh_rc_file: rc.zsh
-zsh_profile_file: profile.zsh
-zsh_env_file: env.zsh
 zsh_default_shell: false
 zsh_git_force: false
 
