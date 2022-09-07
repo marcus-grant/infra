@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# TODO Use something like this to make this work better next time you have to use it
+# https://dev.to/katsuhisa91/my-ansible-playbook-for-setup-m1-mac-2j9m
+
 export PLAYDIR='/tmp/macansible'
 
 # If there are ansible errors about permissions try this brew reported fix
