@@ -32,6 +32,9 @@ fonts_to_get:
 
 # Dotfiles
 # --------
+# Git
+# git_(default_branch,user_name,user_email,pull_rebase) set in workstation
+git_gh_enabled: false
 # Bash
 dotfiles_bash_repo: git@github.com:marcus-grant/dots-bash
 # ZSH
