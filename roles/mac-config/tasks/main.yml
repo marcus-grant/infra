@@ -4,6 +4,7 @@
 # https://developer.apple.com/documentation/devicemanagement/dock
 # AN ANSIBLE ROLE EVEN FOR THESE SORTS OF CONFIGS
 # https://github.com/lafarer/ansible-role-osx-defaults
+# https://gist.githubusercontent.com/brandonb927/3195465/raw/0c0b99dca7bd3ca43ba33e8f0a659d9841b0a2ed/osx-for-hackers.sh
 - name: Set fact for valid dock orientations
   ansible.builtin.set_fact:
     mac_dock_valid_orientations: [left, bottom, right]
