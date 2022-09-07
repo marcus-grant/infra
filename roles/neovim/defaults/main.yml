@@ -6,3 +6,4 @@ nvim_git_force: false
 nvim_appimage: false
 nvim_version: latest
 nvim_bin_path: ~/.local/bin
+nvim_debug: false

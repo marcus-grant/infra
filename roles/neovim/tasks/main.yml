@@ -12,6 +12,7 @@
   - name: Debug nvim_vers_url var
     ansible.builtin.debug:
       var: nvim_vers_url
+    when: nvim_debug
 
   - name: Set fact for latest or versioned AppImage URL
     ansible.builtin.set_fact:
@@ -21,6 +22,7 @@
   - name: Debug nvim_appimage_url var
     ansible.builtin.debug:
       var: nvim_appimage_url
+    when: nvim_debug
 
   - name: Ensure neovim AppImage install directory exists
     ansible.builtin.file:
@@ -33,6 +35,7 @@
   - name: Debug checksum
     ansible.builtin.debug:
       msg: "sha256:{{ nvim_appimage_url }}.sha256sum"
+    when: nvim_debug
 
   - name: Download neovim AppImage
     ansible.builtin.get_url:
