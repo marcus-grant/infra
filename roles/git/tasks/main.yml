@@ -69,6 +69,7 @@
     - git
     - "{{ git_gh_enabled | ternary(pkg_gh[ansible_os_family], omit, omit) }}"
     - "{{ git_ssh_enabled | ternary(pkg_ssh[ansible_os_family], omit, omit) }}"
+  when: ansible_os_family != 'Darwin'
     # TODO handle more installs in future after deps finished
 
 - name: Register if currently logged into Github CLI
