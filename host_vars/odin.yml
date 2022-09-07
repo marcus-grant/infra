@@ -37,6 +37,8 @@ fonts_to_get:
 git_gh_enabled: false
 # Bash
 dotfiles_bash_repo: git@github.com:marcus-grant/dots-bash
+# Neovim
+nvim_git_repo: git@github.com:marcus-grant/dots-neovim
 # ZSH
 zsh_default_shell: false
 zsh_git_force: false
