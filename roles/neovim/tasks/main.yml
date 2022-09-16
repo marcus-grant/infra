@@ -70,3 +70,4 @@
     version: "{{ nvim_git_version }}"
     force: "{{ nvim_git_force }}"
     dest: "{{ nvim_config_dir }}"
+  failed_when: false
