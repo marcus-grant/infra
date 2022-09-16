@@ -79,4 +79,4 @@
 
 - name: Assert the cloned directory exists to make up for the failed_when above
   ansible.builtin.assert:
-    that: nvim_config_dir_stat.exists
+    that: nvim_config_dir_stat.stat.exists
