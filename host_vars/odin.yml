@@ -32,11 +32,11 @@ fonts_to_get:
 
 # Dotfiles
 # --------
+### Bash
+dotfiles_bash_repo: git@github.com:marcus-grant/dots-bash
 # Git
 # git_(default_branch,user_name,user_email,pull_rebase) set in workstation
 git_gh_enabled: false
-# Bash
-dotfiles_bash_repo: git@github.com:marcus-grant/dots-bash
 # Neovim
 nvim_git_repo: git@github.com:marcus-grant/dots-neovim
 # ZSH
@@ -51,18 +51,31 @@ homebrew_taps:
   - homebrew/core
   - homebrew/cask
   - borgbackup/tap
+  # - iina/homebrew-mpv-iina  # FIXME: Doesnt work
 homebrew_installed_casks:
+  - aldente
   - altserver
   - docker
   - devdocs
   - github
+  # - mpv-iina  # FIXME: Doesn't work
+  - raycast
+  - spotify
+  - telegram
+  - visual-studio-code
+  - vivaldi
 homebrew_installed_packages:
+  - bind
   - borgbackup
   - cowsay
+  - duf
+  - exa
+  - eva
   - fd
   - fzf
   - gh
   - git
+  - gopass
   - gpg
   - httpie
   - kopia
@@ -71,6 +84,7 @@ homebrew_installed_packages:
   - pass
   - pipx
   - pwgen
+  - qrencode
   - ripgrep
   - tldr
   - tmux
@@ -78,6 +92,7 @@ homebrew_installed_packages:
   - vim
   - wget
   - xplr
+  - zbar
 
 # Mac App Store (MAS)
 # -------------------
@@ -86,12 +101,16 @@ homebrew_installed_packages:
 # mas_email: "{{ vault_admin_email }}"
 # mas_password: "{{ inventory_apple_password }}"
 mas_installed_apps:
-  - { id: 497799835, name: "Xcode" }
-  - { id: 1498497896,  name: 'Raivo OTP' }
+  - { id: 1432731683,  name: 'Adblock Plus for Safari ABP' }
+  - { id: 1452453066,  name: 'Hidden Bar' }
   - { id: 403504866,  name: 'PCalc' }
   - { id: 568494494, name: 'Pocket' }
+  - { id: 1498497896,  name: 'Raivo OTP' }
   - { id: 1477385213, name: 'Save to Pocket' }
-  - { id: 1432731683,  name: 'Adblock Plus for Safari ABP' }
+  - { id: 1594183810,  name: 'Shortery'}
+  - { id: 985614903,  name: 'SQLPro Studio' }
+  - { id: 585829637,  name: 'Todoist: To-do list & Planner' }
+  - { id: 497799835, name: 'Xcode' }
 mas_uninstalled_apps:
   - { id: 408981434, name: "iMovie" }
   - { id: 409201541, name: "Pages" }
