@@ -5,6 +5,7 @@
   become: true
   environment:
     PATH: "$HOME/Library/Python/3.8/bin:/opt/homebrew/bin:{{ ansible_env.PATH }}"
+  # pre_tasks:
   roles:
     # - role: geerlingguy.mac.homebrew
     - role: elliotweiser.osx-command-line-tools
@@ -14,12 +15,13 @@
       tags: [mac, pre, homebrew, brew, packages, package, pkgs]
     - role: marcus_grant.dotfiles.git
       tags: [dots, dotfiles, git, gh, github, ssh]
-    - role: marcus_grant.dotfiles.zsh
-      become_user: "{{ admin_user }}"
-      tags: [zsh, dotfiles, dots]
-    - role: marcus_grant.dotfiles.neovim
-      become_user: "{{ admin_user }}"
-      tags: [nvim, neovim, dotfiles, dots]
+    # TODO: These dotfiles roles fail even when *_git_force is false when git module attempts to clone preexisting repos
+    # - role: marcus_grant.dotfiles.zsh
+    #   become_user: "{{ admin_user }}"
+    #   tags: [zsh, dotfiles, dots]
+    # - role: marcus_grant.dotfiles.neovim
+    #   become_user: "{{ admin_user }}"
+    #   tags: [nvim, neovim, dotfiles, dots]
     - role: roles/mac-config
       tags: [mac, properties, config, cfgs, default, defaults, system, keyboard]
     - role: roles/fonts
