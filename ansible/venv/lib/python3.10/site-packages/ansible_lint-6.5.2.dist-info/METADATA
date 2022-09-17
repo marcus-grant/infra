@@ -1,0 +1,117 @@
+Metadata-Version: 2.1
+Name: ansible-lint
+Version: 6.5.2
+Summary: Checks playbooks for practices and behavior that could potentially be improved
+Home-page: https://github.com/ansible-community/ansible-lint
+Author: Will Thames
+Author-email: will@thames.id.au
+Maintainer: Ansible by Red Hat
+Maintainer-email: info@ansible.com
+License: GPLv3
+Project-URL: Bug Tracker, https://github.com/ansible-community/ansible-lint/issues
+Project-URL: Release Management, https://github.com/ansible-community/ansible-lint/releases
+Project-URL: CI: GitHub, https://github.com/ansible-community/ansible-lint/actions?query=workflow:tox+branch:main+event:push
+Project-URL: Code of Conduct, https://docs.ansible.com/ansible/latest/community/code_of_conduct.html
+Project-URL: Documentation, https://ansible-lint.readthedocs.io/en/latest/
+Project-URL: Mailing lists, https://docs.ansible.com/ansible/latest/community/communication.html#asking-questions-over-email
+Project-URL: Source Code, https://github.com/ansible-community/ansible-lint
+Keywords: ansible,lint
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Environment :: Console
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Information Technology
+Classifier: Intended Audience :: System Administrators
+Classifier: Operating System :: OS Independent
+Classifier: License :: OSI Approved :: GNU General Public License v3 (GPLv3)
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: Implementation
+Classifier: Programming Language :: Python :: Implementation :: CPython
+Classifier: Programming Language :: Python :: Implementation :: Jython
+Classifier: Programming Language :: Python :: Implementation :: PyPy
+Classifier: Topic :: Software Development :: Bug Tracking
+Classifier: Topic :: Software Development :: Quality Assurance
+Classifier: Topic :: Software Development :: Testing
+Classifier: Topic :: Utilities
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: COPYING
+License-File: docs/licenses/LICENSE.mit.txt
+Requires-Dist: ansible-compat (>=2.2.0)
+Requires-Dist: ansible-core (>=2.12.0)
+Requires-Dist: black (>=22.1.0)
+Requires-Dist: enrich (>=1.2.6)
+Requires-Dist: filelock
+Requires-Dist: jsonschema (>=4.9.0)
+Requires-Dist: packaging
+Requires-Dist: pyyaml
+Requires-Dist: rich (>=9.5.1)
+Requires-Dist: ruamel.yaml (<0.18,>=0.15.34)
+Requires-Dist: wcmatch (>=7.0)
+Requires-Dist: yamllint (>=1.25.0)
+Provides-Extra: docs
+Requires-Dist: myst-parser (>=0.16.1) ; extra == 'docs'
+Requires-Dist: pipdeptree (>=2.2.1) ; extra == 'docs'
+Requires-Dist: sphinx (>=4.4.0) ; extra == 'docs'
+Requires-Dist: sphinx-ansible-theme (>=0.9.1) ; extra == 'docs'
+Requires-Dist: sphinx-rtd-theme (<1.0.0,>=0.5.2) ; extra == 'docs'
+Requires-Dist: sphinxcontrib-apidoc (>=0.3.0) ; extra == 'docs'
+Requires-Dist: sphinxcontrib-programoutput2 (>=2.0a1) ; extra == 'docs'
+Requires-Dist: yamllint (>=1.26.3) ; extra == 'docs'
+Provides-Extra: test
+Requires-Dist: coverage-enable-subprocess ; extra == 'test'
+Requires-Dist: coverage[toml] (>=6.4.4) ; extra == 'test'
+Requires-Dist: flaky (>=3.7.0) ; extra == 'test'
+Requires-Dist: pytest (>=6.0.1) ; extra == 'test'
+Requires-Dist: pytest-plus (>=0.2) ; extra == 'test'
+Requires-Dist: pytest-xdist (>=2.1.0) ; extra == 'test'
+Requires-Dist: psutil ; extra == 'test'
+Requires-Dist: black ; extra == 'test'
+Requires-Dist: mypy ; extra == 'test'
+Requires-Dist: pylint ; extra == 'test'
+Requires-Dist: flake8 ; extra == 'test'
+Requires-Dist: flake8-future-annotations ; extra == 'test'
+
+[![PyPI version](https://img.shields.io/pypi/v/ansible-lint.svg)](https://pypi.org/project/ansible-lint)
+[![Ansible-lint rules explanation](https://img.shields.io/badge/Ansible--lint-rules%20table-blue.svg)](https://ansible-lint.readthedocs.io/en/latest/default_rules)
+[![Discussions](https://img.shields.io/badge/Discussions-gray.svg)](https://github.com/ansible/ansible-lint/discussions)
+[![GitHub Actions CI/CD](https://github.com/ansible-community/ansible-lint/workflows/gh/badge.svg)](https://github.com/ansible/ansible-lint/actions?query=workflow%3Agh+branch%3Amain+event%3Apush)
+[![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/ansible-community/ansible-lint.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/ansible-community/ansible-lint/context:python)
+[![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
+
+# Ansible-lint
+
+`ansible-lint` checks playbooks for practices and behavior that could
+potentially be improved. As a community backed project ansible-lint supports
+only the last two major versions of Ansible.
+
+[Visit the Ansible Lint docs site](https://ansible-lint.readthedocs.io/en/latest/)
+
+# Contributing
+
+Please read [Contribution guidelines] if you wish to contribute.
+
+# Licensing
+
+The ansible-lint project is distributed as [GPLv3] due to use of [GPLv3] runtime
+dependencies, like `ansible` and `yamllint`.
+
+For historical reasons, its own code-base remains licensed under a more
+liberal [MIT] license and any contributions made are accepted as being made
+under original [MIT] license.
+
+# Authors
+
+ansible-lint was created by [Will Thames] and is now maintained as part of the
+[Ansible] by [Red Hat] project.
+
+[ansible]: https://ansible.com
+[contribution guidelines]: https://ansible-lint.readthedocs.io/en/latest/contributing
+[gplv3]: https://github.com/ansible-community/ansible-lint/blob/main/COPYING
+[mit]: https://github.com/ansible-community/ansible-lint/blob/main/docs/licenses/LICENSE.mit.txt
+[red hat]: https://redhat.com
+[will thames]: https://github.com/willthames

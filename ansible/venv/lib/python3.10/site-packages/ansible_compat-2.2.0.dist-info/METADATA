@@ -1,0 +1,67 @@
+Metadata-Version: 2.1
+Name: ansible-compat
+Version: 2.2.0
+Summary: Ansible compatibility goodies
+Home-page: https://github.com/ansible-community/ansible-compat
+Author: Sorin Sbarnea
+Author-email: ssbarnea@redhat.com
+License: MIT
+Project-URL: Bug Tracker, https://github.com/ansible-community/ansible-compat/issues
+Project-URL: CI: GitHub, https://github.com/ansible-community/ansible-compat/actions?query=workflow:gh+branch:main+event:push
+Project-URL: Code of Conduct, https://docs.ansible.com/ansible/latest/community/code_of_conduct.html
+Project-URL: Source Code, https://github.com/ansible-community/ansible-compat
+Project-URL: Documentation, https://ansible-compat.readthedocs.io/
+Keywords: ansible
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Environment :: Console
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Information Technology
+Classifier: Intended Audience :: System Administrators
+Classifier: Operating System :: OS Independent
+Classifier: License :: OSI Approved :: MIT License
+Classifier: License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: Implementation
+Classifier: Programming Language :: Python :: Implementation :: CPython
+Classifier: Programming Language :: Python :: Implementation :: Jython
+Classifier: Programming Language :: Python :: Implementation :: PyPy
+Classifier: Topic :: Software Development :: Bug Tracking
+Classifier: Topic :: Software Development :: Quality Assurance
+Classifier: Topic :: Software Development :: Testing
+Classifier: Topic :: Utilities
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: PyYAML
+Requires-Dist: subprocess-tee (>=0.3.5)
+Requires-Dist: jsonschema (>=4.6.0)
+Provides-Extra: docs
+Requires-Dist: sphinx-autobuild (<1.0,>=0.7.1) ; extra == 'docs'
+Requires-Dist: sphinx (<5.0,>=4.2.0) ; extra == 'docs'
+Requires-Dist: sphinx-ansible-theme ; extra == 'docs'
+Requires-Dist: myst-parser ; extra == 'docs'
+Provides-Extra: test
+Requires-Dist: coverage ; extra == 'test'
+Requires-Dist: flaky ; extra == 'test'
+Requires-Dist: pip-tools ; extra == 'test'
+Requires-Dist: pytest ; extra == 'test'
+Requires-Dist: pytest-markdown ; extra == 'test'
+Requires-Dist: pytest-mock ; extra == 'test'
+Requires-Dist: pytest-plus ; extra == 'test'
+
+# ansible-compat
+
+[![pypi](https://img.shields.io/pypi/v/ansible-compat.svg)](https://pypi.org/project/ansible-compat/)
+[![docs](https://readthedocs.org/projects/ansible-compat/badge/?version=latest)](https://ansible-compat.readthedocs.io/en/latest/)
+[![gh](https://github.com/ansible-community/ansible-compat/actions/workflows/tox.yml/badge.svg)](https://github.com/ansible-community/ansible-compat/actions/workflows/tox.yml)
+[![codecov.io](https://codecov.io/github/ansible-community/ansible-compat/coverage.svg?branch=main)](https://codecov.io/github/ansible-community/ansible-compat?branch=main)
+
+A python package contains functions that facilitate working with various
+versions of Ansible 2.9 and newer.
+
+Documentation is available at [ansible-compat.readthedocs.io](https://ansible-compat.readthedocs.io/en/latest/).

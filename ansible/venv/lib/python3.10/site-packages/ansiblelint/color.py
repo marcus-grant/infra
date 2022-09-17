@@ -1,0 +1,46 @@
+"""Console coloring and terminal support."""
+from __future__ import annotations
+
+from typing import Any
+
+import rich
+from rich.console import Console
+from rich.syntax import Syntax
+from rich.theme import Theme
+
+_theme = Theme(
+    {
+        "info": "cyan",
+        "warning": "dim yellow",
+        "danger": "bold red",
+        "title": "yellow",
+        "error_code": "bright_red",
+        "error_title": "red",
+        "filename": "blue",
+    }
+)
+console_options: dict[str, Any] = {"emoji": False, "theme": _theme, "soft_wrap": True}
+console_options_stderr = console_options.copy()
+console_options_stderr["stderr"] = True
+
+console = rich.get_console()
+console_stderr = Console(**console_options_stderr)
+
+
+def reconfigure(new_options: dict[str, Any]) -> None:
+    """Reconfigure console options."""
+    global console_options  # pylint: disable=global-statement,invalid-name
+    global console_stderr  # pylint: disable=global-statement,invalid-name,global-variable-not-assigned
+
+    console_options = new_options
+    rich.reconfigure(**new_options)
+    # see https://github.com/willmcgugan/rich/discussions/484#discussioncomment-200182
+    new_console_options_stderr = console_options.copy()
+    new_console_options_stderr["stderr"] = True
+    tmp_console = Console(**new_console_options_stderr)
+    console_stderr.__dict__ = tmp_console.__dict__
+
+
+def render_yaml(text: str) -> Syntax:
+    """Colorize YAMl for nice display."""
+    return Syntax(text, "yaml", theme="ansi_dark")
