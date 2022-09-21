@@ -14,3 +14,10 @@ ansible-navigator.log
 
 # venv
 venv/*
+
+# collections cache
+*.tar.gz
+*.tar.bz2
+*.tar.zstd
+*.tar.zst
+*.tar.xz
