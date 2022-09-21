@@ -52,18 +52,22 @@ homebrew_taps:
   - homebrew/cask
   - borgbackup/tap
   # - iina/homebrew-mpv-iina  # FIXME: Doesnt work
+
 homebrew_installed_casks:
   - aldente
   - altserver
   - docker
   - devdocs
+  - discord
   - github
   # - mpv-iina  # FIXME: Doesn't work
   - raycast
   - spotify
+  - steam
   - telegram
   - visual-studio-code
   - vivaldi
+
 homebrew_installed_packages:
   - bind
   - borgbackup
@@ -78,6 +82,7 @@ homebrew_installed_packages:
   - gopass
   - gpg
   - httpie
+  - jq
   - kopia
   - ncdu
   - neovim
@@ -87,11 +92,14 @@ homebrew_installed_packages:
   - qrencode
   - ripgrep
   - tldr
+  - terraform
   - tmux
   - tree
   - vim
   - wget
+  - xonsh
   - xplr
+  - yq
   - zbar
 
 # Mac App Store (MAS)
@@ -102,6 +110,7 @@ homebrew_installed_packages:
 # mas_password: "{{ inventory_apple_password }}"
 mas_installed_apps:
   - { id: 1432731683,  name: 'Adblock Plus for Safari ABP' }
+  - { id: 1606897889,  name: 'Consent-O-Matic' }
   - { id: 1452453066,  name: 'Hidden Bar' }
   - { id: 403504866,  name: 'PCalc' }
   - { id: 568494494, name: 'Pocket' }
