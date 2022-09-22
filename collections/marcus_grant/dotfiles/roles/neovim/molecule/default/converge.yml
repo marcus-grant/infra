@@ -1,0 +1,13 @@
+---
+- name: Converge
+  hosts: all
+  tasks:
+    - name: "Include neovim"
+      vars:
+        nvim_git_repo: https://github.com/marcus-grant/dots-neovim4
+        nvim_git_force: true
+        nvim_appimage: true
+        nvim_version: v0.7.0
+        # nvim_checksum: 9cf2b7cc268c9df1670ae8d95bd6420dbe12b9aa07f852e6364c64305b91c711
+      ansible.builtin.include_role:
+        name: "neovim"

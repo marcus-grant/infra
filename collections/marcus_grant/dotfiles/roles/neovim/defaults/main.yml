@@ -1,0 +1,9 @@
+---
+# defaults file for zsh
+nvim_config_dir: ~/.config/nvim
+nvim_git_version: HEAD
+nvim_git_force: false
+nvim_appimage: false
+nvim_version: latest
+nvim_bin_path: ~/.local/bin
+nvim_debug: false

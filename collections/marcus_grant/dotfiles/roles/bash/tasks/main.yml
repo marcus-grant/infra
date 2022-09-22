@@ -1,0 +1,80 @@
+---
+# tasks file for bash
+# Consider the ssh_opts & accept_hostkey option from git module docs below:
+# https://docs.ansible.com/ansible/latest/collections/ansible/builtin/git_module.html
+- name: Ensure bash is installed
+  package:
+    name: bash
+    state: present
+
+- name: Set bash to default shell if bash_set_default_shell
+  become: true
+  user:
+    name: "{{ ansible_user_id }}"
+    shell: /bin/bash
+  when: bash_set_default_shell | default('false')
+
+- name: Ensure entire path of directories of dotfiles_bash_dir present
+  file:
+    path: "{{ dotfiles_bash_dest }}"
+    state: directory
+    mode: 0700
+
+- name: Ensure dotfiles repo is cloned locally
+  git:
+    repo: "{{ dotfiles_bash_repo }}"
+    version: "{{ dotfiles_bash_version | default('HEAD') }}"
+    force: "{{ dotfiles_bash_git_force | default('false') }}"
+    dest: "{{ dotfiles_bash_dest }}"
+
+- name: Stat ~/.bashrc to see if it exists & is a file
+  stat:
+    path: ~/.bashrc
+  register: _bashrc
+
+- name: Debug _bashrc register
+  debug:
+    msg: "{{ _bashrc }}"
+
+- name: Rename current bashrc if it exists as a file and we want to keep it as a backup
+  command: "mv ~/.bashrc ~/.bashrc.{{ ansible_date_time.iso8601_basic_short }}.bak"
+  when:
+    - _bashrc.stat.isreg | default(false)
+    - dotfiles_bash_backup | default(false)
+
+- name: Remove original bashrc file
+  file:
+    path: ~/.bashrc
+    state: absent
+  when: _bashrc.stat.isreg | default(false)
+
+- name: Create symlink at bashrc path to dotfiles repo
+  file:
+    state: link
+    src: "{{ dotfiles_bash_bashrc }}"
+    dest: ~/.bashrc
+    force: true
+
+- name: Stat ~/.bash_profile to see if it exists & is a file
+  stat:
+    path: ~/.bash_profile
+  register: bash_profile
+
+- name: Rename current bash_profile if it exists as a file and we want to keep it as a backup
+  command: "mv ~/.bashrc ~/.bash_profile.{{ ansible_date_time.iso8601_basic_short }}.bak"
+  when:
+    - bash_profile.stat.isreg | default(false)
+    - dotfiles_bash_backup | default(false)
+
+- name: Remove original bash_profile file
+  file:
+    path: ~/.bash_profile
+    state: absent
+  when: bash_profile.stat.isreg | default(false)
+
+- name: Create symlink at bash_profile path to dotfiles repo
+  file:
+    state: link
+    src: "{{ dotfiles_bash_profile }}"
+    dest: ~/.bash_profile
+    force: true

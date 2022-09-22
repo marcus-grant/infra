@@ -1,0 +1,5 @@
+---
+# defaults file for pip
+pip_package: python3-pip
+pip_executable: "{{ 'pip3' if pip_package.startswitch('python3') else 'pip' }}"
+pip_installed_packages: []

@@ -1,0 +1,60 @@
+---
+# This is an example playbook to execute Ansible tests.
+
+- name: Verify
+  hosts: all
+  gather_facts: true
+  tasks:
+
+  - name: Check git packages status
+    package:
+      name: "{{ item }}"
+      state: present
+    check_mode: true
+    register: git_pkg_check
+    loop:
+      - git
+      - "{{ (ansible_os_family == 'Debian') | ternary('gh', omit) }}"
+      - "{{ (ansible_os_family == 'RedHat') | ternary('gh', omit) }}"
+      - "{{ (ansible_os_family == 'Suse') | ternary('gh', omit) }}"
+      - "{{ (ansible_os_family == 'Archlinux') | ternary('github-cli', omit) }}"
+      # - gitui
+      # TODO check against helper utils like gitui once rustup/cargo dep finished
+      # TODO Check against gpg stuff once that dep is done
+
+  - name: Register gh version
+    command: gh --version
+    register: verifyghvers
+    changed_when: false
+
+  - name: Assert gh responds with a version
+    assert:
+      that: verifyghvers.rc == 0
+
+  - name: Register git global configs
+    command: git config --list
+    register: git_config_list
+    changed_when: false
+    tags: [skip_ansible_lint]
+
+  - name: Assert several configs are set
+    assert:
+      that: "{{ item }}"
+    loop:
+      - "git_config_list.stdout is search('init.defaultbranch=main')"
+      - "git_config_list.stdout is search('user.name=Ivana Tinkle')"
+      - "git_config_list.stdout is search('user.email=ivanatinkle@microsoft.com')"
+      - "git_config_list.stdout is search('pull.rebase=false')"
+
+  # - name: Register stat of ~/.ssh/git.key
+  #   stat:
+  #     path: ~/.ssh/git.key
+  #   register: stat_git_key
+  #   changed_when: false
+  #
+  # - name: Assert ~/.ssh/git.key is a regular file
+  #   assert:
+  #     that: stat_git_key.stat.isreg is defined | stat_git_key.stat.isreg
+
+  # TODO consider adding a verification for the ssh key being present on gh
+  # TODO find a better way to upload ssh pubkeys to github

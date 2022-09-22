@@ -1,0 +1,41 @@
+---
+# tasks file for zsh
+- name: Ensure zsh is installed
+  become: true
+  ansible.builtin.package:
+    name: zsh
+    state: present
+
+- name: Set ZSH to be the default shell of ansible user
+  ansible.builtin.user:
+    name: "{{ ansible_user_id }}"
+    shell: /usr/bin/zsh
+  when: zsh_default_shell
+
+- name: Git clone the zsh dotfiles repository
+  ansible.builtin.git:
+    repo: "{{ zsh_git_repo }}"
+    version: "{{ zsh_git_version }}"
+    force: "{{ zsh_git_force }}"
+    dest: "{{ zsh_config_dir }}"
+  # register: zsh_git_reg
+
+# - name: If the git clone/update didn't change, delete the local repo backup
+#   ansible.builtin.file:
+#     path: "{{ zsh_config_backup_dir }}"
+#     state: absent
+#   changed_when: false
+#   when:
+#     - zsh_git_backup
+#     - zsh_git_reg.before == zsh_git_reg.after
+
+- name: Link all the expected ZSH config files to local dotfile repo
+  ansible.builtin.file:
+    path: "{{ item.dst }}"
+    src: "{{ item.src }}"
+    state: link
+    force: true
+  loop:
+    - { src: "{{ zsh_config_dir }}/{{ zsh_rc_file }}", dst: ~/.zshrc }
+    - { src: "{{ zsh_config_dir }}/{{ zsh_profile_file }}", dst: ~/.zprofile }
+    - { src: "{{ zsh_config_dir }}/{{ zsh_env_file }}", dst: ~/.zshenv }

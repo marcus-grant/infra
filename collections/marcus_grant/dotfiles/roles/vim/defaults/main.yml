@@ -1,0 +1,8 @@
+---
+# defaults file for vim
+vim_config_dir: ~/.config/vim
+vim_vimrc_path: "{{ vim_config_dir }}/.vimrc"
+vim_git_repo: ''
+vim_git_version: HEAD
+vim_git_force: false
+vim_git_backup: true

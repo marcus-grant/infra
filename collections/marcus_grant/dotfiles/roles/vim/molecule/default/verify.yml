@@ -1,0 +1,66 @@
+---
+# This is an example playbook to execute Ansible tests.
+- name: Verify
+  hosts: all
+  # gather_facts: true
+  tasks:
+
+  - name: Check installed packages facts
+    package_facts: manager=auto
+
+  - name: Assert vim is installed
+    assert:
+      that: ansible_facts.packages['vim'] is defined
+
+  - name: Register stat of vim git clone destination
+    stat:
+      path: ~/.config/vim
+    register: vimconfigdir
+    changed_when: false
+
+  - name: Assert that vim config directory exists
+    assert:
+      that: vimconfigdir.stat.exists
+
+  - name: Register git remote output for vim dotfiles repo
+    command:
+      cmd: git remote -v
+      chdir: ~/.config/vim
+    register: vimgitremote
+    changed_when: false
+    tags: [skip_ansible_lint]
+
+  - name: Assert that given remote URL for vim dotfiles present
+    assert:
+      that: "'https://github.com/marcus-grant' in vimgitremote.stdout"
+
+  - name: Regsiter stat of expected ~/.vimrc
+    stat:
+      path: ~/.vimrc
+    register: expected_vimrc
+    changed_when: false
+
+  - name: Assert expected vimrc file links to cloned vimrc in config dir
+    assert:
+      that: expected_vimrc.stat.lnk_source == '/root/.config/vim/vimrc'
+
+  - name: Regsiter stat of expected ~/.vim
+    stat:
+      path: ~/.vim
+    register: expected_vim
+    changed_when: false
+
+  - name: Assert expected vim file links to cloned vim dir in config dir
+    assert:
+      that: expected_vim.stat.lnk_source == '/root/.config/vim'
+
+  - name: Register find of ~/.config/vim directory to test backups
+    find:
+      paths: ~/.config
+      file_type: directory
+    register: cfg_vim_find
+
+  - name: Assert that ~/.config/vim DOES have backups
+    assert:
+      that: (cfg_vim_find['files'] | map(attribute='path') | join(',')) is search('vim_20')
+      fail_msg: "Failed with directory find of ~/.config containing: {{ cfg_vim_find }}"

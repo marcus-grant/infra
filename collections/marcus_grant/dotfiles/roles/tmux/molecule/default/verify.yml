@@ -1,0 +1,119 @@
+---
+# This is an example playbook to execute Ansible tests.
+- name: Verify
+  hosts: all
+  # gather_facts: true
+  tasks:
+  - name: Check installed packages facts
+    package_facts: manager=auto
+
+  - name: Assert tmux is installed
+    assert:
+      that: ansible_facts.packages['tmux'] is defined
+
+  - name: Register stat of tmux git clone destination
+    stat:
+      path: ~/.config/tmux
+    register: tmuxconfigdir
+    changed_when: false
+
+  - name: Assert that tmux config directory exists
+    assert:
+      that: tmuxconfigdir.stat.exists
+
+  - name: Register git remote output for tmux dotfiles repo
+    command:
+      cmd: git remote -v
+      chdir: ~/.config/tmux
+    register: tmuxgitremote
+    changed_when: false
+    tags: [skip_ansible_lint]
+
+  - name: Assert that given remote URL for tmux dotfiles present
+    assert:
+      that: "'https://github.com/marcus-grant' in tmuxgitremote.stdout"
+
+  - name: Register ~/.config directory to check for backup of tmux config
+    command:
+      cmd: ls -l
+      chdir: ~/.config
+    register: tmuxconfigls
+    changed_when: false
+
+  # If he only directory in ~/.config is tmux, then 2 lines show up in ls -l
+  # total XX
+  # drwxrwxr-- 5 root root 4096 MMM DD HH:mm tmux
+  - name: "Assert backup of tmux config occurred so ls should have 3 lines"
+    assert:
+      that: (tmuxconfigls.stdout_lines | length) > 2
+
+  - name: Regsiter stat of expected ~/.tmux.conf
+    stat:
+      path: ~/.tmux.conf
+    register: expected_tmuxconf
+    changed_when: false
+
+  - name: Assert expected tmuxrc file links to cloned tmuxrc in config dir
+    assert:
+      that: expected_tmuxconf.stat.lnk_source == '/root/.config/tmux/tmux.conf'
+
+  - name: Register find module of ~/.config directory to test backups
+    find:
+      paths: ~/.config
+      file_type: directory
+    register: cfg_tmux_find
+
+  - name: Assert that ~/.config/tmux DOES have backups
+    assert:
+      that: (cfg_tmux_find['files'] | map(attribute='path') | join(',')) is search('tmux_20')
+      fail_msg: "Failed with directory find of ~/.config containing: {{ cfg_tmux_find }}"
+
+  - name: Regsiter stat of expected ~/.tmux
+    stat:
+      path: ~/.tmux
+    register: expected_tmux
+    changed_when: false
+
+  - name: Assert expected tmux file links to cloned tmux dir in config dir
+    assert:
+      that: expected_tmux.stat.lnk_source == '/root/.config/tmux'
+
+  - name: Stat plugins directory of tmux config directory
+    stat:
+      path: ~/.config/tmux/plugins
+    register: tmuxplug
+    changed_when: false
+
+  - name: Assert tmux plugins directory exists
+    assert:
+      that: tmuxplug.stat.exists and tmuxplug.stat.isdir
+
+  - name: Stat tpm in plugins directory of tmux config directory
+    stat:
+      path: ~/.config/tmux/plugins/tpm
+    register: tmuxtpm
+    changed_when: false
+
+  - name: Assert tpm directory exists
+    assert:
+      that: tmuxtpm.stat.exists and tmuxtpm.stat.isdir
+
+  - name: Stat tpm executable in tpm directory
+    stat:
+      path: ~/.config/tmux/plugins/tpm/tpm
+    register: tpmexec
+    changed_when: false
+
+  - name: Assert tpm executable exists
+    assert:
+      that: tpmexec.stat.exists and tpmexec.stat.executable
+
+  - name: Stat tpm repo .git dir removed
+    stat:
+      path: ~/.config/tmux/plugins/tpm/.git
+    register: tpmgit
+    changed_when: false
+
+  - name: Assert tpm .git repo dir not there
+    assert:
+      that: not tpmgit.stat.exists

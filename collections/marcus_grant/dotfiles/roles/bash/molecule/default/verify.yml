@@ -1,0 +1,59 @@
+---
+# Verify play for bash role testing
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+  - name: Example assertion
+    assert:
+      that: true
+
+  - name: Get the current git remote origin of bash_dotfile_dir
+    shell: 'cd ~/.config/bash && git remote -v'
+    changed_when: false
+    register: git_remote
+
+  - name: Assert that either a SSH or HTTPS remote exists on checked out repo
+    assert:
+      that: >
+        'git@github.com:marcus-grant/dots-bash' in git_remote.stdout or
+        'https://github.com/marcus-grant/dots-bash' in git_remote.stdout
+
+  - name: Register dotfile repo gitignore to check for forced checkout
+    command: cat ~/.config/bash/.gitignore
+    changed_when: false
+    register: gitignore
+
+  - name: Assert prepare play string not in gitignore, assuring force checkout works
+    assert:
+      that: "'ANSIBLE FAILI SHOULDNT BE HERE!' not in gitignore.stdout"
+
+  - name: Find the files in home with pattern of a bashrc backup
+    find:
+      paths: ~/
+      patterns: '*.bashrc.*'
+      hidden: true
+    changed_when: false
+    register: bashrc_bak
+
+  - name: Assert original bashrc has been renamed to back it up
+    assert:
+      that: bashrc_bak.matched > 0
+
+  - name: Get stat of .bashrc file
+    stat:
+      path: ~/.bashrc
+    register: bashrc
+
+  - name: Assert ~/.bashrc is now a symlink
+    assert:
+      that: bashrc.stat.exists and bashrc.stat.islnk
+
+  - name: Stat of ~/.bash_profile
+    stat:
+      path: ~/.bash_profile
+    register: bash_profile
+
+  - name: Assert ~/.bash_profile is a link
+    assert:
+      that: bash_profile.stat.exists and bash_profile.stat.islnk

@@ -1,0 +1,28 @@
+---
+# tasks file for gpg
+# TODO investigate gpgme and what package it is in debian
+- name: Ensure gpg is installed
+  package:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - gpg
+    - "{{ gpg_gpgme_enable | ternary('gpgme', omit, omit) }}"
+    - "{{ gpg_pinentry_enable | ternary('{{ gpg_pkg_pinentry[ansible_os_family] }}', omit, omit) }}"
+    - "{{ gpg_extra_packages }}"
+
+- name: Get local home path to be able to copy local gpg keyring
+  delegate_to: localhost
+  command: echo $HOME
+  changed_when: false
+  register: localhome
+
+- name: Transfer keys if specified by copying ~/.gnupg directory from ansible host
+  copy:
+    src: "{{ localhome.stdout }}/.gnupg/{{ item }}"
+    dest: "~/.gnupg"
+    force: "{{ gpg_copy_keyring_force }}"
+    owner: "{{ ansible_user_id }}"
+    mode: 0700
+  loop: "{{ gpg_keyring_files }}"
+  when: gpg_copy_keyring

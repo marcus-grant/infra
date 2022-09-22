@@ -1,0 +1,27 @@
+---
+# vars file for gpg
+gpg_pkg_gpg:
+  Debian: gpg2
+  RedHat: gnupg
+  Archlinux: gnupg
+  Suse: gnupg2
+  Darwin: gnupg
+
+# TODO find simpler way to refer to pinentry installs
+# For now put other pinentry packages in gpg_extra_packages
+gpg_pkg_pinentry:
+  Debian: [pinentry-tty, pinentry-curses]
+  RedHat: pinentry
+  Archlinux: pinentry
+  Darwin: pinentry-mac
+
+gpg_keyring_files:
+  - openpgp-revocs.d
+  - private-keys-v1.d
+  - gpg-agent.conf
+  - gpg.conf
+  - pubring.kbx
+  - pubring.kbx~
+  - random_seed
+  - tofu.db
+  - trustdb.gpg

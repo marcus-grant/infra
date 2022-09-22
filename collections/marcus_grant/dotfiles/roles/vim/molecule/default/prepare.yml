@@ -1,0 +1,39 @@
+---
+# prepare playbook called to provision an instance
+# use this to bring instance to a testable state
+- name: Prepare
+  hosts: all
+  tasks:
+    - name: Update apt cache
+      apt:
+        update_cache: true
+        cache_valid_time: 10000
+      when: ansible_facts['os_family'] == "Debian"
+    - name: Ensure git is installed, needed for cloning
+      package:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - git
+        - ripgrep
+        - fd-find
+        - fzf
+    - name: Ensure ~/.config exists
+      file:
+        path: ~/.config
+        state: directory
+        mode: umask
+    - name: 'Add pre-existing vimrc config file & vim directory'
+      file:
+        path: "{{ item.path }}"
+        state: "{{ item.state }}"
+        mode: umask
+      loop:
+        - { path: ~/.vimrc, state: touch }
+        - { path: ~/.vim, state: directory }
+        - { path: ~/.vim/helloworld.txt, state: touch }
+    - name: Clone an older commit of vim dotfiles repo to test git.force
+      git:
+        repo: https://github.com/marcus-grant/dots-vim
+        dest: ~/.config/vim
+        version: 917e140

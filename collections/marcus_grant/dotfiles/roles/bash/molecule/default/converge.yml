@@ -1,0 +1,15 @@
+---
+- name: Converge
+  hosts: all
+  tasks:
+    - name: Include bash role
+      include_role:
+        name: bash
+      vars:
+        bash_set_default_shell: true
+        dotfiles_bash_repo: 'https://github.com/marcus-grant/dots-bash'
+        dotfiles_bash_dest: "{{ ansible_env.HOME }}/.config/bash"
+        dotfiles_bash_git_force: true
+        dotfiles_bash_bashrc: "{{ dotfiles_bash_dest }}/rc.bash"
+        dotfiles_bash_profile: "{{ dotfiles_bash_dest }}/profile.bash"
+        dotfiles_bash_backup: true

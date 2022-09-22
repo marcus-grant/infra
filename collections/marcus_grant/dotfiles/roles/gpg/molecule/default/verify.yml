@@ -1,0 +1,20 @@
+---
+# This is an example playbook to execute Ansible tests.
+
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Check for transferred keys in gpg
+      command: 'gpg -k'
+      register: gpgk
+      changed_when: false
+
+    # - name: Debug gpgk registered shell variable
+    #   debug: var=gpgk
+
+    - name: Assert there are gpg keys registered from shell
+      assert:
+        that:
+          - gpgk.stdout_lines is defined
+          - gpgk.stdout_lines | length > 2

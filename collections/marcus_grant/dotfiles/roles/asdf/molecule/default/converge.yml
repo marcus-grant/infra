@@ -1,0 +1,32 @@
+---
+- name: Converge
+  hosts: all
+  gather_facts: true
+  tasks:
+    - name: "Include asdf"
+      include_role:
+        name: "asdf"
+      vars:
+        asdf_user: test
+        asdf_data_dir: .local/asdf
+        asdf_config_dir: .config/asdf
+        asdf_add_profile_source: true
+        asdf_add_bashrc_sources: true
+        # asdf_version: v0.8.1
+        asdf_apt_optional_dependencies: [cowsay]
+        asdf_plugins:
+          - name: python
+            versions:
+              - 3.9.7
+            global: 3.9.7
+    - name: "Include asdf"
+      include_role:
+        name: "asdf"
+      vars:
+        asdf_user: test
+        asdf_data_dir: .local/asdf
+        asdf_config_dir: .config/asdf
+        asdf_plugins:
+          - name: python
+            delete_versions:
+              - 2.7.18

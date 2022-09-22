@@ -1,0 +1,64 @@
+---
+# tasks file for vim
+- name: Ensure vim is installed
+  package:
+    name: vim
+    state: present
+
+- name: Ensure vim config path is a directory
+  file:
+    path: "{{ vim_config_dir }}"
+    state: directory
+    mode: umask
+
+- name: Copy vim config directory renaming it with timestamp if vim_git_force
+  copy:
+    remote_src: true
+    src: "{{ vim_config_dir }}"
+    dest: "{{ vim_config_dir }}_{{ ansible_date_time.iso8601_basic_short }}"
+    mode: umask
+  changed_when: false
+  when:
+    - vim_git_force
+    - vim_git_backup
+
+- name: Clone with git the dotfile repo for vim
+  git:
+    repo: "{{ vim_git_repo }}"
+    dest: "{{ vim_config_dir }}"
+    version: "{{ vim_git_version }}"
+    force: "{{ vim_git_force }}"
+  register: vim_git_pull
+
+- name: Remove backup of vim config directory if git didn't change
+  file:
+    path: "{{ vim_config_dir }}_{{ ansible_date_time.iso8601_basic_short }}"
+    state: absent
+  changed_when: false
+  when:
+    - vim_git_force
+    - not vim_git_pull.changed
+
+- name: Stat ~/.vim
+  stat:
+    path: ~/.vim
+  register: stat_home_vim
+  changed_when: false
+
+- name: Remove ~/.vim if a directory or file
+  file:
+    path: ~/.vim
+    state: absent
+  when: |
+    (stat_home_vim.stat.isreg | default(false)) or
+    (stat_home_vim.stat.isdir | default(false))
+
+- name: Link expected config file locations to config repo
+  file:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    state: link
+    force: true
+  loop:
+    - { src: "{{ vim_config_dir }}", dest: ~/.vim }
+    - { src: "{{ vim_vimrc_path }}", dest: ~/.vimrc }

@@ -1,0 +1,82 @@
+---
+# tasks file for zsh
+- name: Install neovim via AppImage
+  block:
+  - name: Set fact for neovim AppImage URLs
+    ansible.builtin.set_fact:
+      nvim_latest_url: >-
+        https://github.com/neovim/neovim/releases/download/latest/nvim.appimage
+      nvim_vers_url: >-
+        https://github.com/neovim/neovim/releases/download/{{ nvim_version }}/nvim.appimage
+
+  - name: Debug nvim_vers_url var
+    ansible.builtin.debug:
+      var: nvim_vers_url
+    when: nvim_debug
+
+  - name: Set fact for latest or versioned AppImage URL
+    ansible.builtin.set_fact:
+      nvim_appimage_url: >-
+        {{ (nvim_version == 'latest') | ternary(nvim_latest_url, nvim_vers_url) }}
+
+  - name: Debug nvim_appimage_url var
+    ansible.builtin.debug:
+      var: nvim_appimage_url
+    when: nvim_debug
+
+  - name: Ensure neovim AppImage install directory exists
+    ansible.builtin.file:
+      path: "{{ nvim_bin_path }}"
+      state: directory
+      recurse: true
+      owner: "{{ ansible_user_id }}"
+      group: "{{ ansible_user_id }}"
+
+  - name: Debug checksum
+    ansible.builtin.debug:
+      msg: "sha256:{{ nvim_appimage_url }}.sha256sum"
+    when: nvim_debug
+
+  - name: Download neovim AppImage
+    ansible.builtin.get_url:
+      url: "{{ nvim_appimage_url }}"
+      dest: "{{ nvim_bin_path }}"
+      checksum: "sha256:{{ nvim_appimage_url }}.sha256sum"
+      owner: "{{ ansible_user_id }}"
+      group: "{{ ansible_user_id }}"
+      mode: '0774'
+
+  - name: Symlink to the AppImage with expected nvim alias
+    ansible.builtin.file:
+      state: link
+      src: "{{ nvim_bin_path }}/nvim.appimage"
+      dest: "{{ nvim_bin_path }}/nvim"
+      owner: "{{ ansible_user_id }}"
+      group: "{{ ansible_user_id }}"
+      mode: '0774'
+
+  when: nvim_appimage
+
+- name: Ensure neovim is installed via package manager
+  become: true
+  ansible.builtin.package:
+    name: neovim
+    state: present
+  when: not nvim_appimage
+
+- name: Git clone the neovim dotfiles repository
+  ansible.builtin.git:
+    repo: "{{ nvim_git_repo }}"
+    version: "{{ nvim_git_version }}"
+    force: "{{ nvim_git_force }}"
+    dest: "{{ nvim_config_dir }}"
+  failed_when: false
+
+- name: Stat that the cloned neovim directory exists
+  ansible.builtin.stat:
+    path: "{{ nvim_config_dir }}"
+  register: nvim_config_dir_stat
+
+- name: Assert the cloned directory exists to make up for the failed_when above
+  ansible.builtin.assert:
+    that: nvim_config_dir_stat.stat.exists

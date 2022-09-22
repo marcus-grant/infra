@@ -1,0 +1,8 @@
+# {{ ansible_managed }}
+
+[ -n "$BASH_VERSION" ] || return 0
+
+if [ -f "{{ asdf_user_home }}/{{ asdf_data_dir }}/asdf.sh" ]; then
+  source "{{ asdf_user_home }}/{{ asdf_data_dir }}/asdf.sh"
+fi
+

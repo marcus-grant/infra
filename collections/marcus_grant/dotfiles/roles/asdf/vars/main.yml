@@ -1,0 +1,72 @@
+---
+# vars file for asdf
+asdf_deps:
+  Debian:
+    - unzip
+    - git
+    - curl
+    - autoconf
+    - automake
+    - gcc
+    - g++
+    - make
+    - patch
+    - pkg-config
+    - binutils
+    - libtool
+    - bison
+    - libreadline-dev
+  RedHat:
+    - unzip
+    - git
+    - curl
+    - autoconf
+    - automake
+    - gcc
+    - gcc-c++
+    - make
+    - patch
+    - pkgconfig
+    - binutils
+    - libtool
+    - bison
+    - readline-devel
+  Archlinux:
+    - git
+    - base-devel
+    - openssl
+    - zlib
+    - xz
+  Suse:
+    - gcc
+    - automake
+    - bzip2
+    - libbz2-devel
+    - xz
+    - xz-devel
+    - openssl-devel
+    - ncurses-devel
+    - readline-devel
+    - zlib-devel
+    - tk-devel
+    - libffi-devel
+    - sqlite3-devel
+  Darwin:
+    - git
+    - coreutils
+    - automake
+    - autoconf
+    - openssl
+    - libyaml
+    - libxslt
+    - libtool
+    - zlib
+    - unixodbc
+    - readline
+    - sqlite3
+    - xz
+    - unzip
+    - curl
+# asdf_python_deps:
+#   Debian:
+#     -

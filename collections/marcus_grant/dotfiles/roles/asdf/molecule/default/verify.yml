@@ -1,0 +1,59 @@
+---
+# This is an example playbook to execute Ansible tests.
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Register asdf command output 
+      command: /home/test/.local/asdf/bin/asdf --version
+      register: asdfcmd
+      failed_when: false
+      changed_when: false
+
+    - name: Assert that registered asdf command was successful
+      assert:
+        that: asdfcmd.rc == 0
+        fail_msg: "Asdf command out must be a zero return code:\n {{ asdfcmd }}"
+
+    # - name: Register that cowsay was installed to test asdf_plugin_dependencies
+    #   shell: 'echo Hello World | /usr/games/cowsay'
+    #   changed_when: false
+    #   register: cowsay_check
+
+    # - name: Debug cowsay_check
+    #   debug: var=cowsay_check.stdout
+
+    # - name: Assert cowsay installed to testt asdf_plugin_dependencies installed
+    #   assert:
+    #     that: cowsay_check.rc == 0
+
+    - name: Register installed python runtimes
+      find:
+        paths: '/home/test/.local/asdf/installs/python'
+        file_type: directory
+        recurse: false
+      changed_when: false
+      register: asdf_installs_find
+
+    # - name: Debug asdf_installs_find
+    #   debug: var=asdf_installs_find
+
+    - name: Assert that only one python version install 3.9.7
+      assert:
+        that:
+          - asdf_installs_find.files | length == 1
+          - |
+            asdf_installs_find.files[0].path ==
+            '/home/test/.local/asdf/installs/python/3.9.7'
+        fail_msg: |
+          Expected 3.9.7 to be only installed python version, got:
+          {{ asdf_installs_find.files[0].path }}
+
+    - name: Register tool-versions, containing the global versions of runtimes
+      command: cat /home/test/.tool-versions
+      register: asdf_tool_versions
+      changed_when: false
+
+    - name: Assert that set global python is present in tool versions (3.9.7)
+      assert:
+        that: "'3.9.7' in asdf_tool_versions.stdout"

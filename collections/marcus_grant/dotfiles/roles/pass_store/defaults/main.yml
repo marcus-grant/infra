@@ -1,0 +1,3 @@
+---
+# defaults file for pass_store
+pass_dir: ~/.password-store

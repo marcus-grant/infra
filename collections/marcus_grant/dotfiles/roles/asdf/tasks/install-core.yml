@@ -1,0 +1,100 @@
+---
+# Install tasks for several host os families
+- name: 'Find user HOME using getent'
+  getent:
+    database: passwd
+    key: "{{ asdf_user }}"
+    split: ':'
+
+- name: 'Set asdf_user_home fact'
+  set_fact:
+    asdf_user_home: "{{ getent_passwd[asdf_user][4] }}"
+
+- name: 'Install asdf core dependencies with apt'
+  become: true
+  apt:
+    # name: "{{ item }}"
+    name: "{{ asdf_deps['Debian'] }}"
+    install_recommends: false
+  # loop: "{{ asdf_build_pkgs[ansible_os_family] }}"
+  register: apt_deps_result
+  until: apt_deps_result is succeeded
+  when: ansible_os_family == 'Debian'
+
+- name: 'Install asdf core dependencies (MacOS)'
+  community.general.homebrew:
+    name: "{{ asdf_deps['Darwin'] }}"
+    state: present
+    update_homebrew: true
+  when: ansible_os_family == 'Darwin'
+
+- name: "install asdf global dependencies with yum"
+  become: true
+  yum:
+    name: "{{ asdf_deps['RedHat'] }}"
+  register: yum_deps_result
+  until: yum_deps_result is succeeded
+  when: ansible_os_family == "RedHat"
+
+- name: "install asdf global dependencies with pacman"
+  become: true
+  pacman:
+    name: "{{ asdf_deps['Archlinux'] }}"
+  register: yum_deps_result
+  until: yum_deps_result is succeeded
+  when: ansible_os_family == "RedHat"
+
+# TODO Do the same for Archlinux based using pacman/aur
+# TODO Do the same for Suse based using zypper
+
+- name: 'Ensure data and config dir are the present'
+  become: true
+  become_user: "{{ asdf_user }}"
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: umask
+  loop:
+    # NOTE these two can be the same if prefered
+    - "{{ asdf_user_home }}/{{ asdf_data_dir }}"
+    - "{{ asdf_user_home }}/{{ asdf_config_dir }}"
+
+- name: Install asdf
+  become: true
+  become_user: "{{ asdf_user }}"
+  git:
+    repo: 'https://github.com/asdf-vm/asdf.git'
+    dest: "{{ asdf_user_home }}/{{ asdf_data_dir }}"
+    version: "{{ asdf_version }}"
+
+- name: Add asdf script source directive to global profile
+  become: true
+  template:
+    src: 'asdf.sh.j2'
+    dest: '/etc/profile.d/asdf.sh'
+    owner: 'root'
+    group: 'root'
+    mode: 0755
+  when: asdf_add_profile_source
+
+- name: 'Set fact for asdf_config_file to point to the desired config file path'
+  set_fact:
+    asdf_config_file: "{{ asdf_user_home }}/{{ asdf_config_dir }}/{{ asdf_config_file }}"
+
+- name: 'Add sources to asdf in .bashrc'
+  lineinfile:
+    path: "{{ asdf_user_home }}/.bashrc"
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+  loop:
+    - regexp: 'export ASDF_DIR='
+      line: "export ASDF_DIR='{{ asdf_user_home }}/{{ asdf_data_dir }}'"
+    - regexp: 'export ASDF_DATA_DIR='
+      line: 'export ASDF_DATA_DIR=$ASDF_DIR'
+    - regexp: 'export ASDF_CONFIG_FILE='
+      line: "export ASDF_CONFIG_FILE='{{ asdf_config_file }}'"
+    - regexp: 'asdf\/asdf.sh'
+      line: '. "$ASDF_DIR/asdf.sh"'
+    - regexp: 'completions\/asdf.bash'
+      line: '. "$ASDF_DIR/completions/asdf.bash"'
+  when: asdf_add_bashrc_sources

@@ -1,0 +1,34 @@
+---
+# prepare playbook called to provision an instance
+# use this to bring instance to a testable state
+- name: Prepare
+  hosts: all
+  tasks:
+    - name: Update apt cache
+      apt:
+        name: git
+        state: present
+        update_cache: true
+        cache_valid_time: 3600
+      when: ansible_facts['os_family'] == "Debian"
+    - name: Ensure git is installed, needed for cloning
+      package:
+        name: git
+        state: present
+    - name: Make sure config dir doesnt already exist
+      file:
+        path: "{{ ansible_env.HOME }}/.config"
+        state: absent
+    - name: Set default shell to /bin/sh to test bash set default
+      become: true
+      user:
+        name: "{{ ansible_user_id }}"
+        shell: /bin/sh
+    - name: Clone a git repository using commit hash for role to update
+      git:
+        repo: "https://github.com/marcus-grant/dots-bash"
+        version: "7641a15"
+        dest: "~/.config/bash"
+    - name: Create file in git repo to test whether it will be discarded by role
+      changed_when: false
+      shell: "cd ~/.config/bash;rm .gitignore; echo 'ANSIBLE FAILI SHOULDNT BE HERE!' > .gitignore"

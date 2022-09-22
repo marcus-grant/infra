@@ -1,0 +1,101 @@
+---
+# tasks file for tmux
+- name: Ensure package for tmux installed
+  package:
+    name: tmux
+    state: present
+
+- name: Ensure tmux config path is a directory
+  file:
+    path: "{{ tmux_config_dir }}"
+    state: directory
+    mode: umask
+
+- name: Copy tmux config directory renaming it with timestamp if tmux_git_force
+  copy:
+    remote_src: true
+    src: "{{ tmux_config_dir }}"
+    dest: "{{ tmux_config_dir }}_{{ ansible_date_time.iso8601_basic_short }}"
+    mode: umask
+  changed_when: false
+  when:
+    - tmux_git_force
+    - tmux_git_backup
+
+- name: Clone with git the config repo for tmux
+  git:
+    repo: "{{ tmux_git_repo }}"
+    dest: "{{ tmux_config_dir }}"
+    version: "{{ tmux_git_version }}"
+    force: "{{ tmux_git_force }}"
+  register: tmux_git_pull
+
+- name: Remove backup of tmux config directory if git did not change it
+  file:
+    path: "{{ tmux_config_dir }}_{{ ansible_date_time.iso8601_basic_short }}"
+    state: absent
+  changed_when: false
+  when:
+    - tmux_git_force
+    - not tmux_git_pull.changed
+
+- name: Stat ~/.tmux
+  stat:
+    path: ~/.tmux
+  register: stat_home_tmux
+  changed_when: false
+
+- name: Remove ~/.tmux if a directory or file
+  file:
+    path: ~/.tmux
+    state: absent
+  when: |
+    (stat_home_tmux.stat.isreg | default(false)) or
+    (stat_home_tmux.stat.isdir | default(false))
+
+- name: Link expected config file locations to config repo
+  file:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    state: link
+    force: true
+  loop:
+    - { src: "{{ tmux_config_dir }}", dest: ~/.tmux }
+    - { src: "{{ tmux_conf_path }}", dest: ~/.tmux.conf }
+
+- name: Ensure tmux plugins directory exists
+  file:
+    path: "{{ tmux_config_dir }}/plugins"
+    state: directory
+    mode: umask
+  when: tmux_tpm_enable
+
+- name: Ensure TPM plugin directory exists
+  file:
+    path: "{{ tmux_config_dir }}/plugins/tpm"
+    state: directory
+    mode: umask
+  when: tmux_tpm_enable
+
+- name: Stat tpm executable exists
+  stat:
+    path: ~/.config/tmux/plugins/tpm/tpm
+  register: _tpm_exec
+  changed_when: false
+  when: tmux_tpm_enable
+
+- name: Git pull tpm
+  git:
+    repo: https://github.com/tmux-plugins/tpm
+    dest: "{{ tmux_config_dir }}/plugins/tpm"
+    update: false
+  when:
+    - tmux_tpm_enable
+    - not (_tpm_exec.stat.exists | default(false))
+    - not (_tpm_exec.stat.executable | default(false))
+
+- name: Remove backup of tmux config directory if git did not change it
+  file:
+    path: "{{ tmux_config_dir }}/plugins/tpm/.git"
+    state: absent
+  when: tmux_tpm_enable

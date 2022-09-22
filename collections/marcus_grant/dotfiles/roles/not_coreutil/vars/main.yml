@@ -1,0 +1,18 @@
+---
+# vars file for not-coreutil
+# names for installable programs as they appear on different os package managers
+pkg_fd:
+  Debian: fd-find
+  RedHat: fd-find
+  Archlinux: fd
+  Darwin: fd
+pkg_fzf:
+  Debian: fzf
+  RedHat: fzf
+  Archlinux: fzf
+  Darwin: fzf
+pkg_rg:
+  Debian: ripgrep
+  RedHat: ripgrep
+  Archlinux: ripgrep
+  Darwin: ripgrep

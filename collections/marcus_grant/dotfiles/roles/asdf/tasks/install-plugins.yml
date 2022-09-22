@@ -1,0 +1,101 @@
+---
+# Tasks to install asdf plugins and their dependencies,
+# ...along with specified versions of their runtime.
+- name: 'Find user HOME using getent'
+  getent:
+    database: passwd
+    key: "{{ asdf_user }}"
+    split: ':'
+
+- name: 'Set asdf_user_home fact'
+  set_fact:
+    asdf_user_home: "{{ getent_passwd[asdf_user][4] }}"
+- name: 'Install asdf plugin dependencies using any package manager'
+  become: true
+  package:
+    name: "{{ asdf_plugin_dependencies }}"
+    state: present
+  when:
+    - asdf_plugin_dependencies | length > 0
+
+- name: 'Set fact for the asdf full binary path'
+  set_fact:
+    asdf_bin: "{{ asdf_user_home }}/{{ asdf_data_dir }}/bin/asdf"
+
+- name: 'Set fact for asdf_config_file to point to the desired config file path'
+  set_fact:
+    asdf_config_file: "{{ asdf_user_home }}/{{ asdf_config_dir }}/{{ asdf_config_file }}"
+
+- name: 'Install plugins'
+  become: true
+  become_user: "{{ asdf_user }}"
+  shell: |
+    export ASDF_DIR={{ asdf_user_home }}/{{ asdf_data_dir }};
+    export ASDF_DATA_DIR=$ASDF_DIR;
+    export ASDF_CONFIG_FILE={{ asdf_config_file }};
+    {{ asdf_bin }} plugin-add {{ item.name }} {{ item.repository | default() }}
+  args:
+    creates: "{{ asdf_user_home }}/{{ asdf_data_dir }}/plugins/{{ item.name }}"
+    chdir: "{{ asdf_user_home }}/{{ asdf_data_dir }}"
+  loop: "{{ asdf_plugins }}"
+  when: asdf_plugins | length > 0
+
+# TODO placeholder for import/include tasks on specific asdf plugin installs
+
+- name: 'Install runtimes with asdf plugins'
+  become: true
+  become_user: "{{ asdf_user }}"
+  command: "{{ asdf_bin }} install {{ item.0.name }} {{ item.1 }}"
+  environment:
+    ASDF_DIR: "{{ asdf_user_home }}/{{ asdf_data_dir }}"
+    ASDF_DATA_DIR: "{{ asdf_user_home }}/{{ asdf_data_dir }}"
+    ASDF_CONFIG_FILE: "{{ asdf_config_file }}"
+  # debug:
+  #   msg: "Debug item {{ item }}"
+  args:
+    creates:
+      "{{ asdf_user_home }}/{{ asdf_data_dir }}/installs/{{ item.0.name }}/{{ item.1 }}"
+    chdir: "{{ asdf_user_home }}/{{ asdf_data_dir }}"
+  with_subelements:
+    - "{{ asdf_plugins }}"
+    - versions
+    - flags:
+      skip_missing: true
+  when: asdf_plugins | length > 0
+
+- name: "Uninstall runtimes with asdf with var asdf_plugins[].delete_versions"
+  become: true
+  become_user: "{{ asdf_user }}"
+  environment:
+    ASDF_DIR: "{{ asdf_user_home }}/{{ asdf_data_dir }}"
+    ASDF_DATA_DIR: "{{ asdf_user_home }}/{{ asdf_data_dir }}"
+    ASDF_CONFIG_FILE: "{{ asdf_config_file }}"
+  command: "{{ asdf_bin }} uninstall {{ item.0.name }} {{ item.1 }}"
+  args:
+    removes: "{{ asdf_user_home }}/{{ asdf_data_dir }}/installs/{{ item.0.name }}/{{ item.1 }}"
+    chdir: "{{ asdf_user_home }}/{{ asdf_data_dir }}"
+  with_subelements:
+    - "{{ asdf_plugins }}"
+    - delete_versions
+    - flags:
+      skip_missing: true
+  when: asdf_plugins | length > 0
+
+- name: 'Use asdf to set the global runtime version for each runtime'
+  become: true
+  become_user: "{{ asdf_user }}"
+  environment:
+    ASDF_DIR: "{{ asdf_user_home }}/{{ asdf_data_dir }}"
+    ASDF_DATA_DIR: "{{ asdf_user_home }}/{{ asdf_data_dir }}"
+    ASDF_CONFIG_FILE: "{{ asdf_config_file }}"
+  command:
+    argv:
+      - "{{ asdf_bin }}"
+      - 'global'
+      - "{{ item.name }}"
+      - "{{ item.global | default(item.versions | difference(item.delete_versions | default([])) | sort | first) }}"
+  args:
+    chdir: "{{ asdf_user_home }}/{{ asdf_data_dir }}"
+  when: item.versions is defined
+  changed_when: false
+  with_items: "{{ asdf_plugins }}"

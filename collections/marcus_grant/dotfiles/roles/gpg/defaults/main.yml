@@ -1,0 +1,6 @@
+---
+# defaults file for gpg
+gpg_gpgme_enable: false
+gpg_pinentry_enable: false
+gpg_copy_keyring: false
+gpg_copy_keyring_force: false

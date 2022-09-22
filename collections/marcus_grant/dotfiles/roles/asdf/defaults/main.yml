@@ -1,0 +1,15 @@
+---
+# defaults file for asdf
+asdf_data_dir: .asdf
+asdf_config_dir: "{{ asdf_data_dir }}"
+asdf_config_file: ".asdfrc"
+asdf_version: HEAD
+asdf_add_profile_source: false
+asdf_add_bashrc_sources: false
+asdf_plugin_dependencies: []
+asdf_plugins: []
+# - name: python
+#   global: 3.9.7
+#   versions:
+#     - 3.9.7
+#     - 2.7.18

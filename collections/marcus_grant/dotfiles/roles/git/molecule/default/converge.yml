@@ -1,0 +1,24 @@
+---
+- name: Converge
+  hosts: all
+  # include_vars:
+  #   - vault.yml
+  tasks:
+    - name: Include vault vars to test Github with token
+      include_vars: vault.yml
+    - name: Debug vault token
+      debug: var=vault_git_gh_token
+    - name: Update apt cache
+      apt:
+        update_cache: true
+      when: ansible_facts['os_family'] != "Debian"
+    - name: "Include git"
+      include_role:
+        name: "git"
+      vars:
+        git_user_name: Ivana Tinkle
+        git_user_email: ivanatinkle@microsoft.com
+        git_gh_enabled: true
+        git_ssh_enabled: true
+        git_gh_token: "{{ vault_git_gh_token }}"
+        git_ssh_key_title: testkey
