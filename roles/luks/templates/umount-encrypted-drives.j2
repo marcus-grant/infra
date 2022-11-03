@@ -33,13 +33,11 @@ echo
 echo "(RE)locking all the LUKS container mappings..."
 echo
 
-{% for item in luks_mappings | reverse %}
+{% for item in luks_mappings | unique('attribute', 'luks_map') | reverse %}
 echo "(RE)locking container mapped to LUKS map {{ item.luks_map }}"
-echo $luksKey | sudo cryptsetup close {{ item.luks_map }} \
+sudo cryptsetup close {{ item.luks_map }} \
     && echo -e "${gr}Successfully closed LUKS container mapped to /dev/mapper/{{ item.luks_map }}${nc}" \
-    || echo -e "${rd}ERROR: {{ item.luks_map }} is not a valid or opened LUKS device${nc}"; \
-    echo "Was it already locked? Was it renamed? Was it entered incorrectly in ansible's variables?"; \
-    echo "Skipping..."
+    || echo -e "${rd}ERROR: {{ item.luks_map }} is not a valid or opened LUKS device\n${yl}Was it already locked? Was it renamed? Was it entered incorrectly in ansible's variables?\n${bl}Skipping...${nc}"
     echo
 {% endfor %}
 

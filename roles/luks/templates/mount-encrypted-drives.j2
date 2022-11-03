@@ -22,12 +22,12 @@ echo
 echo "This script will unlock and mount {{ luks_mappings | count }} encrypted mount points."
 echo "These are the mount points:"
 {% for item in luks_mappings %}
-echo -e "${bl}{{ item.mount }}"
+echo -e "${bl}{{ item.mount }}${nc}"
 {% endfor %}
-echo -e "${nc}"; echo
+echo
 
 echo "First, unlock sudo access if necessary by entering the password..."
-sudo echo -e "${gr}Unlocked sudo!$nc"
+sudo echo -e "${gr}Unlocked sudo!${nc}"
 echo
 
 luksKey=$1
@@ -37,12 +37,11 @@ if [[ $# -lt 1 ]]; then
     read -sp "Enter the common LUKS passphrase: " luksKey
 fi
 echo -e $nc
-echo
 
 echo "Now, these LUKS mappings will be unlocked and mapped to /dev/mapper/"
 {% for item in luks_mappings | unique('attribute', 'block_id') %}
 echo -e "${bl}blkid: {{ item.block_id | truncate(13) }}... => /dev/mapper/{{ item.luks_map }}"
-{% endfor%}
+{% endfor %}
 echo -e "$nc"
 
 {% for item in luks_mappings | unique('attribute', 'block_id') %}
@@ -55,3 +54,4 @@ echo -e $nc; echo
 
 {% endfor %}
 echo
+
