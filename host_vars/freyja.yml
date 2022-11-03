@@ -1,0 +1,104 @@
+---
+# LUKS
+# For mount options look at this useful guide for btrfs:
+# https://linuxhint.com/btrfs-filesystem-mount-options/
+luks_mappings:
+  - mount: /mnt/drv/cold
+    mount_opts: defaults,noatime,space_cache=v2,compress=zstd
+    volume: /dev/coldvg/coldlv
+    luks_map: crypt-cold
+    block_id: d69ed19e-4c8d-4a2b-821a-4a0411184da9
+  - mount: /mnt/drv/cold/vids
+    mount_opts: defaults,noatime,space_cache=v2
+    volume: /dev/coldvg/vidslv
+    luks_map: crypt-vids
+    block_id: 9e6fe5c2-d54e-4608-a783-6ccf8770cced
+  - mount: /mnt/drv/hot
+    mount_opts: >- # space cache v1 for sub 2TB, v2 for more than
+      defaults,ssd,noatime,discard,space_cache=v1,compress=zstd
+    volume: /dev/hotvg/hotlv
+    luks_map: crypt-hot
+    block_id: cfe3773d-f7c0-4524-a425-3188e373dea2
+  - mount: /mnt/drv/sys
+    mount_opts: defaults,noatime,discard  # XFS (no btrfs opts)
+    volume: /dev/hotvg/syslv
+    luks_map: crypt-hot
+    block_id: >-  # same block id as hotlv because same luks container
+      cfe3773d-f7c0-4524-a425-3188e373dea2
+
+#     /mnt
+# ├── cold
+# │   └── archive
+# ├── docker
+# │   └── ddns
+# │       ├── config.json
+# │       └── docker-compose.yml
+# ├── drv
+# │   ├── cold
+# │   │   └── vids
+# │   ├── hot
+# │   ├── sys
+# │   └── warm
+# ├── hot
+# ├── nas
+# ├── sys
+# ├── tmp
+# │   ├── crypt
+# │   ├── fast
+# │   ├── hdd
+# │   │   ├── apps
+# │   │   ├── archive
+# │   │   ├── audio
+# │   │   ├── documents
+# │   │   ├── hot
+# │   │   ├── music
+# │   │   ├── picutres
+# │   │   └── videos
+# │   └── usb
+# ├── vids
+# └── warm
+
+# 28 directories, 2 files
+
+# NAME               MAJ:MIN RM  SIZE RO TYPE  MOUNTPOINT
+# sda                  8:0    0  7.3T  0 disk
+# └─tmpcrypt         253:4    0  7.3T  0 crypt
+#   └─nasvg-naslv    253:5    0  7.3T  0 lvm   /mnt/tmp/hdd
+# sdb                  8:16   0 10.9T  0 disk
+# └─sdb1               8:17   0 10.9T  0 part
+#   ├─coldvg-coldlv  253:0    0    4T  0 lvm
+#   └─coldvg-videolv 253:1    0  6.9T  0 lvm
+# nvme0n1            259:0    0  1.8T  0 disk
+# ├─nvme0n1p1        259:1    0  953M  0 part  /boot/efi
+# ├─nvme0n1p2        259:2    0 28.9G  0 part  [SWAP]
+# ├─nvme0n1p3        259:3    0 89.4G  0 part  /
+# └─nvme0n1p4        259:4    0  1.7T  0 part
+#   └─hotcrypt       253:6    0  1.7T  0 crypt
+#     ├─hotvg-syslv  253:7    0  200G  0 lvm
+#     └─hotvg-hotlv  253:8    0  1.5T  0 lvm
+
+# /dev/nvme0n1p1: UUID="4944-77D7" BLOCK_SIZE="512" TYPE="vfat"
+# PARTUUID="1c9697d2-5fde-4d70-a627-9ddcd18f80d7"
+# /dev/nvme0n1p2: UUID="249e7b19-13dc-47a8-9243-14a56ce61060" TYPE="swap"
+# PARTUUID="51b82d8a-295a-4a65-ae1b-4c52c18d6ddf"
+# /dev/nvme0n1p3: UUID="a247481a-121f-4f03-9c44-744a247f49a8" BLOCK_SIZE="4096"
+# TYPE="ext4" PARTUUID="6fef140d-45ec-46fc-910a-11af34204f8c"
+# /dev/nvme0n1p4: UUID="cfe3773d-f7c0-4524-a425-3188e373dea2" TYPE="crypto_LUKS"
+# PARTLABEL="Linux LVM" PARTUUID="89efba2b-0478-4840-b5c6-c6b8fc6a52ac"
+# /dev/sda: UUID="ed9c5aae-778b-47ea-8a9d-bbd6097d2399" TYPE="crypto_LUKS"
+# /dev/sdb1: UUID="3nGboG-bQcD-GpGQ-t20t-cX5k-U2HZ-llFFYq" TYPE="LVM2_member"
+# PARTLABEL="Linux LVM" PARTUUID="266c4f4d-d758-48dc-b599-6e1e6b9f2708"
+# /dev/mapper/coldvg-coldlv: UUID="d69ed19e-4c8d-4a2b-821a-4a0411184da9"
+# TYPE="crypto_LUKS"
+# /dev/mapper/coldvg-videolv: UUID="9e6fe5c2-d54e-4608-a783-6ccf8770cced"
+# TYPE="crypto_LUKS"
+# /dev/mapper/hotvg-hotlv: UUID="0322f2e3-3b15-4c0a-ab0b-dfc38ec3beae"
+# UUID_SUB="c8e2e5e8-8383-4812-ad70-7d29a68a24fd" BLOCK_SIZE="4096" TYPE="btrfs"
+# /dev/mapper/tmpcrypt: UUID="dMV7Je-dURI-2XJY-xngw-Lpif-p2F4-fG7HmW"
+# TYPE="LVM2_member"
+# /dev/mapper/nasvg-naslv: UUID="88c5a891-a854-4cea-89ac-9c85527515e5"
+# BLOCK_SIZE="4096" TYPE="ext4"
+# /dev/mapper/hotcrypt: UUID="fuzk4N-Ycu9-R8tp-Yl2f-FY0C-At1M-1TtiXY"
+# TYPE="LVM2_member"
+# /dev/mapper/hotvg-syslv: UUID="76540a46-3441-48a4-bdf9-d3a7fae1ead9"
+# BLOCK_SIZE="512" TYPE="xfs"
