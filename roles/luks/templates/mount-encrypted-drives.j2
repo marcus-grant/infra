@@ -10,30 +10,47 @@
 # * The order of all arrays here needs to be preserved
 #   * The order represents an ordered set of originating block devices/volumes
 
+rd='\e[1;31m'   #'0;31' is Red's ANSI color code
+gr='\e[1;32m'   #'0;32' is Green's ANSI color code
+yl='\e[1;33m'   #'1;33' is Yellow's ANSI color code
+bl='\e[1;34m'   #'0;34' is Blue's ANSI color code
+nc='\e[0m'   #'0;30' is no color
+
+set +e # keep executing on errors
+
 echo
 echo "This script will unlock and mount {{ luks_mappings | count }} encrypted mount points."
 echo "These are the mount points:"
 {% for item in luks_mappings %}
-echo "{{ item.mount }}"
+echo -e "${bl}{{ item.mount }}"
 {% endfor %}
-echo
+echo -e "${nc}"; echo
 
 echo "First, unlock sudo access if necessary by entering the password..."
-sudo echo "Unlocked sudo"
+sudo echo -e "${gr}Unlocked sudo!$nc"
 echo
 
 if [[ $# -lt 1 ]]; then
     echo "Next, enter the common passphrase for all these luks containers..."
-    read -sp "Enter the common LUKS passphrase" luksKey
+    printf "${yl}"
+    read -sp "Enter the common LUKS passphrase: " luksKey
 fi
-echo 
+echo -e $nc
+echo
 
 echo "Now, these LUKS mappings will be unlocked and mapped to /dev/mapper/"
 {% for item in luks_mappings | unique('attribute', 'block_id') %}
-echo "blkid: {{ item.block_id }} => /dev/mapper/{{ item.luks_map }}"
+echo -e "${bl}blkid: {{ item.block_id | truncate(13) }}... => /dev/mapper/{{ item.luks_map }}"
 {% endfor%}
-echo 
+echo -e "$nc"
+
 {% for item in luks_mappings | unique('attribute', 'block_id') %}
 echo "Unlocking container mapped to LUKS map {{ item.luks_map }}"
-echo $luksKey | sudo cryptsetup open {{ item.block_id }} {{ item.luks_map }}
+echo $luksKey | sudo cryptsetup open {{ item.block_id }} {{ item.luks_map }} \
+    && echo -e "${gr}Successfully unlocked LUKS container map {{ item.luks_map }}" \
+    || echo -e "${rd}There was a problem unlocking {{ item.luks_map }}"; \
+    echo -e "${yl}Is the device already mounted? Is it a valid volume UUID?";
+echo -e $nc; echo
+
 {% endfor %}
+echo
