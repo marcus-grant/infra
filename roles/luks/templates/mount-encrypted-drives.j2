@@ -30,6 +30,7 @@ echo "First, unlock sudo access if necessary by entering the password..."
 sudo echo -e "${gr}Unlocked sudo!$nc"
 echo
 
+luksKey=$1
 if [[ $# -lt 1 ]]; then
     echo "Next, enter the common passphrase for all these luks containers..."
     printf "${yl}"
