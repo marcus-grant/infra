@@ -49,10 +49,11 @@ And a `blkid` of:
 
 ```sh
 # ... with many irrelevant UUID lines removed
-/dev/nvme0n1p4: UUID="00000000-0000-0000-0000-000000000003" TYPE="crypto_LUKS"
-/dev/sdb1: UUID="0000000000-0000-0000-0000-000000000000b" TYPE="LVM2_member"
-/dev/mapper/coldvg-coldlv: UUID="00000000-0000-0000-0000-000000000001"
-/dev/mapper/coldvg-vidslv: UUID="00000000-0000-0000-0000-000000000002"
+# Below is a LUKS on LVM set of containers, for each logical volume sits a LUKS container
+blkid /dev/coldvg/coldlv # /dev/coldvg/coldlv: UUID="00000000-0000-0000-0000-000000000001" TYPE="crypto_LUKS"
+blkid /dev/coldvg/vidslv #/dev/coldvg/vidslv: UUID="00000000-0000-0000-0000-000000000002" TYPE="crypto_LUKS"
+# Below is a LVM on LUKS crypto_luks container, the volume group sits on top of LUKS here
+blkid /dev/nvme0n1p4 # dev/nvme0n1p4: UUID="00000000-0000-0000-0000-000000000003" TYPE="crypto_LUKS"
 ```
 
 You would create a playbook like this:
@@ -68,6 +69,7 @@ You would create a playbook like this:
             volume: /dev/coldvg/coldlv
             luks_map: crypt-cold
             block_id: 00000000-0000-0000-0000-000000000001
+            # Note because vidslv is mounted inside coldlv, vidsLV NEEDS to be AFTER coldLV in the list
           - mount: /mnt/drv/cold/vids
             mount_opts: defaults,noatime,space_cache=v2
             volume: /dev/coldvg/vidslv
