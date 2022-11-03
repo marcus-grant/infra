@@ -24,6 +24,8 @@ Only one variable is used right now, `luks_mappings`. It is a list of dictionari
 | luks_map   | false    | None     | valid LUKS path  | If present, a LUKS mapped path. Skip unlock if empty |
 | block_id   | true     | None     | UUID of a volume | A partition/block/volume id acquired using `blkid`   |
 
+There will be a lot of lists employed in the rendered scripts. That's why it's important to mount & unlock volumes in the correct order. If given parent directory `/a` and subdirectory `/a/b` then it's important that the `luks_mapping` dictionary for `/a` preceeds the dictionary for `mount` point `/a/b`.
+
 ## Example Playbook
 
 Given an `lsblk` like this:
