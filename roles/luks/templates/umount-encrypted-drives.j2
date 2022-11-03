@@ -10,23 +10,37 @@
 # * The order of all arrays here needs to be preserved
 #   * The order represents an ordered set of originating block devices/volumes
 
+rd='\e[1;31m'   #'0;31' is Red's ANSI color code
+gr='\e[1;32m'   #'0;32' is Green's ANSI color code
+yl='\e[1;33m'   #'1;33' is Yellow's ANSI color code
+bl='\e[1;34m'   #'0;34' is Blue's ANSI color code
+nc='\e[0m'   #'0;30' is no color
+
+set +e # keep executing on errors
+
 echo
 echo "This script will (RE)lock and (UN)mount {{ luks_mappings | count }} encrypted mount points."
 echo "These are the mount points:"
-{% for item in luks_mappings %}
-echo "{{ item.mount }}"
+{% for item in luks_mappings | reverse %}
+echo -e "${bl}{{ item.mount }}${nc}"
 {% endfor %}
 echo
 
-# echo "First, unlock sudo access if necessary by entering the password..."
-# sudo echo "Unlocked sudo!"
-# echo
+echo "First, unlock sudo access if necessary by entering the password..."
+sudo echo -e "${gr}Unlocked sudo!${nc}"
+echo
 
-echo 
 echo "(RE)locking all the LUKS container mappings..."
-{% for item in luks_mappings %}
-echo "(RE)locking container mapped to LUKS map {{ item.block_id }}"
-echo $luksKey | sudo cryptsetup close {{ item.block_id }}
+echo
+
+{% for item in luks_mappings | reverse %}
+echo "(RE)locking container mapped to LUKS map {{ item.luks_map }}"
+echo $luksKey | sudo cryptsetup close {{ item.luks_map }} \
+    && echo -e "${gr}Successfully closed LUKS container mapped to /dev/mapper/{{ item.luks_map }}${nc}" \
+    || echo -e "${rd}ERROR: {{ item.luks_map }} is not a valid or opened LUKS device${nc}"; \
+    echo "Was it already locked? Was it renamed? Was it entered incorrectly in ansible's variables?"; \
+    echo "Skipping..."
+    echo
 {% endfor %}
 
 # echo "Now, these LUKS mappings will be unlocked and mapped to /dev/mapper/"
