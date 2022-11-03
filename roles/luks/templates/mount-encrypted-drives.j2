@@ -46,7 +46,7 @@ echo -e "$nc"
 
 {% for item in luks_mappings | unique('attribute', 'block_id') %}
 echo "Unlocking container mapped to LUKS map {{ item.luks_map }}"
-echo $luksKey | sudo cryptsetup open {{ item.block_id }} {{ item.luks_map }} \
+echo $luksKey | sudo cryptsetup open /dev/disk/by-uuid/{{ item.block_id }} {{ item.luks_map }} \
     && echo -e "${gr}Successfully unlocked LUKS container map {{ item.luks_map }}" \
     || echo -e "${rd}There was a problem unlocking {{ item.luks_map }}"; \
     echo -e "${yl}Is the device already mounted? Is it a valid volume UUID?";
