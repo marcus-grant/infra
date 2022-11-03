@@ -1,0 +1,39 @@
+#!/bin/bash
+
+# A ansible templated script to mount all encrypted drives
+
+# This script makes a few assumptions:
+# * The drives all share the same passphrase
+# * No external security device is used (think TOTP or HOTP or GPG)
+# * All drives are to be mounted in their same respective paths
+# * All drives are to be mounted, not a subset
+# * The order of all arrays here needs to be preserved
+#   * The order represents an ordered set of originating block devices/volumes
+
+echo
+echo "This script will unlock and mount {{ luks_mappings | count }} encrypted mount points."
+echo "These are the mount points:"
+{% for item in luks_mappings %}
+echo "{{ item.mount }}"
+{% endfor %}
+echo
+
+echo "First, unlock sudo access if necessary by entering the password..."
+sudo echo "Unlocked sudo"
+echo
+
+if [[ $# -lt 1 ]]; then
+    echo "Next, enter the common passphrase for all these luks containers..."
+    read -sp "Enter the common LUKS passphrase" luksKey
+fi
+echo 
+
+echo "Now, these LUKS mappings will be unlocked and mapped to /dev/mapper/"
+{% for item in luks_mappings | unique('attribute', 'block_id') %}
+echo "blkid: {{ item.block_id }} => /dev/mapper/{{ item.luks_map }}"
+{% endfor%}
+echo 
+{% for item in luks_mappings | unique('attribute', 'block_id') %}
+echo "Unlocking container mapped to LUKS map {{ item.luks_map }}"
+echo $luksKey | sudo cryptsetup open {{ item.block_id }} {{ item.luks_map }}
+{% endfor %}

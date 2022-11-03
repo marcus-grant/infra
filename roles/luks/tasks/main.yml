@@ -1,0 +1,20 @@
+---
+# - name: Debug luksmappings
+#   ansible.builtin.debug:
+#     var: luks_mappings
+
+- name: Template the script to unlock and mount the LUKS encrypted volumes
+  ansible.builtin.template:
+    src: mount-encrypted-drives.j2
+    dest: /usr/local/bin/mount-encrypted-drives
+    owner: "{{ admin_user }}"
+    group: sudo
+    mode: '0750'
+
+- name: Template the script to relock and unmount the LUKS encrypted volumes
+  ansible.builtin.template:
+    src: umount-encrypted-drives.j2
+    dest: /usr/local/bin/umount-encrypted-drives
+    owner: "{{ admin_user }}"
+    group: sudo
+    mode: '0750'
