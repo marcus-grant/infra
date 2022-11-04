@@ -33,6 +33,24 @@ echo
 echo "(RE)locking all the LUKS container mappings..."
 echo
 
+# UNmount the volumes to their mount paths and options
+#===================================================
+echo "These mount points will be UNmounted:"
+{% for item in luks_mappings | unique('attribute', 'mount') %}
+echo -e "${bl}{{ item.mount }}${nc}"
+{% endfor %}
+echo
+
+_MOUNT_SUCCESS="${gr}Succesfully UNmounted volume!${nc}"
+_MOUNT_FAIL="${rd}ERROR: Something went wrong UNmounting this drive!\n${bl}Skipping...${nc}"
+{% for item in luks_mappings | unique('attribute', 'mount') %}
+echo -e "UNmounting ${bl}{{ item.mount }}${nc}"
+sudo umount {{ item.mount }} && echo -e $_MOUNT_SUCCESS || echo -e $_MOUNT_FAIL
+echo
+
+{% endfor %}
+echo
+
 {% for item in luks_mappings | unique('attribute', 'luks_map') | reverse %}
 echo "(RE)locking container mapped to LUKS map {{ item.luks_map }}"
 _LUKS_SUCCESS_MSG="${gr}Successfully closed LUKS container mapped to /dev/mapper/{{ item.luks_map }}${nc}"
