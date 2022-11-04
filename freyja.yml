@@ -1,7 +1,8 @@
 ---
-- hosts: freyja
+- name: 'Provision the Freyja server, NOTE: Should be done AFTER bootstrapping'
+  hosts: freyja
   gather_facts: true
   become: true
   roles:
     - role: roles/luks
-      tags: [drive,block,luks,hdd,sdd,mount,mnt,nas]
+      tags: [drive, block, luks, hdd, sdd, mount,mnt,nas]
