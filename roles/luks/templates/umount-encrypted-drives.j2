@@ -30,40 +30,34 @@ echo "First, unlock sudo access if necessary by entering the password..."
 sudo echo -e "${gr}Unlocked sudo!${nc}"
 echo
 
-echo "(RE)locking all the LUKS container mappings..."
-echo
-
 # UNmount the volumes to their mount paths and options
 #===================================================
-echo "These mount points will be UNmounted:"
-{% for item in luks_mappings | unique('attribute', 'mount') %}
-echo -e "${bl}{{ item.mount }}${nc}"
-{% endfor %}
-echo
-
 _MOUNT_SUCCESS="${gr}Succesfully UNmounted volume!${nc}"
-_MOUNT_FAIL="${rd}ERROR: Something went wrong UNmounting this drive!\n${bl}Skipping...${nc}"
+_MOUNT_FAIL="${rd}ERROR: "
 {% for item in luks_mappings | unique('attribute', 'mount') %}
 echo -e "UNmounting ${bl}{{ item.mount }}${nc}"
-sudo umount {{ item.mount }} && echo -e $_MOUNT_SUCCESS || echo -e $_MOUNT_FAIL
-echo
+_MOUNT_STAT=$(sudo umount {{ item.mount }} 2>&1)
+if [ $? -eq 0 ]; then echo -e $_MOUNT_SUCCESS; else echo -e "$_MOUNT_FAIL$_MOUNT_STAT$nc"; fi
+echo -e $nc
+# echo -e "UNmounting ${bl}{{ item.mount }}${nc}"
+# sudo umount {{ item.mount }} && echo -e $_MOUNT_SUCCESS || echo -e $_MOUNT_FAIL
+# echo
 
 {% endfor %}
 echo
 
+
+# RElock the LUKS volumes
+#========================
+echo "(RE)locking all the LUKS container volumes..."
+_LUKS_SUCCESS="${gr}Successfully closed LUKS container!${nc}"
+_LUKS_FAIL="${rd}ERROR: "
 {% for item in luks_mappings | unique('attribute', 'luks_map') | reverse %}
-echo "(RE)locking container mapped to LUKS map {{ item.luks_map }}"
-_LUKS_SUCCESS_MSG="${gr}Successfully closed LUKS container mapped to /dev/mapper/{{ item.luks_map }}${nc}"
-_LUKS_FAIL_MSG="${rd}ERROR: {{ item.luks_map }} is not a valid or opened LUKS device\n"
-_LUKS_FAIL_MSG="${_LUKS_FAIL_MSG}${yl}Was it already locked? Was it renamed? Was it entered incorrectly in ansible's variables?"
-_LUKS_FAIL_MSG="${_LUKS_FAIL_MSG}\n${bl}Skipping...${nc}"
-sudo cryptsetup close {{ item.luks_map }} \
-    && echo -e "${_LUKS_SUCCESS_MSG}${nc}" || echo -e "${_LUKS_FAIL_MSG}${nc}"
+{% if item.luks_id is not none %}
+echo -e "RElocking container mapped to LUKS map ${bl}{{ item.luks_map }}${nc}"
+_LUKS_STAT=$(sudo cryptsetup close {{ item.luks_map }} 2>&1)
+if [ $? -eq 0 ]; then echo -e $_LUKS_SUCCESS; else echo -e "$_LUKS_FAIL$_LUKS_STAT$nc"; fi
 echo -e $nc
 
+{% endif %}
 {% endfor %}
-
-# echo "Now, these LUKS mappings will be unlocked and mapped to /dev/mapper/"
-# {% for item in luks_mappings %}
-# echo "blkid: {{ item.luks_id }} => /dev/mapper/{{ item.luks_map }}"
-# {% endfor%}

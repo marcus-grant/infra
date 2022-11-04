@@ -16,11 +16,19 @@ yl='\e[1;33m'   #'1;33' is Yellow's ANSI color code
 bl='\e[1;34m'   #'0;34' is Blue's ANSI color code
 nc='\e[0m'   #'0;30' is no color
 
+# Ternary print with colors on exit code passed as first arg, second arg is message for success, third is fail
+print_success_or_fail () {
+    if [ $1 -eq 0 ]; then
+        echo -e "${gr}$2${nc}"
+    else
+        echo -e "${rd}$3${nc}"
+    fi
+}
+
 set +e # keep executing on errors
 
 echo
-echo "This script will unlock and mount {{ luks_mappings | count }} encrypted mount points."
-echo "These are the mount points:"
+echo "This script will unlock and mount these {{ luks_mappings | count }} encrypted mount points."
 {% for item in luks_mappings %}
 echo -e "${bl}{{ item.mount }}${nc}"
 {% endfor %}
@@ -28,7 +36,6 @@ echo
 
 echo "First, unlock sudo access if necessary by entering the password..."
 sudo echo -e "${gr}Unlocked sudo!${nc}"
-echo
 
 luksKey=$1
 if [[ $# -lt 1 ]]; then
@@ -36,7 +43,15 @@ if [[ $# -lt 1 ]]; then
     printf "${yl}"
     read -sp "Enter the common LUKS passphrase: " luksKey
 fi
-echo -e $nc
+
+echo
+echo "These LUKS mappings will be unlocked and mapped to /dev/mapper/"
+echo "==============================================================="
+{% for item in luks_mappings | unique('attribute', 'luks_id') %}
+{% if item.luks_id is not none %}
+echo -e "${bl}{{ item.luks_id }} => /dev/mapper/{{ item.luks_map }}"
+{% endif %}
+{% endfor %}
 
 # Activate LVM volumes for LUKS on LVM
 # ======================================
@@ -44,10 +59,9 @@ echo "Activating all LVM logical volumes for LUKS on LVM configurations!"
 {% for item in luks_mappings %}
 {% if not item.lvm_on_luks %}
 {% if item.volume_group is not none and item.logical_volume is not none %}
-sudo lvchange -ay {{ item.volume_group }}/{{ item.logical_volume }} \
-    && echo -e "${gr}Successfully activated {{ item.volume_group }}/{{ item.logical_volume }}!${nc}" \
-    || echo -e "${rd}Failed to activate volume {{item.volume_group }}/{{ item.logical_volume }}!${nc}"
-echo
+_VG_LV={{ item.volume_group }}/{{ item.logical_volume }}
+_LV_STAT=$(sudo lvchange -ay $_VG_LV)
+print_success_or_fail $? "Succesfully activated $_VG_LV!" "ERROR: $_LV_STAT"
 
 {% endif %}
 {% endif %}
@@ -56,37 +70,24 @@ echo
 
 # Unlock the LUKS containers
 #===========================
-echo "Now, these LUKS mappings will be unlocked and mapped to /dev/mapper/"
+echo "Unlocking all those LUKS volumes and mapping them to /dev/mapper/"
 {% for item in luks_mappings | unique('attribute', 'luks_id') %}
-{% if item.luks_id is not none %}
-echo -e "${bl}{{ item.luks_id }} => /dev/mapper/{{ item.luks_map }}"
-{% endif %}
-{% endfor %}
-echo -e "$nc"
-
-_LUKS_SUCCESS="${gr}Successfully unlocked LUKS container!${nc}"
-_LUKS_FAIL="${rd}There was a problem unlocking this container!${nc}"
-_LUKS_SUGGEST="${yl}Is the device already mounted?\
-Is the volume UUID valid? Is the passphrase correct?${nc}"
-{% for item in luks_mappings | unique('attribute', 'luks_id') %}
-echo "Unlocking container mapped to LUKS map {{ item.luks_map }}"
-echo $luksKey | sudo cryptsetup open /dev/disk/by-uuid/{{ item.luks_id }} {{ item.luks_map }} \
-    && echo -e ${_LUKS_SUCCESS} || echo -e "${_LUKS_FAIL}\n${_LUKS_SUGGEST}"
-echo -e $nc
+_LUKS_STAT=$(echo $luksKey | sudo cryptsetup open \
+    /dev/disk/by-uuid/{{ item.luks_id }} {{ item.luks_map }} 2>&1)
+print_success_or_fail $? "Succesfully unlocked LUKS volume {{ item.luks_map }} !" \
+    "ERROR: $_LUKS_STAT"
 
 {% endfor %}
-echo
 
 # Activate LVM volumes for LVM on LUKS
 # ======================================
-echo "Activating all LVM logical volumes for LUKS on LVM configurations!"
+echo "Activating all LVM logical volumes for LVM on LUKS configurations!"
 {% for item in luks_mappings %}
 {% if item.lvm_on_luks %}
 {% if item.volume_group is not none and item.logical_volume is not none %}
-sudo lvchange -ay {{ item.volume_group }}/{{ item.logical_volume }} \
-    && echo -e "${gr}Successfully activated {{ item.volume_group }}/{{ item.logical_volume }}!${nc}" \
-    || echo -e "${rd}Failed to activate volume {{item.volume_group }}/{{ item.logical_volume }}!${nc}"
-echo
+_VG_LV={{ item.volume_group }}/{{ item.logical_volume }}
+_LV_STAT=$(sudo lvchange -ay $_VG_LV)
+print_success_or_fail $? "Succesfully activated $_VG_LV!" "ERROR: $_LV_STAT"
 
 {% endif %}
 {% endif %}
@@ -94,20 +95,21 @@ echo
 echo
 
 # Mount the volumes to their mount paths and options
+# TODO make this LVM on LUKS aware
 #===================================================
+echo
 echo "These mount points will be mounted by their respective volumes:"
+echo "==============================================================="
 {% for item in luks_mappings | unique('attribute', 'mount') %}
-echo -e "${bl}{{ item.luks_map }} => {{ item.mount }} ({{ mount_opts | default('defaults') }})${nc}"
+echo -e "${bl}{{ item.luks_map }} => \
+{{ item.mount }} ({{ item.mount_opts | default('defaults') }})${nc}"
 {% endfor %}
-echo
 
-_MOUNT_SUCCESS="${gr}Succesfully mounted volume$!{nc}"
-_MOUNT_FAIL="${rd}ERROR: Something went wrong mounting this drive!\n${bl}Skipping...${nc}"
+echo "Mounting the volumes to their mount paths..."
 {% for item in luks_mappings | unique('attribute', 'mount') %}
-echo -e "Mounting ${bl}{{ item.mount }}${nc} with opts ${bl}{{ item.mount_opts | default('defaults') }}${nc}"
-sudo mount /dev/mapper/{{ item.luks_map }} {{ item.mount }} \
-    -o {{ item.mount_opts | default('defaults') }} && echo -e $_MOUNT_SUCCESS || echo -e $_MOUNT_FAIL
-echo
+_MOUNT_STAT=$(sudo mount /dev/mapper/{{ item.luks_map }} {{ item.mount }} \
+    -o {{ item.mount_opts | default('defaults') }} 2>&1)
+print_success_or_fail $? "Succesfully mounted volume {{ item.mount }} !" "ERROR: $_MOUNT_STAT"
 
 {% endfor %}
 echo
