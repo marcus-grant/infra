@@ -47,5 +47,5 @@ echo -e $nc
 
 # echo "Now, these LUKS mappings will be unlocked and mapped to /dev/mapper/"
 # {% for item in luks_mappings %}
-# echo "blkid: {{ item.block_id }} => /dev/mapper/{{ item.luks_map }}"
+# echo "blkid: {{ item.luks_id }} => /dev/mapper/{{ item.luks_map }}"
 # {% endfor%}

@@ -38,21 +38,39 @@ if [[ $# -lt 1 ]]; then
 fi
 echo -e $nc
 
+# Unlock the LUKS containers
+#===========================
 echo "Now, these LUKS mappings will be unlocked and mapped to /dev/mapper/"
-{% for item in luks_mappings | unique('attribute', 'block_id') %}
-echo -e "${bl}blkid: {{ item.block_id | truncate(13) }}... => /dev/mapper/{{ item.luks_map }}"
+{% for item in luks_mappings | unique('attribute', 'luks_id') %}
+{% if item.luks_id is not none %}
+echo -e "${bl}blkid: {{ item.luks_id | truncate(13) }}... => /dev/mapper/{{ item.luks_map }}"
+{% endif %}
 {% endfor %}
 echo -e "$nc"
 
-{% for item in luks_mappings | unique('attribute', 'block_id') %}
+{% for item in luks_mappings | unique('attribute', 'luks_id') %}
 echo "Unlocking container mapped to LUKS map {{ item.luks_map }}"
-_LUKS_SUCCESS_MSG="${gr}Successfully unlocked LUKS container map {{ item.luks_map }}${nc}"
-_LUKS_FAIL_MSG="${rd}There was a problem unlocking {{ item.luks_map }}"
-_LUKS_FAIL_MSG="${_LUKS_FAIL_MSG}${yl}Is the device already mounted? Is it a valid volume UUID?${nc}"
-echo $luksKey | sudo cryptsetup open /dev/disk/by-uuid/{{ item.block_id }} {{ item.luks_map }} \
-    && echo -e "${_LUKS_SUCCESS_MSG}${nc}" || echo -e "${_LUKS_FAIL_MSG}${nc}"
+echo $luksKey | sudo cryptsetup open /dev/disk/by-uuid/{{ item.luks_id }} {{ item.luks_map }} \
+    && echo -e "${gr}Successfully unlocked LUKS container map {{ item.luks_map }}${nc}" \
+    || echo -e "${rd}There was a problem unlocking {{ item.luks_map }}${yl}\nIs the device already mounted? Is it a valid volume UUID?${nc}"
 echo -e $nc
 
 {% endfor %}
 echo
 
+# # Mount the volumes to their mount paths and options
+# #===================================================
+# _MOUNT_SUCCESS="${gr}Succesfully mounted volume$!{nc}"
+# _MOUNT_FAIL="${rd}ERROR: Something went wrong mounting this drive!\n${bl}Skipping...${nc}"
+# echo "These mount points will be mounted by their respective volumes:"
+# {% for item in luks_mappings | unique('attribute', 'mount') %}
+# echo -e "${bl}{{ item.luks_map }} => {{ item.mount }}${nc}"
+# {% endfor %}
+# echo
+
+# {% for item in luks_mappings | unique('attribute', 'mount') %}
+# echo -e "Mounting ${bl}{{ item.mount }}${nc} with opts ${bl}{{ item.mount_opts }}${nc}..."
+# sudo mount {{ item.luks_map }} {{ item.mount }} -o {{ item.mount_opts }} \
+#     && echo -e $_MOUNT_SUCCESS || echo -e $_MOUNT_FAIL
+# {% endfor %}
+# echo
