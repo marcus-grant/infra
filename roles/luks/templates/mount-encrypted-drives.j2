@@ -38,6 +38,22 @@ if [[ $# -lt 1 ]]; then
 fi
 echo -e $nc
 
+# Activate LVM volumes for LUKS on LVM
+# ======================================
+echo "Activating all LVM logical volumes for LUKS on LVM configurations!"
+{% for item in luks_mappings %}
+{% if not item.lvm_on_luks %}
+{% if item.volume_group is not none and item.logical_volume is not none %}
+sudo lvchange -ay {{ item.volume_group }}/{{ item.logical_volume }} \
+    && echo -e "${gr}Successfully activated {{ item.volume_group }}/{{ item.logical_volume }}!${nc}" \
+    || echo -e "${rd}Failed to activate volume {{item.volume_group }}/{{ item.logical_volume }}!${nc}"
+echo
+
+{% endif %}
+{% endif %}
+{% endfor %}
+echo
+
 # Unlock the LUKS containers
 #===========================
 echo "Now, these LUKS mappings will be unlocked and mapped to /dev/mapper/"
@@ -58,6 +74,22 @@ echo $luksKey | sudo cryptsetup open /dev/disk/by-uuid/{{ item.luks_id }} {{ ite
     && echo -e ${_LUKS_SUCCESS} || echo -e "${_LUKS_FAIL}\n${_LUKS_SUGGEST}"
 echo -e $nc
 
+{% endfor %}
+echo
+
+# Activate LVM volumes for LVM on LUKS
+# ======================================
+echo "Activating all LVM logical volumes for LUKS on LVM configurations!"
+{% for item in luks_mappings %}
+{% if item.lvm_on_luks %}
+{% if item.volume_group is not none and item.logical_volume is not none %}
+sudo lvchange -ay {{ item.volume_group }}/{{ item.logical_volume }} \
+    && echo -e "${gr}Successfully activated {{ item.volume_group }}/{{ item.logical_volume }}!${nc}" \
+    || echo -e "${rd}Failed to activate volume {{item.volume_group }}/{{ item.logical_volume }}!${nc}"
+echo
+
+{% endif %}
+{% endif %}
 {% endfor %}
 echo
 

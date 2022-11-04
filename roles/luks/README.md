@@ -12,17 +12,19 @@ Only that a linux host is being configured, one with LUKS which should ship with
 
 ## Role Variables
 
-Only one variable is used right now, `luks_mappings`. It is a list of dictionaries containing the attributes: `mount`, `mount_opts`, `volume`, `luks_map` and `block_id`. For volume/partition layout schemes, including with LVM it's possible to write a lot of duplicates so long as the `mount` is unique for each dictionary. For example, if `volume` is `/dev/volume-group/logical-volume-a` and for another dictionary it's `/dev/volume-group/logical-volume-b` but they're both inside a `luks_map` mapped to `crypto-map` *(ie /dev/mapper/crypto-map)* then you can have two dictionaries with duplicate `luks_map` attributes but with a common `luks_map` and even `block_id`.
+Only one variable is used right now, `luks_mappings`. It is a list of dictionaries containing the attributes: `mount`, `mount_id`, `mount_opts`, `volume_group`, `logical_volume`, `luks_map`, `luks_id` and `lvm_on_luks`. For volume/partition layout schemes, including with LVM it's possible to write a lot of duplicates so long as the `mount` is unique for each dictionary. For example, if `volume` is `/dev/volume-group/logical-volume-a` and for another dictionary it's `/dev/volume-group/logical-volume-b` but they're both inside a `luks_map` mapped to `crypto-map` *(ie /dev/mapper/crypto-map)*, also known as `lvm_on_luks`, then you can have two dictionaries with duplicate `luks_map` attributes but with a common `luks_map` and even `luks_id`. Note that if the volume is `lvm_on_luks` then you must specify `true` in that dictionary entry.
 
 ### luks_mapping dictionary attributes
 
-| Variable   | Required | Default  | Choices          | Comments                                             |
-| ---------- | -------- | -------- | ---------------- | ---------------------------------------------------- |
-| mount      | false    | None     | valid mount path | Directory to mount to                                |
-| mount_opts | false    | defaults | valid mount opts | Filesystem mount options following `mount -o`        |
-| volume     | false    | None     | valid LVM path   | If present, a path to an LVM logtical volume         |
-| luks_map   | false    | None     | valid LUKS path  | If present, a LUKS mapped path. Skip unlock if empty |
-| block_id   | true     | None     | UUID of a volume | A partition/block/volume id acquired using `blkid`   |
+| Variable       | Required | Default  | Choices             | Comments                                             |
+| -------------- | -------- | -------- | ------------------- | ---------------------------------------------------- |
+| mount          | false    | None     | valid mount path    | Directory to mount to                                |
+| mount_opts     | false    | defaults | valid mount opts    | Filesystem mount options following `mount -o`        |
+| volume_group   | false    | None     | valid LVM vg name   | If present, a LVM volume group name                  |
+| logical_volume | false    | None     | valid LVM lv name   | If present, a LVM logical volume                     |
+| luks_map       | false    | None     | valid LUKS path     | If present, a LUKS mapped path. Skip unlock if empty |
+| luks_id        | false    | None     | UUID of LUKS volume | If present, the UUID of a volume for LUKS to unlock  |
+| lvm_on_luks    | false    | true     | boolean             | Whether mount point is LVM inside LUKS volume        |
 
 There will be a lot of lists employed in the rendered scripts. That's why it's important to mount & unlock volumes in the correct order. If given parent directory `/a` and subdirectory `/a/b` then it's important that the `luks_mapping` dictionary for `/a` preceeds the dictionary for `mount` point `/a/b`.
 
@@ -64,27 +66,21 @@ You would create a playbook like this:
     - name: luks
       vars:
         luks_mappings:
-          - mount: /mnt/drv/cold
+          - mount: /mnt/cold
+            mount_id: SOMEUUID
             mount_opts: defaults,noatime,space_cache=v2,compress=zstd
-            volume: /dev/coldvg/coldlv
+            volume_group: coldvg
+            logical_volume: coldlv
             luks_map: crypt-cold
-            block_id: 00000000-0000-0000-0000-000000000001
-            # Note because vidslv is mounted inside coldlv, vidsLV NEEDS to be AFTER coldLV in the list
-          - mount: /mnt/drv/cold/vids
+            luks_id: SOMEUUID
+            lvm_on_luks: false
+
+          - mount: /mnt/vids
+            mount_id: SOME_UUID
             mount_opts: defaults,noatime,space_cache=v2
-            volume: /dev/coldvg/vidslv
+            volume_group: coldvg
+            logical_volume: vidslv
             luks_map: crypt-vids
-            block_id: 00000000-0000-0000-0000-000000000002
-          - mount: /mnt/drv/hot
-            mount_opts: >-
-              defaults,ssd,noatime,discard,space_cache=v1,compress=zstd
-            volume: /dev/hotvg/hotlv
-            luks_map: crypt-hot
-            block_id: 00000000-0000-0000-0000-000000000003
-          - mount: /mnt/drv/sys
-            mount_opts: defaults,noatime,discard
-            volume: /dev/hotvg/syslv
-            luks_map: crypt-hot
-            block_id: >-  # same block id as hotlv because same luks container
-              00000000-0000-0000-0000-000000000003
+            luks_id: SOME_UUID
+            lvm_on_luks: false
 ```
