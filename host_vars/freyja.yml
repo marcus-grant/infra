@@ -4,32 +4,32 @@
 # https://linuxhint.com/btrfs-filesystem-mount-options/
 # TODO: Refactor the dictionaries, there's no need to specify logical mount_ids
 luks_mappings:
-  - mount: /mnt/drv/cold
+  - mount: /mnt/cold
     mount_id: 7c8ed787-f8d7-483b-a4ec-71771e0df7cf
     mount_opts: defaults,noatime,space_cache=v2,compress=zstd
     luks_map: crypt-cold
     luks_id: d69ed19e-4c8d-4a2b-821a-4a0411184da9
 
-  - mount: /mnt/drv/cold/vids
+  - mount: /mnt/vids
     mount_id: af7b2838-dfd9-4515-a96d-7ef313e99fdf
     mount_opts: defaults,noatime,space_cache=v2
     luks_map: crypt-vids
     luks_id: 9e6fe5c2-d54e-4608-a783-6ccf8770cced
 
-  - mount: /mnt/drv/hot
+  - mount: /mnt/hot
     mount_id: ee8495c3-144a-4645-a169-933d7b2689e0
     mount_opts: >- # space cache v1 for sub 2TB, v2 for more than
-      defaults,ssd,noatime,discard,space_cache=v1,compress=zstd
+      defaults,noatime,ssd,discard,space_cache=v1,compress=zstd
     luks_map: crypt-hot
     luks_id: e4b08bac-2e0b-42f3-aea7-d8e351cc5632
 
-  - mount: /mnt/drv/db
+  - mount: /mnt/db
     mount_id: 5d9363a6-8283-4865-ab9f-06bf57288490
     mount_opts: defaults,noatime,discard  # XFS (no btrfs opts)
     luks_map: crypt-db
     luks_id: 8814ecde-8532-4efe-8c6a-db6fac2f3286
 
-  - mount: /mnt/drv/vm
+  - mount: /mnt/vm
     mount_id: 2957062d-39f5-4dd6-b33d-7ea63f285919
     mount_opts: defaults,noatime,discard  # XFS (no btrfs opts)
     luks_map: crypt-vm
