@@ -1,0 +1,21 @@
+---
+# Dotfiles
+# --------
+### Bash
+bash_set_default_shell: true
+dotfiles_bash_git_force: true
+
+### Vim
+vim_git_force: true
+vim_git_backup: false
+
+### TMux
+tmux_git_force: true
+tmux_git_backup: false
+
+packages_installed:
+  - fail2ban
+  - ncdu
+  - ranger
+  - tree
+  - vim

@@ -1,0 +1,24 @@
+---
+- name: 'Provision hetzner servers, NOTE: Should be done AFTER bootstrapping'
+  hosts: brokkr
+  gather_facts: true
+  become: true
+  pre_tasks:
+    - name: Remove PasswordAuthentication from sshd_config
+      become: true
+      ansible.builtin.replace:
+        path: /etc/ssh/sshd_config
+        regexp: 'PasswordAuthentication\ yes'
+        replace: 'PasswordAuthentication no'
+      tags: [init, ssh, security]
+    - name: Install initial packages in packages_installed
+      ansible.builtin.apt:
+        update_cache: true
+        cache_valid_time: 3600
+        state: present
+        name: "{{ item }}"
+      loop: "{{ packages_installed }}"
+
+  # roles:
+  #   - role: ssh_hardening
+  #     tags: [ssh, security, init]
