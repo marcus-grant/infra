@@ -62,19 +62,9 @@ write_files:
       AcceptEnv LANG LC_*
       Subsystem sftp /usr/lib/openssh/sftp-server
       UsePAM yes
-      MaxAuthTries 3
+      MaxAuthTries 10
       AllowAgentForwarding no
       AllowUsers marcus
-  - path: /etc/fail2ban/jail.local
-    content: |
-      [sshd]
-      enabled = true
-      port = 48512
-      banaction = iptables-multiport
-      logpath = /var/log/secure
-      maxretry = 5
-      bantime = 600
-
 
 runcmd:
   - sed -i 's/#PasswordAuthentication yes/PasswordAuthentication no/' /etc/ssh/sshd_config
