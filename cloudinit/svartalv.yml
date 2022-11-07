@@ -1,0 +1,89 @@
+#cloud-config
+version: v1
+packages_update: true
+packages_upgrade: true
+packages:
+  - ansible
+  - git
+  - fail2ban
+  - ufw
+
+manage-resolv-conf: true
+resolv_conf:
+  name_servers:
+    - '1.1.1.1'
+    - '8.8.8.8'
+    - '8.8.4.4'
+
+groups: [sudo, root, marcus, docker, podman, store, db]
+
+users:
+  - name: marcus
+    groups: [marcus, sudo, docker, podman, store, db]
+    shell: /bin/bash
+    primary_group: marcus
+    sudo: ['ALL=(ALL) NOPASSWD:ALL']
+    ssh-authorized-keys:
+      - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFt7pGSIEPf1ZRz55wDXt6jO3BOJwe3MqdiWYXy63fFq Skeleton Key|marcusfg@protonmail.com
+      - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMzBwA0Wqe3Iwp1fgLIog0qasS8rtQ7lMH1H1GDj3QVY marcus@odin
+
+write_files:
+  - path: /etc/ssh/sshd_config
+    content: |
+      Port 48512
+      Protocol 2
+      HostKey /etc/ssh/ssh_host_rsa_key
+      HostKey /etc/ssh/ssh_host_dsa_key
+      HostKey /etc/ssh/ssh_host_ecdsa_key
+      HostKey /etc/ssh/ssh_host_ed25519_key
+      UsePrivilegeSeparation yes
+      KeyRegenerationInterval 3600
+      ServerKeyBits 1024
+      SyslogFacility AUTH
+      LogLevel INFO
+      LoginGraceTime 120
+      PermitRootLogin no
+      PermitEmptyPasswords no
+      PermitUserEnvironment yes
+      PasswordAuthentication no
+      StrictModes yes
+      DebianBanner no
+      RSAAuthentication yes
+      PubkeyAuthentication yes
+      IgnoreRhosts yes
+      RhostsRSAAuthentication no
+      HostbasedAuthentication no
+      ChallengeResponseAuthentication no
+      X11Forwarding no
+      X11DisplayOffset 10
+      PrintMotd no
+      PrintLastLog yes
+      TCPKeepAlive yes
+      AcceptEnv LANG LC_*
+      Subsystem sftp /usr/lib/openssh/sftp-server
+      UsePAM yes
+      MaxAuthTries 3
+      AllowAgentForwarding no
+      AllowUsers marcus
+  - path: /etc/fail2ban/jail.local
+    content: |
+      [sshd]
+      enabled = true
+      port = 48512
+      banaction = iptables-multiport
+      logpath = /var/log/secure
+      maxretry = 5
+      bantime = 600
+
+
+runcmd:
+  - sed -i 's/#PasswordAuthentication yes/PasswordAuthentication no/' /etc/ssh/sshd_config
+  - systemctl restart sshd
+  - ufw default deny incoming
+  - ufw default allow outgoing
+  - ufw allow 80  # http
+  - ufw allow 443  # https
+  - ufw allow 48512/tcp  # host ssh port
+  - ufw allow 48513/tcp  # gitea ssh port
+  - ufw allow 48256/tcp  # wireguard port
+  - ufw enable
