@@ -1,10 +1,12 @@
 ---
 roles:
-  - geerlingguy.docker
-  - name: elliotweiser.osx-command-line-tools
-    type: git
+  - name: geerlingguy.docker
+  # - name: elliotweiser.osx-command-line-tools
+  #   type: git
+  - name: robertdebock.fail2ban
 collections:
   - name: community.general
   - name: https://github.com/marcus-grant/ansible-collection-dotfiles
     type: git
   - name: geerlingguy.mac
+  - name: devsec.hardening
