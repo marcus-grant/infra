@@ -1,4 +1,8 @@
 ---
+fail2ban_loglevel: 'INFO'  # default
+fail2ban_logtarget: /var/log/fail2ban.log  # /var/log/fail2ban.log (default)
+fail2ban_ignoreip: [127.0.0.1/8]  # loopback is default
+
 # Dotfiles
 # --------
 ### Bash

@@ -11,6 +11,14 @@
         regexp: 'PasswordAuthentication\ yes'
         replace: 'PasswordAuthentication no'
       tags: [init, ssh, security]
+      register: sshd_config_result
+    # TODO make handler
+    - name: Restart sshd 
+      ansible.builtin.service:
+        name: sshd
+        state: restarted
+      when: sshd_config_result.changed
+      tags: [skip_ansible_lint]
     - name: Install initial packages in packages_installed
       ansible.builtin.apt:
         update_cache: true
@@ -18,7 +26,7 @@
         state: present
         name: "{{ item }}"
       loop: "{{ packages_installed }}"
-
-  # roles:
-  #   - role: ssh_hardening
-  #     tags: [ssh, security, init]
+      tags: [init, apt, pkgs, packages]
+  roles:
+    - role: roles/fail2ban
+      tags: [init, security, fail2ban]
