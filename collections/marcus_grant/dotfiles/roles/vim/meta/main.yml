@@ -1,3 +1,4 @@
+---
 galaxy_info:
   author: Marcus Grant
   description: Installs and configures vim by cloning a dotfile repository and linking it.
@@ -29,10 +30,10 @@ galaxy_info:
   # https://galaxy.ansible.com/api/v1/platforms/
   #
   platforms:
-  - name: Debian
-    versions:
-      - 11
-      - 10
+    - name: Debian
+      versions:
+        - 11
+        - 10
   # - name: SomePlatform
   #   versions:
   #   - all

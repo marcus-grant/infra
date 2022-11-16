@@ -5,6 +5,7 @@ rules:
   indentation:
     spaces: 2
     indent-sequences: true
+  line-length: disable
 
 
 ignore: |

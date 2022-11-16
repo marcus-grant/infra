@@ -1,5 +1,5 @@
 ---
-- name: 'Provision the Freyja server, NOTE: Should be done AFTER bootstrapping'
+- name: 'Provision the Freyja server, (NOTE) Should be done AFTER bootstrapping'
   hosts: freyja
   gather_facts: true
   become: true

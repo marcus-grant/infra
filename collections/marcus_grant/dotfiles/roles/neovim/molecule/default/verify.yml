@@ -6,13 +6,12 @@
   tasks:
 
   - name: Check installed packages ansible fact
-    ansible.builtin.package_facts: manager=auto
+    ansible.builtin.package_facts:
+      manager: auto
 
   # - name: Assert neovim is installed
   #   ansible.builtin.assert:
   #     that: ansible_facts.packages['neovim']
-
-  - name: Check 
 
   - name: Register stat module for default nvim_config_dir at /root/.config/nvim
     ansible.builtin.stat:
@@ -34,7 +33,7 @@
         'git@github.com:marcus-grant/dots-neovim4' in shell_git_remote.stdout or
         'https://github.com/marcus-grant/dots-neovim4' in shell_git_remote.stdout
   #
-  # # - name: Register parent directory of zsh git repo for its contents 
+  # # - name: Register parent directory of zsh git repo for its contents
   # #   ansible.builtin.command:
   # #     cmd: "ls -a"
   # #     chdir: /root/.config
@@ -61,7 +60,7 @@
   # - name: Assert that all the expected zsh files are linked to the dotfiles
   #   ansible.builtin.assert:
   #     that:
-  #       - item.stat.islnk is defined 
+  #       - item.stat.islnk is defined
   #       - item.stat.lnk_target is defined
   #       - item.stat.lnk_target == item.dest
   #   loop:
