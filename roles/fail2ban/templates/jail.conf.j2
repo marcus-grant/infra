@@ -1,9 +1,0 @@
----
-# {{ ansible_managed }}
-
-[DEFAULT]
-ignoreip = {{ fail2ban_ignoreip | join(' ') }}
-bantime = {{ fail2ban_bantime }}
-maxretry = {{ fail2ban_maxretry }}
-backend = {{ fail2ban_backend }}
-

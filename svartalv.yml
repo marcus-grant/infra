@@ -27,6 +27,7 @@
         name: "{{ item }}"
       loop: "{{ packages_installed }}"
       tags: [init, apt, pkgs, packages]
+
   roles:
     - role: roles/fail2ban
       tags: [init, security, fail2ban]

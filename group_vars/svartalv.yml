@@ -1,22 +1,36 @@
 ---
-fail2ban_loglevel: 'INFO'  # default
-fail2ban_logtarget: /var/log/fail2ban.log  # /var/log/fail2ban.log (default)
-fail2ban_ignoreip: [127.0.0.1/8]  # loopback is default
+# Monitoring
+## Fail2ban
+fail2ban_loglevel: 3  # Default 3, number (1=ERROR,2=WARN,3=INFO,4=DEBUG)
+fail2ban_ignoreips:  # List of str default [127.0.0.1/8]
+  - 127.0.0.1/8
+fail2ban_bantime: 300  # Default 600
+fail2ban_maxretry: 5  # Default 3 max # retries before jailed
+fail2ban_findtime: 300  # Default 600, time to maxretries before timer reset
+fail2ban_sender: 'brokkr@svartalv.net'  # Sender email for announcements
+fail2ban_services:
+  - name: sshd
+    enabled: true
+    port: "{{ ssh_target_port }}"
+    maxretry: 4
+    bantime: 400
+    findtime: 400
+
 
 # Dotfiles
-# --------
-### Bash
+## Bash
 bash_set_default_shell: true
 dotfiles_bash_git_force: true
 
-### Vim
+## Vim
 vim_git_force: true
 vim_git_backup: false
 
-### TMux
+## TMux
 tmux_git_force: true
 tmux_git_backup: false
 
+# Packages
 packages_installed:
   - fail2ban
   - ncdu
