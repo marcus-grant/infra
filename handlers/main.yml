@@ -1,0 +1,10 @@
+---
+- name: Restart sshd 
+  ansible.builtin.service:
+    name: sshd
+    state: restarted
+
+# - name: Restart postgres
+#   ansible.builtin.service:
+#     name: 
+
