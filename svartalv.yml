@@ -4,6 +4,11 @@
   gather_facts: true
   become: true
   pre_tasks:
+    - name: Change root password
+      ansible.builtin.user:
+        name: root
+        update_password: always
+        password: "{{ root_password | password_hash('sha512') }}"
     - name: Remove PasswordAuthentication from sshd_config
       become: true
       ansible.builtin.replace:
