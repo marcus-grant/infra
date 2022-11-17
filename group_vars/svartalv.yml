@@ -11,7 +11,7 @@ fail2ban_sender: 'brokkr@svartalv.net'  # Sender email for announcements
 fail2ban_services:
   - name: sshd
     enabled: true
-    port: "{{ ssh_target_port }}"
+    port: "{{ ssh_target_port }}"  # Secret hidden in out of tree inventory
     maxretry: 4
     bantime: 400
     findtime: 400
