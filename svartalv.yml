@@ -33,3 +33,5 @@
       tags: [init, security, fail2ban]
     - role: geerlingguy.postgresql
       tags: [db, postgres, psql, database, postgresql]
+    - role: geerlingguy.mysql
+      tags: [db, mysql, mariadb]

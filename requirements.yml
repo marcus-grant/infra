@@ -2,6 +2,7 @@
 roles:
   - name: geerlingguy.docker
   - name: geerlingguy.postgresql
+  - name: geerlingguy.mysql
   # - name: elliotweiser.osx-command-line-tools
   #   type: git
   # - name: robertdebock.fail2ban

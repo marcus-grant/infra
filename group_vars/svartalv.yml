@@ -39,6 +39,16 @@ postgresql_hba_entries:  # variable's defaults reflect the defaults that come wi
   - {type: host, database: all, user: all, address: '127.0.0.1/32', auth_method: "{{ postgresql_auth_method }}"}
   - {type: host, database: all, user: all, address: '::1/128', auth_method: "{{ postgresql_auth_method }}"}
 
+## MariaDB/MySQL
+mysql_user_home: /root
+mysql_user_name: root
+mysql_user_password: "{{ vault_postgres_root_password }}"
+mysql_enabled_on_startup: true
+mysql_users:
+  - name: "{{ admin_user }}"
+    password: "{{ ansible_become_password }}"
+    state: present
+
 
 # Dotfiles
 ## Bash

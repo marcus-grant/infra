@@ -1,0 +1,6 @@
+---
+postgres_pkg_names:
+  Debian:
+    - postgresql
+    - postgresql-contrib
+    - python3-psycopg2
