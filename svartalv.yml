@@ -31,3 +31,5 @@
   roles:
     - role: roles/fail2ban
       tags: [init, security, fail2ban]
+    - role: geerlingguy.postgresql
+      tags: [db, postgres, psql, database, postgresql]

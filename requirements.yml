@@ -1,11 +1,13 @@
 ---
 roles:
   - name: geerlingguy.docker
+  - name: geerlingguy.postgresql
   # - name: elliotweiser.osx-command-line-tools
   #   type: git
-  - name: robertdebock.fail2ban
+  # - name: robertdebock.fail2ban
 collections:
   - name: community.general
+  - name: community.postgresql
   - name: https://github.com/marcus-grant/ansible-collection-dotfiles
     type: git
   - name: geerlingguy.mac

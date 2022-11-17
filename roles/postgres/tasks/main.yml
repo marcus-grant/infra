@@ -1,0 +1,44 @@
+---
+- name: Install postgres and its dependencies
+  ansible.builtin.package:
+    name: "{{ item }}"
+    state: present
+  loop: >
+    {{ postgres_pkg_names[ansible_os_family] | default('[postgresql]') }}
+
+- name: Install any optional postgresql dependencies
+  ansible.builtin.package:
+    name: "{{ item }}"
+    state: present
+  loop: "{{ postgres_optional_dependencies | list }}"
+  when:
+    - postgres_optional_dependencies is defined
+    - postgres_optional_dependencies | length > 0
+
+- name: "Find out if PostgreSQL is initialized"
+  ansible.builtin.stat:
+    path: "/var/lib/pgsql/data/pg_hba.conf"
+  register: postgres_exists_stat
+
+- name: Debug postgres_current_stat
+  ansible.builtin.debug:
+    var: postgres_exists_stat
+  tags: [never, debug]
+
+# TODO: Add "never" tag to restore task and import one of several restore tasks
+# This includes one to restore using restic
+# never tags only get run when one of the other tags included are used in --tags
+
+- name: Create postgres user
+  ansible.builtin.user:
+    name: postgres
+    password: "{{ postgres_hashed_root_password }}"
+
+# Create user with a cleartext password if it does not exist or update its password.
+# The password will be encrypted with SCRAM algorithm (available since PostgreSQL 10)
+# - name: Create appclient user with SCRAM-hashed password
+#   community.postgresql.postgresql_user:
+#     name: appclient
+#     password: "secret123"
+#   environment:
+#     PGOPTIONS: "-c password_encryption=scram-sha-256"
