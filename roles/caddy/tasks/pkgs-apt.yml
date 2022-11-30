@@ -1,0 +1,17 @@
+---
+- name: Update apt cache
+  ansible.builtin.apt:
+    update_cache: true
+    cache_valid_time: 3600  # 1hr
+
+# Required because it provides the /bin/kill binary used in service file
+- name: Install procps
+  ansible.builtin.apt:
+    name: procps
+    state: present
+
+- name: Install libcap
+  ansible.builtin.apt:
+    name: libcap2-bin
+    state: present
+  when: caddy_setcap

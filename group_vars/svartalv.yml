@@ -49,6 +49,9 @@ mysql_users:
     password: "{{ ansible_become_password }}"
     state: present
 
+# Networking
+## Caddy
+caddy_github_token: vault_github_token
 
 # Dotfiles
 ## Bash
