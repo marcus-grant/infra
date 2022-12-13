@@ -2,23 +2,25 @@
 
 <!-- toc -->
 
-- [Caddy Ansible Role](#caddy-ansible-role)
-  - [Dependencies](#dependencies)
-  - [Role Variables](#role-variables)
-    - [The Caddyfile](#the-caddyfile)
-    - [Whether to template the Caddyfile on each run](#whether-to-template-the-caddyfile-on-each-run)
-    - [The OS to download caddy for](#the-os-to-download-caddy-for)
-    - [Auto update Caddy?](#auto-update-caddy)
-    - [Additional Available Packages](#additional-available-packages)
-    - [Use `setcap`?](#use-setcap)
-    - [Use systemd capabilities controls](#use-systemd-capabilities-controls)
-    - [Add additional environment variables or files](#add-additional-environment-variables-or-files)
-    - [Use additional CLI arguments](#use-additional-cli-arguments)
-    - [Use a GitHub OAuth token to request the list of caddy releases](#use-a-github-oauth-token-to-request-the-list-of-caddy-releases)
-  - [Example Playbooks](#example-playbooks)
-  - [Developing](#developing)
-  - [Debugging](#debugging)
-  - [Contributing](#contributing)
+* [Caddy Ansible Role](#caddy-ansible-role)
+  * [Dependencies](#dependencies)
+  * [Role Variables](#role-variables)
+    * [The Caddyfile](#the-caddyfile)
+    * [Whether to template the Caddyfile on each run](#whether-to-template-the-caddyfile-on-each-run)
+    * [The OS to download caddy for](#the-os-to-download-caddy-for)
+    * [Auto update Caddy?](#auto-update-caddy)
+    * [Additional Available Packages](#additional-available-packages)
+    * [Use `setcap`?](#use-setcap)
+    * [Use systemd capabilities controls](#use-systemd-capabilities-controls)
+    * [Add Users to Caddy Group](#add-users-to-caddy-group)
+    * [Create custom sites-availble snippets/import files](#create-custom-sites-availble-snippetsimport-files)
+    * [Add additional environment variables or files](#add-additional-environment-variables-or-files)
+    * [Use additional CLI arguments](#use-additional-cli-arguments)
+    * [Use a GitHub OAuth token to request the list of caddy releases](#use-a-github-oauth-token-to-request-the-list-of-caddy-releases)
+  * [Example Playbooks](#example-playbooks)
+  * [Developing](#developing)
+  * [Debugging](#debugging)
+  * [Contributing](#contributing)
 
 <!-- tocstop -->
 
@@ -115,6 +117,54 @@ Supported:
 - Ubuntu 16.04 (xenial)
 
 RHEL/CentOS has no release that supports systemd capability controls at this time.
+
+### Add Users to Caddy Group
+
+The files/directories/binaries used by caddy are created using the `caddy_user` and
+the automatic group created for it.
+To have other users in this group
+set the list in `caddy_users_in_group` to those usernames.
+This is not defined by default.
+
+```yaml
+caddy_users_in_group: ['karen', 'bob']
+```
+
+### Create custom sites-availble snippets/import files
+
+Like apache and nginx, this ansible role can create
+`sites-available/*` & `sites-enabled` directories in directory `caddy_conf_dir`.
+The `sites-availble` directory holds all possible Caddy files/snippets to import.
+However, Caddy can be configured to import only the ones in `sites-enabled`, which
+will contain symlinks to files in `sites-available` to enable those sites.
+
+To enable this role to manage individual site files like this,
+`caddy_create_sites` must be enabled with a `true`, by default it isn't.
+Then you must create assign a list of dictionaries to variable `caddy_sites`
+of the format shown below.
+
+```yaml
+caddy_sites:
+  - file: api.example.com
+    enabled: true
+    config: |
+    http://api.example.com {
+      redir @http https://{host}{uri}
+    }
+    https://api.example.com {
+      reverse_proxy localhost:1234
+      tls {
+        dns cloudflare "{{ caddy_cloudflare_token }}"
+      }
+    }
+```
+
+And as a bonus builtin snippet file `caddy_cloudflare_tls_snip`,
+when enabled with a `true`,
+will template a Caddy snippet of name `cloudflare-tls` that
+any other site file or snippet can reference.
+Just define variable `caddy_cloudflare_token` with the API token with
+permissions to edit the site(s) in question.
 
 ### Add additional environment variables or files
 

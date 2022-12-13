@@ -1,0 +1,48 @@
+---
+# Template all the caddyfiles to go into sites-available
+- name: 'Add sites directories for importing sub routes'
+  ansible.builtin.file:
+    path: "{{ caddy_conf_dir }}/{{ item }}"
+    state: directory
+    owner: "{{ caddy_user }}"
+    group: "{{ caddy_user_details.group }}"
+    mode: 0770
+  loop: ['sites-available', 'sites-enabled']
+  when: caddy_create_sites
+
+- name: Debug cloudflare vault token
+  ansible.builtin.debug:
+    var: caddy_cloudflare_token
+
+- name: Template cloudflare-tls snippet
+  ansible.builtin.template:
+    src: cloudflare-tls.Caddyfile.j2
+    dest: "{{ caddy_conf_dir }}/sites-enabled/cloudflare-tls.Caddyfile"
+    owner: "{{ caddy_user }}"
+    group: "{{ caddy_user_details.group }}"
+    mode: 0770
+  when: caddy_cloudflare_token is defined
+
+- name: Template reverse proxy routes in cloudflare_conf_dir/sites-available
+  ansible.builtin.template:
+    src: reverse-proxy.Caddyfile.j2
+    dest: "{{ caddy_conf_dir }}/sites-available/{{ item.site }}.Caddyfile"
+    owner: "{{ caddy_user }}"
+    group: "{{ caddy_user_details.group }}"
+    mode: 0770
+  loop: caddy_sites
+  when:
+    - caddy_sites is defined
+    - caddy_sites | length > 0
+
+- name: Symlink enabled reverse proxy config files to sites-enabled directory
+  ansible.builtin.file:
+    src: "{{ caddy_conf_dir }}/sites-available/{{ item.file }}"
+    dest: "{{ caddy_conf_dir }}/sites-enabled/{{ item.file }}"
+    owner: "{{ caddy_user }}"
+    group: "{{ caddy_user_details.group }}"
+    mode: 0770
+  loop: caddy_sites | selectattr("enabled", true)
+  when:
+    - caddy_sites is defined
+    - caddy_sites | length > 0

@@ -13,6 +13,17 @@
     home: "{{ caddy_home }}"
   register: caddy_user_details
 
+# FIXME: Doesn't add user to group, and task reports a change
+# - name: Add other users to caddy group
+#   ansible.builtin.user:
+#     name: "{{ item }}"
+#     groups: ["{{ caddy_user_details.group }}"]
+#     append: true
+#   loop: "{{ caddy_users_in_group }}"
+#   when:
+#     - caddy_users_in_group is defined
+#     - caddy_users_in_group | length > 0
+
 - name: Build headers to use when making requests to github
   ansible.builtin.set_fact:
     caddy_github_headers: >
@@ -97,6 +108,7 @@
     path: "{{ item }}"
     state: directory
     owner: "{{ caddy_user }}"
+    group: "{{ caddy_user_details.group }}"
     mode: 0770
   with_items:
     - "{{ caddy_conf_dir }}"
@@ -124,6 +136,9 @@
     - caddy_config_update or not caddy_config_stat.stat.exists
   notify:
     - Reload caddy
+
+- name: Template Caddy site/snippet configuration files
+  ansible.builtin.include_tasks: template-sites.yml
 
 - name: Template systemd service
   ansible.builtin.template:
