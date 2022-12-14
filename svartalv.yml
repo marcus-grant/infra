@@ -35,7 +35,6 @@
         name: "{{ item }}"
       loop: "{{ packages_installed }}"
       tags: [init, apt, pkgs, packages]
-
   roles:
     - role: roles/fail2ban
       tags: [init, security, fail2ban]
@@ -45,5 +44,5 @@
       tags: [db, mysql, mariadb]
     - role: roles/caddy
       tags: [caddy,web,server,service,proxy,selfhost]
-    - role: roles/podman
+    - role: roles/podman/podman-init
       tags: [podman,server,service,container,selfhost]

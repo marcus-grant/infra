@@ -5,9 +5,10 @@
     name: podman
     state: present
 
-- name: Ensure group 'podman' exists
+- name: Ensure group named group for pods or containers exists
   ansible.builtin.group:
-    name: podman
+    name: "{{ podman_group }}"
+    gid: "{{ podman_gid }}"
     state: present
 
 - name: Add any additional groups for podman
@@ -18,3 +19,13 @@
   when:
     - podman_extra_groups is defined
     - podman_extra_groups | length > 0
+
+- name: Add extra users to default general group for all containers
+  ansible.builtin.user:
+    name: "{{ item }}"
+    groups: "{{ podman_group }}"
+    append: true
+  loop: "{{ podman_group_users }}"
+  when:
+    - podman_group_users is defined
+    - podman_group_users | length > 0
