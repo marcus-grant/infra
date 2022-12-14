@@ -135,7 +135,7 @@
   when:
     - caddy_config_update or not caddy_config_stat.stat.exists
   notify:
-    - Reload caddy
+    - Restart caddy
 
 - name: Template Caddy site/snippet configuration files
   ansible.builtin.include_tasks: template-sites.yml
@@ -148,7 +148,7 @@
     group: root
     mode: 0644
   notify:
-    - Restart caddy
+    - Reload caddy
 
 - name: Set capability on the binary file to be able to bind to TCP port <1024
   community.general.capabilities:
