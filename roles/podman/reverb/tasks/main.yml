@@ -11,3 +11,20 @@
     recurse: true
     path: "/home/reverb"
     group: "{{ podman_group }}"
+
+- name: Git checkout reverb (main) to reverb home
+  ansible.builtin.git:
+    repo: https://github.com/marcus-grant/reverb
+    dest: /home/reverb/repo
+    force: "{{ reverb_git_force }}"
+    update: "{{ reverb_git_update }}"
+    version: main
+
+- name: Chown and ghgrp the reverb repo for reverb user & containers group
+  ansible.builtin.file:
+    state: directory
+    path: /home/reverb/repo
+    recurse: true
+    owner: reverb
+    group: "{{ podman_group }}"
+    mode: 0770
