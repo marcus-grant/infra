@@ -1,0 +1,6 @@
+---
+# Podman install/config role roles/podman/tasks/main.yml
+- name: Ensure podman installed
+  ansible.builtin.package:
+    name: podman
+    state: present
