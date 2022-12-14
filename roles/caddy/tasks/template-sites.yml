@@ -13,6 +13,7 @@
 - name: Debug cloudflare vault token
   ansible.builtin.debug:
     var: caddy_cloudflare_token
+  tags: [never, debug]
 
 - name: Template cloudflare-tls snippet
   ansible.builtin.template:
@@ -23,26 +24,38 @@
     mode: 0770
   when: caddy_cloudflare_token is defined
 
-- name: Template reverse proxy routes in cloudflare_conf_dir/sites-available
+- name: Template reverse proxy routes in caddy_conf_dir/sites-available
   ansible.builtin.template:
     src: reverse-proxy.Caddyfile.j2
-    dest: "{{ caddy_conf_dir }}/sites-available/{{ item.site }}.Caddyfile"
+    dest: "{{ caddy_conf_dir }}/sites-available/{{ item.file }}.Caddyfile"
     owner: "{{ caddy_user }}"
     group: "{{ caddy_user_details.group }}"
     mode: 0770
-  loop: caddy_sites
+  loop: "{{ caddy_sites }}"
+  notify: Restart caddy
   when:
     - caddy_sites is defined
     - caddy_sites | length > 0
 
 - name: Symlink enabled reverse proxy config files to sites-enabled directory
   ansible.builtin.file:
-    src: "{{ caddy_conf_dir }}/sites-available/{{ item.file }}"
-    dest: "{{ caddy_conf_dir }}/sites-enabled/{{ item.file }}"
+    state: link
+    src: "{{ caddy_conf_dir }}/sites-available/{{ item.file }}.Caddyfile"
+    dest: "{{ caddy_conf_dir }}/sites-enabled/{{ item.file }}.Caddyfile"
     owner: "{{ caddy_user }}"
     group: "{{ caddy_user_details.group }}"
     mode: 0770
-  loop: caddy_sites | selectattr("enabled", true)
+  loop: "{{ caddy_sites | selectattr('enabled') }}"
+  when:
+    - caddy_sites is defined
+    - caddy_sites | length > 0
+
+# TODO: Get the selectattr to work with false and undefined values
+- name: Unlink UNenabled reverse proxy config files in sites-enabled directory
+  ansible.builtin.file:
+    state: absent
+    path: "{{ caddy_conf_dir }}/sites-enabled/{{ item.file }}"
+  loop: "{{ caddy_sites | selectattr('enabled', 'equalto', 'false') }}"
   when:
     - caddy_sites is defined
     - caddy_sites | length > 0
