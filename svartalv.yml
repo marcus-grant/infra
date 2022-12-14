@@ -46,3 +46,5 @@
       tags: [caddy,web,server,service,proxy,selfhost]
     - role: roles/podman/podman-init
       tags: [podman,server,service,container,selfhost]
+    - role: roles/podman/reverb
+      tags: [podman,server,service,container,selfhost,reverb,ip,echo]

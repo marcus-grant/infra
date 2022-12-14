@@ -1,0 +1,13 @@
+---
+# Main tasks file for role/podman/reverb
+- name: Ensure reverb user exists with home and group
+  ansible.builtin.user:
+    name: reverb
+    uid: "{{ reverb_uid | default(omit) }}"
+
+- name: Ensure the podman general group (default containers) has ownership of home
+  ansible.builtin.file:
+    state: directory
+    recurse: true
+    path: "/home/reverb"
+    group: "{{ podman_group }}"
