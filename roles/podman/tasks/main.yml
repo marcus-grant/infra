@@ -4,3 +4,17 @@
   ansible.builtin.package:
     name: podman
     state: present
+
+- name: Ensure group 'podman' exists
+  ansible.builtin.group:
+    name: podman
+    state: present
+
+- name: Add any additional groups for podman
+  ansible.builtin.group:
+    name: "{{ item }}"
+    state: present
+  loop: "{{ podman_extra_groups }}"
+  when:
+    - podman_extra_groups is defined
+    - podman_extra_groups | length > 0

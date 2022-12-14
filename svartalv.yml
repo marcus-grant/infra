@@ -44,4 +44,6 @@
     - role: geerlingguy.mysql
       tags: [db, mysql, mariadb]
     - role: roles/caddy
-      tags: [caddy,web,server,service,proxy]
+      tags: [caddy,web,server,service,proxy,selfhost]
+    - role: roles/podman
+      tags: [podman,server,service,container,selfhost]
