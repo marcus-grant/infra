@@ -1,4 +1,12 @@
 ---
+## Podman
+podman_group: containers
+podman_gid: 10000
+podman_group_users: ["{{ admin_user }}"]
+# Reverb
+reverb_uid: 10010
+reverb_gid: 10010
+
 ## Caddy
 caddy_github_token: vault_github_token
 caddy_create_site_dirs: true
