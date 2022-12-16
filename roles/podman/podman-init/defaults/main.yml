@@ -1,3 +1,6 @@
 ---
 podman_group: containers
 podman_gid: 10000
+podman_install_compose: false
+# podman_registries: ["'quay.io'", "'docker.io'"]
+podman_registires: ["'docker.io'"]

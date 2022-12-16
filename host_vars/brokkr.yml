@@ -3,6 +3,9 @@
 podman_group: containers
 podman_gid: 10000
 podman_group_users: ["{{ admin_user }}"]
+podman_install_compose: true
+podman_registries: ["'docker.io'"]  # must have single quote around registry
+
 # Reverb
 reverb_uid: 10010
 reverb_gid: 10010

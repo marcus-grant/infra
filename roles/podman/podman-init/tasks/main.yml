@@ -5,6 +5,34 @@
     name: podman
     state: present
 
+- name: Ensure podman dependencies are installed
+  ansible.builtin.package:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - uidmap
+  when: ansible_os_family == 'Debian'
+
+- name: Ensure podman-compose installed
+  ansible.builtin.pip:
+    name: podman-compose
+    state: present
+  when: podman_install_compose
+
+# TODO: This can cause problems when registries changes
+# It will recreate the line as if the regexp isn't picking up the key
+- name: Cofigure podman registries to search in podman_registries list
+  ansible.builtin.lineinfile:
+    path: /etc/containers/registries.conf
+    regexp: '^unqualified-search-registries'
+    line: "unqualified-search-registries = [{{ podman_registries | join(', ') }}]"
+    owner: root
+    group: containers
+    mode: 0774
+  when:
+    - podman_registries is defined
+    - podman_registries | length > 0
+
 - name: Ensure group named group for pods or containers exists
   ansible.builtin.group:
     name: "{{ podman_group }}"
