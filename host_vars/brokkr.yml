@@ -19,31 +19,29 @@ caddy_create_site_dirs: true
 caddy_users_in_group: ["{{ admin_user }}"]
 caddy_systemd_capabilities_enabled: true
 caddy_systemd_capabilities: "CAP_NET_BIND_SERVICE"
-caddy_systemd_restart_startlimitinterval: "1800"
-caddy_systemd_restart_startlimitburst: "15"
-caddy_config: |
+caddy_systemd_restart_startlimitinterval: "600"
+caddy_systemd_restart_startlimitburst: "5"
+caddy_config: |  # look here, undetermined if this really helps http://bit.ly/3Wlt8Cr
   # Templated by ansible
   # Import sites-enabled config files/snippets
+  # Root Caddyfile
+  {
+      auto_https disable_redirects
+  }
+  http:// {
+      redir https://{hostport}{uri} 301
+  }
+  :80 {
+      redir https://{hostport}{uri} 301
+  }
   import sites-enabled/*
 caddy_create_sites: true
 caddy_cloudflare_token: "{{ vault_cloudflare_dns_token }}"
 caddy_sites:
-  - file: hello
-    enabled: false
-    config: |
-      http://hello.{{ svartalv_main_domain }}.com {
-        redir @http https://{host}{uri}
-      }
-      https://hello.{{ svartalv_main_domain }}.com {
-        reverse_proxy localhost:12345
-      }
   - file: root
     enabled: true
     config: |
-      http://www.{{ svartalv_main_domain }} {
-        redir https://{host}{uri}
-      }
-      https://www.{{ svartalv_main_domain }} {
+      www.{{ svartalv_main_domain }} {
         root * /var/www
         encode gzip
         file_server
