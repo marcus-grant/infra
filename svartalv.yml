@@ -44,6 +44,8 @@
       tags: [db, postgres, psql, database, postgresql]
     - role: geerlingguy.mysql
       tags: [db, mysql, mariadb]
+    - role: geerlingguy.docker
+      tags: [docker, server, service, container]
     - role: roles/caddy
       tags: [caddy,web,server,service,proxy,selfhost]
     - role: roles/podman/podman-init

@@ -1,0 +1,12 @@
+version: "3.8"
+
+services:
+  reverb:
+    image: reverb:latest
+    # environment:
+    #   REVERB_PORT: {{ reverb_port }}
+    ports:
+      - "{{ reverb_port }}:33333"
+    build:
+      context: repo
+      dockerfile: ./Dockerfile

@@ -9,6 +9,9 @@ podman_registries: ["'docker.io'"]  # must have single quote around registry
 # Reverb
 reverb_uid: 10010
 reverb_gid: 10010
+reverb_port: 10010
+reverb_git_force: false
+reverb_git_update: false
 
 ## Caddy
 caddy_github_token: vault_github_token

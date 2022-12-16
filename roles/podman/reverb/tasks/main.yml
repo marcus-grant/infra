@@ -28,3 +28,46 @@
     owner: reverb
     group: "{{ podman_group }}"
     mode: 0770
+
+# TODO: When debian has newer better supported podman tooling might come back here
+# - name: Template a container-compose file
+#   ansible.builtin.template:
+#     src: podman-compose.yml.j2
+#     dest: /home/reverb/container-compose.yml
+#     owner: reverb
+#     group: containers
+#     mode: 0770
+
+- name: Build the docker container version of the server
+  community.docker.docker_image:
+    name: localhost/reverb
+    build:
+      path: /home/reverb/repo
+    source: build
+
+- name: Run the server in docker
+  community.docker.docker_container:
+    name: reverb
+    image: localhost/reverb
+    state: started
+    restart_policy: unless-stopped
+    ports:
+      - "{{ reverb_port }}:33333"
+
+- name: Template caddy route file in sites-available
+  ansible.builtin.template:
+    src: reverb.Caddyfile.j2
+    dest: /etc/caddy/sites-available/reverb.Caddyfile
+    owner: reverb
+    group: caddy
+    mode: 0774
+  notify: Restart caddy
+
+- name: Link caddy route to sites-enabled
+  ansible.builtin.file:
+    src: /etc/caddy/sites-available/reverb.Caddyfile
+    dest: /etc/caddy/sites-enabled/reverb.Caddyfile
+    owner: reverb
+    group: caddy
+    mode: 0774
+    state: link

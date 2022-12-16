@@ -1,0 +1,5 @@
+# /etc/caddy/sites-available/reverb.Caddyfile
+# {{ ansible_managed }}
+reverb.{{ svartalv_main_domain }} {
+    reverse_proxy localhost:{{ reverb_port }}
+}
