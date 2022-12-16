@@ -1,4 +1,7 @@
 ---
+# pip
+pip_installed_packages:
+  - docker
 # Monitoring
 ## Fail2ban
 fail2ban_loglevel: 3  # Default 3, number (1=ERROR,2=WARN,3=INFO,4=DEBUG)

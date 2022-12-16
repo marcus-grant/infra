@@ -36,6 +36,8 @@
       loop: "{{ packages_installed }}"
       tags: [init, apt, pkgs, packages]
   roles:
+    - role: roles/pip
+      tags: [init, python, pip]
     - role: roles/fail2ban
       tags: [init, security, fail2ban]
     - role: geerlingguy.postgresql

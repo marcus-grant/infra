@@ -1,0 +1,26 @@
+---
+# Main tasks file for roles/pip
+- name: Ensure pip3 is installed (Debian family)
+  ansible.builtin.package:
+    name: python3-pip
+    state: present
+  when:
+    - ansible_os_family is defined
+    - ansible_os_family == 'Debian' or ansible_os_family == 'RedHat'
+
+- name: Ensure pip3 is installed (Catchall)
+  ansible.builtin.package:
+    name: python-pip
+    state: present
+  when:
+    - ansible_os_family != 'Debian'
+    - ansbile_os_family != 'RedHat'
+
+- name: Install extra pip libraries
+  ansible.builtin.pip:
+    name: "{{ item }}"
+    state: present
+  loop: "{{ pip_installed_packages }}"
+  when:
+    - pip_installed_packages is defined
+    - pip_installed_packages | length > 0
