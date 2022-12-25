@@ -6,3 +6,5 @@
   roles:
     - role: roles/luks
       tags: [drive, block, luks, hdd, sdd, mount, mnt, nas]
+    - role: roles/reverb-ddns
+      tags: [reverb, cron, ddns, ip, url, domain, dns]

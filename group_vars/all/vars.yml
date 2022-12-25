@@ -2,6 +2,9 @@
 # Main admin user
 admin_user: "{{ vault_admin_user }}"
 
+# Domains
+svartalv_main_domain: "{{ vault_svartalv_main_domain }}"
+
 # Dotfiles
 dotfiles_root: ~/.config
 ## Bash

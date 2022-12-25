@@ -1,0 +1,6 @@
+---
+reverb_ddns_subdomain: '@'
+reverb_ddns_log_dir: /var/log/reverb-ddns
+reverb_ddns_on_active_timer: ''  # empty string or a time string (1w, 1d, 2h, etc)
+reverb_ddns_on_calendar: "*-*-* 0/2:01:00"  # empty string or a calendar string
+reverb_ddns_version: main

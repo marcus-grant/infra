@@ -1,0 +1,19 @@
+---
+- name: Reload systemd
+  ansible.builtin.systemd:
+    name: reverb-ddns
+    state: reloaded
+  listen: Reload reverb-ddns
+
+- name: Start reverb-ddns
+  ansible.builtin.systemd:
+    name: reverb-ddns
+    state: started
+    enabled: true
+  listen: Reload reverb-ddns
+
+- name: Restart reverb-ddns
+  ansible.builtin.systemd:
+    name: reverb-ddns
+    state: restarted
+  listen: Reload reverb-ddns

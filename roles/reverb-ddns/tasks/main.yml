@@ -1,0 +1,26 @@
+---
+- name: Ensure directories for reverb exists
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: root
+    group: sudo
+    mode: 0774
+  loop:
+    - "{{ reverb_ddns_log_dir }}"
+
+- name: Clone the reverb client script
+  ansible.builtin.git:
+    repo: https://github.com/marcus-grant/reverb
+    dest: /usr/lib/reverb
+    version: "{{ reverb_ddns_version }}"
+  notify: Restart reverb-ddns
+
+- name: Template a command script to run reverb DDNS with right arguments
+  ansible.builtin.template:
+    src: reverb-ddns.service.j2
+    dest: /etc/systemd/system/reverb-ddns.service
+    owner: root
+    group: sudo
+    mode: 0775
+  notify: Reload reverb-ddns

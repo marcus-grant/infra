@@ -1,0 +1,4 @@
+---
+# Cloudflare
+cloudflare_valhalla_zoneid: "{{ vault_cloudflare_valhalla_zoneid }}"
+cloudflare_dns_token: "{{ vault_cloudflare_dns_token }}"

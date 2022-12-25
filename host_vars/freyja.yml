@@ -1,4 +1,11 @@
 ---
+# Reverb DDNS (cloudflare)
+reverb_ddns_url: "https://reverb.{{ svartalv_main_domain }}"
+reverb_ddns_zoneid: "{{ cloudflare_valhalla_zoneid }}"
+reverb_ddns_auth: "{{ cloudflare_dns_token }}"
+reverb_ddns_subdomain: "@"
+reverb_ddns_version: ce06a3c40ffc14335bea2d4ae07546e831c66b43
+
 # LUKS
 # For mount options look at this useful guide for btrfs:
 # https://linuxhint.com/btrfs-filesystem-mount-options/
