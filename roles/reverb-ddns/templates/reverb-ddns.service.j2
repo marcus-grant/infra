@@ -5,16 +5,6 @@ Documentation=https://github.com/marcus-grant/reverb
 After=network-online.target
 Wants=network-online.target systemd-networkd-wait-online.service
 
-{% if reverb_ddns_on_active_timer | length > 1 %}
-[Timer]
-OnBootSec=1min
-OnUnitActiveSec={{ reverb_ddns_on_active_timer }}
-{% elif reverb_ddns_on_calendar | length > 1 %}
-[Timer]
-OnCalendar={{ reverb_ddns_on_calendar }}
-Persistent=true
-{% endif %}
-
 [Service]
 Restart=on-failure
 
@@ -22,14 +12,8 @@ Restart=on-failure
 User=root
 Group=sudo
 
-ExecStart="/usr/bin/env python3 /usr/lib/reverb/reverb.py ddns set \
---server {{ reverb_ddns_url }} \
---ddns-zone {{ reverb_ddns_zoneid }} \
---ddns-auth {{ reverb_ddns_auth }}"
-ExecReload="/usr/bin/env python3 /usr/lib/reverb/reverb.py ddns set \
---server {{ reverb_ddns_url }} \
---ddns-zone {{ reverb_ddns_zoneid }} \
---ddns-auth {{ reverb_ddns_auth }}"
+; File to execute with args or env
+ExecStart={{ reverb_ddns_bin }}
 
 ; Limit the number of file descriptors; see `man systemd.exec` for more limit settings.
 ; LimitNOFILE=1048576

@@ -1,6 +1,10 @@
 ---
-reverb_ddns_subdomain: '@'
+reverb_ddns_dir: /usr/local/lib/reverb
+reverb_ddns_bin: /usr/local/bin/reverb  # TODO: replace with the compatible py vers
+reverb_ip_header: 'X-Forwarded-For'  # Header to look for public ip
+# reverb_server_sub: '@'  # TODO: Make subdomain choices possible
 reverb_ddns_log_dir: /var/log/reverb-ddns
-reverb_ddns_on_active_timer: ''  # empty string or a time string (1w, 1d, 2h, etc)
-reverb_ddns_on_calendar: "*-*-* 0/2:01:00"  # empty string or a calendar string
+reverb_ddns_onactive: ''  # empty string or a time string (1w, 1d, 2h, etc)
+reverb_ddns_oncal: "*-*-* *:01:00"  # empty string or a calendar string
 reverb_ddns_version: main
+reverb_ddns_ttl: 300

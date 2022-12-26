@@ -1,0 +1,15 @@
+[Unit]
+Description=Timer to reverb-ddns public IP PUT on DDNS provider
+
+
+{% if reverb_ddns_onactive | length > 1 %}
+[Timer]
+Unit=reverb-ddns.service
+OnBootSec=1min
+OnUnitActiveSec={{ reverb_ddns_onactive }}
+{% elif reverb_ddns_oncal | length > 1 %}
+[Timer]
+Unit=reverb-ddns.service
+OnCalendar={{ reverb_ddns_oncal }}
+Persistent=true
+{% endif %}

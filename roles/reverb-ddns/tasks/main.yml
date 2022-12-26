@@ -1,4 +1,12 @@
 ---
+- name: Ensure jq is installed (pre reverb-ddns-fix)
+  ansible.builtin.package:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - curl
+    - jq
+
 - name: Ensure directories for reverb exists
   ansible.builtin.file:
     path: "{{ item }}"
@@ -9,14 +17,15 @@
   loop:
     - "{{ reverb_ddns_log_dir }}"
 
-- name: Clone the reverb client script
-  ansible.builtin.git:
-    repo: https://github.com/marcus-grant/reverb
-    dest: /usr/lib/reverb
-    version: "{{ reverb_ddns_version }}"
-  notify: Restart reverb-ddns
+# TODO: Get this to work without deps on any unix system
+# - name: Clone the reverb client script
+#   ansible.builtin.git:
+#     repo: https://github.com/marcus-grant/reverb
+#     dest: "{{ reverb_ddns_dir }}"
+#     version: "{{ reverb_ddns_version }}"
+#   notify: Restart reverb-ddns
 
-- name: Template a command script to run reverb DDNS with right arguments
+- name: Template a service file to run reverb DDNS with right arguments
   ansible.builtin.template:
     src: reverb-ddns.service.j2
     dest: /etc/systemd/system/reverb-ddns.service
@@ -24,3 +33,21 @@
     group: sudo
     mode: 0775
   notify: Reload reverb-ddns
+
+- name: Template a timer file to run reverb DDNS with right arguments
+  ansible.builtin.template:
+    src: reverb-ddns.timer.j2
+    dest: /etc/systemd/system/reverb-ddns.timer
+    owner: root
+    group: sudo
+    mode: 0775
+  notify: Reload reverb-ddns
+
+- name: Template a bash-curl script to get pub IP from reverb, then PUT it on DDNS
+  ansible.builtin.template:
+    src: cloudflare-ddns.sh.j2
+    dest: "{{ reverb_ddns_bin }}"
+    owner: root
+    group: sudo
+    mode: 0775
+  notify: Restart reverb-ddns

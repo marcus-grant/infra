@@ -1,0 +1,36 @@
+#!/bin/bash
+
+REVERB_SERVER="{{ reverb_server }}"
+DDNS_RECID="{{ reverb_ddns_recordid }}"
+DDNS_AUTH="{{ reverb_ddns_auth }}"
+DDNS_ZONE="{{ reverb_ddns_zoneid }}"
+DDNS_TTL={{ reverb_ddns_ttl }}
+DDNS_BASE_URL="https://api.cloudflare.com/client/v4/zones"
+
+PUB_IP="$(curl -s \
+    {{ reverb_server }} \
+    | jq .headers \
+    | jq -r '."{{ reverb_ip_header }}"'
+)"
+
+RES=$(curl -s $DDNS_BASE_URL/$DDNS_ZONE/dns_records/$DDNS_RECID \
+    --request PUT \
+    --header 'Accept: application/json' \
+    --header 'Content-Type: application/json' \
+    --header "Authorization: Bearer $DDNS_AUTH" \
+    --data-raw "{
+        \"type\": \"A\",
+        \"name\": \"@\",
+        \"content\": \"$PUB_IP\",
+        \"proxied\": false,
+        \"ttl\": $DDNS_TTL
+    }"
+)
+
+RES_SUCCESS=$(echo $RES | jq -r .success)
+
+if [[ $RES_SUCCESS == 'true' ]]; then
+    echo "Successfully set DDNS to IP $PUB_IP!"
+else
+    >&2 echo "Error updating DDNS with response $RES"
+fi

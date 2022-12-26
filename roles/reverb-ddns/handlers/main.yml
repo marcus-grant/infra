@@ -1,8 +1,9 @@
 ---
 - name: Reload systemd
   ansible.builtin.systemd:
-    name: reverb-ddns
-    state: reloaded
+    # name: reverb-ddns
+    # state: daemon-reloaded
+    daemon-reload: true
   listen: Reload reverb-ddns
 
 - name: Start reverb-ddns
@@ -12,8 +13,16 @@
     enabled: true
   listen: Reload reverb-ddns
 
+- name: Start reverb-ddns.timer
+  ansible.builtin.systemd:
+    name: reverb-ddns.timer
+    state: started
+    enabled: true
+  listen: Reload reverb-ddns
+
 - name: Restart reverb-ddns
   ansible.builtin.systemd:
     name: reverb-ddns
     state: restarted
+    enabled: true
   listen: Reload reverb-ddns
