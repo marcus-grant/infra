@@ -12,7 +12,7 @@
       ansible.builtin.user:
         name: root
         update_password: always
-        password: "{{ root_password | password_hash('sha512') }}"
+        password: "{{ root_password | password_hash('sha512', main_salt) }}"
     - name: Remove PasswordAuthentication from sshd_config
       become: true
       ansible.builtin.replace:

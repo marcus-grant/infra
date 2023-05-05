@@ -1,6 +1,8 @@
 ---
 # Main admin user
 admin_user: "{{ vault_admin_user }}"
+# Main Salt
+main_salt: "{{ vault_main_salt }}"
 
 # Domains
 svartalv_main_domain: "{{ vault_svartalv_main_domain }}"
