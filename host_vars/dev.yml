@@ -1,0 +1,3 @@
+---
+dev_main_domain: "dev.{{ vault_svartalv_main_domain }}"
+svartalv_main_domain: "{{ vault_svartalv_main_domain }}"

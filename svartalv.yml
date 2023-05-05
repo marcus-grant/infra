@@ -1,5 +1,6 @@
 ---
-- name: 'Provision hetzner servers, NOTE: Should be done AFTER bootstrapping'
+# ALL COMMON
+- name: '[ALL SVARTALV] Provision hetzner servers, NOTE: Should be done AFTER bootstrapping'
   hosts: brokkr
   gather_facts: true
   become: true
@@ -40,15 +41,35 @@
       tags: [init, python, pip]
     - role: roles/fail2ban
       tags: [init, security, fail2ban]
-    - role: geerlingguy.postgresql
-      tags: [db, postgres, psql, database, postgresql]
-    - role: geerlingguy.mysql
-      tags: [db, mysql, mariadb]
     - role: geerlingguy.docker
       tags: [docker, server, service, container]
-    - role: roles/caddy
-      tags: [caddy,web,server,service,proxy,selfhost]
     - role: roles/podman/podman-init
       tags: [podman,server,service,container,selfhost]
     - role: roles/podman/reverb
       tags: [podman,server,service,container,selfhost,reverb,ip,echo]
+  
+# BROKKR ONLY
+- name: '[BROKKR ONLY] Provision hetzner servers, NOTE: Should be done AFTER bootstrapping'
+  hosts: brokkr
+  gather_facts: true
+  become: true
+  vars:
+    caddy_github_token: "{{ vault_github_token }}"
+  roles:
+    - role: roles/caddy
+      tags: [caddy,web,server,service,proxy,selfhost]
+    - role: geerlingguy.postgresql
+      tags: [db, postgres, psql, database, postgresql]
+    - role: geerlingguy.mysql
+      tags: [db, mysql, mariadb]
+
+# DEV ONLY
+- name: '[DEV ONLY] Provision hetzner servers, NOTE: Should be done AFTER bootstrapping'
+  hosts: brokkr
+  gather_facts: true
+  become: true
+  vars:
+    caddy_github_token: "{{ vault_github_token }}"
+  roles:
+    - role: roles/caddy
+      tags: [caddy,web,server,service,proxy,selfhost]
