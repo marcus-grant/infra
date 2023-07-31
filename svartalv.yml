@@ -13,21 +13,6 @@
         name: root
         update_password: always
         password: "{{ root_password | password_hash('sha512', main_salt) }}"
-    - name: Remove PasswordAuthentication from sshd_config
-      become: true
-      ansible.builtin.replace:
-        path: /etc/ssh/sshd_config
-        regexp: 'PasswordAuthentication\ yes'
-        replace: 'PasswordAuthentication no'
-      tags: [init, ssh, security]
-      register: sshd_config_result
-    # TODO make handler
-    - name: Restart sshd 
-      ansible.builtin.service:
-        name: sshd
-        state: restarted
-      when: sshd_config_result.changed
-      tags: [skip_ansible_lint]
     - name: Install initial packages in packages_installed
       ansible.builtin.apt:
         update_cache: true
@@ -37,6 +22,8 @@
       loop: "{{ packages_installed }}"
       tags: [init, apt, pkgs, packages]
   roles:
+    - role: ssh-server-key-only
+      tags: [init, ssh, server, security]
     - role: pip
       tags: [init, python, pip]
     - role: fail2ban

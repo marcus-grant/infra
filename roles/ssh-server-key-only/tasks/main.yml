@@ -1,0 +1,17 @@
+---
+- name: Remove PasswordAuthentication from sshd_config
+  become: true
+  ansible.builtin.replace:
+    path: /etc/ssh/sshd_config
+    regexp: 'PasswordAuthentication\ yes'
+    replace: 'PasswordAuthentication no'
+  tags: [init, ssh, security]
+  register: sshd_config_result
+
+# TODO make handler
+- name: Restart sshd
+  ansible.builtin.service:
+    name: sshd
+    state: restarted
+  when: sshd_config_result.changed
+  tags: [skip_ansible_lint]
