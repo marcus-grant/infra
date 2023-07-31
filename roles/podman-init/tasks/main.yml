@@ -5,12 +5,15 @@
     name: podman
     state: present
 
+# TODO: Add support for other distros and darwin
 - name: Ensure podman dependencies are installed
   ansible.builtin.package:
-    name: "{{ item }}"
+    name: "{{ podman_init_packages_debian }}"
     state: present
   loop:
     - uidmap
+  loop_control:
+    loop_var: podman_init_packages_debian
   when: ansible_os_family == 'Debian'
 
 - name: Ensure podman-compose installed
@@ -41,19 +44,23 @@
 
 - name: Add any additional groups for podman
   ansible.builtin.group:
-    name: "{{ item }}"
+    name: "{{ podman_init_extra_groups }}"
     state: present
   loop: "{{ podman_extra_groups }}"
+  loop_control:
+    loop_var: podman_init_extra_groups
   when:
     - podman_extra_groups is defined
     - podman_extra_groups | length > 0
 
 - name: Add extra users to default general group for all containers
   ansible.builtin.user:
-    name: "{{ item }}"
+    name: "{{ podman_init_group_users }}"
     groups: "{{ podman_group }}"
     append: true
   loop: "{{ podman_group_users }}"
+  loop_control:
+    loop_var: podman_init_group_users
   when:
     - podman_group_users is defined
     - podman_group_users | length > 0

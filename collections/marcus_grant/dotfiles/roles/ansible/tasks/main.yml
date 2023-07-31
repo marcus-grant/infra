@@ -1,37 +1,37 @@
 ---
 # tasks file for ansible
 - name: Set fact for package state of ansible
-  set_fact:
+  ansible.builtin.set_fact:
     ansible_package_state: "{{ 'present' if ansible_install_method == 'package' else 'absent' }}"
 
 # Install tasks
 - name: Setup Ansible on RedHat
-  import_tasks: install-RedHat.yml
+  ansible.builtin.import_tasks: install-RedHat.yml
   when:
     - ansible_os_family == 'RedHat'
     - ansible_distribution != 'Fedora'
     - ansible_install_method == 'package'
 
 - name: Setup Ansible on Fedora
-  import_tasks: install-Fedora.yml
+  ansible.builtin.import_tasks: install-Fedora.yml
   when:
     - ansible_distribution == 'Fedora'
     - ansible_install_method = 'package'
 
 - name: Set up Ansible on Debian
-  import_tasks: install-Debian.yml
+  ansible.builtin.import_tasks: install-Debian.yml
   when:
     - ansible_distribution == 'Debian'
     - ansible_install_method == 'package'
 
 - name: Setup Ansible on Ubuntu
-  import_tasks: install-Ubuntu.yml
+  ansible.builtin.import_tasks: install-Ubuntu.yml
   when:
     - ansible_distribution == 'Ubuntu'
     - ansible_install_method == 'package'
 
 - name: Setup Ansible on Archlinux
-  import_tasks: install-Archlinux.yml
+  ansible.builtin.import_tasks: install-Archlinux.yml
   when:
     - ansible_os_family == 'Archlinux'
     - ansible_install_method == 'package'

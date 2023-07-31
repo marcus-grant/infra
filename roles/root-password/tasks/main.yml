@@ -1,0 +1,6 @@
+---
+- name: Change root password
+  ansible.builtin.user:
+    name: root
+    update_password: always
+    password: "{{ root_password | password_hash('sha512', main_salt) }}"

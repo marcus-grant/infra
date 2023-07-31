@@ -1,0 +1,10 @@
+---
+- name: Install initial packages in base_packages
+  ansible.builtin.apt:
+    update_cache: true
+    cache_valid_time: 3600
+    state: present
+    name: "{{ base_packages_package }}"
+  loop: "{{ base_packages }}"
+  loop_control:
+    loop_var: base_packages_package

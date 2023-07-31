@@ -1,7 +1,11 @@
 ---
+# pip - no longer works in python 3.11
+# pip_installed_packages:
+#   - docker
+
 # pip
-pip_installed_packages:
-  - docker
+pip_install_docker: true
+
 # Monitoring
 ## Fail2ban
 fail2ban_loglevel: 3  # Default 3, number (1=ERROR,2=WARN,3=INFO,4=DEBUG)
@@ -69,9 +73,11 @@ tmux_git_force: true
 tmux_git_backup: false
 
 # Packages
-packages_installed:
+base_packages:
   - fail2ban
+  - git
   - ncdu
   - ranger
   - tree
+  - tmux
   - vim

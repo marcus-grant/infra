@@ -1,41 +1,31 @@
 ---
-# ALL COMMON
+# === COMMON SVARTALV ===
 - name: '[ALL SVARTALV] Provision hetzner servers, NOTE: Should be done AFTER bootstrapping'
   hosts: brokkr
   gather_facts: true
   become: true
   vars:
     caddy_github_token: "{{ vault_github_token }}"
-  pre_tasks:
-    # TODO Turn these into a(n) role(s)
-    - name: Change root password
-      ansible.builtin.user:
-        name: root
-        update_password: always
-        password: "{{ root_password | password_hash('sha512', main_salt) }}"
-    - name: Install initial packages in packages_installed
-      ansible.builtin.apt:
-        update_cache: true
-        cache_valid_time: 3600
-        state: present
-        name: "{{ item }}"
-      loop: "{{ packages_installed }}"
-      tags: [init, apt, pkgs, packages]
   roles:
+    - role: root-password
+      tags: [init, security, root, password]
     - role: ssh-server-key-only
       tags: [init, ssh, server, security]
-    - role: pip
+    - role: base-packages
+      tags: [init, apt, package]
+    # DELETEME: This might no longer work well with py 3.11
+    # - role: geerlingguy.pip
+    #   tags: [init, python, pip]
+    - role: pip-install
       tags: [init, python, pip]
     - role: fail2ban
       tags: [init, security, fail2ban]
-    - role: geerlingguy.docker
-      tags: [docker, server, service, container]
     - role: podman-init
       tags: [podman, server, service, container]
-    - role: reverb
-      tags: [podman, server, service, container, reverb, ip]
-  
-# BROKKR ONLY
+    - role: geerlingguy.docker
+      tags: [docker, server, service, container]
+
+# === BROKKR ONLY ===
 - name: '[BROKKR ONLY] Provision hetzner servers, NOTE: Should be done AFTER bootstrapping'
   hosts: brokkr
   gather_facts: true
@@ -43,12 +33,14 @@
   vars:
     caddy_github_token: "{{ vault_github_token }}"
   roles:
-    - role: roles/caddy
-      tags: [caddy,web,server,service,proxy,selfhost]
+    - role: caddy
+      tags: [caddy, web, server, service, proxy, selfhost]
+    - role: reverb
+      tags: [server, service, container, podman, reverb, ip]
     - role: geerlingguy.postgresql
-      tags: [db, postgres, psql, database, postgresql]
+      tags: [database, postgres]
     - role: geerlingguy.mysql
-      tags: [db, mysql, mariadb]
+      tags: [database, mysql, mariadb]
 
 # DEV ONLY
 # - name: '[DEV ONLY] Provision hetzner servers, NOTE: Should be done AFTER bootstrapping'

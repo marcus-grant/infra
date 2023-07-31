@@ -1,0 +1,10 @@
+---
+- name: pip-package | Install docker PyPi package using OS package manager
+  ansible.builtin.package:
+    name: python3-docker
+    state: present
+  when:
+    - pip_install_docker
+    - ansible_os_family != 'Archlinux'
+    - ansible_os_family != 'Gentoo'
+    - ansible_os_family != 'Darwin'
