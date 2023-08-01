@@ -16,6 +16,13 @@
     - ansible_os_family != 'Debian'
     - ansbile_os_family != 'RedHat'
 
+# Include specific pip-package tasks file
+- name: Include pip-package tasks
+  ansible.builtin.import_tasks: pip-package.yml
+  when:
+    - pip_install_docker
+    - ansible_os_family != 'Darwin'
+
 # TODO: I can't think of simple logic to
 # make this work generically
 # a lot of modern pip modules now will warn (rightfully so)

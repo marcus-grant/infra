@@ -1,10 +1,15 @@
 ---
-- name: pip-package | Install docker PyPi package using OS package manager
+- name: pip-package | Check OS family to determine package strings to install
+  ansible.builtin.set_fact:
+    pip_install_docker_package_name: >-
+      {{
+        'python-docker' if ansible_os_family == 'Archlinux' else
+        'py3-docker' if ansible_os_family == 'Alpine' else
+        'python3-docker'
+      }}
+
+- name: pip-package | Install docker python module using OS package manager
+  become: true
   ansible.builtin.package:
-    name: python3-docker
+    name: '{{ pip_install_docker_package_name }}'
     state: present
-  when:
-    - pip_install_docker
-    - ansible_os_family != 'Archlinux'
-    - ansible_os_family != 'Gentoo'
-    - ansible_os_family != 'Darwin'
