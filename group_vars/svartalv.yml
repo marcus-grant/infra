@@ -8,20 +8,17 @@ pip_install_docker: true
 
 # Monitoring
 ## Fail2ban
-fail2ban_loglevel: 3  # Default 3, number (1=ERROR,2=WARN,3=INFO,4=DEBUG)
-fail2ban_ignoreips:  # List of str default [127.0.0.1/8]
-  - 127.0.0.1/8
-fail2ban_bantime: 300  # Default 600
-fail2ban_maxretry: 5  # Default 3 max # retries before jailed
-fail2ban_findtime: 300  # Default 600, time to maxretries before timer reset
-fail2ban_sender: 'brokkr@svartalv.net'  # Sender email for announcements
+fail2ban_destemail: "{{ admin_email }}"  # Email to send notifications to
+fail2ban_sendername: fail2ban  # Name of sender
+fail2ban_sender: "{{ fail2ban_sendername }}@{{ svartalv_main_domain }}"
 fail2ban_services:
   - name: sshd
     enabled: true
     port: "{{ ssh_target_port }}"  # Secret hidden in out of tree inventory
-    maxretry: 4
-    bantime: 400
-    findtime: 400
+    logpath: /var/log/auth.log
+    maxretry: 3
+    bantime: 600
+    findtime: 600
 
 # DB
 ## PostgreSQL

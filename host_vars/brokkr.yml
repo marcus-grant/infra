@@ -1,4 +1,11 @@
 ---
+# Main configs
+## Hostname
+hostname: brokkr
+
+# Fail2Ban
+fail2ban_sender: "fail2ban@{{ hostname }}.{{ svartalv_main_domain }}"
+
 ## Podman
 podman_group: containers
 podman_gid: 10000

@@ -1,0 +1,127 @@
+---
+# tasks file (old version)
+# DELEMETE: This was the legacy version, if not used after a while, delete
+- name: main_old | Install fail2ban and its dependencies on Debian-based
+  ansible.builtin.apt:
+    name: "{{ fail2ban_dependencies }}"
+    state: "{{ apt_install_state | default('latest') }}"
+    update_cache: true
+    cache_valid_time: "{{ apt_update_cache_valid_time | default(3600) }}"
+  tags:
+    - configuration
+    - fail2ban
+    - fail2ban-install
+  when: ansible_os_family == 'Debian'
+
+- name: main_old | Get fail2ban version
+  ansible.builtin.command: >
+    fail2ban-server -V
+  changed_when: false
+  check_mode: false
+  register: _fail2ban_version_raw
+  tags:
+    - configuration
+    - fail2ban
+    - fail2ban-install
+
+- name: main_old | Register fail2ban version
+  ansible.builtin.set_fact:
+    fail2ban_version: "{{ _fail2ban_version_raw.stdout | regex_search('([0-9]+\\.[0-9]+\\.[0-9]+)') }}"
+  changed_when: false
+  check_mode: false
+  tags:
+    - configuration
+    - fail2ban
+    - fail2ban-install
+
+- name: main_old | Remove configuration file - /etc/fail2ban/jail.d/defaults-debian.conf
+  ansible.builtin.file:
+    state: absent
+    path: /etc/fail2ban/jail.d/defaults-debian.conf
+  notify: Restart fail2ban
+  tags:
+    - configuration
+    - fail2ban
+    - fail2ban-configuration
+    - fail2ban-configuration-delete
+  when: ansible_os_family == 'Debian'
+
+- name: main_old | Update configuration file - /etc/fail2ban/fail2ban.local
+  ansible.builtin.template:
+    src: fail2ban.local.j2
+    dest: /etc/fail2ban/fail2ban.local
+    owner: root
+    group: root
+    mode: 0644
+  notify: Restart fail2ban
+  tags:
+    - configuration
+    - fail2ban
+    - fail2ban-configuration
+    - fail2ban-configuration-update
+
+- name: main_old | Update configuration file - /etc/fail2ban/jail.local
+  ansible.builtin.template:
+    src: jail.local.j2
+    dest: /etc/fail2ban/jail.local
+    owner: root
+    group: root
+    mode: 0644
+  notify: Restart fail2ban
+  tags:
+    - configuration
+    - fail2ban
+    - fail2ban-configuration
+    - fail2ban-configuration-update
+
+- name: main_old | Copy filters
+  ansible.builtin.copy:
+    src: "{{ fail2ban_filterd_path }}"
+    dest: /etc/fail2ban/filter.d/
+    owner: root
+    group: root
+    mode: 0644
+  when: fail2ban_filterd_path is defined
+  notify: Restart fail2ban
+  tags:
+    - configuration
+    - fail2ban
+    - fail2ban-filters
+
+- name: main_old | Copy actions
+  ansible.builtin.copy:
+    src: "{{ fail2ban_actiond_path }}"
+    dest: /etc/fail2ban/action.d/
+    owner: root
+    group: root
+    mode: 0644
+  when: fail2ban_actiond_path is defined
+  notify: Restart fail2ban
+  tags:
+    - configuration
+    - fail2ban
+    - fail2ban-actions
+
+- name: main_old | Copy jails
+  ansible.builtin.copy:
+    src: "{{ fail2ban_jaild_path }}"
+    dest: /etc/fail2ban/jail.d/
+    owner: root
+    group: root
+    mode: 0644
+  when: fail2ban_jaild_path is defined
+  notify: Restart fail2ban
+  tags:
+    - configuration
+    - fail2ban
+    - fail2ban-jails
+
+- name: main_old | Start and enable service
+  ansible.builtin.service:
+    name: fail2ban
+    state: "{{ service_default_state | default('started') }}"
+    enabled: "{{ service_default_enabled | default(true) | bool }}"
+  tags:
+    - configuration
+    - fail2ban
+    - fail2ban-start-enable-service

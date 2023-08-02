@@ -13,9 +13,6 @@
       tags: [init, ssh, server, security]
     - role: base-packages
       tags: [init, apt, package]
-    # DELETEME: This might no longer work well with py 3.11
-    # - role: geerlingguy.pip
-    #   tags: [init, python, pip]
     - role: pip-install
       tags: [init, python, pip]
     - role: fail2ban
@@ -28,7 +25,7 @@
 # === BROKKR ONLY ===
 - name: '[BROKKR ONLY] Provision hetzner servers, NOTE: Should be done AFTER bootstrapping'
   hosts: brokkr
-  gather_facts: true
+  # gather_facts: true # DELETEME: Might not be necessary as facts are gathered in all play
   become: true
   vars:
     caddy_github_token: "{{ vault_github_token }}"
