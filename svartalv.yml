@@ -4,8 +4,6 @@
   hosts: brokkr
   gather_facts: true
   become: true
-  vars:
-    caddy_github_token: "{{ vault_github_token }}"
   roles:
     - role: root-password
       tags: [init, security, root, password]
@@ -33,7 +31,7 @@
     - role: caddy
       tags: [caddy, web, server, service, proxy, selfhost]
     - role: reverb
-      tags: [server, service, container, podman, reverb, ip]
+      tags: [server, service, container, reverb, ip]
     - role: geerlingguy.postgresql
       tags: [database, postgres]
     - role: geerlingguy.mysql

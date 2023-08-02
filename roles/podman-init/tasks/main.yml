@@ -1,42 +1,46 @@
 ---
 # Podman install/config role roles/podman/tasks/main.yml
-- name: Ensure podman installed
-  ansible.builtin.package:
-    name: podman
-    state: present
-
 # TODO: Add support for other distros and darwin
-- name: Ensure podman dependencies are installed
+- name: Ensure podman & its dependencies are installed
+  become: true
   ansible.builtin.package:
-    name: "{{ podman_init_packages_debian }}"
+    name: "{{ podman_init_package }}"
     state: present
-  loop:
-    - uidmap
+  loop: [podman, uidmap, slirp4netns]
   loop_control:
-    loop_var: podman_init_packages_debian
+    loop_var: podman_init_package
   when: ansible_os_family == 'Debian'
 
-- name: Ensure podman-compose installed
+# DELETEME: Remove this after proving first task works
+# - name: Ensure podman dependencies are installed
+#   ansible.builtin.package:
+#     name: "{{ podman_init_packages_debian }}"
+#     state: present
+#   loop:
+#     - uidmap
+#   loop_control:
+#     loop_var: podman_init_packages_debian
+#   when: ansible_os_family == 'Debian'
+
+- name: Ensure podman-compose installed (Darwin)
   ansible.builtin.pip:
     name: podman-compose
     state: present
-  when: podman_install_compose
-
-# TODO: This can cause problems when registries changes
-# It will recreate the line as if the regexp isn't picking up the key
-- name: Cofigure podman registries to search in podman_registries list
-  ansible.builtin.lineinfile:
-    path: /etc/containers/registries.conf
-    regexp: '^unqualified-search-registries'
-    line: "unqualified-search-registries = [{{ podman_registries | join(', ') }}]"
-    owner: root
-    group: containers
-    mode: 0774
   when:
-    - podman_registries is defined
-    - podman_registries | length > 0
+    - podman_install_compose
+    - ansible_os_family == 'Darwin'
+
+- name: Ensure podman-compose is installed (Debian)
+  become: true
+  ansible.builtin.apt:
+    name: podman-compose
+    state: present
+  when:
+    - podman_install_compose
+    - ansible_os_family == 'Debian'
 
 - name: Ensure group named group for pods or containers exists
+  become: true
   ansible.builtin.group:
     name: "{{ podman_group }}"
     gid: "{{ podman_gid }}"
@@ -53,7 +57,23 @@
     - podman_extra_groups is defined
     - podman_extra_groups | length > 0
 
+# TODO: This can cause problems when registries changes
+# It will recreate the line as if the regexp isn't picking up the key
+- name: Configure podman registries to search in podman_registries list
+  become: true
+  ansible.builtin.lineinfile:
+    path: /etc/containers/registries.conf
+    regexp: '^unqualified-search-registries'
+    line: "unqualified-search-registries = [{{ podman_registries | join(', ') }}]"
+    owner: root
+    group: containers
+    mode: 0774
+  when:
+    - podman_registries is defined
+    - podman_registries | length > 0
+
 - name: Add extra users to default general group for all containers
+  become: true
   ansible.builtin.user:
     name: "{{ podman_init_group_users }}"
     groups: "{{ podman_group }}"
