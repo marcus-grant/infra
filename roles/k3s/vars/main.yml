@@ -1,0 +1,3 @@
+---
+k3s_installer_dependencies:
+  Debian: [curl, iptables, openssl]

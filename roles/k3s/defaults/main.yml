@@ -1,0 +1,8 @@
+---
+# This is to define the environment variables for the k3s installer.
+# More info about each variable can be found here:
+# https://docs.k3s.io/reference/env-variables
+# An example definition is included in the comments below the default
+k3s_installer_env: {}
+#  K3S_TOKEN: "my-secret-token"
+#  K3S_URL: "https://myserver:6443" # If installing on an agent node reference server

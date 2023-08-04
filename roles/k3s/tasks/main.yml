@@ -1,0 +1,25 @@
+---
+# Main Tasks file of k3s role
+- name: Check if k3s is already installed
+  become: true
+  ansible.builtin.command: "k3s --version"
+  register: k3s_current_version
+  failed_when: false
+  changed_when: false
+
+- name: Install k3s installer script dependencies
+  become: true
+  ansible.builtin.package:
+    name: "{{ k3s_installer_dependency }}"
+    state: present
+  loop: "{{ k3s_installer_dependencies[ansible_os_family] }}"
+  loop_control: {loop_var: k3s_installer_dependency}
+  when: k3s_current_version.rc != 0
+
+# TODO: Add k3s_installer_options variable to run with the script
+- name: Run k3s installer script
+  become: true
+  ansible.builtin.script: k3s-install.sh
+  environment: "{{ k3s_installer_env }}"
+  register: k3s_installer_script_run
+  when: k3s_current_version.rc != 0
