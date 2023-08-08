@@ -1,0 +1,6 @@
+---
+- name: Apply reverb k3s deployment manifest
+  become: true
+  kubernetes.core.k8s:
+    src: /tmp/reverb-server.yaml
+    state: present

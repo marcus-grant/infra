@@ -10,7 +10,10 @@ roles:
 collections:
   - name: community.general
   - name: community.postgresql
+  - name: community.kubernetes
+  - name: kubernetes.core
   - name: https://github.com/marcus-grant/ansible-collection-dotfiles
     type: git
   - name: geerlingguy.mac
   - name: devsec.hardening
+  - name: community.docker

@@ -14,7 +14,6 @@
     state: present
   loop: "{{ k3s_installer_dependencies[ansible_os_family] }}"
   loop_control: {loop_var: k3s_installer_dependency}
-  when: k3s_current_version.rc != 0
 
 # TODO: Add k3s_installer_options variable to run with the script
 - name: Run k3s installer script

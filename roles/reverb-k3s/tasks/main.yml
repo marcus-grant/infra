@@ -1,0 +1,51 @@
+---
+# Main tasks file for role reverb-k3s
+- name: Clone latest version of reverb repository on branch main
+  ansible.builtin.git:
+    repo: "{{ reverb_k3s_repo }}"
+    dest: "{{ reverb_k3s_dir }}"
+    version: main
+  register: reverb_clone_result
+
+- name: Check if reverb-server image already exists
+  become: true
+  community.docker.docker_image_info:
+    name: "{{ reverb_k3s_image }}"
+  register: reverb_image_info
+  ignore_errors: true
+
+- name: Build the reverb-server container image
+  become: true
+  community.docker.docker_image:
+    name: "{{ reverb_k3s_image }}"
+    tag: latest
+    source: build
+    build:
+      path: "{{ reverb_k3s_dir }}"
+  when: reverb_clone_result.changed or not reverb_image_info.images | length > 0
+
+- name: Template the deployment manifest
+  become: true
+  ansible.builtin.template:
+    src: reverb-server.yml.j2
+    dest: /tmp/reverb-server.yml
+    owner: root
+    group: root
+    mode: 0644
+  notify: Apply reverb k3s deployment manifest
+
+- name: Check if deployment is applied
+  kubernetes.core.k8s_info:
+    kind: Deployment
+    name: "{{ reverb_k3s_service_name }}"
+  register: reverb_deployment_info
+
+- name: Debug message for templated manifest already existing, but not deployed
+  ansible.builtin.debug:
+    msg: >
+      Reverb k3s deployment manifest already exists,
+      but not deployed, deploying...
+  notify: Apply reverb k3s deployment manifest
+  when:
+    - reverb_manifest_stat.stat.exists
+    - not rev_deployment_info.resources | length > 0

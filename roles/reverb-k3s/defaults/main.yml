@@ -1,0 +1,8 @@
+---
+reverb_k3s_service_name: reverb-server
+reverb_k3s_subdomain: reverb
+reverb_k3s_image: marcus-grant/reverb-server
+reverb_k3s_dir: /opt/reverb
+reverb_k3s_repo: https://github.com/marcus-grant/reverb.git
+reverb_k3s_replicas: 1
+reverb_k3s_port: 80

@@ -1,0 +1,31 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ reverb_k3s_service_name }}
+spec:
+  replicas: {{ reverb_k3s_replicas }}
+  selector:
+    matchLabels:
+      app: {{ reverb_k3s_service_name }}
+  template:
+    metadata:
+      labels:
+        app: {{ reverb_k3s_service_name }}
+    
+    spec:
+      containers:
+      - name: {{ reverb_k3s_service_name }}
+        image: marcus-grant/reverb-server:latest
+        ports:
+        - containerPort: {{ reverb_k3s_port }}
+# ---
+# apiVersion: v1
+# kind: Ingress
+# metadata:
+#   name: {{ reverb_k3s_service_name }}
+#   annotations:
+#     ingress.kubernetes.io/ssl-redirect: false
+# spec:
+#   rules:
+#   - http
