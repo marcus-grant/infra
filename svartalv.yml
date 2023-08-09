@@ -23,21 +23,20 @@
 # === BROKKR ONLY ===
 - name: '[BROKKR ONLY] Provision hetzner servers, NOTE: Should be done AFTER bootstrapping'
   hosts: brokkr
-  # gather_facts: true # DELETEME: Might not be necessary as facts are gathered in all play
   become: true
   vars:
     caddy_github_token: "{{ vault_github_token }}"
   roles:
-    - role: k3s
-      tags: [k3s, server, container, cluster]
-    # - role: caddy
-    #   tags: [caddy, web, server, service, proxy, selfhost]
-    # - role: reverb
-    #   tags: [server, service, container, reverb, ip]
-    # - role: geerlingguy.postgresql
-    #   tags: [database, postgres]
-    # - role: geerlingguy.mysql
-    #   tags: [database, mysql, mariadb]
+    - role: traefik
+      tags: [traefik, server, proxy, selfhost, ssl, cert]
+#     - role: caddy
+#       tags: [caddy, web, server, service, proxy, selfhost]
+#     - role: reverb
+#       tags: [server, service, container, reverb, ip]
+#     - role: geerlingguy.postgresql
+#       tags: [database, postgres]
+#     - role: geerlingguy.mysql
+#       tags: [database, mysql, mariadb]
 
 # DEV ONLY
 # - name: '[DEV ONLY] Provision hetzner servers, NOTE: Should be done AFTER bootstrapping'

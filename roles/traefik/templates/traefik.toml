@@ -13,9 +13,9 @@
         certResolver = "letsencrypt"
 
         [entryPoints.websecure.http.tls.domains]
-          main = "{{ dev_base_domain }}"
+          main = "{{ traefik_base_domain }}"
           sans = [
-            "*.{{ dev_base_domain }}"
+            "*.{{ traefik_base_domain }}",
           ]
 
   [entryPoints.traefik]
@@ -39,9 +39,11 @@
 [certificatesResolvers]
   [certificatesResolvers.letsencrypt]
     [certificatesResolvers.letsencrypt.acme]
-      email = "{{ admin_email }}"
+      email = "{{ traefik_acme_email }}"
       storage = "/letsencrypt/acme.json"
       caserver = "{{ traefik_acme_server }}"
 
+      {% if traefik_use_dns_provider %}
       [certificatesResolvers.letsencrypt.acme.dnsChallenge]
         provider = "{{ traefik_dns_provider }}"
+      {% endif %}

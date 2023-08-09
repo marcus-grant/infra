@@ -3,6 +3,10 @@
 # pip_installed_packages:
 #   - docker
 
+
+# Networking
+svartalv_main_domain: "{{ vault_svartalv_main_domain }}"
+
 # pip
 pip_install_docker: true
 
@@ -53,8 +57,10 @@ mysql_users:
     password: "{{ ansible_become_password }}"
     state: present
 
-# Networking
-svartalv_main_domain: "{{ vault_svartalv_main_domain }}"
+# Traefik
+traefik_base_domain: "{{ svartalv_main_domain }}"
+traefik_port_ui: 8083
+traefik_acme_email: "{{ admin_email }}"
 
 # Dotfiles
 ## Bash

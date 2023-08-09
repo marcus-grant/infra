@@ -6,7 +6,7 @@ traefik_enabled: false
 
 # Storage
 # The traefik persistent data directory to store configurations, logs, certs
-traefik_data_directory: "{{ docker_home }}/traefik"
+traefik_data_directory: "/etc/traefik"
 
 # Network
 traefik_port_http: '80'
@@ -14,7 +14,7 @@ traefik_port_https: '443'
 traefik_port_ui: '8083'
 
 # Docker
-traefik_docker_image: traefik:v2.6
+traefik_docker_image: traefik:v2.10
 
 # Logs
 traefik_log_level: INFO
@@ -22,8 +22,8 @@ traefik_log_level: INFO
 # External DNS provider if necessary
 traefik_use_dns_provider: false
 traefik_dns_provider: cloudflare
-traefik_environment_variables:
-  CF_DNS_API_TOKEN: 'deadbeef1234567890'
+traefik_environment_variables: {}
+#  CF_DNS_API_TOKEN: 'deadbeef1234567890'  # Example entry
 
 # ACME Server
 # Use this to specify either the 'staging' or 'production' server.

@@ -1,6 +1,6 @@
 ---
 - name: Create Traefik directories
-  file:
+  ansible.builtin.file:
     path: "{{ item }}"
     state: directory
     owner: "{{ admin_user }}"
@@ -11,7 +11,7 @@
     - "{{ traefik_data_directory }}/letsencrypt"
 
 - name: Template Traefik config.toml
-  template:
+  ansible.builtin.template:
     src: traefik.toml
     dest: "{{ traefik_data_directory }}/traefik.toml"
     mode: 0770
@@ -19,11 +19,13 @@
     group: docker
   register: template_config
 
-- name: Debug admin_user
-  debug: var=admin_user
+# DELETEME
+# - name: Debug traefik_acme_email
+#   ansible.builtin.debug:
+#     msg: "{{ traefik_acme_email }}"
 
 - name: Traefik Docker Container
-  docker_container:
+  community.docker.docker_container:
     name: traefik
     image: "{{ traefik_docker_image }}"
     pull: true
