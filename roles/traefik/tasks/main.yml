@@ -1,40 +1,66 @@
 ---
 - name: Create Traefik directories
   ansible.builtin.file:
-    path: "{{ item }}"
+    path: "{{ traefik_current_dir }}"
     state: directory
-    owner: "{{ admin_user }}"
+    owner: root
     group: docker
     mode: 0770
+  loop_control: {loop_var: traefik_current_dir}
   loop:
-    - "{{ traefik_data_directory }}"
-    - "{{ traefik_data_directory }}/letsencrypt"
+    - "/opt/traefik"
+    - "/opt/traefik/letsencrypt"
 
-- name: Template Traefik config.toml
+- name: Check that acme.json file exists
+  ansible.builtin.stat:
+    path: "/opt/traefik/letsencrypt/acme.json"
+  register: acme_json_file
+
+# - name: Create traefik certs file
+#   ansible.builtin.file:
+#     path: "/opt/traefik/letsencrypt/acme.json"
+#     state: file
+#     owner: root
+#     group: docker
+#     mode: 0600
+#   when: not acme_json_file.stat.exists
+
+- name: Create traefik's docker network
+  community.docker.docker_network:
+    name: "{{ traefik_docker_network }}"
+    state: present
+    driver: bridge
+
+- name: Template Traefik docker-compose file
   ansible.builtin.template:
-    src: traefik.toml
-    dest: "{{ traefik_data_directory }}/traefik.toml"
+    src: docker-compose.yml.j2
+    dest: "/opt/traefik/docker-compose.yml"
     mode: 0770
-    owner: "{{ admin_user }}"
+    owner: root
     group: docker
-  register: template_config
+  notify: Apply traefik service
 
-# DELETEME
-# - name: Debug traefik_acme_email
-#   ansible.builtin.debug:
-#     msg: "{{ traefik_acme_email }}"
+- name: Template service file to manage traefik docker container
+  ansible.builtin.template:
+    src: traefik.service
+    dest: /etc/systemd/system/traefik.service
+    mode: 0770
+    owner: root
+    group: root
+  notify: Apply traefik service
 
-- name: Traefik Docker Container
-  community.docker.docker_container:
-    name: traefik
-    image: "{{ traefik_docker_image }}"
-    pull: true
-    network_mode: host
-    volumes:
-      - "{{ traefik_data_directory }}/traefik.toml:/etc/traefik/traefik.toml:ro"
-      - "{{ traefik_data_directory }}/letsencrypt:/letsencrypt:rw"
-      - "/var/run/docker.sock:/var/run/docker.sock:ro"
-    env: "{{ traefik_environment_variables }}"
-    restart_policy: unless-stopped
-    recreate: "{{ template_config is changed }}"
-    # memory: "{{ traefik_memory }}"
+# - name: Traefik Docker Container
+#   community.docker.docker_container:
+#     name: traefik
+#     image: "{{ traefik_docker_image }}"
+#     pull: true
+#     network_mode: host
+#     volumes:
+#       - "{{ traefik_data_directory }}/traefik.toml:/etc/traefik/traefik.toml:ro"
+#       - "{{ traefik_data_directory }}/letsencrypt:/letsencrypt:rw"
+#       - "/var/run/docker.sock:/var/run/docker.sock:ro"
+#     env: "{{ traefik_environment_variables }}"
+#     restart_policy: unless-stopped
+#     recreate: "{{ traefik_config_template_task is changed }}"
+#     # memory: "{{ traefik_docker_memory if traefik_docker_memory else omit }}"
+#     # cpus: "{{ traefik_docker_memory if traefik_docker_memory else omit }}"

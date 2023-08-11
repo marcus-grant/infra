@@ -1,0 +1,38 @@
+version: "3.3"
+
+services:
+  traefik:
+    image: "{{ traefik_docker_image }}"
+    container_name: "traefik"
+    restart: unless-stopped
+    command:
+      - "--api.insecure=false"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+      - "--certificatesresolvers.myresolver.acme.httpchallenge=true"
+{% if traefik_debug %}
+      - "--certificatesresolvers.myresolver.acme.caserver={{ traefik_acme_staging }}"
+{% else %}
+# Uncomment for testing ACME via staging server - avoids rate limits
+#      - "--certificatesresolvers.myresolver.acme.caserver={{ traefik_acme_staging }}"
+{% endif %}
+      - "--certificatesresolvers.myresolver.acme.httpchallenge.entrypoint=web"
+      - "--certificatesresolvers.myresolver.acme.email=marcusfg@pm.me"
+      - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8080:8080"
+    volumes:
+      - "/opt/traefik/letsencrypt:/letsencrypt"
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+  whoami:
+    image: "traefik/whoami"
+    container_name: "whoami"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.whoami.rule=Host(`whoami.svartalv.net`)"
+      - "traefik.http.routers.whoami.entrypoints=websecure"
+      - "traefik.http.routers.whoami.tls.certresolver=myresolver"

@@ -29,6 +29,8 @@
   roles:
     - role: traefik
       tags: [traefik, server, proxy, selfhost, ssl, cert]
+    - role: docker-reverb
+      tags: [reverb, server, container, ip, http]
 #     - role: caddy
 #       tags: [caddy, web, server, service, proxy, selfhost]
 #     - role: reverb

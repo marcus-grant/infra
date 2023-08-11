@@ -1,41 +1,35 @@
 ---
-# role traefik defaults
+# Role traefik defaults
 # Whether to turn on or off traefik idempotently.
 # Not some kind of certification resolution will be necessary
-traefik_enabled: false
-
-# Storage
-# The traefik persistent data directory to store configurations, logs, certs
-traefik_data_directory: "/etc/traefik"
-
-# Network
-traefik_port_http: '80'
-traefik_port_https: '443'
-traefik_port_ui: '8083'
+# Main
+traefik_enable: true  # Enable systemd service, and container restart policy
+traefik_debug: false  # Sets debug api, debug lvl logs & staging acme server
+traefik_user: root  # User to run traefik as and set ownership of config dir
+traefik_config_dir: /etc/traefik  # Location of traefik config & cert files
 
 # Docker
-traefik_docker_image: traefik:v2.10
+traefik_docker_image: traefik:v2.10  # Docker image to use with tag
+traefik_docker_network: traefik  # Docker network to attach to
+traefik_docker_memory: omit  # Memory limit (omit means no limit)
+traefik_docker_cpus: omit  # CPU limit (omit means no limit)
 
 # Logs
-traefik_log_level: INFO
+traefik_log_level: INFO  # DEBUG, INFO, WARN, ERROR, FATAL, PANIC
 
-# External DNS provider if necessary
-traefik_use_dns_provider: false
-traefik_dns_provider: cloudflare
+# Entrypoints
+traefik_entrypoint_domain: ''  # Domain name for entrypoints
+traefik_entrypoint_http_name: 'web'  # Reference name for HTTP entrypoint
+traefik_entrypoint_http_port: '80'  # Port for HTTP entrypoint (string)
+traefik_entrypoint_https_name: 'websecure'  # Reference name for HTTPS entrypoint
+traefik_entrypoint_https_port: '443'  # Port for HTTPS entrypoint (string)
+
+# Certificate Resolver
+traefik_cert_resolver_name: 'letsencrypt'  # Reference to configured resolver
+traefik_cert_email: ''  # The email address associated to the certificate
+# traefik_cert_default_challenge_type: 'http'  # or dns (https://tinyurl.com/mzdfpbp)
+# traefik_cert_provider: 'cloudflare'  # Supported DNS challenge providers
+
+# Environment variables (also used to specify DNS ACME provider)
 traefik_environment_variables: {}
 #  CF_DNS_API_TOKEN: 'deadbeef1234567890'  # Example entry
-
-# ACME Server
-# Use this to specify either the 'staging' or 'production' server.
-# Staging doesn't give you real certs, but it has massive rate limits.
-# traefik_acme_server: "https://acme-staging-v02.api.letsencrypt.org/directory"
-# ABOVE: staging, BELOW: production
-traefik_acme_server: "https://acme-v02.api.letsencrypt.org/directory"
-
-# Provisioning
-# TODO: Figure out how to safely omit this docker module prop
-traefik_memory: omit  # omit means default docker allocation
-traefik_cpu: omit  # omit means default docker allocation
-
-# TODO: Add all of these variables to a README
-# NOTE: server_base_domain is required for TLS certs

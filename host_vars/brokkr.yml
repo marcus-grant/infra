@@ -6,19 +6,21 @@ hostname: brokkr
 # Fail2Ban
 fail2ban_sender: "fail2ban@{{ hostname }}.{{ svartalv_main_domain }}"
 
-## Podman
-podman_group: containers
-podman_gid: 10000
-podman_group_users: ["{{ admin_user }}"]
-podman_install_compose: true
-podman_registries: ["'docker.io'"]  # must have single quote around registry
-
-# Reverb
-reverb_uid: 10010
-reverb_gid: 10010
-reverb_port: 10010
-reverb_git_force: false
-reverb_git_update: false
+# Traefik
+# TODO: Trim these out, a lot of them are old
+traefik_auth_htpasswds: ["{{ admin_htpasswd }}"]
+traefik_docker_image: traefik:v2.10  # Docker image to use with tag
+traefik_docker_network: traefik  # Docker network to attach to
+traefik_docker_memory: omit  # Memory limit (omit means no limit)
+traefik_docker_cpus: omit  # CPU limit (omit means no limit)
+traefik_log_level: INFO  # DEBUG, INFO, WARN, ERROR, FATAL, PANIC
+traefik_host: '{{ svartalv_main_domain }}'
+traefik_entrypoint_http_name: 'web'  # Reference name for HTTP entrypoint
+traefik_entrypoint_http_port: '80'  # Port for HTTP entrypoint (string)
+traefik_entrypoint_https_name: 'websecure'  # Reference name for HTTPS entrypoint
+traefik_entrypoint_https_port: '443'  # Port for HTTPS entrypoint (string)
+traefik_cert_resolver_name: 'letsencrypt'  # Reference to configured resolver
+traefik_cert_email: ''  # The email address associated to the certificate
 
 ## Caddy
 caddy_github_token: vault_github_token

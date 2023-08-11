@@ -1,0 +1,7 @@
+---
+- name: Restart reverb service
+  ansible.builtin.systemd:
+    enabled: "{{ reverb_enabled }}"
+    daemon_reload: true
+    name: reverb
+    state: restarted

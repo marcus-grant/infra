@@ -1,0 +1,4 @@
+---
+traefik_acme_staging: https://acme-staging-v02.api.letsencrypt.org/directory
+# traefik_cert_server_prod: https://acme-v02.api.letsencrypt.org/directory
+# traefik_cert_server_stage: https://acme-staging-v02.api.letsencrypt.org/directory

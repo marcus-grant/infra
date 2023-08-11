@@ -1,0 +1,8 @@
+---
+# Traefik role main handler file
+- name: Apply traefik service
+  ansible.builtin.systemd:
+    name: traefik
+    state: "{{ traefik_enable | ternary('restarted', 'stopped') }}"
+    enabled: "{{ traefik_enable }}"
+    daemon_reload: true

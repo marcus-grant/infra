@@ -1,0 +1,80 @@
+---
+# Main tasks file for role/podman/reverb
+- name: Git checkout reverb (main) to reverb home
+  ansible.builtin.git:
+    repo: https://github.com/marcus-grant/reverb
+    dest: "{{ reverb_dir }}"
+    force: "{{ reverb_git_force }}"
+    update: "{{ reverb_git_update }}"
+    version: main
+
+- name: Chown and ghgrp the reverb repo for reverb user & containers group
+  ansible.builtin.file:
+    state: directory
+    path: /home/reverb/repo
+    recurse: true
+    owner: "{{ reverb_user }}"
+    group: "{{ reverb_group }}"
+    mode: 0770
+
+- name: Set fact to fallback on reverb_domain to be traefik_entrypoint_domain
+  ansible.builtin.set_fact:
+    reverb_host: "{{ reverb_subdomain }}.{{ traefik_entrypoint_domain }}"
+  when: traefik_entrypoint_domain is defined
+
+- name: Set fact to fallback on reverb_domain when it is defined
+  ansible.builtin.set_fact:
+    reverb_host: "{{ reverb_subdomain }}.{{ reverb_domain }}"
+  when: reverb_domain is defined
+
+- name: Template a container-compose file
+  ansible.builtin.template:
+    src: docker-compose.yml
+    dest: "{{ reverb_dir }}/docker-compose.yml"
+    owner: "{{ reverb_user }}"
+    group: "{{ reverb_group }}"
+    mode: 0770
+  notify: Restart reverb service
+
+- name: Template reverb service file to use docker-compose
+  ansible.builtin.template:
+    src: reverb.service
+    dest: /etc/systemd/system/reverb.service
+    owner: "{{ reverb_user }}"
+    group: "{{ reverb_group }}"
+    mode: 0644
+  notify: Restart reverb service
+
+# - name: Build the docker container version of the server
+#   community.docker.docker_image:
+#     name: localhost/reverb
+#     build:
+#       path: /home/reverb/repo
+#     source: build
+
+# - name: Run the server in docker
+#   community.docker.docker_container:
+#     name: reverb
+#     image: localhost/reverb
+#     state: started
+#     restart_policy: unless-stopped
+#     ports:
+#       - "{{ reverb_port }}:33333"
+
+# - name: Template caddy route file in sites-available
+#   ansible.builtin.template:
+#     src: reverb.Caddyfile.j2
+#     dest: /etc/caddy/sites-available/reverb.Caddyfile
+#     owner: reverb
+#     group: caddy
+#     mode: 0774
+#   notify: Restart caddy
+
+# - name: Link caddy route to sites-enabled
+#   ansible.builtin.file:
+#     src: /etc/caddy/sites-available/reverb.Caddyfile
+#     dest: /etc/caddy/sites-enabled/reverb.Caddyfile
+#     owner: reverb
+#     group: caddy
+#     mode: 0774
+#     state: link
