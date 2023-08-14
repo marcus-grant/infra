@@ -5,31 +5,18 @@
 # Main
 traefik_enable: true  # Enable systemd service, and container restart policy
 traefik_debug: false  # Sets debug api, debug lvl logs & staging acme server
-traefik_user: root  # User to run traefik as and set ownership of config dir
-traefik_config_dir: /etc/traefik  # Location of traefik config & cert files
 
 # Docker
 traefik_docker_image: traefik:v2.10  # Docker image to use with tag
 traefik_docker_network: traefik  # Docker network to attach to
-traefik_docker_memory: omit  # Memory limit (omit means no limit)
-traefik_docker_cpus: omit  # CPU limit (omit means no limit)
 
 # Logs
 traefik_log_level: INFO  # DEBUG, INFO, WARN, ERROR, FATAL, PANIC
 
-# Entrypoints
-traefik_entrypoint_domain: ''  # Domain name for entrypoints
-traefik_entrypoint_http_name: 'web'  # Reference name for HTTP entrypoint
-traefik_entrypoint_http_port: '80'  # Port for HTTP entrypoint (string)
-traefik_entrypoint_https_name: 'websecure'  # Reference name for HTTPS entrypoint
-traefik_entrypoint_https_port: '443'  # Port for HTTPS entrypoint (string)
-
 # Certificate Resolver
 traefik_cert_resolver_name: 'letsencrypt'  # Reference to configured resolver
 traefik_cert_email: ''  # The email address associated to the certificate
-# traefik_cert_default_challenge_type: 'http'  # or dns (https://tinyurl.com/mzdfpbp)
-# traefik_cert_provider: 'cloudflare'  # Supported DNS challenge providers
 
 # Environment variables (also used to specify DNS ACME provider)
-traefik_environment_variables: {}
+traefik_environment: {}
 #  CF_DNS_API_TOKEN: 'deadbeef1234567890'  # Example entry

@@ -19,8 +19,11 @@ services:
 #      - "--certificatesresolvers.myresolver.acme.caserver={{ traefik_acme_staging }}"
 {% endif %}
       - "--certificatesresolvers.myresolver.acme.httpchallenge.entrypoint=web"
-      - "--certificatesresolvers.myresolver.acme.email=marcusfg@pm.me"
+      - "--certificatesresolvers.myresolver.acme.email={{ traefik_cert_email }}"
       - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
+# This is an attempt to redirect all http to https
+      - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
+      - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
     ports:
       - "80:80"
       - "443:443"
@@ -28,6 +31,7 @@ services:
     volumes:
       - "/opt/traefik/letsencrypt:/letsencrypt"
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
+    environment: {{ traefik_environment }}
   whoami:
     image: "traefik/whoami"
     container_name: "whoami"

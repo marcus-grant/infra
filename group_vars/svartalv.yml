@@ -57,11 +57,6 @@ mysql_users:
     password: "{{ ansible_become_password }}"
     state: present
 
-# Traefik
-traefik_base_domain: "{{ svartalv_main_domain }}"
-traefik_port_ui: 8083
-traefik_acme_email: "{{ admin_email }}"
-
 # Dotfiles
 ## Bash
 bash_set_default_shell: true

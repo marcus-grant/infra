@@ -7,51 +7,8 @@ hostname: brokkr
 fail2ban_sender: "fail2ban@{{ hostname }}.{{ svartalv_main_domain }}"
 
 # Traefik
-# TODO: Trim these out, a lot of them are old
-traefik_auth_htpasswds: ["{{ admin_htpasswd }}"]
 traefik_docker_image: traefik:v2.10  # Docker image to use with tag
 traefik_docker_network: traefik  # Docker network to attach to
-traefik_docker_memory: omit  # Memory limit (omit means no limit)
-traefik_docker_cpus: omit  # CPU limit (omit means no limit)
+traefik_cert_email: '{{ admin_email }}'  # The email address associated to the certificate
 traefik_log_level: INFO  # DEBUG, INFO, WARN, ERROR, FATAL, PANIC
-traefik_host: '{{ svartalv_main_domain }}'
-traefik_entrypoint_http_name: 'web'  # Reference name for HTTP entrypoint
-traefik_entrypoint_http_port: '80'  # Port for HTTP entrypoint (string)
-traefik_entrypoint_https_name: 'websecure'  # Reference name for HTTPS entrypoint
-traefik_entrypoint_https_port: '443'  # Port for HTTPS entrypoint (string)
-traefik_cert_resolver_name: 'letsencrypt'  # Reference to configured resolver
-traefik_cert_email: ''  # The email address associated to the certificate
-
-## Caddy
-caddy_github_token: vault_github_token
-caddy_create_site_dirs: true
-caddy_users_in_group: ["{{ admin_user }}"]
-caddy_systemd_capabilities_enabled: true
-caddy_systemd_capabilities: "CAP_NET_BIND_SERVICE"
-caddy_systemd_restart_startlimitinterval: "600"
-caddy_systemd_restart_startlimitburst: "5"
-caddy_config: |  # look here, undetermined if this really helps http://bit.ly/3Wlt8Cr
-  # Templated by ansible
-  # Import sites-enabled config files/snippets
-  # Root Caddyfile
-  {
-      auto_https disable_redirects
-  }
-  http:// {
-      redir https://{hostport}{uri} 301
-  }
-  :80 {
-      redir https://{hostport}{uri} 301
-  }
-  import sites-enabled/*
-caddy_create_sites: true
-caddy_cloudflare_token: "{{ vault_cloudflare_dns_token }}"
-caddy_sites:
-  - file: root
-    enabled: true
-    config: |
-      www.{{ svartalv_main_domain }} {
-        root * /var/www
-        encode gzip
-        file_server
-      }
+traefik_auth_htpasswds: ["{{ admin_htpasswd }}"]

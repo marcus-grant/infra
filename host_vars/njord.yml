@@ -85,13 +85,6 @@ b2_restic_docker_backup_bucket_id: !vault |
           6536666630656338340a306337316535393632616238383162313265336430373738306163616363
           66323061313931303334316236386264323331316661656339313734626634653733
 
-# Traefik
-traefik_port_ui: "8079"
-traefik_environment_variables:
-  # CF_DNS_API_TOKEN: "{{ cloudflare_dns_token }}"
-  CLOUDFLARE_DNS_API_TOKEN: "{{ cloudflare_dns_token }}"
-  CLOUDFLARE_EMAIL: "{{ cloudflare_email }}"
-
 # Gitea
 gitea_enabled: true
 gitea_available_externally: 'true'

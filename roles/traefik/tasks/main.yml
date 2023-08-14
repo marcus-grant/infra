@@ -16,14 +16,14 @@
     path: "/opt/traefik/letsencrypt/acme.json"
   register: acme_json_file
 
-# - name: Create traefik certs file
-#   ansible.builtin.file:
-#     path: "/opt/traefik/letsencrypt/acme.json"
-#     state: file
-#     owner: root
-#     group: docker
-#     mode: 0600
-#   when: not acme_json_file.stat.exists
+- name: Create traefik certs file (acme.json)
+  ansible.builtin.file:
+    path: "/opt/traefik/letsencrypt/acme.json"
+    state: file
+    owner: root
+    group: docker
+    mode: 0600
+  when: not acme_json_file.stat.exists
 
 - name: Create traefik's docker network
   community.docker.docker_network:
@@ -48,19 +48,3 @@
     owner: root
     group: root
   notify: Apply traefik service
-
-# - name: Traefik Docker Container
-#   community.docker.docker_container:
-#     name: traefik
-#     image: "{{ traefik_docker_image }}"
-#     pull: true
-#     network_mode: host
-#     volumes:
-#       - "{{ traefik_data_directory }}/traefik.toml:/etc/traefik/traefik.toml:ro"
-#       - "{{ traefik_data_directory }}/letsencrypt:/letsencrypt:rw"
-#       - "/var/run/docker.sock:/var/run/docker.sock:ro"
-#     env: "{{ traefik_environment_variables }}"
-#     restart_policy: unless-stopped
-#     recreate: "{{ traefik_config_template_task is changed }}"
-#     # memory: "{{ traefik_docker_memory if traefik_docker_memory else omit }}"
-#     # cpus: "{{ traefik_docker_memory if traefik_docker_memory else omit }}"
