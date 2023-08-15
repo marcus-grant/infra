@@ -1,2 +1,27 @@
 ---
 # tasks file for whoami
+- name: Ensure whoami directory exists
+  ansible.builtin.file:
+    path: /opt/whoami
+    state: directory
+    owner: root
+    group: docker
+    mode: '0755'
+
+- name: Template whoami docker-compose file
+  ansible.builtin.template:
+    src: docker-compose.yml.j2
+    dest: /opt/whoami/docker-compose.yml
+    owner: root
+    group: docker
+    mode: '0644'
+  notify: Apply whoami systemd service
+
+- name: Template whoami systemd service file
+  ansible.builtin.template:
+    src: whoami.service.j2
+    dest: /etc/systemd/system/whoami.service
+    owner: root
+    group: root
+    mode: '0644'
+  notify: Apply whoami systemd service

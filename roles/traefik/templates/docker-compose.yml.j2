@@ -27,16 +27,21 @@ services:
     ports:
       - "80:80"
       - "443:443"
-      - "8080:8080"
+#       - "8080:8080"
+    networks:
+      - traefik
+      - proxied
     volumes:
       - "/opt/traefik/letsencrypt:/letsencrypt"
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
     environment: {{ traefik_environment }}
-  whoami:
-    image: "traefik/whoami"
-    container_name: "whoami"
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.whoami.rule=Host(`whoami.svartalv.net`)"
-      - "traefik.http.routers.whoami.entrypoints=websecure"
-      - "traefik.http.routers.whoami.tls.certresolver=myresolver"
+
+networks:
+  traefik:
+    name: traefik
+    driver: bridge
+    internal: false
+  proxied:
+    name: proxied
+    driver: bridge
+    internal: true

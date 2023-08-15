@@ -1,0 +1,16 @@
+# Manged by Ansible
+[Unit]
+Description=Whoami containerized server, responds with request headers
+Requires=docker.service
+After=docker.service
+
+[Service]
+ExecStart=/usr/local/bin/docker-compose -f /opt/whoami/docker-compose.yml up
+ExecStop=/usr/local/bin/docker-compose -f /opt/whoami/docker-compose.yml down
+Restart=always
+RestartSec=10
+User=root
+Group=docker
+
+[Install]
+WantedBy=multi-user.target

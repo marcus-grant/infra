@@ -1,2 +1,9 @@
 ---
 # handlers file for whoami
+- name: Apply whoami systemd service
+  ansible.builtin.systemd:
+    name: whoami
+    state: restarted
+    enabled: true
+    daemon_reload: true
+
