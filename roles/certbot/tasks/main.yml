@@ -1,0 +1,22 @@
+---
+# tasks file for certbot
+- name: Set fact for certbot packages to install
+  ansible.builtin.set_fact:
+    certbot_packages: >
+      {{ certbot_pkgs[ansible_os_family] | default(certbot_pkgs_d) }}
+
+- name: Set fact, modifying certbot_packages to include nginx plugin
+  ansible.builtin.set_fact:
+    certbot_packages: >
+      {{ certbot_packages + (
+        certbot_pkgs_ng[ansible_os_family] | default(certbot_pkgs_ng_d)
+      ) }}
+  when: certbot_nginx_plugin | bool
+
+- name: Ensure certbot and its dependencies are installed with package manager
+  become: true
+  ansible.builtin.package:
+    name: "{{ certbot_package_current }}"
+    state: present
+  loop_control: {loop_var: certbot_package_current}
+  loop: "{{ certbot_packages }}"

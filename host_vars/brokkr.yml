@@ -16,3 +16,6 @@ traefik_auth_htpasswds: ["{{ admin_htpasswd }}"]
 # Nginx
 nginx_reload_daemon_enabled: false  # Whether to enable the reload script
 nginx_worker_connections: 1024  # Number of connections per worker
+
+# Certbot
+certbot_nginx_plugin: true

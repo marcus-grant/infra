@@ -1,0 +1,14 @@
+---
+# vars file for certbot
+certbot_pkgs_d: [certbot]
+certbot_pkgs: {}
+# OpenWrt:
+#   - certbot
+#   - python3-certbot-nginx # Note: You might need to double-check the exact package name for OpenWrt.
+
+certbot_pkgs_ng_d: [python3-certbot-nginx]
+certbot_pkgs_ng:
+  Alpine: [py3-certbot-nginx]
+  Archlinux: [python-certbot-nginx]
+  # OpenWrt:
+  #   - python3-certbot-nginx # Note: You might need to double-check the exact package name for OpenWrt.

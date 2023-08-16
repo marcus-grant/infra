@@ -27,8 +27,10 @@
   roles:
     - role: nginx
       tags: [nginx, proxy, server, web]
-    # - role: whoami
-    #   tags: [traefik, server, container, whoami, ip]
+    - role: certbot
+      tags: [certbot, letsencrypt, tls, certificate, web]
+#    - role: whoami
+#    tags: [traefik, server, container, whoami, ip]
 #     - role: caddy
 #       tags: [caddy, web, server, service, proxy, selfhost]
 #     - role: reverb
