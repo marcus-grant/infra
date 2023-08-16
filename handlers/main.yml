@@ -4,6 +4,12 @@
     name: sshd
     state: restarted
 
+- name: Reload nginx
+  become: true
+  ansible.builtin.service:
+    name: nginx
+    state: reloaded
+
 # - name: Restart postgres
 #   ansible.builtin.service:
 #     name: 

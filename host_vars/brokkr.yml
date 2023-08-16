@@ -13,5 +13,6 @@ traefik_cert_email: '{{ admin_email }}'  # The email address associated to the c
 traefik_log_level: INFO  # DEBUG, INFO, WARN, ERROR, FATAL, PANIC
 traefik_auth_htpasswds: ["{{ admin_htpasswd }}"]
 
-# Caddy Docker Proxy
-caddy_email: '{{ admin_email }}'  # The email address associated to the certificate
+# Nginx
+nginx_reload_daemon_enabled: false  # Whether to enable the reload script
+nginx_worker_connections: 1024  # Number of connections per worker

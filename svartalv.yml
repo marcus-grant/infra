@@ -25,10 +25,8 @@
   hosts: brokkr
   become: true
   roles:
-    - role: caddy-docker-proxy
-      tags: [caddy, server, proxy, tls, cert]
-    # - role: traefik
-    #   tags: [traefik, server, proxy, selfhost, ssl, cert]
+    - role: nginx
+      tags: [nginx, proxy, server, web]
     # - role: whoami
     #   tags: [traefik, server, container, whoami, ip]
 #     - role: caddy
