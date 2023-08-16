@@ -1,0 +1,21 @@
+version: "3.7"
+services:
+  caddy:
+    container_name: caddy
+    image: "{{ caddy_image }}"
+    ports: [80:80, 443:443]
+    environment:
+      - CADDY_INGRESS_NETWORKS=caddy
+    networks:
+      - caddy
+    labels:
+      caddy.email: "{{ caddy_email }}"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /opt/caddy/data:/data
+    restart: unless-stopped
+
+networks:
+  caddy:
+    name: caddy
+    external: true

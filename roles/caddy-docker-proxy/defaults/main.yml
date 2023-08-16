@@ -1,0 +1,3 @@
+---
+caddy_image: lucaslorentz/caddy-docker-proxy:2.3-alpine
+caddy_email: ''

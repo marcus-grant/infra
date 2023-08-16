@@ -12,3 +12,6 @@ traefik_docker_network: traefik  # Docker network to attach to
 traefik_cert_email: '{{ admin_email }}'  # The email address associated to the certificate
 traefik_log_level: INFO  # DEBUG, INFO, WARN, ERROR, FATAL, PANIC
 traefik_auth_htpasswds: ["{{ admin_htpasswd }}"]
+
+# Caddy Docker Proxy
+caddy_email: '{{ admin_email }}'  # The email address associated to the certificate

@@ -1,0 +1,29 @@
+---
+- name: Ensure caddy docker proxy directory exists
+  become: true
+  ansible.builtin.file:
+    path: "{{ caddy_docker_proxy_item }}"
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+  loop:
+    - '/opt/caddy'
+    - '/opt/caddy/data'
+  loop_control: {loop_var: caddy_docker_proxy_item}
+
+- name: Create docker network for caddy
+  become: true
+  community.docker.docker_network:
+    name: caddy
+    state: present
+    internal: false
+
+- name: Template caddy docker proxy compose file
+  become: true
+  ansible.builtin.template:
+    src: docker-compose.yml.j2
+    dest: /opt/caddy/docker-compose.yml
+    owner: root
+    group: root
+    mode: '0644'
