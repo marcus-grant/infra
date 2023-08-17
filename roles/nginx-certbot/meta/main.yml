@@ -1,7 +1,12 @@
 ---
 galaxy_info:
-  author: Marcus Grant
-  description: Install & configure nginx using package manger and systemd
+  author: marcus_grant
+  description: >
+    Install & configure nginx & certbot together using
+    OS package manager,
+    systemd,
+    nginx configurations and provided systemd service files,
+    and certbot configurations and provided systemd service files.
 
   # If the issue tracker for your role is not on github, uncomment the
   # next line and provide a value
@@ -39,7 +44,9 @@ galaxy_info:
   #   - 7
   #   - 99.99
 
-  galaxy_tags: [nginx, proxy, web, server]
+  galaxy_tags: >
+    [nginx, proxy, web, server, certbot,
+    tls, ssl, http, certificate, letsencrypt]
   # List tags for your role here, one per line. A tag is a keyword that describes
   # and categorizes the role. Users find roles by searching for tags. Be sure to
   # remove the '[]' above, if you add tags to this list.

@@ -1,5 +1,0 @@
----
-# defaults file for roles/nginx
-nginx_reload_daemon_enabled: false
-nginx_worker_connections: 768
-nginx_reload_daemon_watched_dirs: ['/etc/nginx/sites-enabled']

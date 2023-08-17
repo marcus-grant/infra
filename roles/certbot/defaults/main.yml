@@ -1,3 +1,0 @@
----
-# defaults file for certbot
-certbot_nginx_plugin: true

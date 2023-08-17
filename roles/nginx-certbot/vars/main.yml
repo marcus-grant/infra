@@ -1,0 +1,30 @@
+---
+# vars file for roles/nginx_certbot
+# TODO: determine if extra packages are a good idea for nginx
+# NOTE: vars name legend:
+# ngx = nginx
+# cb = certbot
+# pkgs = Packages
+# d = default
+# Nginx package names by ansible_os_family,
+# *_d means ansible_os_family needs the same packages as default
+ngx_pkgs_d: [nginx]
+ngx_pkgs:
+  Debian: "{{ ngx_cb_pkgs_d + ['nginx-common'] }}"
+
+# Certbot package names by ansible_os_family,
+# *_d means ansible_os_family needs the same packages as default
+cb_pkgs_d: [certbot]
+cb_pkgs: {}
+# OpenWrt:
+#   - certbot
+#   - python3-certbot-nginx # Note: You might need to double-check the exact package name for OpenWrt.
+
+# Certbot nginx extension package names by ansible_os_family,
+# *_d means ansible_os_family needs the same packages as default
+cb_pkgs_ngx_d: [python3-certbot-nginx]
+cb_pkgs_ngx:
+  Alpine: [py3-certbot-nginx]
+  Archlinux: [python-certbot-nginx]
+  # OpenWrt:
+  #   - python3-certbot-nginx # Note: You might need to double-check the exact package name for OpenWrt.

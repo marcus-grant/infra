@@ -1,0 +1,77 @@
+---
+# tasks file for nginx-certbot
+- name: Set facts for nginx & certbot packages to install
+  ansible.builtin.set_fact:
+    nginx_packages: >
+      {{ ngx_pkgs[ansible_os_family] | default(ngx_pkgs_d) }}
+    certbot_packages: >
+      {{ cb_pkgs[ansible_os_family] | default(cb_pkgs_d) }}
+    nginx_certbot_extension_packages: >
+      {{ cb_pkgs_ngx[ansible_os_family] | default(cb_pkgs_ngx_d) }}
+
+- name: Set new fact merging nginx, certbot & nginx certbot extensions lists
+  ansible.builtin.set_fact:
+    nginx_certbot_packages: >
+      {{ nginx_packages + certbot_packages + nginx_certbot_extension_packages }}
+
+- name: Ensure nginx, certbot & dependencies are installed with package manager
+  become: true
+  ansible.builtin.package:
+    name: "{{ nginx_certbot_package }}"
+    state: present
+  loop_control: {loop_var: nginx_certbot_package}
+  loop: "{{ nginx_certbot_packages }}"
+
+- name: Obtain SSL certificates with Certbot/Webroot
+  ansible.builtin.command:
+    cmd: >
+      certbot certonly
+      --webroot -w /var/www/html -d '{{ nginx_certbot_site.url }}'
+      --email '{{ nginx_certbot_email }}' --agree-tos --no-eff-email
+    creates: '/etc/letsencrypt/live/{{ nginx_certbot_site.url }}/fullchain.pem'
+  loop: "{{ nginx_sites }}"
+  loop_control: {loop_var: nginx_certbot_site}
+  when:
+    - nginx_certbot_enabled
+    - nginx_certbot_site.ssl
+    - nginx_certbot_email != 'admin@example.com'
+
+- name: Template nginx root config
+  become: true
+  ansible.builtin.template:
+    src: nginx.conf.j2
+    dest: /etc/nginx/nginx.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify: Reload nginx
+
+- name: Generate Nginx configuration files for each nginx_site
+  ansible.builtin.template:
+    src: nginx-site.conf.j2
+    dest: "/etc/nginx/sites-available/{{ nginx_certbot_site.url }}.conf"
+    owner: root
+    group: root
+    mode: 0644
+  loop: "{{ nginx_sites }}"
+  loop_control: {loop_var: nginx_certbot_site}
+  notify: Reload nginx
+
+- name: Enable sites
+  ansible.builtin.file:
+    src: "/etc/nginx/sites-available/{{ nginx_certbot_site.url }}.conf"
+    dest: "/etc/nginx/sites-enabled/{{ nginx_certbot_site.url }}.conf"
+    state: link
+  loop: "{{ nginx_sites }}"
+  loop_control: {loop_var: nginx_certbot_site}
+  notify: Reload nginx
+  when: nginx_certbot_site.enabled
+
+- name: Disable sites
+  ansible.builtin.file:
+    path: "/etc/nginx/sites-enabled/{{ nginx_certbot_site.url }}.conf"
+    state: absent
+  loop: "{{ nginx_sites }}"
+  loop_control: {loop_var: nginx_certbot_site}
+  notify: Reload nginx
+  when: not nginx_certbot_site.enabled

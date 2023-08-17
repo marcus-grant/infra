@@ -1,0 +1,34 @@
+{% set url = nginx_certbot_site.url %}
+{% set ssl = nginx_certbot_site.ssl %}
+{% set port = nginx_certbot_site.port %}
+{% set redirect_www = nginx_certbot_site.redirect_www %}
+{% set redirect_http = nginx_certbot_site.redirect_http %}
+{% set extra = nginx_certbot_site.extra %}
+
+server {
+    listen 80;
+    server_name {{ url }} {% if redirect_www %}www.{{ url }}{% endif %};
+
+    {% if redirect_http %}
+    location / {
+        return 301 https://$host$request_uri;
+    }
+    {% endif %}
+}
+
+{% if ssl %}
+server {
+    listen 443 ssl;
+    server_name {{ url }};
+    
+    ssl_certificate /etc/letsencrypt/live/{{ url }}/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/{{ url }}/privkey.pem;
+
+    location / {
+        proxy_pass http://127.0.0.1:{{ port }};
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        {{ extra }}
+    }
+}
+{% endif %}

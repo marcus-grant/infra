@@ -1,0 +1,21 @@
+---
+# defaults file for roles/nginx_certbot
+# certbot-specific section
+nginx_certbot_enabled: true
+nginx_certbot_email: admin@example.com
+
+# nginx-specific section
+nginx_worker_connections: 768
+
+# site definitions
+nginx_sites:
+  - url: "whoami.example.com"
+    enabled: true
+    port: 10001
+    ssl: true
+    redirect_http: true
+    redirect_www: true
+    extra: |
+      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+      client_max_body_size 100m;
+
