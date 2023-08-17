@@ -25,16 +25,10 @@
   hosts: brokkr
   become: true
   roles:
-    - role: nginx
-      tags: [nginx, proxy, server, web]
-    - role: certbot
-      tags: [certbot, letsencrypt, tls, certificate, web]
-#    - role: whoami
-#    tags: [traefik, server, container, whoami, ip]
-#     - role: caddy
-#       tags: [caddy, web, server, service, proxy, selfhost]
-#     - role: reverb
-#       tags: [server, service, container, reverb, ip]
+    - role: nginx-certbot
+      tags: [nginx, certbot, letsencrypt, tls, certificate proxy, server, web]
+    - role: whoami
+      tags: [traefik, server, container, whoami, ip]
 #     - role: geerlingguy.postgresql
 #       tags: [database, postgres]
 #     - role: geerlingguy.mysql

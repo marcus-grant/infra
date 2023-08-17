@@ -13,9 +13,24 @@ traefik_cert_email: '{{ admin_email }}'  # The email address associated to the c
 traefik_log_level: INFO  # DEBUG, INFO, WARN, ERROR, FATAL, PANIC
 traefik_auth_htpasswds: ["{{ admin_htpasswd }}"]
 
+# Certbot
 # Nginx
+nginx_certbot_enabled: true  # Whether to enable certbot
+nginx_certbot_email: "{{ admin_email }}"
 nginx_reload_daemon_enabled: false  # Whether to enable the reload script
 nginx_worker_connections: 1024  # Number of connections per worker
+# Nginx - Site configs
+nginx_sites:
+  - url: "whoami.{{ svartalv_main_domain }}"
+    enabled: true
+    port: 10001
+    ssl: true
+    redirect_http: true
+    redirect_www: true
+    extra: |
+      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+      client_max_body_size 100m;
 
-# Certbot
-certbot_nginx_plugin: true
+# Docker-Compose Systemd Services
+# Whoami
+whoami_port: 10001
