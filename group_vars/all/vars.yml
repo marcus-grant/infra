@@ -1,6 +1,7 @@
 ---
 # Main admin user
 admin_user: "{{ vault_admin_user }}"
+admin_user_password: "{{ vault_admin_user_password }}"
 admin_email: "{{ vault_admin_email }}"
 admin_htpasswd: "{{ vault_admin_htpasswd }}"
 
@@ -9,6 +10,20 @@ main_salt: "{{ vault_main_salt }}"
 
 # Domains
 svartalv_main_domain: "{{ vault_svartalv_main_domain }}"
+
+# Postgres Vault
+postgresql_root_password: "{{ vault_postgres_root_password }}"
+
+# Portmaps
+internal_ports:
+  whoami: '10001'
+  pgadmin: '10010'
+  vaultwarden: '10100'
+  forgejo: '10101'
+  nocodb: '10102'
+  nodered: '10103'
+  n8n: '10104'
+  nextcloud: '11000'
 
 # Dotfiles
 dotfiles_root: ~/.config

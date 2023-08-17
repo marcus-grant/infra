@@ -1,0 +1,23 @@
+version: '3.7'
+services:
+  pgadmin:
+    container_name: pgadmin
+    image: "{{ postgresql_pgadmin_image }}"
+    volumes:
+      - /opt/pgadmin/data:/var/lib/pgadmin
+      - /var/run/postgresql:/var/run/postgresql
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "{{ postgresql_pgadmin_email }}"
+      PGADMIN_DEFAULT_PASSWORD: "{{ postgresql_pgadmin_password }}"
+    ports:
+      - "{{ postgresql_pgadmin_port }}:80"
+      # - 5432:5432  # DELETEME might be impossible with host db
+    networks:
+      - pgadmin
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+networks:
+  pgadmin:
+    name: pgadmin
+    driver: bridge

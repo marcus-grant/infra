@@ -25,19 +25,13 @@
   hosts: brokkr
   become: true
   roles:
+    - role: geerlingguy.postgresql
+      tags: [postgresql, postgres, database, data]
+    - role: postgresql-docker-config
+      tags: [postgresql, postgres, database, data, docker, hba]
+    - role: postgresql-pgadmin
+      tags: [pgadmin, postgresql, postgres, database, data, admin, ui, web, docker]
     - role: nginx-certbot
       tags: [nginx, certbot, letsencrypt, tls, certificate proxy, server, web]
     - role: whoami
       tags: [traefik, server, container, whoami, ip]
-#     - role: geerlingguy.postgresql
-#       tags: [database, postgres]
-#     - role: geerlingguy.mysql
-#       tags: [database, mysql, mariadb]
-
-# DEV ONLY
-# - name: '[DEV ONLY] Provision hetzner servers, NOTE: Should be done AFTER bootstrapping'
-#   hosts: brokkr
-#   gather_facts: true
-#   become: true
-#   vars:
-#     caddy_github_token: "{{ vault_github_token }}"

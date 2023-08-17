@@ -1,8 +1,8 @@
 {% set url = nginx_certbot_site.url %}
 {% set ssl = nginx_certbot_site.ssl %}
 {% set port = nginx_certbot_site.port %}
-{% set redirect_www = nginx_certbot_site.redirect_www %}
-{% set redirect_http = nginx_certbot_site.redirect_http %}
+{% set redirect_www = nginx_certbot_site.redirect_www | default(false) %}
+{% set redirect_http = nginx_certbot_site.redirect_http | default(false) %}
 {% set extra = nginx_certbot_site.extra %}
 
 server {
@@ -28,7 +28,7 @@ server {
         proxy_pass http://127.0.0.1:{{ port }};
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
-        {{ extra }}
+        {{ extra | default('') }}
     }
 }
 {% endif %}

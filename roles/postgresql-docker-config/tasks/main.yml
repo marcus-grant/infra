@@ -1,0 +1,39 @@
+---
+# main tasks file of roles/postgresql-docker-config
+- name: Get Docker gateway IP
+  ansible.builtin.command: >-
+    docker network inspect bridge --format
+    "{{ '{{' }}(index .IPAM.Config 0).Gateway{{ '}}' }}"
+  changed_when: false
+  register: psql_docker_gateway_ip
+
+- name: Debug docker_gateway_ip
+  ansible.builtin.debug:
+    msg: "{{ psql_docker_gateway_ip.stdout }}"
+
+- name: Get postgresql version
+  ansible.builtin.command: psql --version
+  changed_when: false
+  register: psql_vers
+
+- name: Set fact for split of postgresql version stdout
+  ansible.builtin.set_fact:
+    psql_split: "{{ psql_vers.stdout.split() }}"
+
+- name: Set fact for postgresql version in semver format
+  ansible.builtin.set_fact:
+    psql_semver: "{{ psql_split | select('search', '\\d+\\.\\d+') | first }}"
+
+- name: Set fact for postgresql major version
+  ansible.builtin.set_fact:
+    psql_major_vers: "{{ (psql_semver).split('.')[0] }}"
+
+- name: Debug psql_major_vers
+  ansible.builtin.debug:
+    msg: "{{ psql_major_vers }}"
+
+- name: Allow PostgreSQL connections from Docker
+  ansible.builtin.lineinfile:
+    path: "/etc/postgresql/{{ psql_major_vers }}/main/pg_hba.conf"
+    line: "host    all    all    {{ psql_docker_gateway_ip.stdout }}/16    md5"
+  notify: Reload PostgreSQL Service

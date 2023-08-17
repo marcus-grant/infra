@@ -4,3 +4,12 @@
     name: root
     update_password: always
     password: "{{ root_password | password_hash('sha512', main_salt) }}"
+
+- name: Change main admin password
+  ansible.builtin.user:
+    name: "{{ admin_user }}"
+    update_password: always
+    password: "{{ admin_user_password | password_hash('sha512', main_salt) }}"
+  when:
+    - admin_user is defined
+    - admin_user_password is defined

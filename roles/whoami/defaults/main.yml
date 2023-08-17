@@ -1,2 +1,3 @@
 ---
 # defaults file for whoami
+whoami_port: 8080

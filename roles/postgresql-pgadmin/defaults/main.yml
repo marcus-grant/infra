@@ -1,0 +1,6 @@
+---
+# defaults file for roles/postgresql-pgadmin
+postgresql_pgadmin_image: 'dpage/pgadmin4:7'
+postgresql_pgadmin_uid: 5050  # Default container user id
+postgresql_pgadmin_gid: 5050  # Default container group id
+postgresql_pgadmin_port: 8080
