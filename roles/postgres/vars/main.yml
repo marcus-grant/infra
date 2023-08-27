@@ -1,6 +1,5 @@
 ---
-postgres_pkg_names:
-  Debian:
-    - postgresql
-    - postgresql-contrib
-    - python3-psycopg2
+# vars file for roles/postgres
+psql_pkgs:
+  Debian: [postgresql, postgresql-contrib, python3-postgresql, python3-psycopg2]
+  default: [postgresql]

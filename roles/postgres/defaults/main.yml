@@ -1,1 +1,3 @@
 ---
+# defaults file for roles/postgres
+postgres_permissive_hba: false

@@ -25,11 +25,9 @@
   hosts: brokkr
   become: true
   roles:
-    - role: geerlingguy.postgresql
-      tags: [postgresql, postgres, database, data]
-    - role: postgresql-docker-config
-      tags: [postgresql, postgres, database, data, docker, hba]
-    - role: postgresql-pgadmin
+    - role: docker-postgres
+      tags: [docker-postgres, postgres, database, data, docker, network]
+    - role: pgadmin
       tags: [pgadmin, postgresql, postgres, database, data, admin, ui, web, docker]
     - role: nginx-certbot
       tags: [nginx, certbot, letsencrypt, tls, certificate proxy, server, web]

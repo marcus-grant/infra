@@ -1,0 +1,10 @@
+# TYPE  DATABASE        USER            ADDRESS                 METHOD
+
+# Allow any local connection
+local   all             all                                     trust
+
+# Allow any IPv4 connection from any address
+host    all             all             0.0.0.0/0               trust
+
+# Allow any IPv6 connection from any address
+host    all             all             ::/0                    trust
