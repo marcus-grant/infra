@@ -5,13 +5,11 @@ services:
     image: "{{ pgadmin_image }}"
     volumes:
       - /opt/pgadmin/data:/var/lib/pgadmin
-      - /var/run/postgresql:/var/run/postgresql
     environment:
       PGADMIN_DEFAULT_EMAIL: "{{ pgadmin_default_email }}"
       PGADMIN_DEFAULT_PASSWORD: "{{ pgadmin_default_password }}"
     ports:
       - "{{ pgadmin_port }}:80"
-      # - 5432:5432  # DELETEME might be impossible with host db
     networks:
       - "{{ pgadmin_postgres_docker_network }}"
     extra_hosts:

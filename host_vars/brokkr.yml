@@ -17,12 +17,6 @@ pgadmin_default_password: "{{ vault_pgadmin_default_password }}"
 pgadmin_image: dpage/pgadmin4:latest
 pgadmin_postgres_docker_network: postgres
 
-# DELETEME: Might not be used anymore due to docker-postgres role
-# # PostgreSQL
-# # HBA
-# postgres_permissive_hba: true  # Whether to allow all connections
-# postgres_superuser_password: "{{ vault_postgres_superuser_password }}"
-
 # Certbot
 # Nginx
 nginx_certbot_enabled: true  # Whether to enable certbot
