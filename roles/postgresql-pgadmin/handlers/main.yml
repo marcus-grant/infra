@@ -1,5 +1,0 @@
----
-# handlers file for roles/postgresql-pgadmin
-- name: Apply pgadmin service
-  ansible.builtin.debug:
-    msg: "Apply pgadmin service"

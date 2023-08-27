@@ -3,19 +3,29 @@
 # tasks file for roles/postgresql-pgadmin
 - name: Ensure pgadmin directories exist
   ansible.builtin.file:
-    path: "{{ postgresql_pgadmin_dir }}"
+    path: "{{ pgadmin_dir }}"
     state: directory
-    owner: "{{ postgresql_pgadmin_uid }}"
-    group: "{{ postgresql_pgadmin_gid }}"
+    owner: "{{ pgadmin_uid }}"
+    group: "{{ pgadmin_gid }}"
     mode: 0755
-  loop_control: {loop_var: postgresql_pgadmin_dir}
+  loop_control: {loop_var: pgadmin_dir}
   loop: [/opt/pgadmin, /opt/pgadmin/data]
 
 - name: Template pgadmin docker-compose file
   ansible.builtin.template:
     src: docker-compose.yml
     dest: /opt/pgadmin/docker-compose.yml
-    owner: "{{ postgresql_pgadmin_uid }}"
-    group: "{{ postgresql_pgadmin_gid }}"
+    owner: "{{ pgadmin_uid }}"
+    group: "{{ pgadmin_gid }}"
+    mode: 0644
+  notify: Apply pgadmin service
+
+- name: Template pgadmin service file
+  become: true
+  ansible.builtin.template:
+    src: pgadmin.service
+    dest: /etc/systemd/system/pgadmin.service
+    owner: root
+    group: root
     mode: 0644
   notify: Apply pgadmin service

@@ -1,0 +1,8 @@
+---
+# handlers file for roles/postgresql-pgadmin
+- name: Apply pgadmin service
+  become: true
+  ansible.builtin.service:
+    name: pgadmin
+    state: restarted
+    enabled: true
