@@ -24,16 +24,6 @@ fail2ban_services:
     bantime: 600
     findtime: 600
 
-## MariaDB/MySQL
-mysql_user_home: /root
-mysql_user_name: root
-mysql_user_password: "{{ vault_postgres_root_password }}"
-mysql_enabled_on_startup: true
-mysql_users:
-  - name: "{{ admin_user }}"
-    password: "{{ ansible_become_password }}"
-    state: present
-
 # Dotfiles
 ## Bash
 bash_set_default_shell: true

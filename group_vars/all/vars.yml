@@ -12,7 +12,9 @@ main_salt: "{{ vault_main_salt }}"
 svartalv_main_domain: "{{ vault_svartalv_main_domain }}"
 
 # Postgres Vault
-postgresql_root_password: "{{ vault_postgres_root_password }}"
+postgres_superuser_password: "{{ vault_postgres_superuser_password }}"
+# Docker-Postgres
+docker_postgres_superuser_password: "{{ vault_docker_postgres_superuser_password }}"
 
 # Portmaps
 internal_ports:
