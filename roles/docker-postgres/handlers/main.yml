@@ -1,0 +1,9 @@
+---
+# handlers file for roles/docker-postgres
+- name: Apply postgres container docker-compose service
+  become: true
+  ansible.builtin.systemd:
+    name: docker-postgres
+    state: restarted
+    enabled: true
+    daemon_reload: true

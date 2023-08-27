@@ -1,0 +1,24 @@
+version: '3.7'
+
+services:
+  postgres:
+    image: "postgres:{{ docker_postgres_image_tag }}"
+    container_name: "{{ docker_postgres_container_name }}"
+    environment:
+      POSTGRES_USER: "{{ docker_postgres_superuser_name }}"
+      POSTGRES_PASSWORD: "{{ docker_postgres_superuser_password }}"
+      POSTGRES_DB: "{{ docker_postgres_superuser_db }}"
+    # ports:
+    #   - 5432:5432
+    volumes:
+      - "{{ docker_postgres_volume_name }}:/var/lib/postgresql/data"
+    networks:
+      - "{{ docker_postgres_net }}"
+
+volumes:
+  {{ docker_postgres_volume_name }}:
+
+networks:
+  {{ docker_postgres_net }}:
+    external:
+      name: "{{ docker_postgres_net }}"

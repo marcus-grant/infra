@@ -1,0 +1,44 @@
+---
+# tasks file for roles/postgres-docker-network
+- name: Create docker network for container access to host postgres
+  become: true
+  community.docker.docker_network:
+    name: "{{ postgres_docker_network_name }}"
+    driver: bridge
+    ipam_config:
+      - subnet: "{{ postgres_docker_network_subnet }}"
+        iprange: "{{ postgres_docker_network_ip_range }}"
+        gateway: "{{ postgres_docker_network_gateway }}"
+    state: present
+
+- name: Configure firewall rules for postgres docker network (ufw)
+  become: true
+  community.general.ufw:
+    rule: allow
+    proto: tcp
+    to_port: "{{ postgres_docker_network_port }}"
+    src: "{{ postgres_docker_network_subnet }}"
+    state: enabled
+
+- name: Find postgres main directory
+  ansible.builtin.find:
+    paths: /etc/postgresql
+    file_type: directory
+    recurse: false
+  register: psql_find
+
+- name: Set fact for postgres main directory by checking latest version dir
+  ansible.builtin.set_fact:
+    postgres_main_config_dir: >-
+      {{ psql_find.files | selectattr('path') |
+      map(attribute='path') | list | first }}/main
+  when: psql_find.files | length > 0
+
+- name: Ensure HBA config file has access for postgres docker network
+  become: true
+  ansible.builtin.lineinfile:
+    path: "{{ postgres_main_config_dir }}/pg_hba.conf"
+    regexp: '^host\s+all\s+all\s+{{ postgres_docker_network_subnet }}\s+md5'
+    line: 'host    all             all             {{ postgres_docker_network_subnet }}        md5'
+    state: present
+  notify: restart postgresql

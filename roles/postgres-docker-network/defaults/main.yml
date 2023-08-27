@@ -1,0 +1,7 @@
+---
+# defaults file for roles/postgres-docker-network
+postgres_docker_network_name: postgres
+postgres_docker_network_subnet: 172.25.0.0/16  # 172.54.x.x are same subnet
+postgres_docker_network_ip_range: 172.25.0.0/24  # 172.54.0.0 - 172.54.0.254
+postgres_docker_network_gateway: 172.25.0.1  # Gateway (docker router)
+postgres_docker_network_port: 5432  # PostgreSQL port

@@ -1,0 +1,38 @@
+---
+# tasks file for roles/docker-postgres
+- name: Create docker persistent bind directories
+  become: true
+  ansible.builtin.file:
+    path: "{{ docker_postgres_current_dir }}"
+    state: directory
+    owner: 999
+    group: 999
+    mode: 0755
+  loop_control: {loop_var: docker_postgres_current_dir}
+  loop:
+    - "{{ docker_postgres_dir }}"
+
+- name: Create docker network
+  become: true
+  community.docker.docker_network:
+    name: "{{ docker_postgres_net }}"
+    state: present
+
+- name: Template docker-compose file for PostgreSQL container
+  become: true
+  ansible.builtin.template:
+    src: docker-compose.yml
+    dest: "{{ docker_postgres_dir }}/docker-compose.yml"
+    owner: root
+    group: root
+    mode: 0644
+  notify: Apply postgres container docker-compose service
+
+- name: Template systemd service file to docker-compose PostgreSQL container
+  ansible.builtin.template:
+    src: docker-postgres.service
+    dest: /etc/systemd/system/docker-postgres.service
+    owner: root
+    group: root
+    mode: 0644
+  notify: Apply postgres container docker-compose service
