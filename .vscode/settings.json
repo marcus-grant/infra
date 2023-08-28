@@ -1,5 +1,8 @@
 {
     "cSpell.words": [
+        "PGHOST",
+        "PGPASSWORD",
+        "PGUSER",
         "svartalv"
     ],
     "ansible.python.interpreterPath": "/opt/homebrew/bin/python3"

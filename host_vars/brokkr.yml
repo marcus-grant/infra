@@ -10,6 +10,16 @@ fail2ban_sender: "fail2ban@{{ hostname }}.{{ svartalv_main_domain }}"
 docker_postgres_superuser_name: postgres
 docker_postgres_superuser_password: "{{ vault_postgres_superuser_password }}"
 
+# Docker-Postgres-Backup
+restic_postgres_db_hostname: brokkr
+restic_postgres_dir: /opt/restic-postgres
+restic_postgres_pgpassword: "{{ vault_postgres_superuser_password }}"
+restic_postgres_b2_app_key_id: "{{ vault_restic_postgres_b2_app_key_id }}"
+restic_postgres_b2_app_key: "{{ vault_restic_postgres_b2_app_key }}"
+restic_postgres_repo: "{{ vault_restic_postgres_repo }}"
+restic_postgres_repo_password: "{{ vault_restic_postgres_repo_password }}"
+restic_postgres_schedule: "*-*-* 03:00:00 UTC"
+
 # Pgadmin:
 pgadmin_port: "{{ internal_ports.pgadmin }}"
 pgadmin_default_email: "{{ admin_email }}"

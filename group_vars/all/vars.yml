@@ -15,6 +15,9 @@ svartalv_main_domain: "{{ vault_svartalv_main_domain }}"
 postgres_superuser_password: "{{ vault_postgres_superuser_password }}"
 # Docker-Postgres
 docker_postgres_superuser_password: "{{ vault_docker_postgres_superuser_password }}"
+# Restic postgres vault
+restic_postgres_b2_app_key_id: "{{ vault_restic_postgres_b2_app_key_id }}"
+restic_postgres_b2_app_key: "{{ vault_restic_postgres_b2_app_key }}"
 
 # Portmaps
 internal_ports:

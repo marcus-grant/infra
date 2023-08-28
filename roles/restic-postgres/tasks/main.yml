@@ -1,0 +1,73 @@
+---
+# tasks file for roles/restic-docker-postgres-backup
+- name: Create restic postgres working directory
+  become: true
+  ansible.builtin.file:
+    path: "{{ restic_postgres_dir }}"
+    state: directory
+    owner: root
+    group: root
+    mode: '0700'
+
+- name: Template restic backup env file
+  become: true
+  ansible.builtin.template:
+    src: restic-postgres.env.j2
+    dest: "{{ restic_postgres_dir }}/restic-postgres.env"
+    owner: root
+    group: root
+    mode: '0700'
+  notify: [Remove existing docker image, Build docker image]
+
+- name: Template restic-postgres admin script that applies vars to restic cmd
+  become: true
+  ansible.builtin.template:
+    src: "restic-postgres.sh"
+    dest: "{{ restic_postgres_admin_script_dir }}/restic-postgres"
+    owner: root
+    group: root
+    mode: '0700'
+  loop_control: {loop_var: restic_postgres_admin_script_dir}
+  loop:
+    - "{{ restic_postgres_dir }}"
+    - /usr/local/bin
+
+- name: Copy over restic postgres backup script to remote host
+  become: true
+  ansible.builtin.copy:
+    src: restic-postgres-backup.sh
+    dest: "{{ restic_postgres_dir }}/restic-postgres-backup.sh"
+    owner: root
+    group: root
+    mode: '0700'
+  notify: [Remove existing docker image, Build docker image]
+
+- name: Copy over Dockerfile to remote host
+  become: true
+  ansible.builtin.copy:
+    src: Dockerfile
+    dest: "{{ restic_postgres_dir }}/Dockerfile"
+    owner: root
+    group: root
+    mode: '0755'
+  notify: [Remove existing docker image, Build docker image]
+
+- name: Copy over systemd service file
+  become: true
+  ansible.builtin.copy:
+    src: restic-postgres-backup.service
+    dest: /etc/systemd/system/restic-postgres-backup.service
+    owner: root
+    group: root
+    mode: '0644'
+  notify: Apply service timer
+
+- name: Template systemd timer file
+  become: true
+  ansible.builtin.template:
+    src: restic-postgres-backup.timer.j2
+    dest: /etc/systemd/system/restic-postgres-backup.timer
+    owner: root
+    group: root
+    mode: '0644'
+  notify: Apply service timer

@@ -1,0 +1,7 @@
+[Unit]
+Description=Restic backup of PostgreSQL using dump all
+After=docker.service
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/docker run --rm --network=postgres restic-postgres

@@ -1,0 +1,25 @@
+---
+# handlers file for roles/restic-docker-postgres-backup
+- name: Remove existing docker image
+  become: true
+  community.docker.docker_image:
+    name: restic-postgres
+    tag: latest
+    state: absent
+
+- name: Build docker image
+  become: true
+  community.docker.docker_image:
+    name: restic-postgres
+    tag: latest
+    build:
+      path: "{{ restic_postgres_dir }}"
+    source: build
+
+- name: Apply service timer
+  become: true
+  ansible.builtin.systemd:
+    name: restic-postgres-backup.timer
+    enabled: true
+    state: restarted
+    daemon_reload: true

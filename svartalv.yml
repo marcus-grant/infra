@@ -27,6 +27,8 @@
   roles:
     - role: docker-postgres
       tags: [docker-postgres, postgres, database, data, docker, network]
+    - role: restic-postgres
+      tags: [restic-postgres, postgres, database, data, restic, backup, restore]
     - role: pgadmin
       tags: [pgadmin, postgresql, postgres, database, data, admin, ui, web, docker]
     - role: nginx-certbot

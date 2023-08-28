@@ -1,0 +1,9 @@
+[Unit]
+Description=Run restic-postgres-backup.service periodically
+
+[Timer]
+OnCalendar={{ restic_postgres_schedule }}
+Persistent=true
+
+[Install]
+WantedBy=timers.target

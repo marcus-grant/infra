@@ -1,0 +1,17 @@
+---
+# defaults file for roles/restic-docker-postgres-backup
+restic_postgres_dir: /opt/restic-postgres
+restic_postgres_pguser: postgres
+restic_postgres_pgpassword: postgres
+restic_postgres_pghost: postgres
+restic_postgres_b2_app_key_id: ""
+restic_postgres_b2_app_key: ""
+restic_postgres_repo: ""
+restic_postgres_repo_password: ""
+restic_postgres_db_hostname: postgres
+restic_postgres_keep_last: 10
+restic_postgres_keep_daily: 7
+restic_postgres_keep_weekly: 3
+restic_postgres_keep_monthly: 10
+restic_postgres_keep_yearly: 5
+restic_postgres_schedule: "*-*-* 03:00:00 UTC"
