@@ -1,0 +1,87 @@
+---
+# tasks file for roles/restic-docker-postgres-backup
+- name: Install some needed postgres and shell utilities
+  become: true
+  ansible.builtin.package:
+    name: "{{ restic_postgres_pkg }}"
+    state: present
+  loop_control: {loop_var: restic_postgres_pkg}
+  loop: "{{ rc_psql_pkgs[ansible_os_family] | default(rc_psql_pkgs_d) }}"
+
+- name: Create restic postgres working directory
+  become: true
+  ansible.builtin.file:
+    path: "{{ restic_postgres_dir }}"
+    state: directory
+    owner: root
+    group: root
+    mode: '0700'
+
+- name: Set fact for script & env templates to create and links to set for them
+  ansible.builtin.set_fact:
+    restic_postgres_template_files:
+      - {name: .env, mode: '0700'}
+      - {name: postgres-docker-ip.sh, mode: '0755', binlnk: postgres-docker-ip}
+      - {name: postgres-dumpall.sh, mode: '0700', binlnk: postgres-dumpall}
+      - {name: restic-postgres.sh, mode: '0700', binlnk: restic-postgres}
+      - {name: restic-postgres-backup.sh, mode: '0700', binlnk: restic-postgres-backup}
+      - {name: psql-docker.sh, mode: '0700', binlnk: psql-docker}
+
+- name: Template env file and scripts
+  become: true
+  ansible.builtin.template:
+    src: "{{ restic_postgres_file.name }}"
+    dest: "{{ restic_postgres_dir }}/{{ restic_postgres_file.name }}"
+    owner: root
+    group: root
+    mode: "{{ restic_postgres_file.mode }}"
+  notify: Apply service timer
+  loop_control: {loop_var: restic_postgres_file}
+  loop: "{{ restic_postgres_template_files }}"
+
+- name: Create symbolic links for scripts to /usr/local/bin
+  become: true
+  ansible.builtin.file:
+    src: "{{ restic_postgres_dir }}/{{ restic_postgres_lnk.name }}"
+    dest: "/usr/local/bin/{{ restic_postgres_lnk.binlnk }}"
+    state: link
+    owner: root
+    group: root
+    mode: "{{ restic_postgres_lnk.mode }}"
+    force: true
+  when: "'binlnk' in restic_postgres_lnk"
+  loop_control: {loop_var: restic_postgres_lnk}
+  loop: "{{ restic_postgres_template_files }}"
+
+- name: Template service and timer files
+  become: true
+  ansible.builtin.template:
+    src: "{{ restic_postgres_service_file }}"
+    dest: "/etc/systemd/system/{{ restic_postgres_service_file }}"
+    owner: root
+    group: root
+    mode: '0644'
+  notify: Apply service timer
+  loop_control: {loop_var: restic_postgres_service_file}
+  loop: [restic-postgres-backup.service, restic-postgres-backup.timer]
+
+- name: Check if restic_postgres database exists in postgres container
+  become: true
+  ansible.builtin.shell: >
+    set -o pipefail
+    && {{ restic_postgres_dir }}/psql-docker.sh -lqt
+    | cut -d \| -f 1 | grep -qw restic_postgres
+  register: restic_postgres_db_grep
+  changed_when: false
+  failed_when: false
+
+- name: Use restic to dump the restore SQL file and restore with psql-docker
+  become: true
+  ansible.builtin.shell: >
+    set -o pipefail
+    && {{ restic_postgres_dir }}/restic-postgres.sh
+    dump latest {{ restic_postgres_dump_filename }}
+    | {{ restic_postgres_dir }}/psql-docker.sh
+  register: restic_postgres_restore_cmd
+  when: restic_postgres_db_grep.rc != 0
+  changed_when: restic_postgres_restore_cmd.rc == 0

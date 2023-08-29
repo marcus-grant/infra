@@ -17,6 +17,7 @@ restic_postgres_pgpassword: "{{ vault_postgres_superuser_password }}"
 restic_postgres_b2_app_key_id: "{{ vault_restic_postgres_b2_app_key_id }}"
 restic_postgres_b2_app_key: "{{ vault_restic_postgres_b2_app_key }}"
 restic_postgres_repo: "{{ vault_restic_postgres_repo }}"
+restic_postgres_dump_filename: brokkr-postgres-dumpall.sql
 restic_postgres_repo_password: "{{ vault_restic_postgres_repo_password }}"
 restic_postgres_schedule: "*-*-* 03:00:00 UTC"
 

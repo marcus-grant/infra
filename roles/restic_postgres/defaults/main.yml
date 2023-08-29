@@ -10,6 +10,7 @@ restic_postgres_b2_app_key_id: ""  # Required, B2 key ID that can reach bucket
 restic_postgres_b2_app_key: ""  # Required, B2 key that can reach bucket
 restic_postgres_repo: ""  # Required, B2 URL to bucket
 restic_postgres_repo_password: ""  # Required, Password for restic repo
+restic_postgres_dump_filename: postgres-dumpall.sql  # Filename for dumpall
 restic_postgres_keep_last: 10  # Number of last backups (any kind) to keep
 restic_postgres_keep_daily: 7  # Number of last daily backups to keep
 restic_postgres_keep_weekly: 3  # Number of last weekly backups to keep

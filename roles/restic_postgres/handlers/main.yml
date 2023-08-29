@@ -1,0 +1,9 @@
+---
+# handlers file for roles/restic-docker-postgres-backup
+- name: Apply service timer
+  become: true
+  ansible.builtin.systemd:
+    name: restic-postgres-backup.timer
+    enabled: true
+    state: restarted
+    daemon_reload: true
