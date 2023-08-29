@@ -1,5 +1,12 @@
 ---
 # tasks file for roles/restic-docker-postgres-backup
+# - name: Install some needed postgres and shell utilities
+#   ansible.builtin.package:
+#     name: "{{ restic_postgres_pkg }}"
+#     state: present
+#   loop_control: {loop_var: restic_postgres_pkg}
+#   loop: "{{ rc_psql_pkgs[ansible_os_family] | default(rc_psql_pkgs_d) }}"
+
 - name: Create restic postgres working directory
   become: true
   ansible.builtin.file:
@@ -9,15 +16,54 @@
     group: root
     mode: '0700'
 
-- name: Template restic backup env file
+- name: Template restic, postgres, docker env file related to all scripts
   become: true
   ansible.builtin.template:
     src: restic-postgres.env.j2
-    dest: "{{ restic_postgres_dir }}/restic-postgres.env"
+    dest: "{{ restic_postgres_dir }}/.env"
     owner: root
     group: root
     mode: '0700'
   notify: [Remove existing docker image, Build docker image]
+
+- name: Template postgres-docker-ip.sh script
+  become: true
+  ansible.builtin.template:
+    src: postgres-docker-ip.sh
+    dest: "{{ restic_postgres_docker_ip_script_path }}"
+    owner: root
+    group: root
+    mode: '0755'
+  loop_control: {loop_var: restic_postgres_docker_ip_script_path}
+  loop:
+    - "{{ restic_postgres_dir }}/postgres-docker-ip.sh"
+    - /usr/local/bin/postgres-docker-ip
+
+- name: Run postgres-ip.sh to register IP address
+  ansible.builtin.command:
+    argv:
+      - "{{ restic_postgres_dir }}/postgres-docker-ip.sh"
+      - "{{ restic_postgres_docker_net }}"
+      - "{{ restic_postgres_pghost }}"
+  register: restic_postgres_ip_cmd
+  changed_when: false
+  ignore_errors: true
+
+- name: Debug restic_postgres_ip_cmd
+  ansible.builtin.debug:
+    msg: "{{ restic_postgres_ip_cmd }}"
+
+- name: Check if restic_postgres database exists
+  ansible.builtin.shell: >
+    PGPASSWORD="{{ restic_postgres_pgpassword }}" psql -h {{ restic_postgres_ip_cmd.stdout }} -U "{{ restic_postgres_pguser }}" -lqt |
+    cut -d \| -f 1 | grep -qw "restic_postgres"
+  ignore_errors: true
+  changed_when: false
+  register: check_db_result
+
+- name: Debug DB existence
+  ansible.builtin.debug:
+    msg: "DB exists if exit code is 0: {{ check_db_result.rc }}"
 
 - name: Template restic-postgres admin script that applies vars to restic cmd
   become: true
@@ -52,9 +98,9 @@
     mode: '0755'
   notify: [Remove existing docker image, Build docker image]
 
-- name: Copy over systemd service file
+- name: Template systemd service file
   become: true
-  ansible.builtin.copy:
+  ansible.builtin.template:
     src: restic-postgres-backup.service
     dest: /etc/systemd/system/restic-postgres-backup.service
     owner: root

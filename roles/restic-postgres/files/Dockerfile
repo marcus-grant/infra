@@ -8,9 +8,9 @@ RUN apt-get update \
         && apt-get -y install restic
 
 # Copy the backup script & env file into the container
-COPY restic-postgres-backup.sh /restic-postgres-backup.sh
-COPY restic-postgres.env /restic-postgres.env
-RUN chmod +x /restic-postgres-backup.sh
+COPY restic-postgres-backup.sh /opt/restic-postgres/restic-postgres-backup.sh
+COPY .env /opt/restic-postgres/.env
+RUN chmod +x /opt/restic-postgres/restic-postgres-backup.sh
 
 # Run the backups script
-CMD ["/restic-postgres-backup.sh"]
+CMD ["/opt/restic-postgres/restic-postgres-backup.sh"]

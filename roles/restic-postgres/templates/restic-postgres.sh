@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Load env file
-env_file="{{ restic_postgres_dir }}/restic-postgres.env"
+env_file="{{ restic_postgres_dir }}/.env"
 if [ -f "$env_file" ]; then
     source "$env_file"
 else

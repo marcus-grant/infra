@@ -8,6 +8,6 @@ docker_postgres_superuser_db: postgres
 # Docker settings
 docker_postgres_image_tag: 15
 docker_postgres_container_name: postgres
-docker_postgres_volume_name: gpdata
+docker_postgres_volume_name: pgdata
 docker_postgres_dir: /opt/postgres
 docker_postgres_net: postgres

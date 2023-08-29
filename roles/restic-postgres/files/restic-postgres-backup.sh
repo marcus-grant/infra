@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Load env file
-env_file=${1:-"/restic-postgres.env"}
+env_file=${1:-"/opt/restic-postgres/.env"}
 if [ -f "$env_file" ]; then
     source "$env_file"
 else
@@ -37,7 +37,7 @@ fi
 
 # Generate filename using hostname and timestamp
 TIMESTAMP=$(date -u +"%Y%m%dT%H%M%SZ")
-HOSTNAME=$RESTIC_PSQL_DB_HOSTNAME
+HOSTNAME=$RESTIC_PSQL_MACHINE_HOSTNAME
 FILENAME="${HOSTNAME}-postgres-dump-all.sql"
 
 # Command to dump POSTGRESQL cluster & pipe to restic

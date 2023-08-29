@@ -1,2 +1,5 @@
 ---
 # vars file for roles/restic-docker-postgres-backup
+rc_psql_pkgs_d: ['postgresql', 'jq', 'restic']
+rc_psql_pkgs:
+  Debian: ['postgresql-client', 'jq', 'restic']

@@ -8,8 +8,6 @@ services:
       POSTGRES_USER: "{{ docker_postgres_superuser_name }}"
       POSTGRES_PASSWORD: "{{ docker_postgres_superuser_password }}"
       POSTGRES_DB: "{{ docker_postgres_superuser_db }}"
-    # ports:
-    #   - 5432:5432
     volumes:
       - "{{ docker_postgres_volume_name }}:/var/lib/postgresql/data"
     networks:

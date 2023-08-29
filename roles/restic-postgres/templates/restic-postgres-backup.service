@@ -4,4 +4,4 @@ After=docker.service
 
 [Service]
 Type=simple
-ExecStart=/usr/bin/docker run --rm --network=postgres restic-postgres
+ExecStart=/usr/bin/docker run --rm --network={{ restic_postgres_docker_net }} restic-postgres
