@@ -1,0 +1,4 @@
+---
+# main defaults file for role docker_config
+docker_config_default_compose_dir: /etc/docker/compose
+docker_config_default_compose_dir_mode: '0755'

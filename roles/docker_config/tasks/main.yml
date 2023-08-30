@@ -1,0 +1,10 @@
+---
+# main tasks file for docker_config role
+- name: Ensure default docker-compose directory exists
+  ansible.builtin.file:
+    path: /etc/docker/compose
+    state: directory
+    mode: '0755'
+    owner: root
+    group: docker
+    recurse: true

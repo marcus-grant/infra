@@ -19,15 +19,19 @@
       tags: [podman, server, service, container]
     - role: geerlingguy.docker
       tags: [docker, server, service, container]
+    - role: docker_config
+      tags: [docker-config, docker, server, service, container, config]
 
 # === BROKKR ONLY ===
 - name: '[BROKKR ONLY] Provision hetzner servers, NOTE: Should be done AFTER bootstrapping'
   hosts: brokkr
   become: true
   roles:
+    - role: restic_docker
+      tags: [restic_docker, backup, restore, docker, restic, container, service]
     - role: docker-postgres
       tags: [docker-postgres, postgres, database, data, docker, network]
-    - role: restic-postgres
+    - role: restic_postgres
       tags: [restic-postgres, postgres, database, data, restic, backup, restore]
     - role: pgadmin
       tags: [pgadmin, postgresql, postgres, database, data, admin, ui, web, docker]
