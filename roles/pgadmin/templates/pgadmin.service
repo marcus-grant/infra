@@ -4,9 +4,9 @@ Description=pgAdmin
 [Service]
 Type=oneshot
 RemainAfterExit=yes
-ExecStart=/usr/local/bin/docker-compose -f /opt/pgadmin/docker-compose.yml up -d
-ExecStop=/usr/local/bin/docker-compose -f /opt/pgadmin/docker-compose.yml stop
-ExecReload=/usr/local/bin/docker-compose -f /opt/pgadmin/docker-compose.yml restart
+ExecStart=/usr/local/bin/docker-compose -f /etc/docker/compose/pgadmin.yml up -d
+ExecStop=/usr/local/bin/docker-compose -f /etc/docker/compose/pgadmin.yml stop
+ExecReload=/usr/local/bin/docker-compose -f /etc/docker/compose/pgadmin.yml restart
 
 [Install]
 WantedBy=multi-user.target

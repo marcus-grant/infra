@@ -24,7 +24,7 @@ restic_postgres_schedule: "*-*-* 03:00:00 UTC"
 # Pgadmin:
 pgadmin_port: "{{ internal_ports.pgadmin }}"
 pgadmin_default_email: "{{ admin_email }}"
-pgadmin_default_password: "{{ vault_pgadmin_default_password }}"
+pgadmin_default_password: "{{ vault_pgadmin_password }}"
 pgadmin_image: dpage/pgadmin4:latest
 pgadmin_postgres_docker_network: postgres
 
