@@ -1,0 +1,9 @@
+[Unit]
+Description=Periodic backup of Docker volumes using Restic
+Requires=docker.service
+After=docker.service
+
+[Service]
+Type=simple
+ExecStart={{ restic_docker_dir }}/restic-docker-backup.sh
+Restart=on-failure

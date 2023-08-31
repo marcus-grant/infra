@@ -1,2 +1,10 @@
 ---
 # defaults file for roles/restic_docker
+restic_docker_excluded_containers: []
+restic_docker_dir: /opt/restic-docker
+restic_docker_host: default
+restic_docker_repo: ''
+restic_docker_repo_password: ''
+restic_docker_repo_compression: auto
+restic_docker_b2_app_key: ''
+restic_docker_b2_app_key_id: ''

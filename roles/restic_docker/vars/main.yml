@@ -1,2 +1,48 @@
 ---
 # vars file for roles/restic_docker
+restic_docker_pkgs_d: [restic, jq]
+restic_docker_pkgs:
+  Debian: [restic, jq, fuse3]
+  RedHat: [restic, jq]
+
+restic_docker_templates:
+  - name: .env
+    mode: '0660'
+
+  - name: docker-container-volumes.sh
+    bin: docker-container-volumes
+    mode: '0755'
+
+  - name: docker-volume-containers.sh
+    bin: docker-volume-containers
+    mode: '0755'
+
+  - name: restic-docker-backup-cmd.sh
+    mode: '0750'
+
+  - name: restic-docker-backup.sh
+    bin: restic-docker-backup
+    mode: '0750'
+
+  - name: restic-docker-containers.sh
+    bin: restic-docker-containers
+    mode: '0755'
+
+  - name: restic-docker-restore-cmd.sh
+    mode: '0750'
+
+  - name: restic-docker-restore.sh
+    bin: restic-docker-restore
+    mode: '0750'
+
+  - name: restic-docker-start.sh
+    bin: restic-docker-start
+    mode: '0755'
+
+  - name: restic-docker-stop.sh
+    bin: restic-docker-stop
+    mode: '0755'
+
+  - name: restic-docker.sh
+    bin: restic-docker
+    mode: '0755'

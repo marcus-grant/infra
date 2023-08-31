@@ -1,0 +1,11 @@
+[Unit]
+Description=Periodic backup of Docker volumes using Restic
+Requires=docker.service
+After=docker.service
+
+[Timer]
+OnCalendar={{ restic_docker_schedule }}
+Persistent=true
+
+[Install]
+WantedBy=timers.target

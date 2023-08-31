@@ -6,20 +6,31 @@ hostname: brokkr
 # Fail2Ban
 fail2ban_sender: "fail2ban@{{ hostname }}.{{ svartalv_main_domain }}"
 
-# Docker-Postgres
-docker_postgres_superuser_name: postgres
-docker_postgres_superuser_password: "{{ vault_postgres_superuser_password }}"
+# restic_docker - Restic Docker volume backup and restore role
+restic_docker_dir: /opt/restic-docker
+restic_docker_host: brokkr
+restic_docker_repo: "{{ vault_brokkr_restic_docker_repo }}"
+restic_docker_repo_password: "{{ vault_brokkr_restic_docker_repo_password }}"
+restic_docker_repo_compression: max  # [none, max, auto (default)]
+restic_docker_b2_app_key: "{{ vault_brokkr_restic_docker_b2_app_key }}"
+restic_docker_b2_app_key_id: "{{ vault_brokkr_restic_docker_b2_app_key_id }}"
+restic_docker_schedule: "*-*-* 03:30:00 UTC"
+restic_docker_excluded_containers: []
 
-# Docker-Postgres-Backup
+# restic_postgres - Restic Postgres backup and restore role
 restic_postgres_machine_hostname: brokkr
 restic_postgres_dir: /opt/restic-postgres
 restic_postgres_pgpassword: "{{ vault_postgres_superuser_password }}"
-restic_postgres_b2_app_key_id: "{{ vault_restic_postgres_b2_app_key_id }}"
-restic_postgres_b2_app_key: "{{ vault_restic_postgres_b2_app_key }}"
-restic_postgres_repo: "{{ vault_restic_postgres_repo }}"
-restic_postgres_dump_filename: brokkr-postgres-dumpall.sql
+restic_postgres_repo: "{{ vault_brokkr_restic_postgres_repo }}"
 restic_postgres_repo_password: "{{ vault_restic_postgres_repo_password }}"
+restic_postgres_dump_filename: brokkr-postgres-dumpall.sql
+restic_postgres_b2_app_key_id: "{{ vault_brokkr_restic_postgres_b2_app_key_id }}"
+restic_postgres_b2_app_key: "{{ vault_brokkr_restic_postgres_b2_app_key }}"
 restic_postgres_schedule: "*-*-* 03:00:00 UTC"
+
+# Docker-Postgres
+docker_postgres_superuser_name: postgres
+docker_postgres_superuser_password: "{{ vault_postgres_superuser_password }}"
 
 # Pgadmin:
 pgadmin_port: "{{ internal_ports.pgadmin }}"

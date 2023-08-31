@@ -5,3 +5,4 @@ After=docker.service
 [Service]
 Type=simple
 ExecStart={{ restic_postgres_dir }}/restic-postgres-backup.sh
+Restart=on-failure
