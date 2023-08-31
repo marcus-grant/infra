@@ -19,4 +19,5 @@ fi
 # Perform the database dump using pg_dumpall
 PGPASSWORD=$RESTIC_PSQL_PGPASSWORD pg_dumpall \
     -h $postgres_ip \
-    -U $RESTIC_PSQL_PGUSER
+    -U $RESTIC_PSQL_PGUSER \
+    --clean

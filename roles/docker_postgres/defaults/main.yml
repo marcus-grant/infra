@@ -1,5 +1,7 @@
 ---
 # defaults file for roles/docker-postgres
+docker_postgres_compose_file: /etc/docker/compose/postgres.yml
+
 # Default (superuser) setup
 docker_postgres_superuser_name: postgres
 docker_postgres_superuser_password: postgres
@@ -9,5 +11,4 @@ docker_postgres_superuser_db: postgres
 docker_postgres_image_tag: 15
 docker_postgres_container_name: postgres
 docker_postgres_volume_name: pgdata
-docker_postgres_dir: /opt/postgres
 docker_postgres_net: postgres

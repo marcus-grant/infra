@@ -22,7 +22,7 @@ restic_postgres_machine_hostname: brokkr
 restic_postgres_dir: /opt/restic-postgres
 restic_postgres_pgpassword: "{{ vault_postgres_superuser_password }}"
 restic_postgres_repo: "{{ vault_brokkr_restic_postgres_repo }}"
-restic_postgres_repo_password: "{{ vault_restic_postgres_repo_password }}"
+restic_postgres_repo_password: "{{ vault_brokkr_restic_docker_repo_password }}"
 restic_postgres_dump_filename: brokkr-postgres-dumpall.sql
 restic_postgres_b2_app_key_id: "{{ vault_brokkr_restic_postgres_b2_app_key_id }}"
 restic_postgres_b2_app_key: "{{ vault_brokkr_restic_postgres_b2_app_key }}"
@@ -35,7 +35,7 @@ docker_postgres_superuser_password: "{{ vault_postgres_superuser_password }}"
 # Pgadmin:
 pgadmin_port: "{{ internal_ports.pgadmin }}"
 pgadmin_default_email: "{{ admin_email }}"
-pgadmin_default_password: "{{ vault_pgadmin_password }}"
+pgadmin_default_password: "{{ vault_pgadmin_default_password }}"
 pgadmin_image: dpage/pgadmin4:latest
 pgadmin_postgres_docker_network: postgres
 

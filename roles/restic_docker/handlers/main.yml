@@ -3,6 +3,6 @@
 - name: Apply restic-docker systemd service
   become: true
   ansible.builtin.systemd:
-    name: restic-docker
+    name: restic-docker.timer
     enabled: true
     daemon_reload: true

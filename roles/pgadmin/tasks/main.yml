@@ -3,13 +3,13 @@
 # tasks file for roles/postgresql-pgadmin
 - name: Ensure docker volume pgadmin exists
   community.docker.docker_volume:
-    name: pgadmin
+    name: "{{ pgadmin_volume }}"
     state: present
 
 - name: Template pgadmin docker-compose file
   ansible.builtin.template:
     src: docker-compose.yml
-    dest: /etc/docker/compose/pgadmin.yml
+    dest: "{{ pgadmin_compose_file }}"
     owner: "{{ pgadmin_uid }}"
     group: "{{ pgadmin_gid }}"
     mode: 0640

@@ -10,8 +10,10 @@ else
 fi
 
 # Generate the Postgres database dump and pipe it into restic for backup
-{{ restic_postgres_dir }}/postgres-dumpall.sh | \
-    {{ restic_postgres_dir }}/restic-postgres.sh backup \
+{{ restic_postgres_dir }}/postgres-dumpall.sh \
+    | {{ restic_postgres_dir }}/restic-postgres.sh backup \
+        --host $RESTIC_PSQL_MACHINE_HOSTNAME \
+        --compression $RESTIC_PSQL_COMPRESSION \
         --stdin --stdin-filename $RESTIC_PSQL_DUMP_FILENAME
 
 # Prune old backups according to retention policies

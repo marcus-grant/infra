@@ -4,7 +4,7 @@ services:
     container_name: pgadmin
     image: "{{ pgadmin_image }}"
     volumes:
-      - pgadmin:/var/lib/pgadmin
+      - "{{ pgadmin_volume }}:/var/lib/pgadmin"
     environment:
       PGADMIN_DEFAULT_EMAIL: "{{ pgadmin_default_email }}"
       PGADMIN_DEFAULT_PASSWORD: "{{ pgadmin_default_password }}"
@@ -14,8 +14,9 @@ services:
       - "{{ pgadmin_postgres_docker_network }}"
     extra_hosts:
       - "host.docker.internal:host-gateway"
+
 volumes:
-  pgadmin:
+  {{ pgadmin_volume }}:
     external: true
 
 networks:

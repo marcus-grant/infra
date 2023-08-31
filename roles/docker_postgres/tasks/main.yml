@@ -1,16 +1,9 @@
 ---
-# tasks file for roles/docker-postgres
-- name: Create docker persistent bind directories
+- name: Create postgres data volume for /var/lib/postgresql/data
   become: true
-  ansible.builtin.file:
-    path: "{{ docker_postgres_current_dir }}"
-    state: directory
-    owner: 999
-    group: 999
-    mode: 0755
-  loop_control: {loop_var: docker_postgres_current_dir}
-  loop:
-    - "{{ docker_postgres_dir }}"
+  community.docker.docker_volume:
+    name: "{{ docker_postgres_volume_name }}"
+    state: present
 
 - name: Create docker network
   become: true
@@ -22,7 +15,7 @@
   become: true
   ansible.builtin.template:
     src: docker-compose.yml
-    dest: "{{ docker_postgres_dir }}/docker-compose.yml"
+    dest: "{{ docker_postgres_compose_file }}"
     owner: root
     group: root
     mode: 0644

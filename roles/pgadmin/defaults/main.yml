@@ -4,4 +4,6 @@ pgadmin_image: 'dpage/pgadmin4:7'
 pgadmin_uid: 5050  # Default container user id
 pgadmin_gid: 5050  # Default container group id
 pgadmin_port: 8080
+pgadmin_volume: pgadmin
 pgadmin_postgres_docker_network: 'postgres'
+pgadmin_compose_file: /etc/docker/compose/pgadmin.yml

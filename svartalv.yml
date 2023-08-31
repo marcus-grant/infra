@@ -5,37 +5,26 @@
   gather_facts: true
   become: true
   roles:
-    - role: root-password
-      tags: [init, security, root, password]
-    - role: ssh-server-key-only
-      tags: [init, ssh, server, security]
-    - role: base-packages
-      tags: [init, apt, package]
-    - role: pip-install
-      tags: [init, python, pip]
-    - role: fail2ban
-      tags: [init, security, fail2ban]
-    - role: podman-init
-      tags: [podman, server, service, container]
-    - role: geerlingguy.docker
-      tags: [docker, server, service, container]
-    - role: docker_config
-      tags: [docker-config, docker, server, service, container, config]
+    - {role: root-password, tags: [security, root, password]}
+    - {role: ssh-server-key-only, tags: [ssh, security]}
+    - {role: base-packages, tags: [apt, package]}
+    - {role: pip-install, tags: [python, pip]}
+    - {role: fail2ban, tags: [security, fail2ban]}
+    - {role: podman-init, tags: [podman, server, service, container]}
+    - {role: geerlingguy.docker, tags: [docker, server, service, container]}
+    - {role: docker_config, tags: [docker-config, docker, config]}
+    # tags: [svartalv-common, base-config, server, container, init]
 
 # === BROKKR ONLY ===
 - name: '[BROKKR ONLY] Provision hetzner servers, NOTE: Should be done AFTER bootstrapping'
   hosts: brokkr
   become: true
   roles:
-    - role: restic_docker
-      tags: [restic_docker, backup, restore, docker, restic, container, service]
-    - role: docker_postgres
-      tags: [docker-postgres, postgres, database, data, docker, network]
-    - role: restic_postgres
-      tags: [restic-postgres, postgres, database, data, restic, backup, restore]
-    - role: pgadmin
-      tags: [pgadmin, postgresql, postgres, database, data, admin, ui, web, docker]
-    - role: nginx-certbot
-      tags: [nginx, certbot, letsencrypt, tls, certificate proxy, server, web]
+    - {role: restic_docker, tags: [restic_docker, backup, restic]}
+    - {role: docker_postgres, tags: [docker_postgres, postgres, db, data, net]}
+    - {role: restic_postgres, tags: [restic_postgres, postgres, db, data, restic, backup]}
+    - {role: pgadmin, tags: [pgadmin, postgres, db, data, ui]}
+    - {role: nginx-certbot, tags: [nginx, certbot, letsencrypt, tls, proxy, net]}
     - role: whoami
-      tags: [traefik, server, container, whoami, ip]
+      tags: [whoami, net]
+    # tags: [brokkr-only, server, services, container, web, docker, admin]

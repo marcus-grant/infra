@@ -15,8 +15,9 @@ services:
 
 volumes:
   {{ docker_postgres_volume_name }}:
+    external: true
 
 networks:
   {{ docker_postgres_net }}:
-    external:
-      name: "{{ docker_postgres_net }}"
+    name: "{{ docker_postgres_net }}"
+    external: true

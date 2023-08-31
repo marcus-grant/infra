@@ -18,9 +18,5 @@ if [ -z "$postgres_ip" ]; then
     exit 1
 fi
 
-# Get the list of database names from the dump file
-db_names=$(grep -o 'CREATE DATABASE .*;' $RESTIC_PSQL_DUMP_FILENAME | \
-    awk '{print $3}' | tr -d ';')
-
 # Use psql 
 psql -U $RESTIC_PSQL_PGUSER -h $postgres_ip "$@"

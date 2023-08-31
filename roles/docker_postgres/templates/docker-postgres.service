@@ -1,12 +1,11 @@
 [Unit]
-Description=Docker Compose PostgreSQL Service
+Description=Docker Compose PostgreSQL RDBMS Service
 Requires=docker.service
 After=docker.service
 
 [Service]
-WorkingDirectory={{ docker_postgres_dir }}
-ExecStart=/usr/local/bin/docker-compose -f {{ docker_postgres_dir }}/docker-compose.yml up
-ExecStop=/usr/local/bin/docker-compose -f {{ docker_postgres_dir }}/docker-compose.yml down
+ExecStart=/usr/local/bin/docker-compose -f {{ docker_postgres_compose_file }} up
+ExecStop=/usr/local/bin/docker-compose -f {{ docker_postgres_compose_file }} down
 Restart=always
 User=root
 
