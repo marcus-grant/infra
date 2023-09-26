@@ -3,7 +3,8 @@
 RD_DIR="{{ restic_docker_dir }}"
 RD_IGNORED_VOLUMES="backingFsBlockDev metadata.db var"
 REAL_RESTORE_TARGET="/var/lib/docker/volumes"
-TMP_RESTORE_ROOT="/tmp/var"
+TMP_ROOT="/tmp"
+TMP_RESTORE_ROOT="${TMP_ROOT}/var"
 TMP_RESTORE_TARGET="${TMP_RESTORE_ROOT}/${REAL_RESTORE_TARGET}"
 snapshot_id="latest"
 
@@ -15,7 +16,7 @@ fi
 $RD_DIR/restic-docker.sh \
 	restore "${snapshot_id}" \
 	--host {{ restic_docker_host }} \
-	--target {{ restic_docker_dir }}
+	--target $TMP_RESTORE_
 
 # Check for volumes in restore target by checking for directory names
 if [ ! -d "$TMP_RESTORE_TARGET" ]; then

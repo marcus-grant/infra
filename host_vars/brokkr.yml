@@ -15,7 +15,7 @@ restic_docker_repo_compression: max  # [none, max, auto (default)]
 restic_docker_b2_app_key: "{{ vault_brokkr_restic_docker_b2_app_key }}"
 restic_docker_b2_app_key_id: "{{ vault_brokkr_restic_docker_b2_app_key_id }}"
 restic_docker_schedule: "*-*-* 03:30:00 UTC"
-restic_docker_excluded_containers: []
+restic_docker_excluded_containers: [postgres, nxc-server]
 
 # restic_postgres - Restic Postgres backup and restore role
 restic_postgres_machine_hostname: brokkr

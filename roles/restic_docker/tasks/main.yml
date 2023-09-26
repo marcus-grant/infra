@@ -7,13 +7,13 @@
 #   loop_control: {loop_var: restic_docker_pkg}
 #   loop: "{{ restic_docker_pkgs[ansible_os_family] | default(restic_docker_pkgs_d) }}"
 
-- name: Create restic docker working directory
-  ansible.builtin.file:
-    path: "{{ restic_docker_dir }}"
-    state: directory
-    mode: '0755'
-    owner: root
-    group: root
+# - name: Create restic docker working directory
+#   ansible.builtin.file:
+#     path: "{{ restic_docker_dir }}"
+#     state: directory
+#     mode: '0755'
+#     owner: root
+#     group: root
 
 - name: Template files scripts and env
   become: true
@@ -27,26 +27,26 @@
   loop: "{{ restic_docker_templates }}"
   notify: Apply restic-docker systemd service
 
-- name: Symlink scripts with bin target to /usr/local/bin
-  become: true
-  ansible.builtin.file:
-    src: "{{ restic_docker_dir }}/{{ restic_docker_tmplt.name }}"
-    dest: "/usr/local/bin/{{ restic_docker_tmplt.bin }}"
-    state: link
-    force: true
-  loop_control: {loop_var: restic_docker_tmplt}
-  loop: "{{ restic_docker_templates }}"
-  when: restic_docker_tmplt.bin is defined
-  notify: Apply restic-docker systemd service
+# - name: Symlink scripts with bin target to /usr/local/bin
+#   become: true
+#   ansible.builtin.file:
+#     src: "{{ restic_docker_dir }}/{{ restic_docker_tmplt.name }}"
+#     dest: "/usr/local/bin/{{ restic_docker_tmplt.bin }}"
+#     state: link
+#     force: true
+#   loop_control: {loop_var: restic_docker_tmplt}
+#   loop: "{{ restic_docker_templates }}"
+#   when: restic_docker_tmplt.bin is defined
+#   notify: Apply restic-docker systemd service
 
-- name: Template service systemd service and timer files for automated backups
-  become: true
-  ansible.builtin.template:
-    src: "{{ restic_docker_systemd_file }}"
-    dest: /etc/systemd/system/{{ restic_docker_systemd_file }}
-    mode: '0644'
-    owner: root
-    group: docker
-  loop_control: {loop_var: restic_docker_systemd_file}
-  loop: [restic-docker.service, restic-docker.timer]
-  notify: Apply restic-docker systemd service
+# - name: Template service systemd service and timer files for automated backups
+#   become: true
+#   ansible.builtin.template:
+#     src: "{{ restic_docker_systemd_file }}"
+#     dest: /etc/systemd/system/{{ restic_docker_systemd_file }}
+#     mode: '0644'
+#     owner: root
+#     group: docker
+#   loop_control: {loop_var: restic_docker_systemd_file}
+#   loop: [restic-docker.service, restic-docker.timer]
+#   notify: Apply restic-docker systemd service

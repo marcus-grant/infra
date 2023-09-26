@@ -1,6 +1,6 @@
 #!/bin/bash
 
-$RD_DIR="{{ restic_docker_dir }}"
+RD_DIR="{{ restic_docker_dir }}"
 
 # Display usage message
 usage() {

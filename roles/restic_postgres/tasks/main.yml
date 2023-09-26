@@ -82,4 +82,21 @@
     | {{ restic_postgres_dir }}/psql-docker.sh
   register: restic_postgres_restore_cmd
   changed_when: restic_postgres_restore_cmd.rc == 0
-  when: not restic_postgres_restore_table in restic_postgres_tables.stdout
+  when:
+    - restic_postgres_tables is defined
+    - not restic_postgres_restore_table in restic_postgres_tables.stdout
+
+- name: Insert restore record into restore table, marking restore as completed
+  become: true
+  ansible.builtin.command: >-
+    {{ restic_postgres_dir }}/psql-docker.sh
+    -c 'INSERT INTO {{ restic_postgres_restore_table }} DEFAULT VALUES;'
+  register: restic_postgres_restore_record
+  changed_when: restic_postgres_restore_record.rc == 0
+  when:
+    - restic_postgres_restore_cmd is defined
+    - restic_postgres_restore_cmd.changed
+
+# - name: Debug cmd
+#   ansible.builtin.debug:
+#     msg: "{{ restic_postgres_restore_record }}"

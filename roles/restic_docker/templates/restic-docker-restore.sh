@@ -48,7 +48,7 @@ fi
 
 # Restore volumes using restic
 echo "Restoring volumes..."
-if ! $RD_DIR/restic-docker-restore-cmd.sh
+if ! $RD_DIR/restic-docker-restore-cmd.sh; then
     handle_error "Failed to restore volumes"
 fi
 
