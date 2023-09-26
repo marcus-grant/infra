@@ -22,9 +22,9 @@
     # - role: marcus_grant.dotfiles.neovim
     #   become_user: "{{ admin_user }}"
     #   tags: [nvim, neovim, dotfiles, dots]
-    - role: roles/mac-config
+    - role: mac-config
       tags: [mac, properties, config, cfgs, default, defaults, system, keyboard]
-    - role: roles/fonts
+    - role: fonts
       tags: [font, fonts, ui]
     - role: geerlingguy.mas
       become_user: "{{ admin_user }}"
