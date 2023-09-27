@@ -6,7 +6,7 @@ mac_dock_orientation: left
 # The values can be calculated here: https://mac-key-repeat.zaymon.dev
 mac_key_repeat_time: 2
 mac_init_key_repeat_time: 8
-mac_defaults_spotlight_hidden: 0  # 0 = hidden, 1 = shown (default)
+mac_defaults_spotlight_shown: 0  # 0 = hidden, 1 = shown (default)
 mac_defaults_keyboard_automatic_spelling_correct: false  # Correct spelling automatically
 mac_defaults_keyboard_auto_quote_subst: false   # Use smart quotes
 mac_defaults_keyboard_auto_dash_subst: false    # Use smart dashes
