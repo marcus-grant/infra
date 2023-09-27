@@ -1,31 +1,46 @@
 ---
-- hosts: odin
+- name: Configurate Baldr macOS workstation
+  hosts: baldr
   connection: local
   gather_facts: true
   become: true
-  environment:
-    PATH: "$HOME/Library/Python/3.8/bin:/opt/homebrew/bin:{{ ansible_env.PATH }}"
-  # pre_tasks:
   roles:
-    # - role: geerlingguy.mac.homebrew
-    - role: elliotweiser.osx-command-line-tools
-      tags: [mac, xcode, clitools, pre]
-    - role: roles/hombrew_pkgs
+    - role: hombrew_pkgs
       become_user: "{{ admin_user }}"
-      tags: [mac, pre, homebrew, brew, packages, package, pkgs]
-    - role: collections/marcus_grant/dotfiles/roles/git
-      tags: [dots, dotfiles, git, gh, github, ssh]
-    # TODO: These dotfiles roles fail even when *_git_force is false when git module attempts to clone preexisting repos
-    # - role: marcus_grant.dotfiles.zsh
-    #   become_user: "{{ admin_user }}"
-    #   tags: [zsh, dotfiles, dots]
-    # - role: marcus_grant.dotfiles.neovim
-    #   become_user: "{{ admin_user }}"
-    #   tags: [nvim, neovim, dotfiles, dots]
-    - role: mac-config
-      tags: [mac, properties, config, cfgs, default, defaults, system, keyboard]
+      tags: [pre, homebrew, brew, cask, tap, package]
+    - role: mac-defaults
+      tags: [properties, config, default, system, keyboard]
     - role: fonts
-      tags: [font, fonts, ui]
-    - role: geerlingguy.mas
-      become_user: "{{ admin_user }}"
-      tags: [mac, mas, app, store, install, uninstall, remove]
+      tags: [font, ui]
+
+    # - role: marcus_grant.dotfiles.profile
+    #   tags: [mac,dotfiles,profile,shell]
+
+# - hosts: odin
+#   connection: local
+#   gather_facts: true
+#   become: true
+#   environment:
+#     PATH: "$HOME/Library/Python/3.8/bin:/opt/homebrew/bin:{{ ansible_env.PATH }}"
+#   # pre_tasks:
+#   roles:
+#     # - role: geerlingguy.mac.homebrew
+#     # - role: elliotweiser.osx-command-line-tools
+#     #   tags: [mac, xcode, clitools, pre]
+#     - role: roles/hombrew_pkgs
+#       become_user: "{{ admin_user }}"
+#       tags: [mac, pre, homebrew, brew, packages, package, pkgs]
+#     - role: collections/marcus_grant/dotfiles/roles/git
+#       tags: [dots, dotfiles, git, gh, github, ssh]
+#     # TODO: These dotfiles roles fail even when *_git_force is false when git module attempts to clone preexisting repos
+#     # - role: marcus_grant.dotfiles.zsh
+#     #   become_user: "{{ admin_user }}"
+#     #   tags: [zsh, dotfiles, dots]
+#     # - role: marcus_grant.dotfiles.neovim
+#     #   become_user: "{{ admin_user }}"
+#     #   tags: [nvim, neovim, dotfiles, dots]
+#     - role: mac-config
+#       tags: [mac, properties, config, cfgs, default, defaults, system, keyboard]
+#     # - role: geerlingguy.mas
+#     #   become_user: "{{ admin_user }}"
+#     #   tags: [mac, mas, app, store, install, uninstall, remove]

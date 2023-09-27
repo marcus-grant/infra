@@ -1,0 +1,45 @@
+---
+# Mac Defaults
+# TODO: Move some of these into defaults of role
+mac_defaults_caps_lock_esc: true
+mac_defaults_key_repeat_time: 2
+mac_defaults_init_key_repeat_time: 8
+mac_defaults_keyboard_vscode_key_hold_enabled: false
+mac_defaults_key_hold_enabled: true
+mac_defaults_keyboard_automatic_spelling_correct: false
+mac_defaults_keyboard_auto_quote_subst: false
+mac_defaults_keyboard_auto_dash_subst: false
+mac_defaults_spotlight_shown: 0  # 0 = hidden, 1 = visible
+
+# Fonts
+# --------
+fonts_to_user: true
+fonts_to_get:
+  # NOTE: Test pattern for role fonts
+  # - pattern: blah*
+  - file_pattern: Iosevka*
+    url: https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/Iosevka.zip
+  - file_pattern: BigBlue*
+    url: https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/BigBlueTerminal.zip
+  - file_pattern: Fira*
+    url: https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/FiraCode.zip
+  - file_pattern: Sauce*
+    url: https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/SourceCodePro.zip
+
+# TODO: Create defaults for homebrew_{taps,installed_packages,installed_casks}
+homebrew_taps:
+  - homebrew/core
+  - homebrew/cask
+
+homebrew_installed_casks:
+  - steam
+  - visual-studio-code
+  # - iterm2-beta  # TODO: Once stable reaches v3.5, switch to just iterm2
+  # - mac-mouse-fix  # TODO: Broken till v3 stable releases (currently dl'd)
+
+homebrew_installed_packages:
+  - age
+  - ansible
+  - ansible-lint
+  - jq
+  - zstd
