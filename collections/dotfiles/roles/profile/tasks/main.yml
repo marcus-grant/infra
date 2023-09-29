@@ -1,0 +1,5 @@
+---
+# tasks file for collections/dotfiles/roles/profile
+- name: Debug message
+  ansible.builtin.debug:
+    msg: "Hello world!"

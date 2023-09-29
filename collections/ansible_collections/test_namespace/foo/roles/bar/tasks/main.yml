@@ -1,0 +1,4 @@
+---
+- name: Debug foo.bar collection.role.
+  ansible.builtin.debug:
+    msg: "Hello from foo.bar collection.role."

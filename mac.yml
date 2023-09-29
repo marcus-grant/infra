@@ -12,9 +12,8 @@
       tags: [properties, config, default, system, keyboard]
     - role: fonts
       tags: [font, ui]
-
-    # - role: marcus_grant.dotfiles.profile
-    #   tags: [mac,dotfiles,profile,shell]
+    - role: marcus_grant.dotfiles.profile
+      tags: [mac, dotfile, profile, shell]
 
 # - hosts: odin
 #   connection: local
