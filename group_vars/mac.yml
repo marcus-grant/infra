@@ -27,11 +27,17 @@ fonts_to_get:
     url: https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/SourceCodePro.zip
 
 # TODO: Create defaults for homebrew_{taps,installed_packages,installed_casks}
+mas_installed_apps:
+  - {id: 1482490089, name: "Tampermonkey"}
+mas_uninstalled_apps:
+  - {id: 682658836, name: "GarageBand"}
+
 homebrew_taps:
   - homebrew/core
   - homebrew/cask
 
 homebrew_installed_casks:
+  - aldente
   - steam
   - visual-studio-code
   # - iterm2-beta  # TODO: Once stable reaches v3.5, switch to just iterm2
@@ -41,5 +47,6 @@ homebrew_installed_packages:
   - age
   - ansible
   - ansible-lint
+  - git
   - jq
   - zstd

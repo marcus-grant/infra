@@ -3,17 +3,15 @@
   hosts: baldr
   connection: local
   gather_facts: true
-  become: true
   roles:
     - role: hombrew_pkgs
-      become_user: "{{ admin_user }}"
-      tags: [pre, homebrew, brew, cask, tap, package]
+      tags: [pre, homebrew, brew, cask, tap, package, mas, app]
+    - role: marcus_grant.dotfiles.profile
+      tags: [mac, dotfile, profile, shell]
     - role: mac-defaults
       tags: [properties, config, default, system, keyboard]
     - role: fonts
       tags: [font, ui]
-    - role: marcus_grant.dotfiles.profile
-      tags: [mac, dotfile, profile, shell]
 
 # - hosts: odin
 #   connection: local
@@ -26,9 +24,6 @@
 #     # - role: geerlingguy.mac.homebrew
 #     # - role: elliotweiser.osx-command-line-tools
 #     #   tags: [mac, xcode, clitools, pre]
-#     - role: roles/hombrew_pkgs
-#       become_user: "{{ admin_user }}"
-#       tags: [mac, pre, homebrew, brew, packages, package, pkgs]
 #     - role: collections/marcus_grant/dotfiles/roles/git
 #       tags: [dots, dotfiles, git, gh, github, ssh]
 #     # TODO: These dotfiles roles fail even when *_git_force is false when git module attempts to clone preexisting repos
