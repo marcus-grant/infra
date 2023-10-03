@@ -1,7 +1,6 @@
 # marcus_grant.macos.homebrew
 
-A homebrew installer for macOS that also installs taps, casks and packages after
-installing homebrew's dependencies and the program itself.
+A homebrew installer for macOS, that installs its dependencies then brew.
 
 ## Requirements
 
