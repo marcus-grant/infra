@@ -12,12 +12,25 @@ None, macOS comes with everything needed to run this role.
 These are the default variables for this role as visible in defaults/main.yml.
 If a variable is required, it won't have a default value.
 
-| Variable          | Default                       | Choices | Comments                    |
-| ----------------- | ----------------------------- | ------- | --------------------------- |
-| homebrew_prefix   | /opt/homebrew                 | str     | Path pointing to homebrew   |
-| homebrew_taps     | [homebrew/core,homebrew/cask] | [str]   | Enabled repositories (taps) |
-| homebrew_packages | []                            | [str]   | Packages to install         |
-| homebrew_casks    | []                            | [str]   | Casks (GUI apps) to install |
+| Variable          | Default          | Choices | Comments                    |
+| ----------------- | ---------------- | ------- | --------------------------- |
+| homebrew_prefix   | /opt/homebrew    | str     | Path pointing to homebrew   |
+| homebrew_taps     | [*/core, */cask] | [str]   | Enabled repositories (taps) |
+| homebrew_packages | []               | [str]   | Packages to install         |
+| homebrew_casks    | []               | [str]   | Casks (GUI apps) to install |
+
+> `*`: Denotes the prefix to the string, `homebrew`
+
+## Role Tags
+
+These are task-level tags that can be used to run single sets of tasks.
+
+| Tag              | Description                                               |
+| ---------------- | --------------------------------------------------------- |
+| homebrew-install | Installs homebrew, making the command available           |
+| homebrew-tap     | Enables a list of taps for homebrew                       |
+| homebrew-package | Installs a list of packages available in taps (NOT casks) |
+| homebrew-cask    | Installs a list of casks available in taps (casks ONLY)   |
 
 Dependencies
 ------------
