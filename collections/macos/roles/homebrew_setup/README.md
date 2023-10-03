@@ -1,4 +1,4 @@
-# marcus_grant.macos.homebrew-setup
+# marcus_grant.macos.homebrew_setup
 
 A homebrew installer for macOS, that installs its dependencies then brew.
 
