@@ -1,4 +1,0 @@
----
-- name: Debug collection path
-  ansible.builtin.debug:
-    msg: "Hi from test_namespace.test_collection.test_role"

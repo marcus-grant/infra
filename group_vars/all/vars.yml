@@ -29,6 +29,7 @@ internal_ports:
   nodered: '10103'
   n8n: '10104'
   nextcloud: '11000'
+  collabora: '11001'
 
 # Dotfiles
 dotfiles_root: ~/.config

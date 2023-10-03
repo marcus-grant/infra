@@ -1,4 +1,8 @@
 ---
+# Related to user
+admin_user: "{{ admin_user }}"
+admin_user_group: admin
+
 # Mac Defaults
 # TODO: Move some of these into defaults of role
 mac_defaults_caps_lock_esc: true
@@ -33,7 +37,7 @@ mas_installed_apps:
   - {id: 1452453066, name: 'Hidden Bar'}
   - {id: 1463298887, name: 'Userscripts'}
 mas_uninstalled_apps:
-  - {id: 682658836, name: "GarageBand"}
+  - {id: 682658836, name: 'GarageBand'}
   - {id: 1482490089, name: 'Tampermonkey'}
 
 homebrew_taps:
