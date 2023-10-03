@@ -1,7 +1,7 @@
-# marcus_grant.macos.homebrew
+# marcus_grant.macos.mas
 
-A homebrew installer for macOS that also installs taps, casks and packages after
-installing homebrew's dependencies and the program itself.
+A role that installs and uses MAS (Mac App Store, a cli program)
+to install/uninstall apps from the App Store.
 
 ## Requirements
 
