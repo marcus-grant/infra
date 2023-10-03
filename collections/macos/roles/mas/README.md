@@ -19,7 +19,7 @@ If a variable is required, it won't have a default value.
 | mas_installed_apps   | []            | [*]     | List of id & name of apps to install   |
 | mas_uninstalled_apps | []            | [*]     | List of id & name of apps to uninstall |
 
-> `*`: Denotes the dictionary of form, `{id: str, name: str}`, within the list
+> `*`: Denotes the dictionary of form, `{id: str, name: str}`, within the list.
 
 
 ## Role Tags
