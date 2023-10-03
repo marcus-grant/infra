@@ -75,18 +75,11 @@ profile_custom_entries:
 
 ## Role Tags
 
-These are task-level tags that can be used to run single sets of tasks.
-
-| Tag              | Description                                               |
-| ---------------- | --------------------------------------------------------- |
-| homebrew-tap     | Enables a list of taps for homebrew                       |
-| homebrew-package | Installs a list of packages available in taps (NOT casks) |
-| homebrew-cask    | Installs a list of casks available in taps (casks ONLY)   |
+None
 
 ## Dependencies
 
-Homebrew must be installed,
-`marcus_grant.macos.homebrew-setup` is a good role to use for this.
+None
 
 ## Example Playbook
 
@@ -94,6 +87,31 @@ Including an example of how to use your role (for instance, with variables passe
 
 ```yaml
 - hosts: all
+  vars:  # Most taken from defaults/main.yml
+    profile_group: sudo  # Remember macOS doesn't have this, maybe use staff, wheel or admin
+    profile_paths: []  # List of paths to add to $PATH, earlier overrides later
+    profile_lc_all: en_US.UTF-8
+    profile_xdg_include: false
+    profile_xdg_config_home: $HOME/.config  # Defines XDG_CONFIG_HOME
+    profile_xdg_data_home: $HOME/.local/share  # Defines XDG_DATA_HOME
+    profile_xdg_cache_home: $HOME/.cache  # Defines XDG_CACHE_HOME
+    profile_xdg_bin_home: $HOME/.local/bin  # Defines XDG_BIN_HOME
+    profile_xdg_runtime_dir: $HOME/.cache/run  # Defines XDG_RUNTIME_DIR
+    profile_editor: vim
+    profile_envs:
+    - name: "MY_VAR"
+      value: "my value"
+    - {name: "MY_VAR2", value: "my value 2"}
+    profile_custom_entries:
+    - "hello='Hello World!'"
+    - "echo $hello"
+    - "/some/script/path/startup-script.sh"
+
+    # custom entries
+    # Each item is a line (string) of a profile file, below an example
+    # - /some/path/startup-script.sh
+    # - SOME_VAR="SOME_VALUE"
+    profile_custom_entries: []
   roles:
     - name: marcus_grant.macos.homebrew
 
