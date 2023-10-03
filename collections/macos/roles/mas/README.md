@@ -26,16 +26,16 @@ If a variable is required, it won't have a default value.
 
 These are task-level tags that can be used to run single sets of tasks.
 
-| Tag              | Description                                               |
-| ---------------- | --------------------------------------------------------- |
-| homebrew-install | Installs homebrew, making the command available           |
-| homebrew-tap     | Enables a list of taps for homebrew                       |
-| homebrew-package | Installs a list of packages available in taps (NOT casks) |
-| homebrew-cask    | Installs a list of casks available in taps (casks ONLY)   |
+| Tag               | Description                                              |
+| ----------------- | -------------------------------------------------------- |
+| mas-install       | Installs `mas`, using homebrew                           |
+| mas-install-app   | Installs `mas_installed_apps` list of apps (id & name)   |
+| mas-uninstall-app | Installs `mas_uninstalled_apps` list of apps (id & name) |
 
 ## Dependencies
 
-None
+The sibling role, `marcus_grant.macos.homebrew`, is required for this role to work.
+Or any other role that installs homebrew.
 
 ## Example Playbook
 
