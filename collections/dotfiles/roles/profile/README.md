@@ -31,14 +31,14 @@ These variables are specific to XDG environment variable definitions.
 These can be defined or ignored according to `profile_xdg_include`.
 It's a good idea to use `$HOME` when the path is relevant to user home.
 
-| Variable    | Default          | Choices | Comments                           |
-| ----------- | ---------------- | ------- | ---------------------------------- |
-| include     | `false`          | bool    | Whether to include XDG definitions |
-| config_home | *`/.config`      | str     | `XDG_CONFIG_HOME` path string      |
-| data_home   | *`/.local/share` | str     | `XDG_DATA_HOME` path string        |
-| cache_home  | *`/.cache`       | str     | `XDG_CACHE_HOME` path string       |
-| bin_home    | *`/.local/bin`   | str     | `XDG_BIN_HOME` path string         |
-| runtime_dir | *`/.cache/run`   | str     | `XDG_RUNTIME_HOME` path string     |
+| Variable    | Default          | Choices | Comments                       |
+| ----------- | ---------------- | ------- | ------------------------------ |
+| include     | `false`          | bool    | If to include XDG definitions  |
+| config_home | *`/.config`      | str     | `XDG_CONFIG_HOME` path string  |
+| data_home   | *`/.local/share` | str     | `XDG_DATA_HOME` path string    |
+| cache_home  | *`/.cache`       | str     | `XDG_CACHE_HOME` path string   |
+| bin_home    | *`/.local/bin`   | str     | `XDG_BIN_HOME` path string     |
+| runtime_dir | *`/.cache/run`   | str     | `XDG_RUNTIME_HOME` path string |
 
 > `_abc`: Shortens the role prefix of the XDG variables, ie `profile_xdg_abc`
 > `*`: Shortens default path prefix `$HOME`.
