@@ -22,6 +22,7 @@ If a variable is required, it won't have a default value.
 
 > `*`: Shortens default string of `en_US.UTF-8`.
 > `^`: Shortens the default LS_COLORS string shown in `defaults/main.yml` of role.
+> ... it's quite long, no need to show here.
 
 ### Role Variables (XDG)
 
