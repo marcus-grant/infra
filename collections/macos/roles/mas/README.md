@@ -34,7 +34,8 @@ These are task-level tags that can be used to run single sets of tasks.
 
 ## Dependencies
 
-The sibling role, `marcus_grant.macos.homebrew`, is required for this role to work.
+The sibling role, `marcus_grant.macos.homebrew`,
+is required for this role to work.
 Or any other role that installs homebrew.
 
 ## Example Playbook
