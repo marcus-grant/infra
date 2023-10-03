@@ -19,7 +19,7 @@ If a variable is required, it won't have a default value.
 | homebrew_packages | []               | [str]   | Packages to install         |
 | homebrew_casks    | []               | [str]   | Casks (GUI apps) to install |
 
-> `*`: Denotes the prefix to the string, `homebrew`
+> `*`: Denotes the prefix to the string, `homebrew`, the default tap repository.
 
 ## Role Tags
 
