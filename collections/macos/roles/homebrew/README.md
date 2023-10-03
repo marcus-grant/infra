@@ -63,7 +63,7 @@ Including an example of how to use your role (for instance, with variables passe
     - name: marcus_grant.macos.homebrew
       vars:
         homebrew_casks: [github, visual-studio-code, steam]
-      tags: homebrew-package
+      tags: homebrew-cask
 ```
 
 
