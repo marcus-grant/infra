@@ -5,7 +5,8 @@ to install/uninstall apps from the App Store.
 
 ## Requirements
 
-None, macOS comes with everything needed to run this role.
+Homebrew must be installed for this role to work.
+Use `marcus_grant.macos.homebrew` to install homebrew.
 
 ## Role Variables
 
