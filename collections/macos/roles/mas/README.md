@@ -13,12 +13,11 @@ Use `marcus_grant.macos.homebrew` to install homebrew.
 These are the default variables for this role as visible in defaults/main.yml.
 If a variable is required, it won't have a default value.
 
-| Variable          | Default          | Choices | Comments                    |
-| ----------------- | ---------------- | ------- | --------------------------- |
-| homebrew_prefix   | /opt/homebrew    | str     | Path pointing to homebrew   |
-| homebrew_taps     | [*/core, */cask] | [str]   | Enabled repositories (taps) |
-| homebrew_packages | []               | [str]   | Packages to install         |
-| homebrew_casks    | []               | [str]   | Casks (GUI apps) to install |
+| Variable             | Default       | Choices                | Comments                              |
+| -------------------- | ------------- | ---------------------- | ------------------------------------- |
+| mas_homebrew_prefix  | /opt/homebrew | str                    | Path pointing to homebrew             |
+| mas_installed_apps   | []            | [{id: str, name: str}] | AppID (id) & name of app to install   |
+| mas_uninstalled_apps | []            | [{id: str, name: str}] | AppID (id) & name of app to uninstall |
 
 > `*`: Denotes the prefix to the string, `homebrew`, the default tap repository.
 
