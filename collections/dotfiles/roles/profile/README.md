@@ -11,19 +11,18 @@ None
 These are the default variables for this role as visible in defaults/main.yml.
 If a variable is required, it won't have a default value.
 
-profile_xdg_config_home
-export XDG_CONFIG_HOME="$HOME/.config"
-export XDG_DATA_HOME="$HOME/.local/share"
-export XDG_CACHE_HOME="$HOME/.cache"
-export XDG_BIN_HOME="$HOME/.local/bin"
-export XDG_RUNTIME_DIR="$HOME/.cache/run"
 
-| Variable          | Default          | Choices | Comments                    |
-| ----------------- | ---------------- | ------- | --------------------------- |
-| homebrew_prefix   | /opt/homebrew    | str     | Path pointing to homebrew   |
-| homebrew_taps     | [*/core, */cask] | [str]   | Enabled repositories (taps) |
-| homebrew_packages | []               | [str]   | Packages to install         |
-| homebrew_casks    | []               | [str]   | Casks (GUI apps) to install |
+| Variable       | Default     | Choices | Comments                             |
+| -------------- | ----------- | ------- | ------------------------------------ |
+| profile_group  | sudo        | str     | Group owner, mac has NO sudo         |
+| profile_paths  | []          | [str]   | Add to PATH (earlier override later) |
+| profile_lc_all | * | str     | LC_ALL value, override all locale    |
+
+> `*`: Shortens default string of `en_US.UTF-8`.
+
+### Role Variables (XDG)
+
+These variables are specific to XDG
 
 > `*`: Denotes the prefix to the string, `homebrew`, the default tap repository.
 
