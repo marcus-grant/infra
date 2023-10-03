@@ -32,7 +32,8 @@ These are task-level tags that can be used to run single sets of tasks.
 
 ## Dependencies
 
-None
+Homebrew must be installed,
+`marcus_grant.macos.homebrew-setup` is a good role to use for this.
 
 ## Example Playbook
 
