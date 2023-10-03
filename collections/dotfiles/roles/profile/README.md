@@ -4,7 +4,7 @@ A role that partially sets up shell environments by templating the profile file.
 
 ## Requirements
 
-Homebrew's `brew` command must be available on the system.
+None
 
 ## Role Variables
 
