@@ -1,38 +1,71 @@
-Role Name
-=========
+# marcus_grant.dotfiles.profile
 
-A brief description of the role goes here.
+A role that partially sets up shell environments by templating the profile file.
 
-Requirements
-------------
+## Requirements
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+Homebrew's `brew` command must be available on the system.
 
-Role Variables
---------------
+## Role Variables
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+These are the default variables for this role as visible in defaults/main.yml.
+If a variable is required, it won't have a default value.
 
-Dependencies
-------------
+| Variable          | Default          | Choices | Comments                    |
+| ----------------- | ---------------- | ------- | --------------------------- |
+| homebrew_prefix   | /opt/homebrew    | str     | Path pointing to homebrew   |
+| homebrew_taps     | [*/core, */cask] | [str]   | Enabled repositories (taps) |
+| homebrew_packages | []               | [str]   | Packages to install         |
+| homebrew_casks    | []               | [str]   | Casks (GUI apps) to install |
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+> `*`: Denotes the prefix to the string, `homebrew`, the default tap repository.
 
-Example Playbook
-----------------
+## Role Tags
+
+These are task-level tags that can be used to run single sets of tasks.
+
+| Tag              | Description                                               |
+| ---------------- | --------------------------------------------------------- |
+| homebrew-tap     | Enables a list of taps for homebrew                       |
+| homebrew-package | Installs a list of packages available in taps (NOT casks) |
+| homebrew-cask    | Installs a list of casks available in taps (casks ONLY)   |
+
+## Dependencies
+
+Homebrew must be installed,
+`marcus_grant.macos.homebrew-setup` is a good role to use for this.
+
+## Example Playbook
 
 Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
 
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+```yaml
+- hosts: all
+  roles:
+    - name: marcus_grant.macos.homebrew
 
-License
--------
+    - name: marcus_grant.macos.homebrew
+      vars:
+        homebrew_taps: [homebrew/core, homebrew/cask]
+      tags: homebrew-tap
 
-BSD
+    - name: marcus_grant.macos.homebrew
+      vars:
+        homebrew_packages: [git, curl, ansible]
+      tags: homebrew-package
 
-Author Information
-------------------
+    - name: marcus_grant.macos.homebrew
+      vars:
+        homebrew_casks: [github, visual-studio-code, steam]
+      tags: homebrew-cask
+```
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+## License
+
+GPL-3.0-or-later
+
+## Author Information
+
+[Personal Site](https://marcusgrant.me)
+[GitHub](https://github.com/marcus-grant)
+[Mastodon](https://fosstodon.org/@marcusgrant)
