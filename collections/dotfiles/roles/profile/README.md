@@ -36,6 +36,20 @@ It's a good idea to use `$HOME` when the path is relevant to user home.
 
 > `*`: Shortens default path prefix `$HOME`.
 
+### Role Variables (Custom Environment Variables)
+
+Custom environment variables can be added to the `profile_env` variable as
+a list of dictionaries.
+The dictionary must have a `name` and `value` key,
+representing the environment variable name and value respectively.
+
+```yaml
+profile_envs:
+  - name: "MY_VAR"
+    value: "my value"
+  - {name: "MY_VAR2", value: "my value 2"}
+```
+
 ## Role Tags
 
 These are task-level tags that can be used to run single sets of tasks.
