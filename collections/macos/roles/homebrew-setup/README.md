@@ -15,18 +15,13 @@ If a variable is required, it won't have a default value.
 | --------------------- | ------------- | ------- | ------------------------- |
 | homebrew_setup_prefix | /opt/homebrew | str     | Path pointing to homebrew |
 
-> `*`: Denotes the prefix to the string, `homebrew`, the default tap repository.
-
 ## Role Tags
 
 These are task-level tags that can be used to run single sets of tasks.
 
-| Tag              | Description                                               |
-| ---------------- | --------------------------------------------------------- |
-| homebrew-install | Installs homebrew, making the command available           |
-| homebrew-tap     | Enables a list of taps for homebrew                       |
-| homebrew-package | Installs a list of packages available in taps (NOT casks) |
-| homebrew-cask    | Installs a list of casks available in taps (casks ONLY)   |
+| Tag            | Description                                     |
+| -------------- | ----------------------------------------------- |
+| homebrew-setup | Installs homebrew, making the command available |
 
 ## Dependencies
 
@@ -39,12 +34,12 @@ Including an example of how to use your role (for instance, with variables passe
 ```yaml
 - hosts: all
   roles:
-    - name: marcus_grant.macos.homebrew
+    - name: marcus_grant.macos.homebrew-setup
 
-    - name: marcus_grant.macos.homebrew
+    - name: marcus_grant.macos.homebrew-setup
       vars:
         homebrew_prefix: /opt/homebrew
-      tags: homebrew-install
+      tags: homebrew-setup
 
     - name: marcus_grant.macos.homebrew
       vars:
