@@ -4,7 +4,7 @@ A role that uses a pre-installed homebrew to install taps, casks and packages.
 
 ## Requirements
 
-None, macOS comes with everything needed to run this role.
+Homebrew's `brew` command must be available on the system.
 
 ## Role Variables
 
