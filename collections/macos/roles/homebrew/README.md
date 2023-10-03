@@ -10,13 +10,12 @@ None, macOS comes with everything needed to run this role.
 ## Role Variables
 
 These are the default variables for this role as visible in defaults/main.yml.
-If a variable is required,
-it won't have a default value and will be marked as required.
+If a variable is required, it won't have a default value.
 
-| Variable                | Required | Default | Choices                   | Comments                                 |
-|-------------------------|----------|---------|---------------------------|------------------------------------------|
-| foo                     | no       | false   | true, false               | example variable                         |
-| bar                     | yes      |         | eggs, spam                | example variable                         |
+| Variable        | Default       | Choices        | Comments                  |
+| --------------- | ------------- | -------------- | ------------------------- |
+| homebrew_prefix | /opt/homebrew | Valid path str | Path pointing to homebrew |
+| homebrew_taps   |               | eggs, spam     | example variable          |
 
 Dependencies
 ------------
