@@ -107,28 +107,8 @@ Including an example of how to use your role (for instance, with variables passe
     - "echo $hello"
     - "/some/script/path/startup-script.sh"
 
-    # custom entries
-    # Each item is a line (string) of a profile file, below an example
-    # - /some/path/startup-script.sh
-    # - SOME_VAR="SOME_VALUE"
-    profile_custom_entries: []
   roles:
-    - name: marcus_grant.macos.homebrew
-
-    - name: marcus_grant.macos.homebrew
-      vars:
-        homebrew_taps: [homebrew/core, homebrew/cask]
-      tags: homebrew-tap
-
-    - name: marcus_grant.macos.homebrew
-      vars:
-        homebrew_packages: [git, curl, ansible]
-      tags: homebrew-package
-
-    - name: marcus_grant.macos.homebrew
-      vars:
-        homebrew_casks: [github, visual-studio-code, steam]
-      tags: homebrew-cask
+    - name: marcus_grant.dofiles.profile
 ```
 
 ## License
