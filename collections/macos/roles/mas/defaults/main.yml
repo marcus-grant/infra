@@ -1,0 +1,11 @@
+---
+# defaults file for marcus_grant.macos.mas
+mas_homebrew_prefix: /opt/homebrew
+
+# Example dictionary with expected keys included in commends
+mas_installed_apps: >
+  [  # This info can be found by running `mas list` or `mas search`
+    # {id: 1234567890, name: 'App Name'},
+  ]
+
+mas_uninstalled_apps: []  # Same format as above

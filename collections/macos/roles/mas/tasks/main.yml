@@ -1,0 +1,30 @@
+---
+- name: Ensure MAS client installed
+  community.general.homebrew:
+    name: mas
+    state: present
+    path: "{{ mas_homebrew_prefix }}/bin"
+  when: mas_installed_apps | length > 0 or mas_uninstalled_apps | length > 0
+  tags: [mas-install]
+
+- name: Install App Store apps in mas_installed_apps using MAS
+  community.general.mas:
+    id: "{{ mas_installed_app.id | default(0) | int }}"
+    state: present
+  loop_control: {loop_var: mas_installed_app}
+  loop: "{{ mas_installed_apps }}"
+  when: mas_installed_app.id | int > 0
+  tags: [mas-install-app]
+  # tags: [skip_ansible_lint]
+
+# TODO: For some reason mas (even cli) doesn't install with sudo
+- name: UNInstall App Store apps in mas_installed_apps using MAS
+  become: true
+  community.general.mas:
+    id: "{{ mas_uninstalled_app.id | default(0) | int }}"
+    state: absent
+  loop_control: {loop_var: mas_uninstalled_app}
+  loop: "{{ mas_uninstalled_apps }}"
+  when: mas_uninstalled_app.id | int > 0
+  tags: [mas-uninstall-app]
+  # tags: [skip_ansible_lint]
