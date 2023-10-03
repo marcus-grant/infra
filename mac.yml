@@ -4,14 +4,16 @@
   connection: local
   gather_facts: true
   roles:
-    # - role: hombrew_pkgs
-    #   tags: [pre, homebrew, brew, cask, tap, package, mas, app]
-    - role: marcus_grant.macos.homebrew
-      tags: [bootstrap, homebrew, brew, tap, cask, package, install]
+    - role: marcus_grant.macos.homebrew_setup
+      tags: [homebrew-setup, bootstrap, homebrew, brew, setup]
     - role: marcus_grant.dotfiles.profile
       tags: [mac, dotfile, profile, shell]
-    - role: mac-defaults
+    - role: mac-defaults  # TODO: Move to macos collection
       tags: [properties, config, default, system, keyboard]
+    - role: marcus_grant.macos.homebrew
+      tags: [homebrew, brew, package, cask, tap, install]
+    - role: marcus_grant.macos.mas
+      tags: [mas, app, apps, store, install, uninstall]
     - role: fonts
       tags: [font, ui]
 
@@ -23,9 +25,6 @@
 #     PATH: "$HOME/Library/Python/3.8/bin:/opt/homebrew/bin:{{ ansible_env.PATH }}"
 #   # pre_tasks:
 #   roles:
-#     # - role: geerlingguy.mac.homebrew
-#     # - role: elliotweiser.osx-command-line-tools
-#     #   tags: [mac, xcode, clitools, pre]
 #     - role: collections/marcus_grant/dotfiles/roles/git
 #       tags: [dots, dotfiles, git, gh, github, ssh]
 #     # TODO: These dotfiles roles fail even when *_git_force is false when git module attempts to clone preexisting repos
@@ -35,8 +34,3 @@
 #     # - role: marcus_grant.dotfiles.neovim
 #     #   become_user: "{{ admin_user }}"
 #     #   tags: [nvim, neovim, dotfiles, dots]
-#     - role: mac-config
-#       tags: [mac, properties, config, cfgs, default, defaults, system, keyboard]
-#     # - role: geerlingguy.mas
-#     #   become_user: "{{ admin_user }}"
-#     #   tags: [mac, mas, app, store, install, uninstall, remove]

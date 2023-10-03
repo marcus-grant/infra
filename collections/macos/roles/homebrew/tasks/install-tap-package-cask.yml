@@ -1,0 +1,27 @@
+---
+# install-tap-package-cask.yml task file of marcus_grant.macos.homebrew
+- name: install-tap-package-cask | Ensure homebrew taps are in place
+  community.general.homebrew_tap:
+    name: "{{ homebrew_tap }}"
+    state: present
+  loop_control: {loop_var: homebrew_tap}
+  loop: "{{ homebrew_taps }}"
+  tags: [homebrew-tap]
+
+- name: install-tap-package-cask | Ensure homebrew packages are installed
+  community.general.homebrew:
+    name: "{{ homebrew_package }}"
+    state: present
+    path: "{{ homebrew_prefix }}/bin"
+  loop_control: {loop_var: homebrew_package}
+  loop: "{{ homebrew_packages }}"
+  tags: [homebrew-package]
+
+- name: install-tap-package-cask | Ensure homebrew CASKS are installed
+  community.general.homebrew_cask:
+    name: "{{ homebrew_cask }}"
+    state: present
+    path: "{{ homebrew_prefix }}/bin"
+  loop_control: {loop_var: homebrew_cask}
+  loop: "{{ homebrew_casks }}"
+  tags: [homebrew-cask]
