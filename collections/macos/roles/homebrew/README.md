@@ -32,19 +32,37 @@ These are task-level tags that can be used to run single sets of tasks.
 | homebrew-package | Installs a list of packages available in taps (NOT casks) |
 | homebrew-cask    | Installs a list of casks available in taps (casks ONLY)   |
 
-Dependencies
-------------
+## Dependencies
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+None
 
-Example Playbook
-----------------
+## Example Playbook
 
 Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
 
-    - hosts: all
-      roles:
-         - ansible-role-template
+```yaml
+- hosts: all
+  roles:
+    - name: marcus_grant.macos.homebrew
+
+    - name: marcus_grant.macos.homebrew
+      vars:
+        homebrew_prefix: /opt/homebrew
+      tags: homebrew-install
+
+    - name: marcus_grant.macos.homebrew
+      vars:
+        homebrew_taps: [homebrew/core, homebrew/cask]
+      tags: homebrew-tap
+
+    - name: marcus_grant.macos.homebrew
+      vars:
+        homebrew_packages:
+          - homebrew/core
+          - homebrew/cask
+      tags: homebrew-tap
+```
+
 
 License
 -------
