@@ -10,5 +10,5 @@ My colleciton of Ansible roles and modules that are used to setup myself as a de
   * [*Role link!*](./roles/profile/)
 * **bash**
   * A role that installs, sets as default shell, git clones a dotfiles repo, and symlinks all expected file locations to their respective locations in the dotfile repo.
-  * [*Role link!*](https://github.com/marcus-grant/ansible-collection-dotfiles/tree/main/roles/bash)
+  * [*Role link!*](./roles/bash/)
 
