@@ -29,8 +29,6 @@ None
 
 ## Example Playbook
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
-
 ```yaml
 - hosts: all
   roles:
@@ -40,21 +38,6 @@ Including an example of how to use your role (for instance, with variables passe
       vars:
         homebrew_prefix: /opt/homebrew
       tags: homebrew-setup
-
-    - name: marcus_grant.macos.homebrew
-      vars:
-        homebrew_taps: [homebrew/core, homebrew/cask]
-      tags: homebrew-tap
-
-    - name: marcus_grant.macos.homebrew
-      vars:
-        homebrew_packages: [git, curl, ansible]
-      tags: homebrew-package
-
-    - name: marcus_grant.macos.homebrew
-      vars:
-        homebrew_casks: [github, visual-studio-code, steam]
-      tags: homebrew-cask
 ```
 
 ## License
