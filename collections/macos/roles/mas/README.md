@@ -54,18 +54,13 @@ Including an example of how to use your role (for instance, with variables passe
 
     - name: marcus_grant.macos.mas
       vars:
-        homebrew_taps: [homebrew/core, homebrew/cask]
-      tags: homebrew-tap
+        mas_installed_apps: [{id: 497799835, name: "Xcode"}]
+      tags: mas-install-app
 
     - name: marcus_grant.macos.mas
       vars:
-        homebrew_packages: [git, curl, ansible]
-      tags: homebrew-package
-
-    - name: marcus_grant.macos.mas
-      vars:
-        homebrew_casks: [github, visual-studio-code, steam]
-      tags: homebrew-cask
+        mas_uninstalled_apps: [{id: 497799835, name: "Xcode"}]
+      tags: mas-uninstall-app
 ```
 
 ## License
