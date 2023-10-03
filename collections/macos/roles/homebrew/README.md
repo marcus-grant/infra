@@ -66,13 +66,12 @@ Including an example of how to use your role (for instance, with variables passe
       tags: homebrew-cask
 ```
 
+## License
 
-License
--------
+GPL-3.0-or-later
 
-See license.md
+## Author Information
 
-Author Information
-------------------
-
-https://cyverse.org
+[Personal Site](https://marcusgrant.me)
+[GitHub](https://github.com/marcus-grant)
+[Mastodon](https://fosstodon.org/@marcusgrant)
