@@ -12,13 +12,14 @@ These are the default variables for this role as visible in defaults/main.yml.
 If a variable is required, it won't have a default value.
 
 
-| Variable          | Default | Choices | Comments                             |
-| ----------------- | ------- | ------- | ------------------------------------ |
-| profile_group     | `sudo`  | str     | Group owner, mac has NO sudo         |
-| profile_paths     | `[]`    | [str]   | Add to PATH (earlier override later) |
-| profile_lc_all    | `*`     | str     | LC_ALL value, override all locale    |
-| profile_editor    | `vim`   | str     | Default editor command               |
-| profile_ls_colors | `^`     | str     | Default editor command               |
+| Variable            | Default | Choices | Comments                             |
+| ------------------- | ------- | ------- | ------------------------------------ |
+| profile_group       | `sudo`  | str     | Group owner, mac has NO sudo         |
+| profile_paths       | `[]`    | [str]   | Add to PATH (earlier override later) |
+| profile_lc_all      | `*`     | str     | LC_ALL value, override all locale    |
+| profile_editor      | `vim`   | str     | Default editor command               |
+| profile_ls_colors   | `^`     | str     | Default editor command               |
+| profile_xdg_include | `false` | bool    | *See below XDG section*              |
 
 > `*`: Shortens default string of `en_US.UTF-8`.
 > `^`: Shortens the default LS_COLORS string shown in `defaults/main.yml` of role.
@@ -42,12 +43,26 @@ Custom environment variables can be added to the `profile_env` variable as
 a list of dictionaries.
 The dictionary must have a `name` and `value` key,
 representing the environment variable name and value respectively.
+The order determines where in the file the variable is defined, earliest first.
 
 ```yaml
 profile_envs:
   - name: "MY_VAR"
     value: "my value"
   - {name: "MY_VAR2", value: "my value 2"}
+```
+
+### Role Variables (Custom Profile Entries)
+
+These are custom line-by-line entries that gets added to the end of the profile.
+They're stored as a list of strings, with each string representing a line,
+in the order they will be added to the profile.
+
+```yaml
+profile_custom_entries:
+  - "hello='Hello World!'"
+  - "echo $hello"
+  - "/some/script/path/startup-script.sh"
 ```
 
 ## Role Tags
