@@ -12,19 +12,28 @@ These are the default variables for this role as visible in defaults/main.yml.
 If a variable is required, it won't have a default value.
 
 
-| Variable       | Default     | Choices | Comments                             |
-| -------------- | ----------- | ------- | ------------------------------------ |
-| profile_group  | sudo        | str     | Group owner, mac has NO sudo         |
-| profile_paths  | []          | [str]   | Add to PATH (earlier override later) |
-| profile_lc_all | * | str     | LC_ALL value, override all locale    |
+| Variable          | Default | Choices | Comments                             |
+| ----------------- | ------- | ------- | ------------------------------------ |
+| profile_group     | `sudo`  | str     | Group owner, mac has NO sudo         |
+| profile_paths     | `[]`    | [str]   | Add to PATH (earlier override later) |
+| profile_lc_all    | `*`     | str     | LC_ALL value, override all locale    |
+| profile_editor    | `vim`   | str     | Default editor command               |
+| profile_ls_colors | `^`     | str     | Default editor command               |
 
 > `*`: Shortens default string of `en_US.UTF-8`.
+> `^`: Shortens the default LS_COLORS string shown in `defaults/main.yml` of role.
 
 ### Role Variables (XDG)
 
-These variables are specific to XDG
+These variables are specific to XDG environment variable definitions.
+These can be defined or ignored according to `profile_xdg_include`.
+It's a good idea to use `$HOME` when the path is relevant to user home.
 
-> `*`: Denotes the prefix to the string, `homebrew`, the default tap repository.
+| Variable | Default | Choices | Comments                     |
+| -------- | ------- | ------- | ---------------------------- |
+|          | sudo    | str     | Group owner, mac has NO sudo |
+
+> `*`: Shortens default path prefix `$HOME`.
 
 ## Role Tags
 
