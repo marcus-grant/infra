@@ -12,12 +12,13 @@ None, macOS comes with everything needed to run this role.
 These are the default variables for this role as visible in defaults/main.yml.
 If a variable is required, it won't have a default value.
 
-| Variable          | Default          | Choices | Comments                    |
-| ----------------- | ---------------- | ------- | --------------------------- |
-| homebrew_prefix   | /opt/homebrew    | str     | Path pointing to homebrew   |
-| homebrew_taps     | [*/core, */cask] | [str]   | Enabled repositories (taps) |
-| homebrew_packages | []               | [str]   | Packages to install         |
-| homebrew_casks    | []               | [str]   | Casks (GUI apps) to install |
+| Variable          | Default          | Choices | Comments                      |
+| ----------------- | ---------------- | ------- | ----------------------------- |
+| homebrew_only     | false            | bool    | Role should only install brew |
+| homebrew_prefix   | /opt/homebrew    | str     | Path pointing to homebrew     |
+| homebrew_taps     | [*/core, */cask] | [str]   | Enabled repositories (taps)   |
+| homebrew_packages | []               | [str]   | Packages to install           |
+| homebrew_casks    | []               | [str]   | Casks (GUI apps) to install   |
 
 > `*`: Denotes the prefix to the string, `homebrew`, the default tap repository.
 
