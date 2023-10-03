@@ -45,24 +45,24 @@ Including an example of how to use your role (for instance, with variables passe
 ```yaml
 - hosts: all
   roles:
-    - name: marcus_grant.macos.homebrew
+    - name: marcus_grant.macos.mas
 
-    - name: marcus_grant.macos.homebrew
+    - name: marcus_grant.macos.mas
       vars:
-        homebrew_prefix: /opt/homebrew
-      tags: homebrew-install
+        mas_homebrew_prefix: /opt/homebrew
+      tags: mas-install
 
-    - name: marcus_grant.macos.homebrew
+    - name: marcus_grant.macos.mas
       vars:
         homebrew_taps: [homebrew/core, homebrew/cask]
       tags: homebrew-tap
 
-    - name: marcus_grant.macos.homebrew
+    - name: marcus_grant.macos.mas
       vars:
         homebrew_packages: [git, curl, ansible]
       tags: homebrew-package
 
-    - name: marcus_grant.macos.homebrew
+    - name: marcus_grant.macos.mas
       vars:
         homebrew_casks: [github, visual-studio-code, steam]
       tags: homebrew-cask
