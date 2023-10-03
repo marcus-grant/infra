@@ -8,6 +8,13 @@ admin_user_group: admin
 # profile_paths, earlier items override later ones
 profile_paths: [$HOME/.local/bin, /opt/homebrew/bin]
 profile_group: "{{ admin_user_group }}"
+profile_xdg_include: true
+profile_ls_colors: cxexfxdxBxEhebAbAgAcAd
+profile_envs:
+  - {name: CARGO_HOME, value: $XDG_DATA_HOME/cargo}
+profile_custom_entries:
+  - "{{ '#' }} Secrets"
+  - "export EMAIL='{{ admin_email }}'"
 
 # Fonts
 # --------

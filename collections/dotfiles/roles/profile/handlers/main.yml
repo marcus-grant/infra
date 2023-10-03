@@ -1,2 +1,8 @@
 ---
 # handlers file for collections/marcus_grant/dotfiles/profile
+- name: Reload Shell
+  ansible.builtin.command:
+    cmd: "source {{ ansible_env.HOME }}/.profile"
+  failed_when: false
+  when: ansible_check_mode is not defined or ansible_check_mode | bool == false
+  tags: [skip_ansible_lint]

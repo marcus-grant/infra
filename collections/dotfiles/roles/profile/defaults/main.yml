@@ -1,2 +1,34 @@
 ---
 # defaults file for collections/marcus_grant/dotfiles/profile
+# user stuff
+profile_group: sudo
+
+# path
+profile_paths: []  # List of paths to add to $PATH, earlier overrides later
+
+# locale
+profile_lc_all: en_US.UTF-8
+
+# xdg defaults
+# TODO: Not sure if this should stay here
+profile_xdg_include: false
+profile_xdg_config_home: $HOME/.config  # Defines XDG_CONFIG_HOME
+profile_xdg_data_home: $HOME/.local/share  # Defines XDG_DATA_HOME
+profile_xdg_cache_home: $HOME/.cache  # Defines XDG_CACHE_HOME
+profile_xdg_bin_home: $HOME/.local/bin  # Defines XDG_BIN_HOME
+profile_xdg_runtime_dir: $HOME/.cache/run  # Defines XDG_RUNTIME_DIR
+
+# app defaults
+profile_editor: vim
+profile_ls_colors: di=32:ln=34:so=35:pi=33:ex=1;31:bd=1;34;47:cd=34;41:su=1;30;41:sg=1;30;46:tw=1;30;42:ow=1;30;43
+
+# custom environment variables
+# Each item is a dictionary with `name` & `value` properties, below an example
+# - { name: "SOME_ENV_VAR_NAME", value: "some/env/var/value" },
+profile_envs: []
+
+# custom entries
+# Each item is a line (string) of a profile file, below an example
+# - /some/path/startup-script.sh
+# - SOME_VAR="SOME_VALUE"
+profile_custom_entries: []

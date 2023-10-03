@@ -1,5 +1,10 @@
 ---
 # tasks file for collections/dotfiles/roles/profile
-- name: Debug message
-  ansible.builtin.debug:
-    msg: "Hello world!"
+- name: Template profile file
+  ansible.builtin.template:
+    src: profile.j2
+    dest: "{{ ansible_env.HOME }}/.profile"
+    owner: "{{ ansible_env.USER }}"
+    group: "{{ profile_group }}"
+    mode: 0640
+  notify: Reload Shell
