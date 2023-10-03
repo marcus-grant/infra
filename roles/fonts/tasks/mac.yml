@@ -1,36 +1,60 @@
 ---
-- name: Set fact for directory to install font into based on fonts_to_user
+# FIXME: Need logic to deal with variable user, when become active, root defaults
+# - name: mac | Set fact for directory to install font into based on fonts_to_user
+#   ansible.builtin.set_fact:
+#     fonts_dir: "{{ fonts_to_user | ternary("/Users/{{ admin_user }}/Library/Fonts", '/Library/Fonts') }}"
+#     fonts_user: "{{ fonts_to_user | ternary(admin_user, 'root') }}"
+#     fonts_group: "{{ fonts_to_user | ternary('staff', 'wheel') }}"
+
+- name: mac | Set facts for dir, user and groups to use
   ansible.builtin.set_fact:
-    fonts_dir: "{{ fonts_to_user | ternary('~/Library/Fonts', '/Library/Fonts') }}"
+    fonts_dir: "/Users/{{ admin_user }}/Library/Fonts"
+    fonts_user: "{{ admin_user }}"
+    fonts_group: "staff"
 
-- name: Ensure fonts directory in previous fact fonts_to_user exists
-  ansible.builtin.file:
-    path: "{{ fonts_dir }}"
-    state: directory
-  when: fonts_to_user
+# - name: mac | Debug facts
+#   ansible.builtin.debug:
+#     msg: "{{ fonts_debug_fact }}"
+#   loop_control: {loop_var: fonts_debug_fact}
+#   loop:
+#     - "fonts_dir: {{ fonts_dir }}"
+#     - "fonts_user: {{ fonts_user }}"
+#     - "fonts_group: {{ fonts_group }}"
 
-- name: Stat fonts path to register existing font files
+# TODO: Is this needed? On macOS you'll want it in a prescribed location
+# - name: mac | Ensure fonts directory in previous fact fonts_to_user exists
+#   ansible.builtin.file:
+#     path: "{{ fonts_dir }}"
+#     state: directory
+#   when: fonts_to_user
+
+- name: mac | Stat fonts path to register existing font files
   ansible.builtin.find:
     paths: "{{ fonts_dir }}"
-    pattern: "{{ item.file_pattern }}"
+    pattern: "{{ fonts_font.file_pattern }}"
   register: stat_fonts
+  loop_control: {loop_var: fonts_font}
   loop: "{{ fonts_to_get }}"
 
-# - name: Debug fonts_results
-#   ansible.builtin.debug:
-#     msg: "{{ item.files | length }}"
-#   loop: "{{ stat_fonts.results }}"
-    
+# # - name: Debug fonts_results
+# #   ansible.builtin.debug:
+# #     msg: "{{ item.files | length }}"
+# #   loop: "{{ stat_fonts.results }}"
+
 # According to post in:
 # https://dev.to/waylonwalker/installing-system-nerd-fonts-with-ansible-35kh
-- name: Download fonts
+- name: mac | Download fonts
   # TODO needs to be looped somehow
   # when: hack_exists is failed
   ansible.builtin.unarchive:
-    src: "{{ item.url }}"
+    src: "{{ fonts_font.url }}"
     dest: "{{ fonts_dir }}"
+    owner: "{{ fonts_user }}"
+    group: "{{ fonts_group }}"
+    mode: "0755"
     remote_src: true
   loop: "{{ fonts_to_get }}"
   loop_control:
     index_var: idx
+    loop_var: fonts_font
   when: stat_fonts.results[idx].files | length <= 0
