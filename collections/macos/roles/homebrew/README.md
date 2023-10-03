@@ -1,7 +1,6 @@
 # marcus_grant.macos.homebrew
 
-A homebrew installer for macOS that also installs taps, casks and packages after
-installing homebrew's dependencies and the program itself.
+A role that uses a pre-installed homebrew to install taps, casks and packages.
 
 ## Requirements
 
@@ -14,7 +13,6 @@ If a variable is required, it won't have a default value.
 
 | Variable          | Default          | Choices | Comments                    |
 | ----------------- | ---------------- | ------- | --------------------------- |
-| homebrew_only     | false            | bool    | Role only installs brew     |
 | homebrew_prefix   | /opt/homebrew    | str     | Path pointing to homebrew   |
 | homebrew_taps     | [*/core, */cask] | [str]   | Enabled repositories (taps) |
 | homebrew_packages | []               | [str]   | Packages to install         |
@@ -28,7 +26,6 @@ These are task-level tags that can be used to run single sets of tasks.
 
 | Tag              | Description                                               |
 | ---------------- | --------------------------------------------------------- |
-| homebrew-install | Installs homebrew, making the command available           |
 | homebrew-tap     | Enables a list of taps for homebrew                       |
 | homebrew-package | Installs a list of packages available in taps (NOT casks) |
 | homebrew-cask    | Installs a list of casks available in taps (casks ONLY)   |
