@@ -109,7 +109,3 @@ mas_installed_apps:
   - {id: 1477385213, name: 'Save to Pocket'}
   - {id: 585829637, name: 'Todoist: To-do list & Planner'}
   - {id: 497799835, name: 'Xcode'}
-mas_uninstalled_apps:
-  - {id: 408981434, name: "iMovie"}
-  - {id: 409201541, name: "Pages"}
-  - {id: 409203825, name: "Numbers"}

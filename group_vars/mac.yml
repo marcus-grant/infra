@@ -3,17 +3,11 @@
 admin_user: "{{ admin_user }}"
 admin_user_group: admin
 
-# Mac Defaults
-# TODO: Move some of these into defaults of role
-mac_defaults_caps_lock_esc: true
-mac_defaults_key_repeat_time: 2
-mac_defaults_init_key_repeat_time: 8
-mac_defaults_keyboard_vscode_key_hold_enabled: false
-mac_defaults_key_hold_enabled: true
-mac_defaults_keyboard_automatic_spelling_correct: false
-mac_defaults_keyboard_auto_quote_subst: false
-mac_defaults_keyboard_auto_dash_subst: false
-mac_defaults_spotlight_shown: 0  # 0 = hidden, 1 = visible
+# Profile
+# --------
+# profile_paths, earlier items override later ones
+profile_paths: [$HOME/.local/bin, /opt/homebrew/bin]
+profile_group: "{{ admin_user_group }}"
 
 # Fonts
 # --------
@@ -30,16 +24,8 @@ fonts_to_get:
   - file_pattern: Sauce*
     url: https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/SourceCodePro.zip
 
-# TODO: Create defaults for homebrew_{taps,installed_packages,installed_casks}
-mas_installed_apps:
-  - {id: 1432731683, name: 'Adblock Plus for Safari ABP'}
-  - {id: 1606897889, name: 'Consent-O-Matic'}
-  - {id: 1452453066, name: 'Hidden Bar'}
-  - {id: 1463298887, name: 'Userscripts'}
-mas_uninstalled_apps:
-  - {id: 682658836, name: 'GarageBand'}
-  - {id: 1482490089, name: 'Tampermonkey'}
-
+# Homebrew
+# --------
 homebrew_taps:
   - homebrew/core
   - homebrew/cask
@@ -59,3 +45,30 @@ homebrew_packages:
   - git
   - jq
   - zstd
+
+# MAS (Mac App Store)
+# -------------------
+mas_installed_apps:
+  - {id: 1432731683, name: 'Adblock Plus for Safari ABP'}
+  - {id: 1606897889, name: 'Consent-O-Matic'}
+  - {id: 1452453066, name: 'Hidden Bar'}
+  - {id: 1463298887, name: 'Userscripts'}
+mas_uninstalled_apps:
+  - {id: 682658836, name: 'GarageBand'}
+  - {id: 408981434, name: "iMovie"}
+  - {id: 409203825, name: "Numbers"}
+  - {id: 409201541, name: "Pages"}
+  - {id: 1482490089, name: 'Tampermonkey'}
+
+# Mac Defaults
+# ------------
+# TODO: Move some of these into defaults of role
+mac_defaults_caps_lock_esc: true
+mac_defaults_key_repeat_time: 2
+mac_defaults_init_key_repeat_time: 8
+mac_defaults_keyboard_vscode_key_hold_enabled: false
+mac_defaults_key_hold_enabled: true
+mac_defaults_keyboard_automatic_spelling_correct: false
+mac_defaults_keyboard_auto_quote_subst: false
+mac_defaults_keyboard_auto_dash_subst: false
+mac_defaults_spotlight_shown: 0  # 0 = hidden, 1 = visible
