@@ -11,6 +11,13 @@ None
 These are the default variables for this role as visible in defaults/main.yml.
 If a variable is required, it won't have a default value.
 
+profile_xdg_config_home
+export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_DATA_HOME="$HOME/.local/share"
+export XDG_CACHE_HOME="$HOME/.cache"
+export XDG_BIN_HOME="$HOME/.local/bin"
+export XDG_RUNTIME_DIR="$HOME/.cache/run"
+
 | Variable          | Default          | Choices | Comments                    |
 | ----------------- | ---------------- | ------- | --------------------------- |
 | homebrew_prefix   | /opt/homebrew    | str     | Path pointing to homebrew   |
