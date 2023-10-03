@@ -4,8 +4,10 @@
   connection: local
   gather_facts: true
   roles:
-    - role: hombrew_pkgs
-      tags: [pre, homebrew, brew, cask, tap, package, mas, app]
+    # - role: hombrew_pkgs
+    #   tags: [pre, homebrew, brew, cask, tap, package, mas, app]
+    - role: marcus_grant.macos.homebrew
+      tags: [bootstrap, homebrew, brew, tap, cask, package, install]
     - role: marcus_grant.dotfiles.profile
       tags: [mac, dotfile, profile, shell]
     - role: mac-defaults

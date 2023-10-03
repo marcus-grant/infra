@@ -1,0 +1,48 @@
+---
+- name: Check brew exists and its version
+  ansible.builtin.command:
+    cmd: "{{ homebrew_prefix }}/bin/brew --version"
+  changed_when: false
+  register: cmd_brew_version
+  tags: [homebrew-install]
+
+- name: Run homebrew install script
+  become: true
+  ansible.builtin.command:
+    argv:
+      - /bin/bash
+      - -c
+      - $(curl
+      - -fsSL
+      - https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)
+    creates: "{{ homebrew_prefix }}/bin/brew"
+  async: 5400  # Asynchronously perform task, timeout after 90 minutes
+  poll: 30  # Check every 30s
+  when: cmd_brew_version.rc != 0
+  tags: [homebrew-install]
+
+- name: Ensure homebrew taps are in place
+  community.general.homebrew_tap:
+    name: "{{ homebrew_tap }}"
+    state: present
+  loop_control: {loop_var: homebrew_tap}
+  loop: "{{ homebrew_taps }}"
+  tags: [homebrew-tap]
+
+- name: Ensure homebrew packages are installed
+  community.general.homebrew:
+    name: "{{ homebrew_package }}"
+    state: present
+    path: "{{ homebrew_prefix }}/bin"
+  loop_control: {loop_var: homebrew_package}
+  loop: "{{ homebrew_packages }}"
+  tags: [homebrew-package]
+
+- name: Ensure homebrew CASKS are installed
+  community.general.homebrew_cask:
+    name: "{{ homebrew_cask }}"
+    state: present
+    path: "{{ homebrew_prefix }}/bin"
+  loop_control: {loop_var: homebrew_cask}
+  loop: "{{ homebrew_casks }}"
+  tags: [homebrew-cask]

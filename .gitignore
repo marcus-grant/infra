@@ -15,11 +15,10 @@ ansible-navigator.log
 # venv
 venv/*
 .venv/*
-collections/marcus_grant/dotfiles/venv/*
 **/venv/*
 **/.venv/*
-**/venv/
-**/venv/
+**/venv/*
+**/venv/*
 
 
 # collections cache

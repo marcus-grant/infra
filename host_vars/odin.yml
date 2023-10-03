@@ -56,12 +56,11 @@ homebrew_installed_casks:
   - devdocs
   - discord
   - firefox
-  - github
   - raycast
   - spotify
   - vivaldi
 
-homebrew_installed_packages:
+homebrew_packages:
   - bat
   - bind
   - borgbackup
@@ -78,7 +77,6 @@ homebrew_installed_packages:
   - gopass
   - gpg
   - httpie
-  - jq
   - kopia
   - ncdu
   - neovim
@@ -105,9 +103,6 @@ homebrew_installed_packages:
 # mas_email: "{{ vault_admin_email }}"
 # mas_password: "{{ inventory_apple_password }}"
 mas_installed_apps:
-  - {id: 1432731683, name: 'Adblock Plus for Safari ABP'}
-  - {id: 1606897889, name: 'Consent-O-Matic'}
-  - {id: 1452453066, name: 'Hidden Bar'}
   - {id: 403504866, name: 'PCalc'}
   - {id: 568494494, name: 'Pocket'}
   - {id: 1498497896, name: 'Raivo OTP'}
