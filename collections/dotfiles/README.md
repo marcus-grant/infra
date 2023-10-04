@@ -16,4 +16,4 @@ My colleciton of Ansible roles and modules that are used to setup myself as a de
 * **bash**
   * A role that installs then configures a ZSH shell environment using
     a clone git repo of ZSH dotfiles.
-  * [*Role link!*](./roles/bash/)
+  * [*Role link!*](./roles/zsh/)
