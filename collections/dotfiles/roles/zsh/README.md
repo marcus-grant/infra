@@ -5,14 +5,11 @@ templating expected ZSH files that source the dotfiles in the cloned directory.
 Also optionally sets as the default shell and
 installs ZSH along with extra packages.
 
+## Requirements
 
-Requirements
-------------
+Only git is required.
 
-Git needs to be installed for this to work.
-
-Role Variables
---------------
+## Role Variables
 
 Below is a table of variables, some optional usually with default values or necessary for the role to function.
 
