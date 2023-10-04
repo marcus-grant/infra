@@ -38,14 +38,13 @@ If that is the case, sibling role `marcus_grant.dotfiles.profile` can be used.
          - role: marcus_grant.dotfiles.zsh
 ```
 
-License
--------
+## License
 
 GPL3
 
-Author Information
-------------------
+## Author Information
 
 Marcus Grant
 [https://marcusgrant.me](https://marcusgrant.me)
 [marcusfg@protonmail.com](marcusfg@protonmail.com)
+[github:marcus-grant](https://github.com/marcus-grant)
