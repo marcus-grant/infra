@@ -11,7 +11,8 @@ Only git is required.
 
 ## Role Variables
 
-Below is a table of variables, some optional usually with default values or necessary for the role to function.
+Below is a table of variables,
+some optional usually with default values or necessary for the role to function.
 
 |    Variable     | Needed|  Default   |   Choices    |                     Comments                     |
 |:---------------:|:-----:|:----------:|:------------:|:------------------------------------------------:|
