@@ -17,13 +17,12 @@ some optional usually with default values or necessary for the role to function.
 | userdirs_xdg_use     | true    | bool    | Whether to create `XDG_` env. vars. dirs  |
 | userdirs_custom_dirs | []      | [str]   | List of paths to create extra directories |
 
-Dependencies
-------------
+## Dependencies
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+Only XDG environment variables are optionally required.
+If that is the case, sibling role `marcus_grant.dotfiles.profile` can be used.
 
-Example Playbook
-----------------
+## Example Playbook
 
 Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
 
