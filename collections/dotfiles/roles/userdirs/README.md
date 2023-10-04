@@ -24,19 +24,15 @@ If that is the case, sibling role `marcus_grant.dotfiles.profile` can be used.
 
 ## Example Playbook
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
-
 ```yaml
 - hosts: all
   tasks:
     - name: "Include zsh"
       vars:
-        zsh_git_repo: https://github.com/marcus-grant/dots-zsh
-        zsh_rc_file: rc.zsh
-        zsh_profile_file: profile.zsh
-        zsh_env_file: env.zsh
-        zsh_default_shell: true
-        zsh_git_force: true
+        userdirs_xdg_use: true
+        userdirs_custom_dirs:
+          - "{{ ansible_env.HOME }}/bin"
+          - "{{ ansible_env.HOME }}/.cache/run"
       ansible.builtin.include_role:
         name: "zsh"
          - role: marcus_grant.dotfiles.zsh
