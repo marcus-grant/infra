@@ -20,13 +20,13 @@ some optional usually with default values or necessary for the role to function.
 | zsh_default_shell_path | false  | /usr/bin/zsh | command path   | Where the desired ZSH binary to use as default is |
 | zsh_parent_dir         | false  | ~/.config    | dir path       | Parent directory to clone dotfile repo into       |
 | zsh_config_dir_name    | false  | zsh          | dir name       | Name of directory in zsh_parent_dir to clone to   |
-| zsh_rc_file            | false  | zshrc        | filename       | Filename inside repo that .zshrc sources    |
-| zsh_profile_file       | false  | zprofile     | filename       | Filename inside repo that .zprofile sources |
-| zsh_env_file           | false  | zshenv       | filename       | Filename inside repo that .zshenv   sources |
-| zsh_git_repo           | true   | n/a          | git repo url   | Where to clone/pull dotfile repo from             |
+| zsh_rc_file            | false  | zshrc        | filename       | Filename inside repo that .zshrc sources          |
+| zsh_profile_file       | false  | zprofile     | filename       | Filename inside repo that .zprofile sources       |
+| zsh_env_file           | false  | zshenv       | filename       | Filename inside repo that .zshenv   sources       |
+| zsh_env_source_profile | false  | true         | bool           | Whether .zshenv should source ~/.profile          |
+| zsh_git_repo           | true   | n/a          | git repo url   | URL where the ZSH dotfile repo can be cloned from |
 | zsh_git_version        | false  | HEAD         | git branch/tag | Which branch/tag to clone or pull                 |
 | zsh_git_force          | false  | false        | boolean        | Whether to force pull repositories on config_dir  |
-<!-- | zsh_git_backup   | false  | true       | boolean      | Backup dotfile directory if zsh_git_force        | -->
 
 Dependencies
 ------------
