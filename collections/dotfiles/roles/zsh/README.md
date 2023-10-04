@@ -1,7 +1,10 @@
-ZSH Dotfiles Role
-=================
+# marcus_grant.dotfiles.zsh
 
-Clone/Pull any git repository containing a ZSH dotfiles directory then linking them to the correct places and running any initializations needed.
+Ansible role to clone a dotfile repository holding ZSH configuration files and
+templating expected ZSH files that source the dotfiles in the cloned directory.
+Also optionally sets as the default shell and
+installs ZSH along with extra packages.
+
 
 Requirements
 ------------
