@@ -1,15 +1,13 @@
-ZSH Dotfiles Role
-=================
+# marcus_grant.dotfiles.userdirs
 
-Clone/Pull any git repository containing a ZSH dotfiles directory then linking them to the correct places and running any initializations needed.
+Ansible role to manage user directories,
+either explicitly or via XDG environment variables.
 
-Requirements
-------------
+## Requirements
 
-Git needs to be installed for this to work.
+None
 
-Role Variables
---------------
+## Role Variables
 
 Below is a table of variables, some optional usually with default values or necessary for the role to function.
 
