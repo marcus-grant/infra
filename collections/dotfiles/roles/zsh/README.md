@@ -44,11 +44,18 @@ Including an example of how to use your role (for instance, with variables passe
     - name: "Include zsh"
       vars:
         zsh_git_repo: https://github.com/marcus-grant/dots-zsh
-        zsh_rc_file: rc.zsh
-        zsh_profile_file: profile.zsh
-        zsh_env_file: env.zsh
-        zsh_default_shell: true
-        zsh_git_force: true
+        zsh_shell_as_default: false
+        zsh_default_shell_path: /usr/bin/zsh
+        zsh_parent_dir: ~/.config
+        zsh_config_dir_name: zsh
+        zsh_rc_file: zshrc
+        zsh_profile_file: zprofile
+        zsh_env_file: zshenv
+        zsh_env_source_profile: true
+        zsh_git_version: HEAD
+        zsh_git_force: false
+        zsh_extra_packages: [zsh-autopair]
+
       ansible.builtin.include_role:
         name: "zsh"
          - role: marcus_grant.dotfiles.zsh
