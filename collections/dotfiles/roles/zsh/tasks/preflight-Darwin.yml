@@ -1,0 +1,20 @@
+---
+# preflight included tasks for Darwin ansible-os-family
+- name: preflight-Darwin | Register if /opt/homebrew/bin/brew command present
+  ansible.builtin.command: /opt/homebrew/bin/brew --version
+  changed_when: false
+  failed_when: false
+  register: cmd_opt_brew_version
+
+- name: preflight-Darwin | Register if /usr/local/bin/brew command present
+  ansible.builtin.command: /usr/local/bin/brew --version
+  changed_when: false
+  failed_when: false
+  register: cmd_usr_brew_version
+
+- name: preflight-Darwin | Assert brew present for package install
+  ansible.builtin.assert:
+    that:
+      - cmd_opt_brew_version is success
+      - cmd_usr_brew_version is success
+    fail_msg: "Homebrew is not installed. Please install Homebrew before running this playbook."

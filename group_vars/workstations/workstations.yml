@@ -23,7 +23,7 @@ vim_git_repo: git@github.com:marcus-grant/dots-vim
 tmux_git_repo: git@github.com:marcus-grant/dots-tmux
 
 ### ZSH
-zsh_git_repo: https://github.com/marcus-grant/dots-zsh
+zsh_git_repo: git@github.com:marcus-grant/dots-zsh.git
 zsh_rc_file: rc.zsh
 zsh_profile_file: profile.zsh
 zsh_env_file: env.zsh

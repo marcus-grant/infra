@@ -1,0 +1,5 @@
+# Shim zshenv used to source the real ansible-managed zshenv & optionally profile
+{% if zsh_env_source_profile %}
+source $HOME/.profile
+{% endif %}
+source {{ zsh_parent_dir }}/{{ zsh_config_dir_name }}/{{ zsh_env_file }}
