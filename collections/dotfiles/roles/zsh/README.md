@@ -28,13 +28,13 @@ some optional usually with default values or necessary for the role to function.
 | zsh_git_version        | false  | HEAD         | git branch/tag | Which branch/tag to clone or pull                 |
 | zsh_git_force          | false  | false        | boolean        | Whether to force pull repositories on config_dir  |
 
-Dependencies
-------------
+## Dependencies
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+Optional dependency on the sibling role `marcus_grant.dotfiles.profile`.
+This can be used to define the `profile` file that is sourced by the `zshenv`.
+Recommended to use it, but not needed.
 
-Example Playbook
-----------------
+## Example Playbook
 
 Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
 
