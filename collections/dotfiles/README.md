@@ -9,5 +9,11 @@ My colleciton of Ansible roles and modules that are used to setup myself as a de
     Sets up the user's shell profile via templating the `~/.profile` file.
   * [*Role link!*](./roles/profile/)
 * **bash**
-  * A role that installs, sets as default shell, git clones a dotfiles repo, and symlinks all expected file locations to their respective locations in the dotfile repo.
+  * A role that installs, sets as default shell, git clones a dotfiles repo,
+    and symlinks all expected file locations to
+    their respective locations in the dotfile repo.
+  * [*Role link!*](./roles/bash/)
+* **bash**
+  * A role that installs then configures a ZSH shell environment using
+    a clone git repo of ZSH dotfiles.
   * [*Role link!*](./roles/bash/)
