@@ -61,14 +61,13 @@ Including an example of how to use your role (for instance, with variables passe
          - role: marcus_grant.dotfiles.zsh
 ```
 
-License
--------
+## License
 
 GPL3
 
-Author Information
-------------------
+## Author Information
 
 Marcus Grant
 [https://marcusgrant.me](https://marcusgrant.me)
 [marcusfg@protonmail.com](marcusfg@protonmail.com)
+[github.com:marcus-grant](https://github.com/marcus-grant)
