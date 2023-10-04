@@ -1,0 +1,30 @@
+---
+# tasks file for marcus_grant.dotfiles.userdirs
+# Get list of all ansible_env variables prefixed with XDG_
+- name: Register list of environment variables prefixed with XDG_
+  ansible.builtin.set_fact:
+    _xdg_vars: "{{ ansible_env.keys() | select('match', '^XDG_') | list }}"
+  when:
+    - ansible_env is defined
+    - userdirs_xdg_use
+
+- name: Ensure directories defined in XDG environment variables exist
+  ansible.builtin.file:
+    path: "{{ ansible_env[userdirs_xdg_var] }}"
+    state: directory
+    mode: '0750'
+  loop_control: {loop_var: userdirs_xdg_var}
+  loop: "{{ _xdg_vars }}"
+  when:
+    - ansible_env is defined
+    - userdirs_xdg_use
+
+- name: Create custom directories
+  ansible.builtin.file:
+    path: "{{ userdirs_custom_dir }}"
+    state: directory
+    owner: "{{ ansible_user_id }}"
+    mode: '0750'
+  loop_control: {loop_var: userdirs_custom_dir}
+  loop: "{{ userdirs_custom_dirs }}"
+  when: userdirs_custom_dirs | length > 0

@@ -1,0 +1,4 @@
+---
+# defaults file for zsh
+userdirs_xdg_use: true
+userdirs_custom_dirs: []

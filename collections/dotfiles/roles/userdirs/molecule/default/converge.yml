@@ -1,0 +1,15 @@
+---
+- name: Converge
+  hosts: all
+  tasks:
+    - name: "Include zsh"
+      vars:
+        zsh_git_repo: https://github.com/marcus-grant/dots-zsh
+        zsh_rc_file: rc.zsh
+        zsh_profile_file: profile.zsh
+        zsh_env_file: env.zsh
+        zsh_default_shell: true
+        zsh_git_force: true
+        # zsh_git_backup: true
+      ansible.builtin.include_role:
+        name: "zsh"
