@@ -12,8 +12,6 @@ None
 Below is a table of variables,
 some optional usually with default values or necessary for the role to function.
 
-: 
-: 
 | Variable             | Default | Choices | Comments                                  |
 | -------------------- | ------- | ------- | ----------------------------------------- |
 | userdirs_xdg_use     | true    | bool    | Whether to create `XDG_` env. vars. dirs  |
