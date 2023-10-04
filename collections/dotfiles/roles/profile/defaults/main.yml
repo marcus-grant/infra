@@ -6,6 +6,9 @@ profile_group: sudo
 # path
 profile_paths: []  # List of paths to add to $PATH, earlier overrides later
 
+# terminal settings
+profile_term: xterm-256color
+
 # locale
 profile_lc_all: en_US.UTF-8
 

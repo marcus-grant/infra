@@ -20,6 +20,9 @@ path_prepend "{{ profile_path }}"
 {% endfor %}
 # end path additions
 
+# terminal settings
+export TERM="{{ profile_term }}"
+
 # locale
 export LC_ALL={{ profile_lc_all }}
 

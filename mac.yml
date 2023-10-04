@@ -8,6 +8,10 @@
       tags: [homebrew-setup, bootstrap, homebrew, brew, setup]
     - role: marcus_grant.dotfiles.profile
       tags: [profile, dotfile, shell]
+    - role: marcus_grant.dotfiles.userdirs
+      tags: [userdirs, dotfile, shell, directory]
+    - role: marcus_grant.dotfiles.zsh
+      tags: [zsh, dotfiles, dots, shell]
     - role: mac-defaults  # TODO: Move to macos collection
       tags: [properties, config, default, system, keyboard]
     - role: marcus_grant.macos.homebrew
