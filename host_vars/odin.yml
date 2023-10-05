@@ -42,8 +42,6 @@ homebrew_packages:
   - dust
   - exa
   - eva
-  - fd
-  - fzf
   - gh
   - gopass
   - gpg
@@ -56,8 +54,6 @@ homebrew_packages:
   - pwgen
   - qrencode
   - restic
-  - ripgrep
-  - spaceship
   - tldr
   - terraform
   - tmux

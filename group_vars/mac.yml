@@ -21,6 +21,7 @@ profile_custom_entries:
 zsh_default_shell: true
 zsh_parent_dir: /Users/{{ admin_user }}/.config
 zsh_git_repo: 'git@github.com:marcus-grant/dots-zsh.git'
+zsh_extra_packages: [fd, fzf, ripgrep, starship]
 
 # Fonts
 # --------
@@ -54,7 +55,6 @@ homebrew_packages:
   - ansible-lint
   - git
   - jq
-  - starship
   - zstd
 
 # MAS (Mac App Store)
