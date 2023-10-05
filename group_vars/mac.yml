@@ -25,17 +25,14 @@ zsh_git_repo: 'git@github.com:marcus-grant/dots-zsh.git'
 # Fonts
 # --------
 fonts_to_user: true
+fonts_base_url: https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0
 fonts_to_get:
   # NOTE: Test pattern for role fonts
-  # - pattern: blah*
-  - file_pattern: Iosevka*
-    url: https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/Iosevka.zip
-  - file_pattern: BigBlue*
-    url: https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/BigBlueTerminal.zip
-  - file_pattern: Fira*
-    url: https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/FiraCode.zip
-  - file_pattern: Sauce*
-    url: https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/SourceCodePro.zip
+  # - {pattern: blah*, url: https://example.com/fonts/blah.zip}
+  - {file_pattern: Iosevka*, url: "{{ fonts_base_url }}/Iosevka.zip"}
+  - {file_pattern: BigBlue*, url: "{{ fonts_base_url }}/BigBlueTerminal.zip"}
+  - {file_pattern: Fira*, url: "{{ fonts_base_url }}/FiraCode.zip"}
+  - {file_pattern: Sauce*, url: "{{ fonts_base_url }}/SourceCodePro.zip"}
 
 # Homebrew
 # --------
