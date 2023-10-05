@@ -13,6 +13,7 @@ profile_xdg_include: true
 profile_ls_colors: cxexfxdxBxEhebAbAgAcAd
 profile_envs:
   - {name: CARGO_HOME, value: $XDG_DATA_HOME/cargo}
+  - {name: PNPM_HOME, value: $XDG_DATA_HOME/pnpm}
 profile_custom_entries:
   - "{{ '#' }} Secrets"
   - "export EMAIL='{{ admin_email }}'"
