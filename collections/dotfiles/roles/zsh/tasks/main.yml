@@ -16,14 +16,6 @@
   loop_control: {loop_var: zsh_pkg}
   loop: "{{ zsh_pkgs_all }}"
 
-- name: Set ZSH to be the default shell of ansible user
-  ansible.builtin.user:
-    name: "{{ ansible_user_id }}"
-    shell: "{{ zsh_default_shell_path }}"
-  when:
-    - zsh_shell_as_default
-    - ansible_os_family != 'Darwin'
-
 - name: Ensure ZSH dotfile directory parent exists
   ansible.builtin.file:
     path: "{{ zsh_parent_dir }}"
@@ -31,12 +23,18 @@
     owner: "{{ ansible_user_id }}"
     mode: 0750
 
+- name: Register zsh repo git stat
+  ansible.builtin.stat:
+    path: "{{ zsh_parent_dir }}/{{ zsh_config_dir_name }}/.git"
+  register: zsh_git_dir
+
 - name: Git clone the zsh dotfiles repository
   ansible.builtin.git:
     repo: "{{ zsh_git_repo }}"
     version: "{{ zsh_git_version }}"
     force: "{{ zsh_git_force }}"
     dest: "{{ zsh_parent_dir }}/{{ zsh_config_dir_name }}"
+  when: not zsh_git_dir.stat.exists or zsh_git_force
 
 - name: Template bare zsh files in root sourcing asocciated file in dotfile dir
   ansible.builtin.template:
@@ -49,3 +47,11 @@
     - {src: zshrc.j2, dest: "{{ ansible_env.HOME }}/.zshrc"}
     - {src: zshenv.j2, dest: "{{ ansible_env.HOME }}/.zshenv"}
     - {src: zprofile.j2, dest: "{{ ansible_env.HOME }}/.zprofile"}
+
+- name: Set ZSH to be the default shell of ansible user
+  ansible.builtin.user:
+    name: "{{ ansible_user_id }}"
+    shell: "{{ zsh_default_shell_path }}"
+  when:
+    - zsh_shell_as_default
+    - ansible_os_family != 'Darwin'
