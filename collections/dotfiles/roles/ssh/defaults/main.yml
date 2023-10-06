@@ -1,2 +1,5 @@
 ---
 # defaults file for ssh
+ssh_include_groups: [all]
+ssh_exclude_hosts: []
+ssh_exclude_groups: []

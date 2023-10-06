@@ -1,0 +1,53 @@
+---
+# preflight.yml taskfile for marcus_grant.dotfiles.ssh role
+- name: preflight | Set fact hosts from ssh_groups_to_exclude and current host
+  ansible.builtin.set_fact:
+    ssh_hosts_exclude_group: >
+      {{  ssh_hosts_exclude_group | default([]) | union(groups[ssh_exgrp]) }}
+  loop_control: {loop_var: ssh_exgrp}
+  loop: "{{ ssh_exclude_groups }}"
+  when: ssh_exgrp in groups
+
+# - name: preflight | Debug ssh_hosts_exclude_group
+#   ansible.builtin.debug:
+#     var: ssh_hosts_exclude_group
+#   tags: [never, debug]
+
+- name: preflight | Set_fact as combination of current host and exclude vars
+  ansible.builtin.set_fact:
+    ssh_remove_hosts: >
+      {{ ssh_exclude_hosts + ssh_hosts_exclude_group + [inventory_hostname] }}
+  when: ssh_hosts_exclude_group is defined
+
+# - name: preflight | Debug ssh_remove_hosts
+#   ansible.builtin.debug:
+#     var: ssh_remove_hosts
+#   tags: [never, debug]
+
+# - name: preflight | Debug ssh_remove_hosts note the need for a unique filter
+#   ansible.builtin.debug:
+#     msg: "{{ ssh_remove_hosts | unique }}"
+#   tags: [never, debug]
+
+- name: preflight | Set fact for hosts that are members of included groups
+  ansible.builtin.set_fact:
+    ssh_hosts_include_groups: >
+      {{ ssh_hosts_include_groups | default([]) | union(groups[ssh_ingrp]) }}
+  loop_control: {loop_var: ssh_ingrp}
+  loop: "{{ ssh_include_groups }}"
+  when: ssh_ingrp in groups
+
+# - name: preflight | Debug ssh_hosts_include_groups
+#   ansible.builtin.debug:
+#     var: ssh_hosts_include_groups
+#   tags: [never, debug]
+
+- name: preflight | Set fact for hosts in included but not excluded hosts
+  ansible.builtin.set_fact:
+    ssh_config_hosts: >
+      {{ ssh_hosts_include_groups | difference(ssh_remove_hosts | unique) }}
+
+# - name: preflight | Debug ssh_config_hosts
+#   ansible.builtin.debug:
+#     var: ssh_config_hosts
+#   tags: [never, debug]

@@ -1,0 +1,19 @@
+# SSH Config File
+
+# Managed by Ansible - Do not edit this section
+{% for invhost in ssh_config_hosts %}
+{% set host_var = hostvars[invhost] %}
+{% set hostname = host_var.ansible_host | default(host_var.ansible_ssh_host) %}
+{% set port = host_var.ansible_ssh_port | default(80) %}
+{% set user = host_var.ansible_ssh_user | default('root') %}
+{% if hostname is defined %}
+Host {{ invhost }}
+    HostName {{ hostname }}
+    User {{ user }}
+    Port {{ port }}
+{% endif %}
+{% endfor %}
+# End of managed section
+
+# User-editable section
+# You can manually add your own custom SSH configurations below this line

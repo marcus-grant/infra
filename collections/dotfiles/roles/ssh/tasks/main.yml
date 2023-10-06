@@ -1,2 +1,12 @@
 ---
-# tasks file for ssh
+# main tasks file for marcus_grant.dotfiles.ssh
+- name: Import preflight tasks to calculate ssh_config_hosts
+  ansible.builtin.import_tasks:
+    file: preflight.yml
+
+- name: Template SSH config file
+  ansible.builtin.template:
+    src: config.j2
+    dest: "{{ ansible_env.HOME }}/.ssh/config"
+    owner: "{{ ansible_user }}"
+    mode: 0600

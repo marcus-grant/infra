@@ -1,0 +1,30 @@
+---
+- name: Playground playbook for testing tasks/roles locally
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  pre_tasks:
+    - name: Debug lookup of all hosts
+      ansible.builtin.debug:
+        msg: "{{ groups['all'] }}"
+      tags: [hosts]
+    - name: Debug lookup of groups a host is a member of
+      ansible.builtin.debug:
+        msg: "{{ hostvars['baldr']['group_names'] }}"
+      tags: [host-groups]
+    - name: Debug lookup of hosts that are children of a group
+      ansible.builtin.debug:
+        msg: "{{ groups['servers'] }}"
+      tags: [group-hosts]
+    - name: Debug lookup of ansible_host for a host
+      ansible.builtin.debug:
+        msg: "{{ hostvars['brokkr']['ansible_host'] }}"
+      tags: [ansible-host]
+    - name: Debug lookup of ansible_ssh_port for host
+      ansible.builtin.debug:
+        msg: "{{ hostvars['brokkr']['ansible_ssh_port'] }}"
+      tags: [ansible-ssh-port]
+    - name: Debug lookup of vars for a host
+      ansible.builtin.debug:
+        msg: "{{ hostvars['brokkr']['ansible_ssh_user'] | default('not found') }}"
+      tags: [host-vars]
