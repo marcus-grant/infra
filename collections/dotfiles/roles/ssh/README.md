@@ -57,6 +57,28 @@ the `name` key is the only required key.
 | pass            | ''         | str     | Key password, defaults to none     |
 | comment         | ''         | str     | Key comment, defaults to user@host |
 
+### SSH Config Variables
+
+This task configures the SSH config file for the user.
+This file is usually found at `~/.ssh/config` and
+contains entries for different hosts to connect to and their parameters.
+Since ansible has inventories to connect to hosts,
+it makes sense to use the inventory to generate the config file.
+In this role these variables below are used to add groups' hosts and
+individual hosts to lists of hosts to include and exclude in the config.
+
+Any host in `ssh_include_groups` groups will be included in the config.
+Any host in `ssh_include_hosts` will be included in the config.
+Any host in `ssh_exclude_groups` groups will be excluded from the config.
+The host this role is being run on will be excluded from the config.
+What remains is all the hosts that will have generated entries in the config.
+
+| Variable           | Default | Choices | Comments                                  |
+| ------------------ | ------- | ------- | ----------------------------------------- |
+| ssh_include_groups | []      | [str]   | Groups whose hosts to include in config   |
+| ssh_exclude_hosts  | []      | [str]   | Individual hosts to exclude from config   |
+| ssh_exclude_groups | []      | [str]   | Groups whose hosts to exclude from config |
+
 
 Dependencies
 ------------
