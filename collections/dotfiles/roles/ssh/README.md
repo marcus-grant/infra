@@ -11,15 +11,21 @@ adding SSH keys to remote hosts defined by variables.
 
 SSH needs to be installed, but most systems that aren't windows have this.
 
-
 ## Role Variables
 
 These are the variables along with
 their default values as shown in `defaults/main.yml`.
 
-| Variable | Default | Choices | Comments |
-| -------- | ------- | ------- | -------- |
-| ssh_default_ed_key         |         |         |          |
+### Default id_ed25519 & id_rsa Key Generation Variables
+
+| Variable                    | Default | Choices | Comments                               |
+| --------------------------- | ------- | ------- | -------------------------------------- |
+| ssh_default_ed_key          | true    | bool    | If generating a default id_ed25519 key |
+| ssh_default_ed_key_pass     | ''      | str     | Default id_ed25519 key's password      |
+| ssh_default_ed_key_comment  | ''      | str     | Default id_ed25519 key's comment       |
+| ssh_default_rsa_key         | false   | bool    | If generating a default RSA key        |
+| ssh_default_rsa_key_pass    | ''      | str     | Default RSA key's password             |
+| ssh_default_rsa_key_comment | ''      | str     | Default RSA key's comment              |
 
 Dependencies
 ------------
