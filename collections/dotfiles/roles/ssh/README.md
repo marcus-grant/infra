@@ -1,7 +1,11 @@
-Role Name
-=========
+# marcus_grant.dotfiles.profile
 
-A brief description of the role goes here.
+Role for setting up SSH environment.
+Includes templating .ssh/config file based on inventory & custom variables.
+Creates default ED25519 and RSA keys for user.
+Creates a list of custom SSH keys for user (all ED25519).
+Finally allows creating prompt with instructions for
+adding SSH keys to remote hosts defined by variables.
 
 Requirements
 ------------
