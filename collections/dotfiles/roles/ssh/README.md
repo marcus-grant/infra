@@ -144,19 +144,16 @@ Including an example of how to use your role (for instance, with variables passe
       - {pub: "{{ ssh_git_key }}", location: https://codeberg.org/user/settings/keys}
       - {pub: id_ed25519, location: "{{ hostvars['host_a']['ansible_host'] }}"}
       - {pub: id_ed25519, location: https://your-vps-provider.com/ssh-keys}
-    roles:
-      - role: marcus_grant.dotfiles.ssh
+  roles:
+    - role: marcus_grant.dotfiles.ssh
 ```
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
 
-License
--------
+## License
 
-BSD
+GPLv3
 
-Author Information
-------------------
+## Author Information
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+[Personal Site](https://marcusgrant.me)
+[GitHub](https://github.com/marcus-grant)
+[Mastodon](https://fosstodon.org/@marcusgrant)
