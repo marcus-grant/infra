@@ -27,14 +27,36 @@ Below, these values control whether one should be generated,
 if so what the password should be, and what the comment should be.
 Blank password and comment are allowed and signify no password or comment.
 
-| Variable                    | Default | Choices | Comments                               |
-| --------------------------- | ------- | ------- | -------------------------------------- |
-| ssh_default_ed_key          | true    | bool    | If generating a default id_ed25519 key |
-| ssh_default_ed_key_pass     | ''      | str     | Default id_ed25519 key's password      |
-| ssh_default_ed_key_comment  | ''      | str     | Default id_ed25519 key's comment       |
-| ssh_default_rsa_key         | false   | bool    | If generating a default RSA key        |
-| ssh_default_rsa_key_pass    | ''      | str     | Default RSA key's password             |
-| ssh_default_rsa_key_comment | ''      | str     | Default RSA key's comment              |
+| Variable                    | Default | Choices | Comments                          |
+| --------------------------- | ------- | ------- | --------------------------------- |
+| ssh_default_ed_key          | true    | bool    | Generate a default id_ed25519 key |
+| ssh_default_ed_key_pass     | ''      | str     | Default id_ed25519 key's password |
+| ssh_default_ed_key_comment  | ''      | str     | Default id_ed25519 key's comment  |
+| ssh_default_rsa_key         | false   | bool    | Generate a default RSA key        |
+| ssh_default_rsa_key_pass    | ''      | str     | Default RSA key's password        |
+| ssh_default_rsa_key_comment | ''      | str     | Default RSA key's comment         |
+
+### Custom SSH Key Variables
+
+On top of generating the default keys,
+this role can also generate a list of custom defined keys/identity files.
+Since the default RSA is included, legacy support can be given with this option.
+ED25519 is quickly becoming the standard and is more secure than RSA.
+RSA is mostly only used anymore due to legacy support
+which is why it's included.
+
+Custom SSH keys are generated whenever
+the variable `ssh_custom_keys` has at least one entry in its list.
+The list contains dictionaries with the below keys where
+the `name` key is the only required key.
+
+| Variable        | Default    | Choices | Comments                           |
+| --------------- | ---------- | ------- | ---------------------------------- |
+| ssh_custom_keys | []         | [?dict] | Dictionaries with below keys       |
+| name            | **Needed** | str     | **Required** file*name* of key     |
+| pass            | ''         | str     | Key password, defaults to none     |
+| comment         | ''         | str     | Key comment, defaults to user@host |
+
 
 Dependencies
 ------------
