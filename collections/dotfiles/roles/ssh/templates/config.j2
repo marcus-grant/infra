@@ -25,7 +25,7 @@ Host {{ custom_entry.name }}
     HostName {{ custom_entry.url }}
 {% endif %}
     User {{ custom_entry.user | default(ansible_user) }}
-    Port {{ custom_entry.port | default(80) }}
+    Port {{ custom_entry.port | default(22) }}
     IdentityFile ~/.ssh/{{ custom_entry.key | default('id_ed25519') }}
 
 {% endif %}

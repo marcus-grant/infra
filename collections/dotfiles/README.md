@@ -8,6 +8,10 @@ My colleciton of Ansible roles and modules that are used to setup myself as a de
   * *Description*:
     Sets up the user's shell profile via templating the `~/.profile` file.
   * [*Role link!*](./roles/profile/)
+* **ssh**
+  * *Description*:
+    Sets up SSH environtment (config, add keys, instruct manual entry).
+  * [*Role link!*](./roles/ssh/)
 * **userdirs**
   * *Description*:
     Sets up shell `userdirs` using custom list and `XDG_`* variables.
