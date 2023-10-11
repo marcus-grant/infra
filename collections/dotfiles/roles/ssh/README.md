@@ -112,13 +112,12 @@ prompt the user to send it to manually.
 | ---------------------- | ---------- | ------- | ------------------------------------------ |
 | ssh_manual_transfer_on | false      | bool    | Will perform manual key transfer prompt    |
 | ssh_manual_transfers   | []         | [dict]  | Dictionaries with prompt info keys below   |
-| pub                    | **Needed** | str  | Filename of public key contents to present |
-| location                    | '' | str  | Location to instruct to transfer to |
+| pub                    | **Needed** | str     | Filename of public key contents to present |
+| location               | ''         | str     | Location to instruct to transfer to        |
 
 > **NOTE**: The `pub` key is the filename of the public key to present to the user.
 > The intention is to copy that key and paste it into an admin panel or
 > `authorized_keys` file of the remote host hinted at in the `location` key.
-
 
 Dependencies
 ------------
