@@ -45,6 +45,7 @@ homebrew_taps:
 homebrew_casks:
   - aldente
   - github
+  - spotify
   - steam
   - visual-studio-code
   # - iterm2-beta  # TODO: Once stable reaches v3.5, switch to just iterm2

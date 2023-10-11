@@ -28,7 +28,6 @@ homebrew_installed_casks:
   - discord
   - firefox
   - raycast
-  - spotify
   - vivaldi
 
 homebrew_packages:

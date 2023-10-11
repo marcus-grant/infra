@@ -1,5 +1,5 @@
 ---
-- name: Restart sshd 
+- name: Restart sshd
   ansible.builtin.service:
     name: sshd
     state: restarted
@@ -9,8 +9,3 @@
   ansible.builtin.service:
     name: nginx
     state: reloaded
-
-# - name: Restart postgres
-#   ansible.builtin.service:
-#     name: 
-

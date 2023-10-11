@@ -1,6 +1,9 @@
 ---
 # preflight.yml taskfile for marcus_grant.dotfiles.ssh role
-- name: preflight | Set fact hosts from ssh_groups_to_exclude and current host
+# A good test command for running this in an ansible playbook
+# ansible-playbook mac.yml --tags ssh -e \
+# '{"ssh_include_groups": ["servers", "workstations"], "ssh_exclude_groups": ["mac", "dev", "hetzner"], "ssh_exclude_hosts": ["sleipnir"]}'
+- name: preflight | Set fact for hosts excluded by list of groups
   ansible.builtin.set_fact:
     ssh_hosts_exclude_group: >
       {{  ssh_hosts_exclude_group | default([]) | union(groups[ssh_exgrp]) }}
@@ -13,11 +16,13 @@
 #     var: ssh_hosts_exclude_group
 #   tags: [never, debug]
 
-- name: preflight | Set_fact as combination of current host and exclude vars
+- name: preflight | Set_fact adding exclude hosts by hostname and current host
   ansible.builtin.set_fact:
     ssh_remove_hosts: >
       {{ ssh_exclude_hosts + ssh_hosts_exclude_group + [inventory_hostname] }}
-  when: ssh_hosts_exclude_group is defined
+  when:
+    - ssh_hosts_exclude_group is defined
+    - ssh_hosts_exclude_group | length > 0
 
 # - name: preflight | Debug ssh_remove_hosts
 #   ansible.builtin.debug:

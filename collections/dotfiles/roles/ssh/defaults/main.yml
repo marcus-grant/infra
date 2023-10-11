@@ -3,3 +3,12 @@
 ssh_include_groups: [all]
 ssh_exclude_hosts: []
 ssh_exclude_groups: []
+
+# keys
+ssh_default_ed_key: true
+ssh_default_ed_key_pass: ''
+ssh_default_rsa_key: false
+ssh_default_rsa_key_pass: ''
+ssh_custom_keys: []
+ssh_manual_transfer_on: false
+ssh_manual_transfers: []

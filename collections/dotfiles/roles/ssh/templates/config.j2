@@ -1,18 +1,36 @@
 # SSH Config File
 
 # Managed by Ansible - Do not edit this section
+# Inventory Entries
 {% for invhost in ssh_config_hosts %}
 {% set host_var = hostvars[invhost] %}
 {% set hostname = host_var.ansible_host | default(host_var.ansible_ssh_host) %}
 {% set port = host_var.ansible_ssh_port | default(80) %}
 {% set user = host_var.ansible_ssh_user | default('root') %}
+{% set key = host_var.ansible_ssh_private_key_file | default('~/.ssh/id_ed25519') %}
 {% if hostname is defined %}
 Host {{ invhost }}
     HostName {{ hostname }}
     User {{ user }}
     Port {{ port }}
+    IdentityFile {{ key }}
 {% endif %}
 {% endfor %}
+
+# Custom Entries
+{% for custom_entry in ssh_config_custom_entries %}
+{% if custom_entry.name is defined %}
+Host {{ custom_entry.name }}
+{% if custom_entry.url is defined %}
+    HostName {{ custom_entry.url }}
+{% endif %}
+    User {{ custom_entry.user | default(ansible_user) }}
+    Port {{ custom_entry.port | default(80) }}
+    IdentityFile ~/.ssh/{{ custom_entry.key | default('id_ed25519') }}
+
+{% endif %}
+{% endfor %}
+
 # End of managed section
 
 # User-editable section
