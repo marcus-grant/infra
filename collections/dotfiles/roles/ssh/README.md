@@ -79,6 +79,46 @@ What remains is all the hosts that will have generated entries in the config.
 | ssh_exclude_hosts  | []      | [str]   | Individual hosts to exclude from config   |
 | ssh_exclude_groups | []      | [str]   | Groups whose hosts to exclude from config |
 
+### Manual Key Transfer Prompt Variables
+
+These variables define a list of keys on the remote host that
+should have their public keys added to
+other remote hosts through manual intervention.
+This could be through more complicated `ssh-copy-id` commands involving
+old keys you have access to or
+going to a website's admin panel and adding the key there or
+even just manually adding the key to the remote host's `authorized_keys` file.
+
+What this does is print out a message, pausing the playbook,
+containing the contents of a public key and the location to send it to.
+Then it prompts for the ENTER key before continuing the playbook.
+This is primarily used for initial setups of hosts where
+passing the key automatically isn't simple.
+For example, doing this automatically for Github is non-trivial as you need to
+cycle API tokens that expire.
+Sometimes it's just easier to perform a manual intervention.
+
+By default this part of the role doesn't execute,
+the default value of `ssh_manual_transfer_on` is `false` so it will get skipped.
+But if you run this playbook with the parameter `-e ssh_manual_transfer_on=true`
+then it will execute this part of the role which could be useful for
+bootstrapping scripts on new hosts.
+
+The variable `ssh_manual_transfers` is a list of dictionaries with the below keys.
+They define the name of the key to get the contents of and a location to
+prompt the user to send it to manually.
+
+| Variable               | Default    | Choices | Comments                                   |
+| ---------------------- | ---------- | ------- | ------------------------------------------ |
+| ssh_manual_transfer_on | false      | bool    | Will perform manual key transfer prompt    |
+| ssh_manual_transfers   | []         | [dict]  | Dictionaries with prompt info keys below   |
+| pub                    | **Needed** | str  | Filename of public key contents to present |
+| location                    | '' | str  | Location to instruct to transfer to |
+
+> **NOTE**: The `pub` key is the filename of the public key to present to the user.
+> The intention is to copy that key and paste it into an admin panel or
+> `authorized_keys` file of the remote host hinted at in the `location` key.
+
 
 Dependencies
 ------------
