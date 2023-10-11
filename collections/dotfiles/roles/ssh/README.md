@@ -18,6 +18,15 @@ their default values as shown in `defaults/main.yml`.
 
 ### Default id_ed25519 & id_rsa Key Generation Variables
 
+These variables are used to create the default SSH keys for the user.
+These will typically have the name of `id_ed25519` and `id_rsa` respectively for
+ED25519 and RSA keys used by SSH.
+The default key gets chosen when no config or ssh-agent points to
+a specific key for an endpoint so these are important keys to have.
+Below, these values control whether one should be generated,
+if so what the password should be, and what the comment should be.
+Blank password and comment are allowed and signify no password or comment.
+
 | Variable                    | Default | Choices | Comments                               |
 | --------------------------- | ------- | ------- | -------------------------------------- |
 | ssh_default_ed_key          | true    | bool    | If generating a default id_ed25519 key |
