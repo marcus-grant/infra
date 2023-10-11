@@ -119,16 +119,34 @@ prompt the user to send it to manually.
 > The intention is to copy that key and paste it into an admin panel or
 > `authorized_keys` file of the remote host hinted at in the `location` key.
 
-Dependencies
-------------
+## Dependencies
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+Only SSH, which apart from windows is usually installed by default.
 
-Example Playbook
-----------------
+## Example Playbook
 
 Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
 
+```yaml
+- hosts: some_host
+  vars:
+    ssh_exclude_groups: [dont_include_these_hosts]
+    ssh_exclude_hosts: [include_this_host]
+    ssh_exclude_groups: [hosts_in_group_b, hosts_in_group_c]
+    ssh_custom_keys:
+      - {name: git.key, comment: 'git@{{ inventory_hostname }}', pass: '{{ admin_main_git_password }}'}
+    ssh_git_key: "{{ ssh_custom_keys[0].name }}"  # Alias for above custom key
+    ssh_config_custom_entries:
+      - {name: github.com, url: github.com, user: git, key: "{{ ssh_git_key }}"}
+      - {name: codeberg.org, user: git, key: "{{ ssh_git_key }}"}
+    ssh_manual_transfers:
+      - {pub: "{{ ssh_git_key }}", location: https://github.com/settings/keys}
+      - {pub: "{{ ssh_git_key }}", location: https://codeberg.org/user/settings/keys}
+      - {pub: id_ed25519, location: "{{ hostvars['host_a']['ansible_host'] }}"}
+      - {pub: id_ed25519, location: https://your-vps-provider.com/ssh-keys}
+    roles:
+      - role: marcus_grant.dotfiles.ssh
+```
     - hosts: servers
       roles:
          - { role: username.rolename, x: 42 }
