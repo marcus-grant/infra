@@ -90,6 +90,13 @@ or even just servers not listed in inventory.
 
 #### Keys for `ssh_config_custom_entries` Dictionaries
 
+These are the keys for the dictionaries in the list `ssh_config_custom_entries`.
+The only **required** key is `name` which is the name of the host,
+according to the SSH config, ie the name you give with the SSH command.
+The `url` key is the hostname of the host,
+ie the name you give with the ping command.
+When `url` is not defined, it defaults to the `name` key.
+
 | Variable | Default      | Choices | Comments                                  |
 | -------- | ------------ | ------- | ----------------------------------------- |
 | name     | **N/A**      | str     | **Required**, name of host, see `url`     |
