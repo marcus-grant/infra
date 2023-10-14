@@ -1,10 +1,8 @@
-Role Name
-=========
+# marcus_grant.dotfiles.git
 
-Install & configure git and some helper programs. The community collection `community.general.git_config` gets used to modify git's configurations like user name, default branch, aliases, url shortcuts, credential managers, etc. Also helper programs are given the same treatment, including my favorite git client [`gitui`](https://github.com/Extrawurst/gitui). And it includes installing GitHub's CLI [utility](https://cli.github.com/manual/) then using it to add valid public SSH keys generated for GitHub on the remote machine.
+Configures git and installs git related packages.
 
-Requirements
-------------
+## Requirements
 
 Because a lot of this role modifies the git configuration file, the community collection [`community.general.git`](https://docs.ansible.com/ansible/latest/collections/community/general/git_config_module.html) gets used. This must be installed through ansible galaxy using the below sample `requirements.yml` file.
 
