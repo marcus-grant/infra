@@ -4,28 +4,12 @@ Configures git and installs git related packages.
 
 ## Requirements
 
-Because a lot of this role modifies the git configuration file, the community collection [`community.general.git`](https://docs.ansible.com/ansible/latest/collections/community/general/git_config_module.html) gets used. This must be installed through ansible galaxy using the below sample `requirements.yml` file.
+Only a package manager.
 
-```yml
----
-collections:
-  - name: community.general
-```
 
-Also, when `git_ssh_enabled`, the GitHub CLI program is used to upload a public key generated on the remote machine to enable cloning, pushing and pulling based on an SSH connection. To do this the GitHub CLI program must be logged into and the only way to do that non interactively on the remote machine is to pass the program an API token that can be generated in your GitHub account settings page.
 
-To get to the token section of GitHub settings, go to the `Developer settings` menu on the left. Then go to the `Personal access tokens` menu on the left. Now you're on the Personal Access Token page that has a `Generate new token` button towards the top. Click on it and give the token these permissions: `admin:public_key`, `read:org`, `repo`. Crucially, do not make this key last forever. In fact, ideally you'd only give this key a lifetime of a few days to carry out your tasks on a remote machine. This token will need to be set in the `git_gh_token` variable and if you must store it in a git controlled repo, **store it in an ansible vault**.
 
-This isn't a great workflow and I only use it for initial setups of workstation machines like desktops and laptops where I frequently code and want to update my repositories. To prevent this role from constantly attempting to logging into GitHub CLI to reuse this token that will expire I run this role with the `git_ssh_enabled` variable set to `true` only through command line variable definitions like `ansible-playbook playbook.yml -e git_ssh_enabled=true"`. This way the log in and ssh key can be made to only be performed once and the Github token can be set once for a short expiration time without worrying this role will stop future playbook runs by failing to log in and upload the SSH public key.
-
-When this role is run for the first time it's a good idea to logout from Github's CLI client with the command `gh auth logout` since the token should be set to a short expiration time, you can then login using the interactive browser mode it defaults to by using the command `gh auth login`. It will take you to GitHub and if you haven't already, sign in and then it will tell the program you're authorized for your account in a much more secure way than leaving a token open that could leak out of your playbook/collection files.
-
-### Note on Testing
-
-When testing this role using molecule, an ignored vault file is expected by the `converge.yml` playbook in the `molecule/default` directory along with a matching encryption key. It's ignored by `.gitignore` to give better protection of any unplanned leaks of a GitHub API tokens. This means you will need to create the token and store it in an ansible vault file using the command: `ansible-vault create molecule/default/vault.yml`. Then you use `ansible-vault edit` to add the Github token to it.
-
-Role Variables
---------------
+## Role Variables
 
 Available variables are listed below, along with the default values as shown in this role's `defaults/main.yml`.
 
