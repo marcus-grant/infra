@@ -79,6 +79,25 @@ What remains is all the hosts that will have generated entries in the config.
 | ssh_exclude_hosts  | []      | [str]   | Individual hosts to exclude from config   |
 | ssh_exclude_groups | []      | [str]   | Groups whose hosts to exclude from config |
 
+### SSH Config Custom Entries Variables
+
+Then there's a variable `ssh_config_custom_entries` which
+is a list of dictionaries.
+This defines separate entries in the config file that
+aren't based on the inventory.
+Endpoints like git servers, identity servers, etc. are useful here,
+or even just servers not listed in inventory.
+
+#### Keys for `ssh_config_custom_entries` Dictionaries
+
+| Variable | Default      | Choices | Comments                                  |
+| -------- | ------------ | ------- | ----------------------------------------- |
+| name     | **N/A**      | str     | **Required**, name of host, see `url`     |
+| url      | None         | str     | HostName in config, uses `name` if None   |
+| user     | ansible_user | str     | User connecting as, defaults ansible_user |
+| key      | None         | str     | Key/ID filename in ~/.ssh to use          |
+| agent    | false        | bool    | Whether to add key to ssh-agent           |
+
 ### Manual Key Transfer Prompt Variables
 
 These variables define a list of keys on the remote host that
