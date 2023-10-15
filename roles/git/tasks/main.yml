@@ -1,0 +1,188 @@
+---
+# tasks file for git
+- name: Register if Github CLI already installed
+  ansible.builtin.command: gh --version
+  register: ghvers
+  changed_when: false
+  failed_when: false
+  when: ansible_os_family == 'Debian' and git_gh_enabled
+
+- name: Set fact for installing Github CLI for Debian-based hosts
+  ansible.builtin.set_fact:
+    git_gh_install_deb: true
+  when: ansible_os_family == 'Debian' and git_gh_enabled and ghvers.rc != 0
+
+- name: Set fact for installing Github CLI for Debian-based hosts DEFAULT
+  ansible.builtin.set_fact:
+    git_gh_install_deb: "{{ git_gh_install_deb | default(false) }}"
+
+- name: Get Github CLI package keyring
+  become: true
+  ansible.builtin.get_url:
+    url: https://cli.github.com/packages/githubcli-archive-keyring.gpg
+    dest: /usr/share/keyrings/githubcli-archive-keyring.gpg
+    owner: root
+    group: root
+    mode: 0644
+  register: git_gh_get_apt_keyring
+  when: git_gh_install_deb
+
+- name: De-armor the downloaded Github CLI apt keyring
+  become: true
+  ansible.builtin.command: >
+    gpg --dearmor /usr/share/keyrings/githubcli-archive-keyring.gpg
+  when: git_gh_install_deb and git_gh_get_apt_keyring.changed
+
+- name: Get dpkg architecture string for Github CLI apt package
+  become: true
+  ansible.builtin.command: dpkg --print-architecture
+  register: git_gh_dpkg_arch
+  changed_when: false
+  when: git_gh_install_deb
+
+- name: Add Github cli repo to apt sources file
+  become: true
+  ansible.builtin.template:
+    src: github-cli.list.j2
+    dest: /etc/apt/sources.list.d/github-cli.list
+    owner: root
+    group: root
+    mode: 0644
+  when: git_gh_install_deb
+
+- name: DEBUG
+  ansible.builtin.debug:
+    var: git_gh_install_deb
+
+- name: Update apt registry if Debian based linux
+  become: true
+  ansible.builtin.apt:
+    update_cache: true
+  changed_when: false
+  when: ansible_os_family == 'Debian' and git_gh_install_deb
+
+  # TODO This should include other deps like gitui, gpg signing helpers etc
+  # There's too many deps for other roles unimplemented to do this new, revisit
+- name: Ensure git packages are installed
+  ansible.builtin.package:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - git
+    - "{{ git_gh_enabled | ternary(pkg_gh[ansible_os_family], omit, omit) }}"
+    - "{{ git_ssh_enabled | ternary(pkg_ssh[ansible_os_family], omit, omit) }}"
+  when: ansible_os_family != 'Darwin'
+  # TODO handle more installs in future after deps finished
+
+- name: Register if currently logged into Github CLI
+  ansible.builtin.command: "gh auth status"
+  register: gh_auth_status
+  failed_when: false
+  changed_when: false
+
+- name: Login Github CLI using API token
+  ansible.builtin.shell: "set -o pipefail; echo {{ git_gh_token }} | gh auth login --with-token"
+  args:
+    executable: /bin/bash
+  when:
+    - git_gh_enabled
+    - git_gh_token is defined
+    - gh_auth_status.rc != 0
+
+- name: "Set several .gitconfig 'SECTION.PROPERTY' to 'VALUE' pairs at global scope"
+  community.general.git_config:
+    name: "{{ item.prop }}"
+    scope: global
+    state: present
+    value: "{{ item.value }}"
+  loop:
+    - { prop: init.defaultBranch, value: "{{ git_default_branch }}" }
+    - { prop: user.name, value: "{{ git_user_name }}" }
+    - { prop: user.email, value: "{{ git_user_email }}" }
+    - { prop: pull.rebase, value: "{{ git_pull_rebase | ternary('true', 'false', omit) }}" }
+
+- name: Ensure SSH client config directory ~/.ssh exists
+  ansible.builtin.file:
+    path: ~/.ssh
+    state: directory
+    owner: "{{ ansible_user_id }}"
+    group: "{{ ansible_user_id }}"
+    mode: 0700
+  when: git_ssh_enabled
+
+- name: Register stat of git ssh key
+  ansible.builtin.stat:
+    path: ~/.ssh/git.key
+  register: git_key_register
+  changed_when: false
+  when: git_ssh_enabled
+
+- name: Generate new ssh key for git operations
+  ansible.builtin.command: "/usr/bin/ssh-keygen -b 4096 -f ~/.ssh/git.key -N ''"
+  when:
+    - git_ssh_enabled
+    - not git_key_register.stat.exists
+    - not (git_key_register.stat.isreg | default(false))
+
+- name: Register contents of public git key
+  ansible.builtin.shell: "set -o pipefail; cat ~/.ssh/git.key.pub | cut -d ' ' -f2"
+  args:
+    executable: /bin/bash
+  register: register_git_ssh_pubkey
+  changed_when: false
+  when: git_ssh_enabled
+
+- name: Register gh ssh key of a given title
+  ansible.builtin.shell: |
+    set -o pipefail;
+    gh ssh-key list |
+    grep {{ git_ssh_key_title }} |
+    cut -d ' ' -f 2 | cut -d $'\t' -f1 
+  args:
+    executable: /bin/bash
+  register: register_gh_pubkey
+  changed_when: false
+  failed_when: false
+  when: git_ssh_enabled and git_gh_enabled
+
+# - name: Debug register_gh_pubkey
+#   debug: var=register_gh_pubkey
+
+# gh ssh-key add --title testkey path/to/key
+- name: Add SSH key to Github using gh
+  ansible.builtin.command: "gh ssh-key add --title {{ git_ssh_key_title }} ~/.ssh/git.key.pub"
+  when:
+    - git_ssh_enabled
+    - git_gh_enabled
+    - register_git_ssh_pubkey.stdout != register_gh_pubkey.stdout
+
+- name: Register stat of git ssh key
+  ansible.builtin.stat:
+    path: ~/.ssh/git.key
+  register: register_git_key
+  changed_when: false
+  when: git_ssh_enabled
+
+- name: Ensure ssh config file exists
+  ansible.builtin.file:
+    path: ~/.ssh/config
+    state: touch
+    owner: "{{ ansible_user_id }}"
+    group: "{{ ansible_user_id }}"
+    mode: 0600
+  changed_when: false
+  when: git_ssh_enabled
+
+- name: Insert github.com ssh config block
+  ansible.builtin.blockinfile:
+    path: ~/.ssh/config
+    block: |
+      Host github.com
+      HostName                    github.com
+      User                        git
+      IdentityFile                ~/.ssh/git.key
+      AddKeysToAgent              yes
+  when:
+    - git_ssh_enabled
+    - register_git_key.stat.exists is defined
+    - register_git_key.stat.isreg

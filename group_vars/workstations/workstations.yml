@@ -23,11 +23,8 @@ ssh_manual_transfers:
 ### Git / Gitea
 git_default_branch: main  # [main]
 git_user_name: Marcus Grant
-git_user_email: marcusfg@protonmail.com
+git_user_email: "{{ admin_email_alt }}"
 git_pull_rebase: false  # [false]
-# git_gh_enabled: true  # [false]
-# git_ssh_enabled: true  # [false]
-# git_gh_token: "{{ vault_git_gh_token }}"
 
 ### Bash
 dotfiles_bash_repo: git@github.com:marcus-grant/dots-bash

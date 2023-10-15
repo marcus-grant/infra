@@ -24,6 +24,9 @@ zsh_parent_dir: /Users/{{ admin_user }}/.config
 zsh_git_repo: 'git@github.com:marcus-grant/dots-zsh.git'
 zsh_extra_packages: [fd, fzf, ripgrep, starship]
 
+# Git
+git_extra_packages: [gh, gitui]
+
 # Fonts
 # --------
 fonts_to_user: true
@@ -55,7 +58,6 @@ homebrew_packages:
   - age
   - ansible
   - ansible-lint
-  - git
   - jq
   - zstd
 

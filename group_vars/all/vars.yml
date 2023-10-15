@@ -3,6 +3,7 @@
 admin_user: "{{ vault_admin_user }}"
 admin_user_password: "{{ vault_admin_user_password }}"
 admin_email: "{{ vault_admin_email }}"
+admin_email_alt: "{{ vault_admin_email_alt }}"
 admin_htpasswd: "{{ vault_admin_htpasswd }}"
 admin_main_git_password: "{{ vault_admin_main_git_password }}"
 

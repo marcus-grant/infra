@@ -1,0 +1,6 @@
+---
+# defaults file for git
+git_default_branch: main
+git_pull_rebase: false
+git_gh_enabled: false
+git_ssh_enabled: false
