@@ -9,10 +9,10 @@ ssh_custom_keys:
   - {name: git.key, comment: 'git@{{ inventory_hostname }}', pass: '{{ admin_main_git_password }}'}
 ssh_git_key: "{{ ssh_custom_keys[0].name }}"
 ssh_config_custom_entries:
-  - {name: github.com, url: github.com, user: git, key: "{{ ssh_git_key }}"}
-  - {name: codeberg.org, user: git, key: "{{ ssh_git_key }}"}
+  - {name: github.com, url: github.com, user: git, key: "{{ ssh_git_key }}", agent: true}
+  - {name: codeberg.org, user: git, key: "{{ ssh_git_key }}", agent: true}
   - {name: gitlab.com, user: git, key: "{{ ssh_git_key }}"}
-  - {name: git.marcusgrant.me, port: 48513, user: git, key: "{{ ssh_git_key }}"}
+  - {name: git.marcusgrant.me, port: 48513, user: git, key: "{{ ssh_git_key }}", agent: true}
 ssh_manual_transfers:
   - {pub: "{{ ssh_git_key }}", location: https://github.com/settings/keys}
   - {pub: "{{ ssh_git_key }}", location: https://codeberg.org/user/settings/keys}

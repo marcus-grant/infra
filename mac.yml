@@ -6,6 +6,8 @@
   roles:
     - role: marcus_grant.macos.homebrew_setup
       tags: [homebrew-setup, bootstrap, homebrew, brew, setup]
+    - role: marcus_grant.dotfiles.git
+      tags: [git, dotfile, ops, dev]
     - role: marcus_grant.dotfiles.profile
       tags: [profile, dotfile, shell]
     - role: marcus_grant.dotfiles.userdirs
