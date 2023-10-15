@@ -12,6 +12,10 @@ My colleciton of Ansible roles and modules that are used to setup myself as a de
   * *Description*:
     Sets up SSH environtment (config, add keys, instruct manual entry).
   * [*Role link!*](./roles/ssh/)
+* **git**
+  * *Description*:
+    Installs git & optional extras and configures global git configs.
+  * [*Role link!*](./roles/git/)
 * **userdirs**
   * *Description*:
     Sets up shell `userdirs` using custom list and `XDG_`* variables.
