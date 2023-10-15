@@ -35,18 +35,16 @@ Including an example of how to use your role (for instance, with variables passe
       git_user_name: Ivana Tinkler
       git_user_email: ivanatinkler@microsoft.com
       git_pull_rebase: true
+      git_extra_packages: [git-lfs, git-crypt, git-secret, gitui, gh]
 ```
 
-License
--------
+## License
 
 GPL3
 
-Author Information
-------------------
+## Author Information
 
 Marcus Grant (2021)
 marcusgrant.dev
 github.com/marcus-grant
 marcusfg@protonmail.com
-
