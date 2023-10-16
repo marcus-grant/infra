@@ -1,8 +1,7 @@
-# marcus_grant.ops.rancher
+# marcus_grant.ops.restic
 
-A role to setup rancher based systems on a machine.
-Mainly rancher desktop, nerdctl, etc.
-Good for macOS that needs some finagling to get rancher/docker/kubernetes.
+A role that installs, configures (globally & per-repo) restic,
+then sets up automatic snapshot taking per repo.
 
 ## Requirements
 
@@ -13,11 +12,12 @@ None
 These are the default variables for this role as visible in `defaults/main.yml`.
 If a variable is required, it won't have a default value.
 
-| Variable | Default | Choices | Comments |
-| -------- | ------- | ------- | -------- |
-| None     |         |         |          |
+| Variable  | Default | Choices | Comments             |
+| --------- | ------- | ------- | -------------------- |
+| *_install | true    | bool    | If to install restic |
 
-> There are no role variables so far, including this installs rancher desktop.
+> `*`: A shortening of the role variable role prefix `restic`,
+> for example `*_install` represents `restic_install`.
 
 ## Dependencies
 
