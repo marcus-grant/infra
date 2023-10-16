@@ -10,13 +10,7 @@ galaxy_info:
 
   min_ansible_version: '2.1'
 
-  platforms:
-    - name: Debian
-      versions: [11, 12]
-    - name: Archlinux
-      versions: [all]
-    - name: macOS
-      versions: [all]
+  platforms: []
 
   galaxy_tags:
     - dotfiles

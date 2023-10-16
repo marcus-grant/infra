@@ -1,0 +1,6 @@
+---
+# macOS install tasks for role marcus_grant.ops.containerd
+- name: macos | Install rancher
+  community.general.homebrew_cask:
+    name: rancher
+    state: present

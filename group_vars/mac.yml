@@ -7,16 +7,7 @@ admin_user_group: admin
 # --------------
 # Profile
 # profile_paths, earlier items override later ones
-profile_paths: [$HOME/.local/bin, /opt/homebrew/bin]
-profile_group: "{{ admin_user_group }}"
-profile_xdg_include: true
-profile_ls_colors: cxexfxdxBxEhebAbAgAcAd
-profile_envs:
-  - {name: CARGO_HOME, value: $XDG_DATA_HOME/cargo}
-  - {name: PNPM_HOME, value: $XDG_DATA_HOME/pnpm}
-profile_custom_entries:
-  - "{{ '#' }} Secrets"
-  - "export EMAIL='{{ admin_email }}'"
+profile_paths: [$HOME/.local/bin, /opt/homebrew/bin, $HOME/.rd/bin]
 
 # ZSH
 zsh_default_shell: true
@@ -68,7 +59,14 @@ mas_installed_apps:
   - {id: 1432731683, name: 'Adblock Plus for Safari ABP'}
   - {id: 1606897889, name: 'Consent-O-Matic'}
   - {id: 1452453066, name: 'Hidden Bar'}
+  - {id: 403504866, name: 'PCalc'}
+  - {id: 568494494, name: 'Pocket'}
+  - {id: 1498497896, name: 'Raivo OTP'}
+  - {id: 1477385213, name: 'Save to Pocket'}
+  - {id: 585829637, name: 'Todoist: To-do list & Planner'}
   - {id: 1463298887, name: 'Userscripts'}
+  - {id: 497799835, name: 'Xcode'}
+
 mas_uninstalled_apps:
   - {id: 682658836, name: 'GarageBand'}
   - {id: 408981434, name: "iMovie"}

@@ -1,0 +1,8 @@
+---
+# tasks file for marcus_grant.ops.rancher
+- name: If using macOS import OS specific tasks
+  ansible.builtin.import_tasks: macos.yml
+  when: ansible_os_family == 'Darwin'
+
+# TODO: Add linux import task for installs when != Darwin
+# TODO: Add rdctl settings

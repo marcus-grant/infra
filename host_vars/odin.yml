@@ -8,9 +8,6 @@ dotfiles_bash_repo: git@github.com:marcus-grant/dots-bash
 git_gh_enabled: false
 # Neovim
 nvim_git_repo: git@github.com:marcus-grant/dots-neovim
-# ZSH
-zsh_default_shell: false
-zsh_git_force: false
 
 # Homebrew
 # --------
@@ -68,10 +65,3 @@ homebrew_packages:
 # https://github.com/geerlingguy/ansible-collection-mac/blob/master/roles/mas/README.md
 # mas_email: "{{ vault_admin_email }}"
 # mas_password: "{{ inventory_apple_password }}"
-mas_installed_apps:
-  - {id: 403504866, name: 'PCalc'}
-  - {id: 568494494, name: 'Pocket'}
-  - {id: 1498497896, name: 'Raivo OTP'}
-  - {id: 1477385213, name: 'Save to Pocket'}
-  - {id: 585829637, name: 'Todoist: To-do list & Planner'}
-  - {id: 497799835, name: 'Xcode'}
