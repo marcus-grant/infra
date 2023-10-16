@@ -12,8 +12,8 @@ None
 These are the default variables for this role as visible in `defaults/main.yml`.
 If a variable is required, it won't have a default value.
 
-| Variable         | Default | Choices | Comments                          |
-| ---------------- | ------- | ------- | --------------------------------- |
+| Variable     | Default | Choices | Comments                          |
+| ------------ | ------- | ------- | --------------------------------- |
 | *_extra_pkgs | []      | [str]   | List of extra packages to install |
 
 > `*`: A shortening of the role variable role prefix `restic`,
