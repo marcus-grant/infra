@@ -6,14 +6,14 @@
   roles:
     - role: marcus_grant.macos.homebrew_setup
       tags: [homebrew-setup, bootstrap, homebrew, brew, setup]
+    - role: marcus_grant.ops.ssh
+      tags: [ssh, ops, shell, remote, manage]
     - role: marcus_grant.dotfiles.git
       tags: [git, dotfile, ops, dev]
     - role: marcus_grant.dotfiles.profile
       tags: [profile, dotfile, shell]
     - role: marcus_grant.dotfiles.userdirs
       tags: [userdirs, dotfile, shell, directory]
-    - role: marcus_grant.dotfiles.ssh
-      tags: [ssh, dotfile, shell, remote, manage]
     - role: marcus_grant.dotfiles.zsh
       tags: [zsh, dotfiles, dots, shell]
     - role: mac-defaults  # TODO: Move to macos collection
