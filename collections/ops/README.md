@@ -9,7 +9,7 @@ My collection of developer/infrastructure operations roles.
     Sets up SSH (client) environment (config, add keys, instruct manual entry).
   * [*Role link!*](./roles/ssh/)
 
-* **containerd-dev**
+* **rancher-dev**
   * *Description*:
-    Installs and configures containerd tools for development contexts.
+    Installs and configures rancher tools for development contexts.
   * [*Role link!*](./roles/containerd-dev/)
