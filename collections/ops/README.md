@@ -12,6 +12,7 @@ My collection of developer/infrastructure operations roles.
 * **restic**:
   * *Description*:
     Installs restic and configures it for automated use.
+  * [*Role link!*](./roles/restic/)
 
 * **rancher-dev**
   * *Description*:
