@@ -14,7 +14,7 @@ If a variable is required, it won't have a default value.
 
 | Variable               | Default | Choices | Comments                             |
 | ---------------------- | ------- | ------- | ------------------------------------ |
-| profile_group          | `sudo`  | str     | Group owner, mac has NO sudo         |
+| containerd_          | `sudo`  | str     | Group owner, mac has NO sudo         |
 | profile_paths          | `[]`    | [str]   | Add to PATH (earlier override later) |
 | profile_lc_all         | `*`     | str     | LC_ALL value, override all locale    |
 | profile_editor         | `vim`   | str     | Default editor command               |
