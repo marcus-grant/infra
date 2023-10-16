@@ -1,0 +1,5 @@
+---
+# defaults file for marcus_grant.ops.rancher
+# installs
+restic_extra_pkgs: []
+restic_repos: []

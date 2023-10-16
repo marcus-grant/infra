@@ -1,10 +1,11 @@
 {
     "cSpell.words": [
-        "rancher",
         "dotfiles",
         "PGHOST",
         "PGPASSWORD",
         "PGUSER",
+        "pkgs",
+        "rancher",
         "svartalv"
     ],
     "ansible.python.interpreterPath": "/opt/homebrew/bin/python3"

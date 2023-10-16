@@ -30,6 +30,10 @@ fonts_to_get:
   - {file_pattern: Fira*, url: "{{ fonts_base_url }}/FiraCode.zip"}
   - {file_pattern: Sauce*, url: "{{ fonts_base_url }}/SourceCodePro.zip"}
 
+# Ops
+# ---
+# Restic
+
 # Homebrew
 # --------
 homebrew_taps:
