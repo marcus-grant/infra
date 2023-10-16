@@ -1,6 +1,8 @@
 # marcus_grant.ops.containerd
 
 A role to setup containerd based systems on a machine.
+Mainly rancher desktop, nerdctl, etc.
+Good for macOS that needs some finagling to get containerd/docker/kubernetes.
 
 ## Requirements
 
@@ -14,7 +16,7 @@ If a variable is required, it won't have a default value.
 
 | Variable               | Default | Choices | Comments                             |
 | ---------------------- | ------- | ------- | ------------------------------------ |
-| containerd_          | `sudo`  | str     | Group owner, mac has NO sudo         |
+| containerd_packages   | `sudo`  | str     | Group owner, mac has NO sudo         |
 | profile_paths          | `[]`    | [str]   | Add to PATH (earlier override later) |
 | profile_lc_all         | `*`     | str     | LC_ALL value, override all locale    |
 | profile_editor         | `vim`   | str     | Default editor command               |
