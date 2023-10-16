@@ -1,0 +1,5 @@
+---
+# vars file for marcus_grant.ops.restic
+python_pkgs_d: [python3]
+python_pkgs:
+  SomeDistroWithDifferentPackageName: [another-python3]

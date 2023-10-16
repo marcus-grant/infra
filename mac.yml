@@ -6,6 +6,8 @@
   roles:
     - role: marcus_grant.macos.homebrew_setup
       tags: [homebrew-setup, bootstrap, homebrew, brew, setup]
+    - role: marcus_grant.dev.python
+      tags: [python, py, pip, pyenv, dev]
     - role: marcus_grant.ops.ssh
       tags: [ssh, ops, shell, remote, manage]
     - role: marcus_grant.dev.git

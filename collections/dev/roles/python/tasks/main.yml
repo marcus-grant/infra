@@ -1,0 +1,12 @@
+---
+# tasks file for marcus_grant.dev.python
+- name: Install python
+  ansible.builtin.package:
+    name: "{{ python_package }}"
+    state: present
+  loop_control: {loop_var: python_package}
+  loop: >
+    {{ python_pkgs[ansible_os_family] |
+      default(python_pkgs_d) +
+      python_extra_pkgs }}
+  when: python_install_package
