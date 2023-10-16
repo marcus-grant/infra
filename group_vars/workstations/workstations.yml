@@ -58,6 +58,12 @@ zsh_rc_file: rc.zsh
 zsh_profile_file: profile.zsh
 zsh_env_file: env.zsh
 
+# Dev
+# ---
+# Python
+python_pyenv_install: true
+python_pyenv_root: "$HOME/.local/pyenv"
+
 ### Pacman Packages
 pacman_extra_packages:
   - flatpak

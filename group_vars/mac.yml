@@ -9,6 +9,9 @@ admin_user_group: admin
 # profile_paths, earlier items override later ones
 profile_paths: [$HOME/.local/bin, /opt/homebrew/bin, $HOME/.rd/bin]
 
+# Userdirs
+userdirs_custom_dirs: [~/.local, ~/.local/bin, ~/.local/share, ~/.config, ~/.cache, ~/.cache/run]
+
 # ZSH
 zsh_default_shell: true
 zsh_parent_dir: /Users/{{ admin_user }}/.config
@@ -17,6 +20,15 @@ zsh_extra_packages: [fd, fzf, ripgrep, starship]
 
 # Git
 git_extra_packages: [gh, gitui]
+
+# Dev
+# ---
+# Python
+python_pyenv_install_curl: true
+
+# Ops
+# ---
+# Restic
 
 # Fonts
 # --------
@@ -29,10 +41,6 @@ fonts_to_get:
   - {file_pattern: BigBlue*, url: "{{ fonts_base_url }}/BigBlueTerminal.zip"}
   - {file_pattern: Fira*, url: "{{ fonts_base_url }}/FiraCode.zip"}
   - {file_pattern: Sauce*, url: "{{ fonts_base_url }}/SourceCodePro.zip"}
-
-# Ops
-# ---
-# Restic
 
 # Homebrew
 # --------

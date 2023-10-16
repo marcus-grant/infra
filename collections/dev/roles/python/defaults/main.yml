@@ -1,0 +1,8 @@
+---
+# defaults file for marcus_grant.dev.python
+# installs
+python_install_package: false
+python_extra_pkgs: []
+python_pyenv_install: false
+python_pyenv_install_curl: false
+python_pyenv_root: $HOME/.pyenv
