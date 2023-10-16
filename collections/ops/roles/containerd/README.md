@@ -1,6 +1,6 @@
-# marcus_grant.dotfiles.profile
+# marcus_grant.ops.containerd
 
-A role that partially sets up shell environments by templating the profile file.
+A role to setup containerd based systems on a machine.
 
 ## Requirements
 
@@ -8,7 +8,7 @@ None
 
 ## Role Variables
 
-These are the default variables for this role as visible in defaults/main.yml.
+These are the default variables for this role as visible in `defaults/main.yml`.
 If a variable is required, it won't have a default value.
 
 
