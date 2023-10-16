@@ -13,13 +13,11 @@ None
 These are the default variables for this role as visible in `defaults/main.yml`.
 If a variable is required, it won't have a default value.
 
-| Variable          | Default | Choices | Comments                      |
-| ----------------- | ------- | ------- | ----------------------------- |
-| *_install_rancher | false   | bool    | If to install rancher desktop |
-| *_install_nerdctl | false   | bool    | If to install nerdctl         |
+| Variable | Default | Choices | Comments |
+| -------- | ------- | ------- | -------- |
+| None     |         |         |          |
 
-> `*`: Shortens role variable prefix ie `rancher_*`,
-> *for example, `*_install_rancher` represents `rancher_install_rancher`*.
+> There are no role variables so far, including this installs rancher desktop.
 
 ## Dependencies
 
