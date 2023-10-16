@@ -18,8 +18,8 @@ If a variable is required, it won't have a default value.
 | *_install_rancher | false   | bool    | If to install rancher desktop |
 | *_install_nerdctl | false   | bool    | If to install nerdctl         |
 
-> `*`: Shortens role variable prefix ie `containerd_*`,
-> *for example, `*_install_rancher` represents `containerd_install_rancher`*.
+> `*`: Shortens role variable prefix ie `rancher_*`,
+> *for example, `*_install_rancher` represents `rancher_install_rancher`*.
 
 ## Dependencies
 
@@ -32,8 +32,8 @@ Including an example of how to use your role (for instance, with variables passe
 ```yaml
 - hosts: all
   vars:  # Most taken from defaults/main.yml
-    containerd_install_rancher: true
-    containerd_install_nerdctl: true
+    rancher_install_rancher: true
+    rancher_install_nerdctl: true
 
   roles:
     - name: marcus_grant.ops.containerd
