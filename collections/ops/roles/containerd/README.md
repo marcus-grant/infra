@@ -14,18 +14,12 @@ These are the default variables for this role as visible in `defaults/main.yml`.
 If a variable is required, it won't have a default value.
 
 
-| Variable               | Default | Choices | Comments                             |
-| ---------------------- | ------- | ------- | ------------------------------------ |
-| containerd_packages   | `sudo`  | str     | Group owner, mac has NO sudo         |
-| profile_paths          | `[]`    | [str]   | Add to PATH (earlier override later) |
-| profile_lc_all         | `*`     | str     | LC_ALL value, override all locale    |
-| profile_editor         | `vim`   | str     | Default editor command               |
-| profile_ls_colors      | `^`     | str     | Default editor command               |
-| profile_xdg_include    | `false` | bool    | *See below XDG section*              |
-| profile_envs           | `[]`    | [{}]    | *See Custom Environment Variables*   |
-| profile_custom_entries | `[]`    | []      | *See Custom Entries Section*         |
+| Variable                   | Default | Choices | Comments                     |
+| -------------------------- | ------- | ------- | ---------------------------- |
+| *_install_rancher | false   | bool    | Group owner, mac has NO sudo |
 
-> `*`: Shortens default string of `en_US.UTF-8`.
+> `*`: Shortens role variable prefix ie `containerd_*`,
+> *for example, `*_install_rancher` represents `containerd_install_rancher`*.
 > `^`: Shortens the default LS_COLORS string shown in `defaults/main.yml` of role.
 > ... it's quite long, no need to show here.
 
