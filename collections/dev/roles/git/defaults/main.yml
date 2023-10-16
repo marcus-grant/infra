@@ -1,5 +1,5 @@
 ---
-# defaults file for git
+# defaults file for marcus_grant.dev.git
 git_default_branch: main
 git_pull_rebase: false
 git_gh_enabled: false

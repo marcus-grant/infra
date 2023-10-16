@@ -17,4 +17,3 @@
 #     owner: "{{ ansible_user }}"
 #     mode: '0600'
 #   loop: "{{ restic_repos }}"
-

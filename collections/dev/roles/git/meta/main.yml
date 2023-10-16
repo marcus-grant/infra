@@ -19,7 +19,7 @@ galaxy_info:
   # - CC-BY-4.0
   license: GPL3
 
-  min_ansible_version: 2.1
+  min_ansible_version: '2.1'
 
   # If this a Container Enabled role, provide the minimum Ansible Container ver.
   # min_ansible_container_version:
@@ -30,11 +30,7 @@ galaxy_info:
   # To view available platforms and versions (or releases), visit:
   # https://galaxy.ansible.com/api/v1/platforms/
   #
-  platforms:
-    - name: Debian
-      versions:
-        - 11
-        - 10
+  platforms: []
   # - name: SomePlatform
   #   versions:
   #   - all
@@ -49,4 +45,4 @@ galaxy_info:
   # NOTE: A tag is limited to a single word comprised of alphanumeric characters
   #       Maximum 20 tags per role.
 
-dependencies:
+dependencies: []

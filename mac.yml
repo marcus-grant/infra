@@ -8,7 +8,7 @@
       tags: [homebrew-setup, bootstrap, homebrew, brew, setup]
     - role: marcus_grant.ops.ssh
       tags: [ssh, ops, shell, remote, manage]
-    - role: marcus_grant.dotfiles.git
+    - role: marcus_grant.dev.git
       tags: [git, dotfile, ops, dev]
     - role: marcus_grant.dotfiles.profile
       tags: [profile, dotfile, shell]
