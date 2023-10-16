@@ -7,3 +7,4 @@ My collection of developer/infrastructure operations roles.
 * **containerd-dev**
   * *Description*:
     Installs and configures containerd tools for development contexts.
+  * [*Role link!*](./roles/containerd-dev/)
