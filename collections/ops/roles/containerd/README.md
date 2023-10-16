@@ -1,8 +1,8 @@
-# marcus_grant.ops.containerd
+# marcus_grant.ops.rancher
 
-A role to setup containerd based systems on a machine.
+A role to setup rancher based systems on a machine.
 Mainly rancher desktop, nerdctl, etc.
-Good for macOS that needs some finagling to get containerd/docker/kubernetes.
+Good for macOS that needs some finagling to get rancher/docker/kubernetes.
 
 ## Requirements
 
