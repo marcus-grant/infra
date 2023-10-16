@@ -12,9 +12,9 @@ None
 These are the default variables for this role as visible in `defaults/main.yml`.
 If a variable is required, it won't have a default value.
 
-| Variable  | Default | Choices | Comments             |
-| --------- | ------- | ------- | -------------------- |
-| *_install | true    | bool    | If to install restic |
+| Variable         | Default | Choices | Comments                          |
+| ---------------- | ------- | ------- | --------------------------------- |
+| *_extra_pkgs | []      | [str]   | List of extra packages to install |
 
 > `*`: A shortening of the role variable role prefix `restic`,
 > for example `*_install` represents `restic_install`.
