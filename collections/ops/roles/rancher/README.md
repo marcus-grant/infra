@@ -30,8 +30,9 @@ Including an example of how to use your role (for instance, with variables passe
 ```yaml
 - hosts: all
   vars:  # Most taken from defaults/main.yml
-    rancher_install_rancher: true
-    rancher_install_nerdctl: true
+    # None so far
+    # rancher_install_rancher: true
+    # rancher_install_nerdctl: true
 
   roles:
     - name: marcus_grant.ops.rancher
