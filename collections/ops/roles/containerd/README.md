@@ -13,15 +13,13 @@ None
 These are the default variables for this role as visible in `defaults/main.yml`.
 If a variable is required, it won't have a default value.
 
-
-| Variable                   | Default | Choices | Comments                     |
-| -------------------------- | ------- | ------- | ---------------------------- |
-| *_install_rancher | false   | bool    | Group owner, mac has NO sudo |
+| Variable          | Default | Choices | Comments                      |
+| ----------------- | ------- | ------- | ----------------------------- |
+| *_install_rancher | false   | bool    | If to install rancher desktop |
+| *_install_nerdctl | false   | bool    | If to install nerdctl         |
 
 > `*`: Shortens role variable prefix ie `containerd_*`,
 > *for example, `*_install_rancher` represents `containerd_install_rancher`*.
-> `^`: Shortens the default LS_COLORS string shown in `defaults/main.yml` of role.
-> ... it's quite long, no need to show here.
 
 ### Role Variables (XDG)
 
