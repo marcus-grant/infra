@@ -12,4 +12,4 @@ My collection of developer/infrastructure operations roles.
 * **rancher-dev**
   * *Description*:
     Installs and configures rancher tools for development contexts.
-  * [*Role link!*](./roles/containerd-dev/)
+  * [*Role link!*](./roles/rancher-dev/)
