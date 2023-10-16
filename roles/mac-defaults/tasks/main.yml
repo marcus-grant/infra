@@ -104,8 +104,6 @@
 #   ansible.builtin.command: killall Dock
 #   when: mac_dock_orientation_set_defaults.changed
 
-
-
 # from:
 # https://github.com/lafarer/ansible-role-osx-defaults
 # - block:
