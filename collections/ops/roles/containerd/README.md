@@ -36,7 +36,7 @@ Including an example of how to use your role (for instance, with variables passe
     rancher_install_nerdctl: true
 
   roles:
-    - name: marcus_grant.ops.containerd
+    - name: marcus_grant.ops.rancher
 ```
 
 ## License
