@@ -23,8 +23,12 @@ git_extra_packages: [gh, gitui]
 
 # Dev
 # ---
-# Python
+# PyEnv
 pyenv_versions: ['3.11.2', '3.12.0']
+
+# PIP
+pip_sys_extra: [pip-completion, pip-tools]
+
 
 # Ops
 # ---

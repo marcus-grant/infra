@@ -1,2 +1,20 @@
 ---
 # vars file for marcus_grant.dev.pip
+pip_sys_pkgs_d: [python3-pip]
+pip_sys_pkgs:
+  Alpine: [py3-pip]
+  Archlinux: [python-pip]
+  Darwin: [python]
+
+pip_pipx_families: [Archlinux, Debian, Darwin, Fedora, SLES, Ubuntu]
+
+pip_sys_poetry_pkgs:
+  Alpine: [py3-poetry]
+  Archlinux: [python-poetry]
+  Darwin: [poetry]
+  Debian: [python3-poetry]
+  Fedora: [poetry]
+  SLES: [python3-poetry]
+  Ubuntu: [poetry]
+
+pip_poetry_families: [Alpine, Archlinux, Darwin, Debian, Fedora, SLES, Ubuntu]
