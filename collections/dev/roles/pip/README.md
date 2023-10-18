@@ -31,7 +31,13 @@ Including an example of how to use your role (for instance, with variables passe
 - name: Prepare
   hosts: all
   gather_facts: no
-
+  vars:
+    pip_sys: true
+    pip_sys_pipx: true
+    pip_sys_poetry: true
+    pip_sys_extra:
+      - pip-tools
+      - pip-completion
   roles:
     - role: marcus_grant.dev.pyenv
     - role: marcus_grant.dev.pip
