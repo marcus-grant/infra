@@ -11,6 +11,7 @@ An Ansible role for managing Python and PyEnv on target hosts.
 | `pyenv_install_curl`   | `false`           | Determines if PyEnv should be installed via curl and bash. |
 | `pyenv_root`           | `$HOME/.pyenv`    | The root directory for PyEnv.                         |
 | `pyenv_version_global` | `system`          | The global Python version to set for PyEnv.           |
+| `pyenv_versions`       | `[]`              | List of Python versions to be installed with PyEnv. Defaults to an empty list. |
 
 ## Dependencies
 
