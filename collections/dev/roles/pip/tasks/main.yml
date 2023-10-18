@@ -29,3 +29,31 @@
   loop_control: {loop_var: pip_sys_package}
   loop: "{{ pip_sys_packages + pip_sys_extra | unique }}"
   when: pip_sys
+
+- name: Register pyenv versions
+  ansible.builtin.command: pyenv versions --bare
+  register: pip_pyenv_versions
+  changed_when: false
+  when: pip_packages_common | length > 0
+
+- name: Install common pip packages for all pyenv versions
+  ansible.builtin.include_tasks: pyenv-vers-install.yml
+  vars:
+    pip_pyenv_vers_install_packages: "{{ pip_packages_common }}"
+  loop: "{{ pip_pyenv_versions.stdout_lines }}"
+  loop_control:
+    loop_var: pip_pyenv_version
+  when: pip_packages_common | length > 0
+
+- name: Register pyenv global version
+  ansible.builtin.command: pyenv global
+  register: pip_pyenv_global_version
+  changed_when: false
+  when: pip_packages_global | length > 0
+
+- name: Install global version of pyenv pip packages
+  ansible.builtin.include_tasks: pyenv-vers-install.yml
+  vars:
+    pip_pyenv_vers_install_packages: "{{ pip_packages_global }}"
+    pip_pyenv_version: "{{ pip_pyenv_global_version.stdout }}"
+  when: pip_packages_global | length > 0

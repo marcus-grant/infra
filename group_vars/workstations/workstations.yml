@@ -66,6 +66,10 @@ zsh_env_file: env.zsh
 pyenv_root: "$HOME/.local/share/pyenv"
 pyenv_versions: ['3.7.3', '3.11.2', '3.12.0']
 pyenv_version_global: '3.11.2'
+# pip
+pip_sys_extra: [pip-completion, pip-tools]
+pip_packages_common: [python-dotenv, numpy, pandas, matplotlib, seaborn]
+pip_packages_global: [jupyter]
 
 ### Pacman Packages
 pacman_extra_packages:

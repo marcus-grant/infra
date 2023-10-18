@@ -9,5 +9,7 @@ galaxy_info:
 
   galaxy_tags: [python, pip, pipx, pyenv, poetry]
 
+# TODO: Determine if tags should be applied to pyenv and skipping them is valid
+# Otherwise this might not be a good dependency to include when using pip tag.
 # dependencies:  # []
 #   - role: marcus_grant.dev.pyenv

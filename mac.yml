@@ -19,7 +19,7 @@
     - role: marcus_grant.dev.pyenv
       tags: [pyenv, python, dev, ops]
     - role: marcus_grant.dev.pip
-      tags: [pip, pyenv, python, dev, ops]
+      tags: [pip, python, dev, ops]
     - role: marcus_grant.ops.restic
       tags: [restic, backup]
     - role: mac-defaults  # TODO: Move to macos collection
