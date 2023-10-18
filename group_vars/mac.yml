@@ -7,7 +7,7 @@ admin_user_group: admin
 # --------------
 # Profile
 # profile_paths, earlier items override later ones
-profile_paths: [$HOME/.local/bin, /opt/homebrew/bin, $HOME/.rd/bin]
+profile_paths: [$HOME/.local/bin, $HOME/.local/share/pyenv/bin, /opt/homebrew/bin]
 
 # Userdirs
 userdirs_custom_dirs: [~/.local, ~/.local/bin, ~/.local/share, ~/.config, ~/.cache, ~/.cache/run]
@@ -24,7 +24,7 @@ git_extra_packages: [gh, gitui]
 # Dev
 # ---
 # Python
-python_pyenv_install_curl: true
+pyenv_versions: ['3.11.2', '3.12.0']
 
 # Ops
 # ---
@@ -44,9 +44,7 @@ fonts_to_get:
 
 # Homebrew
 # --------
-homebrew_taps:
-  - homebrew/core
-  - homebrew/cask
+homebrew_taps: []  # removed because default taps cause problems
 
 homebrew_casks:
   - aldente

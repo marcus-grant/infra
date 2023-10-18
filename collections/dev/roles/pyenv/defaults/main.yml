@@ -1,0 +1,8 @@
+---
+# defaults file for marcus_grant.dev.python
+# installs
+pyenv_install_sys_py: false
+pyenv_extra_sys_pkgs: []
+pyenv_root: $HOME/.pyenv
+pyenv_versions: []
+pyenv_version_global: system

@@ -1,0 +1,9 @@
+---
+galaxy_info:
+  author: marcus_grant
+  description: Install and configure pyenv and install python versions & set global
+  license: GPL3
+  min_ansible_version: '2.9'
+  galaxy_tags: [pyenv, python, develop, version]
+
+dependencies: []

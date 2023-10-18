@@ -37,9 +37,11 @@ profile_ls_colors: cxexfxdxBxEhebAbAgAcAd
 profile_envs:
   - {name: CARGO_HOME, value: $XDG_DATA_HOME/cargo}
   - {name: PNPM_HOME, value: $XDG_DATA_HOME/pnpm}
+  - {name: PYENV_ROOT, value: $XDG_DATA_HOME/pyenv}
 profile_custom_entries:
   - "{{ '#' }} Secrets"
   - "export EMAIL='{{ admin_email }}'"
+  - 'eval "$(pyenv init -)"'
 
 ### Bash
 dotfiles_bash_repo: git@github.com:marcus-grant/dots-bash
@@ -60,9 +62,10 @@ zsh_env_file: env.zsh
 
 # Dev
 # ---
-# Python
-python_pyenv_install: true
-python_pyenv_root: "$HOME/.local/pyenv"
+# PyEnv
+pyenv_root: "$HOME/.local/share/pyenv"
+pyenv_versions: ['3.7.3', '3.11.2', '3.12.0']
+pyenv_version_global: '3.11.2'
 
 ### Pacman Packages
 pacman_extra_packages:

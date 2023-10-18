@@ -1,0 +1,55 @@
+---
+# tasks file for marcus_grant.dev.python
+- name: Install python
+  ansible.builtin.package:
+    name: "{{ pyenv_py_pkg }}"
+    state: present
+  loop_control: {loop_var: pyenv_py_pkg}
+  loop: >
+    {{ (pyenv_py_pkgs[ansible_os_family] |
+      default(pyenv_py_pkgs_d)) +
+      pyenv_extra_sys_pkgs }}
+  when: pyenv_install_sys_py
+
+- name: Install pyenv dependencies via package manager
+  ansible.builtin.package:
+    name: "{{ pyenv_dep }}"
+    state: present
+  loop_control: {loop_var: pyenv_dep}
+  loop: "{{ pyenv_deps[ansible_os_family] | default([]) }}"
+  register: pyenv_installed_deps
+  when: ansible_os_family in pyenv_deps | default(false)
+
+- name: Install PyEnv via curl & bash
+  ansible.builtin.shell:
+    cmd: 'set -o pipefail;PYENV_ROOT="{{ pyenv_root }}";curl https://pyenv.run|bash'
+    creates: "{{ pyenv_root }}/bin/pyenv"
+
+- name: Register command stat of pyenv installed versions
+  ansible.builtin.command:
+    cmd: "{{ pyenv_root }}/bin/pyenv versions"
+  changed_when: false
+  register: pyenv_installed_versions
+
+- name: Install pyenv versions not installed
+  ansible.builtin.command:
+    cmd: "{{ pyenv_root }}/bin/pyenv install {{ pyenv_version }}"
+    creates: "{{ pyenv_root }}/versions/{{ pyenv_version }}"
+  loop_control: {loop_var: pyenv_version}
+  loop: "{{ pyenv_versions }}"
+  register: pyenv_installed_versions
+  when:
+    - pyenv_installed_versions.stdout_lines is defined
+    - pyenv_installed_versions.stdout_lines | length > 0
+    - pyenv_version not in pyenv_installed_versions.stdout_lines
+
+- name: Get current pyenv global version, just the semver string
+  ansible.builtin.command:
+    cmd: "{{ pyenv_root }}/bin/pyenv global"
+  register: pyenv_version_global_current
+  changed_when: false
+
+- name: Set global pyenv version
+  ansible.builtin.command:
+    cmd: "{{ pyenv_root }}/bin/pyenv global {{ pyenv_version_global }}"
+  changed_when: not pyenv_version_global in pyenv_version_global_current.stdout
