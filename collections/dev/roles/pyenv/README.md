@@ -74,3 +74,8 @@ None.
 - [Personal Site](https://marcusgrant.me)
 - [Github](https://github.com/marcus-grant)
 - [Mastodon](https://fosstodon.org/@marcusgrant)
+
+## License
+
+This role is licensed under the GPLv3 License.
+See the [LICENSE](./LICENSE) file for details.
