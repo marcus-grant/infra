@@ -2,7 +2,9 @@
 # defaults file for marcus_grant.macos.homebrew
 homebrew_prefix: /opt/homebrew
 
-homebrew_taps: [homebrew/core, homebrew/cask]
+# removed in favor of [], homebrew warns of problems
+# homebrew_taps: [homebrew/core, homebrew/cask]
+homebrew_taps: []
 
 homebrew_packages: []
 
