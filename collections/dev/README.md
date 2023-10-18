@@ -6,5 +6,6 @@ My collection of roles setting up software development environments.
 
 * **pyenv**
   * *Description*:
-    Installs pyenv, configure it, install python versions with it & configure global.
-  * [*Role link!*](./roles/python/)
+    Installs pyenv, configure it, install python versions with it
+    & configure global version.
+  * [*Role link!*](./roles/pyenv/)
