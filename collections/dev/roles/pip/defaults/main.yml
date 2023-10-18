@@ -1,0 +1,9 @@
+---
+# defaults file for marcus_grant.dev.pip
+pip_sys: true
+pip_sys_pipx: true
+pip_sys_poetry: true
+pip_sys_extra: []
+pip_packages_common: []
+pip_packages_global: []
+pip_pyenv_root: "{{ ansible_env.HOME }}/.pyenv"

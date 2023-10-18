@@ -1,0 +1,17 @@
+---
+# pyenv-vers-install tasks for role marcus_grant.dev.pip
+# - name: Debug vars
+#   ansible.builtin.debug:
+#     msg: |
+#       pip_pyenv_vers_install_packages: {{ pip_pyenv_vers_install_packages }}
+#       pip_pyenv_version: {{ pip_pyenv_version }}
+#       cmd: {{ pyenv_root | default(pip_pyenv_root) }}/versions/{{ pip_pyenv_version }}/bin/pip
+
+- name: pyenv-vers-install | Install pip packages for pyenv version
+  ansible.builtin.pip:
+    name: "{{ pip_pyenv_vers_install_package }}"
+    state: present
+    executable: >-
+      {{ pyenv_root | default(pip_pyenv_root) }}/versions/{{ pip_pyenv_version }}/bin/pip
+  loop_control: {loop_var: pip_pyenv_vers_install_package}
+  loop: "{{ pip_pyenv_vers_install_packages }}"

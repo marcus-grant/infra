@@ -1,0 +1,59 @@
+---
+# tasks file for marcus_grant.dev.pip
+# TODO: Should this be moved to a system-focused python role?
+- name: Set fact for system pip-related packages to install
+  ansible.builtin.set_fact:
+    pip_sys_packages: >
+      {{ pip_sys_pkgs[ansible_os_family] | default(pip_sys_pkgs_d) }}
+  when: pip_sys
+
+- name: Set fact for system pipX-related packages to install
+  ansible.builtin.set_fact:
+    pip_sys_packages: "{{ (pip_sys_packages | default([])) + ['pipx'] }}"
+  when:
+    - pip_sys_pipx
+    - ansible_os_family in pip_pipx_families
+
+- name: Set fact for system poetry-related packages to install
+  ansible.builtin.set_fact:
+    pip_sys_packages: >
+      {{ pip_sys_packages + (pip_sys_poetry_pkgs[ansible_os_family] | default([])) }}
+  when:
+    - pip_sys_poetry
+    - ansible_os_family in pip_poetry_families
+
+- name: Install system scoped pip packages
+  ansible.builtin.package:
+    name: "{{ pip_sys_package }}"
+    state: present
+  loop_control: {loop_var: pip_sys_package}
+  loop: "{{ pip_sys_packages + pip_sys_extra | unique }}"
+  when: pip_sys
+
+- name: Register pyenv versions
+  ansible.builtin.command: pyenv versions --bare
+  register: pip_pyenv_versions
+  changed_when: false
+  when: pip_packages_common | length > 0
+
+- name: Install common pip packages for all pyenv versions
+  ansible.builtin.include_tasks: pyenv-vers-install.yml
+  vars:
+    pip_pyenv_vers_install_packages: "{{ pip_packages_common }}"
+  loop: "{{ pip_pyenv_versions.stdout_lines }}"
+  loop_control:
+    loop_var: pip_pyenv_version
+  when: pip_packages_common | length > 0
+
+- name: Register pyenv global version
+  ansible.builtin.command: pyenv global
+  register: pip_pyenv_global_version
+  changed_when: false
+  when: pip_packages_global | length > 0
+
+- name: Install global version of pyenv pip packages
+  ansible.builtin.include_tasks: pyenv-vers-install.yml
+  vars:
+    pip_pyenv_vers_install_packages: "{{ pip_packages_global }}"
+    pip_pyenv_version: "{{ pip_pyenv_global_version.stdout }}"
+  when: pip_packages_global | length > 0
