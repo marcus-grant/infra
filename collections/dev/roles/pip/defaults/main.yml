@@ -1,2 +1,6 @@
 ---
 # defaults file for marcus_grant.dev.pip
+pip_sys: true
+pip_sys_pipx: true
+pip_sys_poetry: true
+pip_sys_extra: []
