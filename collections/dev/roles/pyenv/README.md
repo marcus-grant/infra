@@ -70,7 +70,7 @@ None.
 
 ## Author
 
-* Marcus Grant
-* [Personal Site](https://marcusgrant.me)
-* [Github](https://github.com/marcus-grant)
-* [Mastodon](https://fosstodon.org/@marcusgrant)
+- Marcus Grant
+- [Personal Site](https://marcusgrant.me)
+- [Github](https://github.com/marcus-grant)
+- [Mastodon](https://fosstodon.org/@marcusgrant)
