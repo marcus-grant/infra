@@ -22,14 +22,19 @@ A package manager and optionally pyenv.
 
 [marcus_grant.dev.pyenv](../pyenv/)
 
-Example Playbook
-----------------
+## Example Playbook
 
 Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
 
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+```yaml
+---
+- name: Prepare
+  hosts: all
+  gather_facts: no
+
+  roles:
+    - role: marcus_grant.dev.pyenv
+    - role: marcus_grant.dev.pip
 
 License
 -------
