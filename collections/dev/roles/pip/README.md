@@ -7,15 +7,20 @@ It does so in conjunction with pyenv as well on all their python versions.
 
 A package manager and optionally pyenv.
 
-Role Variables
---------------
+## Role Variables
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+| Variable       | Default | Example     | Description                                |
+| -------------- | ------- | ----------- | ------------------------------------------ |
+| pip_sys        | true    | false       | To install pip in system scope.            |
+| pip_sys_pipx   | true    | false       | To install pipx in system scope.           |
+| pip_sys_poetry | true    | false       | To install poetry in system scope.         |
+| pip_sys_extra  | []      | [pip-tools] | Install Extra pip/py related sys packages. |
 
-Dependencies
-------------
+## Dependencies
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+>**TODO:** Should this be an optional dependency?
+
+[marcus_grant.dev.pyenv](../pyenv/)
 
 Example Playbook
 ----------------
