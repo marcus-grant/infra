@@ -7,7 +7,7 @@ My collection of roles setting up software development environments.
 * **git**
   * *Description*:
     Installs git and sets git configs.
-  * [*Role link!*](./roles/pyenv/)
+  * [*Role link!*](./roles/git/)
 * **pyenv**
   * *Description*:
     Installs pyenv, configure it, install python versions with it
