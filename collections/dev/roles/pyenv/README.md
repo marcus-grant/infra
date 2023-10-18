@@ -4,13 +4,13 @@ An Ansible role for managing Python and PyEnv on target hosts.
 
 ## Role Variables
 
-| Variable             | Default      | Description                                          |
-| -------------------- | ------------ | ---------------------------------------------------- |
-| pyenv_install_sys_py | false        | To install system python with package manager        |
-| pyenv_extra_sys_pkgs | []           | Extra system PyEnv/Python packages to install        |
-| pyenv_root           | $HOME/.pyenv | PyEnv root directory, use $HOME as necessary         |
-| pyenv_version_global | system       | Global Python version to set, use semver or 'system' |
-| pyenv_versions       | []           | List of Python versions to install with PyEnv        |
+| Variable               | Default        | Description                                          |
+| ---------------------- | -------------- | ---------------------------------------------------- |
+| `pyenv_install_sys_py` | `false`        | To install system python with package manager        |
+| `pyenv_extra_sys_pkgs` | `[]`           | Extra system PyEnv/Python packages to install        |
+| `pyenv_root`           | `$HOME/.pyenv` | PyEnv root directory, use $HOME as necessary         |
+| `pyenv_version_global` | `system`       | Global Python version to set, use semver or 'system' |
+| `pyenv_versions`       | `[]`           | List of Python versions to install with PyEnv        |
 
 ## Dependencies
 
