@@ -4,7 +4,7 @@ My collection of roles setting up software development environments.
 
 ## Roles
 
-* **python**
+* **pyenv**
   * *Description*:
-    Sets up SSH (client) environment (config, add keys, instruct manual entry).
+    Installs pyenv, configure it, install python versions with it & configure global.
   * [*Role link!*](./roles/python/)
