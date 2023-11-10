@@ -1,82 +1,35 @@
 ---
-# tasks file for zsh
-- name: Install neovim via AppImage
-  block:
-  - name: Set fact for neovim AppImage URLs
-    ansible.builtin.set_fact:
-      nvim_latest_url: >-
-        https://github.com/neovim/neovim/releases/download/latest/nvim.appimage
-      nvim_vers_url: >-
-        https://github.com/neovim/neovim/releases/download/{{ nvim_version }}/nvim.appimage
-
-  - name: Debug nvim_vers_url var
-    ansible.builtin.debug:
-      var: nvim_vers_url
-    when: nvim_debug
-
-  - name: Set fact for latest or versioned AppImage URL
-    ansible.builtin.set_fact:
-      nvim_appimage_url: >-
-        {{ (nvim_version == 'latest') | ternary(nvim_latest_url, nvim_vers_url) }}
-
-  - name: Debug nvim_appimage_url var
-    ansible.builtin.debug:
-      var: nvim_appimage_url
-    when: nvim_debug
-
-  - name: Ensure neovim AppImage install directory exists
-    ansible.builtin.file:
-      path: "{{ nvim_bin_path }}"
-      state: directory
-      recurse: true
-      owner: "{{ ansible_user_id }}"
-      group: "{{ ansible_user_id }}"
-
-  - name: Debug checksum
-    ansible.builtin.debug:
-      msg: "sha256:{{ nvim_appimage_url }}.sha256sum"
-    when: nvim_debug
-
-  - name: Download neovim AppImage
-    ansible.builtin.get_url:
-      url: "{{ nvim_appimage_url }}"
-      dest: "{{ nvim_bin_path }}"
-      checksum: "sha256:{{ nvim_appimage_url }}.sha256sum"
-      owner: "{{ ansible_user_id }}"
-      group: "{{ ansible_user_id }}"
-      mode: '0774'
-
-  - name: Symlink to the AppImage with expected nvim alias
-    ansible.builtin.file:
-      state: link
-      src: "{{ nvim_bin_path }}/nvim.appimage"
-      dest: "{{ nvim_bin_path }}/nvim"
-      owner: "{{ ansible_user_id }}"
-      group: "{{ ansible_user_id }}"
-      mode: '0774'
-
-  when: nvim_appimage
-
-- name: Ensure neovim is installed via package manager
-  become: true
+# main tasks file for marcus_grant.dotfiles.neovim
+# TODO - SET THE EDITOR VAR WHEN PROFILE ROLE SUPPORTS profile.d loading
+- name: Install neovim packages + extras via package manager
   ansible.builtin.package:
-    name: neovim
+    name: "{{ neovim_packages }}"
     state: present
-  when: not nvim_appimage
+  loop_control: {loop_var: neovim_packages}
+  loop: "{{ ['neovim'] + neovim_pkgs_extra }}"
 
-- name: Git clone the neovim dotfiles repository
-  ansible.builtin.git:
-    repo: "{{ nvim_git_repo }}"
-    version: "{{ nvim_git_version }}"
-    force: "{{ nvim_git_force }}"
-    dest: "{{ nvim_config_dir }}"
-  failed_when: false
+- name: Ensure neovim config directory (PARENT) exists
+  ansible.builtin.file:
+    path: "{{ neovim_config_dir | dirname }}"
+    state: directory
+    owner: "{{ ansible_user_id }}"
+    mode: 0750
 
-- name: Stat that the cloned neovim directory exists
+- name: Register stat of neovim config directory's git sub-directory
   ansible.builtin.stat:
-    path: "{{ nvim_config_dir }}"
-  register: nvim_config_dir_stat
+    path: "{{ neovim_config_dir }}/.git"
+  register: neovim_git_dir
+  when:
+    - neovim_git_repo is defined
+    - neovim_git_repo | length > 0
 
-- name: Assert the cloned directory exists to make up for the failed_when above
-  ansible.builtin.assert:
-    that: nvim_config_dir_stat.stat.exists
+- name: Clone neovim dotfiles repository to neovim config directory
+  ansible.builtin.git:
+    repo: "{{ neovim_git_repo }}"
+    version: "{{ neovim_git_vers }}"
+    force: "{{ neovim_git_force }}"
+    dest: "{{ neovim_config_dir }}"
+  when:
+    - neovim_git_repo is defined
+    - neovim_git_repo | length > 0
+    - not neovim_git_dir.stat.exists or neovim_git_force

@@ -1,6 +1,10 @@
 # Ansible Collection - marcus_grant.dotfiles
 
-My colleciton of Ansible roles and modules that are used to setup myself as a developer or admin for basically all of my systems, be they servers, workstations, containers, or even embedded devices. I'm going to attempt to make these roles as general use as possible, so feel free to use them through ansible galaxy, fork them, or use them as a template for your own collection/roles. If you see a problem with any of them you'd like me to address please file an issue and/or provide pull requests and I'll get to them.
+My ansible collection for managing dotfiles and shell configurations.
+There's some previous work here that I'm not re-using till
+I've had time to review and modify it to my current standards.
+Any of the roles that exist in this collection but
+not listed below are of low quality and should not be used.
 
 ## Roles
 
@@ -8,6 +12,9 @@ My colleciton of Ansible roles and modules that are used to setup myself as a de
   * *Description*:
     Sets up the user's shell profile via templating the `~/.profile` file.
   * [*Role link!*](./roles/profile/)
+  * **TODO**:
+    * Add support for a profile.d folder and sourcing it lexically
+      * Allows for other roles to add their own profile configurations.
 * **ssh**
   * *Description*:
     Sets up SSH environtment (config, add keys, instruct manual entry).
@@ -16,6 +23,11 @@ My colleciton of Ansible roles and modules that are used to setup myself as a de
   * *Description*:
     Installs git & optional extras and configures global git configs.
   * [*Role link!*](./roles/git/)
+* **neovim**
+  * *Description*:
+    Installs neovim via package manager &
+    clones a repository containing its configurations.
+  * [*Role link!*](./roles/neovim/)
 * **userdirs**
   * *Description*:
     Sets up shell `userdirs` using custom list and `XDG_`* variables.

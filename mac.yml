@@ -22,6 +22,8 @@
       tags: [pip, python, dev, ops]
     - role: marcus_grant.ops.restic
       tags: [restic, backup]
+    - role: marcus_grant.dotfiles.neovim
+      tags: [neovim, nvim, dotfiles, dev]
     - role: mac-defaults  # TODO: Move to macos collection
       tags: [properties, config, default, system, keyboard]
     - role: marcus_grant.macos.homebrew

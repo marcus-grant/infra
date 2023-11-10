@@ -51,6 +51,10 @@ dotfiles_bash_git_force: false
 ### Vim
 vim_git_repo: git@github.com:marcus-grant/dots-vim
 
+### NeoVim
+neovim_git_repo: git@github.com:marcus-grant/dots-neovim.git
+neovim_pkgs_extra: [fzf, ripgrep, fd, tree-sitter]
+
 ### TMux
 tmux_git_repo: git@github.com:marcus-grant/dots-tmux
 

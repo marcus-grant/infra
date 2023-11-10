@@ -1,63 +1,76 @@
-Neovim Dotfiles Role
-====================
+# Neovim Dotfiles Role
 
-Clone/Pull any git repository containing a Neovim dotfiles directory then linking them to the correct places and running any initializations needed.
+Install neovim and manage its dotfiles via git.
 
-Requirements
-------------
+## Requirements
 
-Git needs to be installed for this to work.
+Only git.
 
-Role Variables
---------------
+## Role Variables
 
-Below is a table of variables, some optional usually with default values or their manual definition is necessary for the role to function.
+Below is a table of variables,
+defaults are listed here as they appear in `defaults/main.yml`.
 
-|     Variable    | Needed|    Default   |   Choices    |                     Comments                    |
-|:---------------:|:-----:|:------------:|:------------:|:-----------------------------------------------:|
-| nvim_git_repo   | true  | None         | git repo url | Where to clone/pull dotfile repo from           |
-| nvim_config_dir | false |~/.config/nvim| folder path  | Where the dotfiles should be stored/linked      |
-| nvim_git_version| false | HEAD         |git branch/tag| Which branch/tag to clone or pull               |
-| nvim_git_force  | false | false        | boolean      | Whether to force pull repositories on config_dir|
-| nvim_appimage   | false | false        | boolean      | Whether to install nvim as an appimage          |
-| nvim_version    | false | latest       | semver string| A semver string or 'latest' to download         |
+| Variable          | Default          | Choices   | Comments                                         |
+| ----------------- | ---------------- | --------- | ------------------------------------------------ |
+| neovim_pkgs_extra | `[]`             | Packages  | List of extra packages to install.               |
+| neovim_config_dir | `~/.config/nvim` | Dir path  | Path string where nvim configs should go.        |
+| neovim_git_repo   | `''`             | Repo URL  | URL to dotfile git repo, doesn't pull if absent. |
+| neovim_git_vers   | `HEAD`           | Git vers. | Git version string of dotfile repo to clone.     |
+| neovim_git_force  | `false`          | Bool      | If to force git pull if directory is present.    |
 
-When using an AppImage to install a custom version of neovim which may be quite desirable since a lot of big changes are happening quickly to neovim with regards to its use of lua a few things to keep in mind:
-- `nvim_appimage` must be set to true
-- `nvim_version` defaults to 'latest' but can be set to any released version of the AppImage as seen on the project's Github releases page:
-  - The [Neovim Github Releases](https://github.com/neovim/neovim/releases)
+### Role Variables - Extra Notes
 
-Dependencies
-------------
+* `neovim_pkgs_extra`:
+  * This is a list of extra packages to install with system package manager.
+  * This is useful for installing language servers and other plugins.
+  * In my case I always use neovim with `fzf`, `ripgrep`, `fd` and `tree-sitter`.
+* `neovim_git_repo`:
+  * Not providing a value for this will skip any task involved in
+    cloning the dotfile repo into the `neovim_config_dir`.
+* `neovim_git_vers`:
+  * This corresponds to the git version string to use to
+    clone or pull the dotfile repo.
+  * This includes branch names, tags, and commit hashes.
+  * The default `HEAD` will always pull the latest changes.
+* `neovim_git_force`:
+  * Corresponds to Ansible's
+    [`ansible.builtin.git`][ansible.builtin.git] `force` parameter.
+  * If something is already present at `neovim_config_dir`
+    and this is set to `true` then the dotfile repo will be
+    force pulled.
+  * Can cause loss of data in the local configuration repository if
+    the remote repository has been updated since the last pull.
+
+## Dependencies
 
 A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
 
-Example Playbook
-----------------
+## Example Playbook
 
 Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
 
 ```yaml
 - hosts: all
-  tasks:
-    - name: "Include neovim"
-      vars:
-        nvim_git_repo: https://github.com/marcus-grant/dots-neovim4
-        nvim_git_force: true
-        nvim_default_editor: true
-      ansible.builtin.include_role:
-        name: "neovim"
-         - role: marcus_grant.dotfiles.neovim
+  vars:
+    neovim_git_repo: git@github.com:marcus-grant/dots-neovim.git
+    neovim_pkgs_extra: [fzf, ripgrep, fd, tree-sitter]
+    neovim_config_dir: ~/.config/nvim
+    neovim_git_vers: HEAD
+    neovim_git_force: false
+  roles:
+    - role: marcus_grant.dotfiles.neovim
 ```
 
-License
--------
+## License
 
 GPL3
 
-Author Information
-------------------
+## Author Information
 
 Marcus Grant
 [https://marcusgrant.me](https://marcusgrant.me)
-[marcusfg@protonmail.com](marcusfg@protonmail.com)
+[marcusfg@protonmail.com](marcusfg@pm.me)
+
+<!-- Reference Links -->
+[ansible.builtin.git]: https://docs.ansible.com/ansible/latest/collections/ansible/builtin/git_module.html "Ansible Module Documentation: ansible.builtin.git"

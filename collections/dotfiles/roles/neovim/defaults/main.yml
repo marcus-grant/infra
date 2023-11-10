@@ -1,9 +1,6 @@
 ---
 # defaults file for zsh
-nvim_config_dir: ~/.config/nvim
-nvim_git_version: HEAD
-nvim_git_force: false
-nvim_appimage: false
-nvim_version: latest
-nvim_bin_path: ~/.local/bin
-nvim_debug: false
+neovim_pkgs_extra: []
+neovim_config_dir: ~/.config/nvim
+neovim_git_vers: HEAD
+neovim_git_force: false
