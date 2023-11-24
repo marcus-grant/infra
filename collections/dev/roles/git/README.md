@@ -47,4 +47,4 @@ GPL3
 Marcus Grant (2021)
 marcusgrant.dev
 github.com/marcus-grant
-marcusfg@protonmail.com
+[marcusfg@protonmail.com](mailto:marcusfg@protonmail.com)

@@ -1,15 +1,12 @@
-Bash Role
-=========
+# Bash Role
 
 A role that controls the bash environment of remote systems. Includes installing bash, setting it to default shell, using git to clone a dotfile repository and linking the files within it to the expected locations in the home directory.
 
-Requirements
-------------
+## Requirements
 
 This role will make use of git to clone in dotfile repositories from remote git servers like github, so obviously git is a requirement here. I'm eventually working on a git role in this colleciton and that will be linked to in this role's meta description. An optional dependency is my SSH role in this collection which can be set to configure ssh keys, ssh config entries and use the github/gitlab/gitea API with vaulted API key vars to send an SSH public key to the git server. This is necessary to be able to use this role with an SSH url in the variable `dotfiles_bash_repo`.
 
-Role Variables
---------------
+## Role Variables
 
 The role variables are all listed below in list format.
 
@@ -49,14 +46,14 @@ The role variables are all listed below in list format.
 * `dotfiles_bash_profile`
   * **Required**
   * The path to the `~/.bash_profile` file in the dotfile repo that will be linked to from bash's expected location `~/.bashrc`
-Dependencies
-------------
+
+## Dependencies
 
 The `git` role from this collection is necessary in any playbook that will run this due to the use of the git module. If ssh is used in the variable `dotfiles_bash_repo` to clone/pull repositories to machines using this rule then role variables either must set a public SSH key to the git server the bash dotfiles are stored in the `git` role or it must have already been set manually using that git server's web interface.
 
-Example Playbook
-----------------
+## Example Playbook
 
+```yaml
     - hosts: servers
       roles:
         - name: marcus_grant.dotfiles.bash
@@ -68,15 +65,13 @@ Example Playbook
             dotfiles_bash_bashrc: '{{ dotfiles_bash_dest }}/bashrc'
             dotfiles_bash_profile: '{{ dotfiles_bash_dest }}/bashprofile'
             dotfiles_bash_backup: false
+```
 
-
-License
--------
+## License
 
 AGPLv3
 
-Author Information
-------------------
+## Author Information
 
 Marcus Grant
 marcusfg@protonmail.com
