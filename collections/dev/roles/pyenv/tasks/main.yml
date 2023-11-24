@@ -53,3 +53,33 @@
   ansible.builtin.command:
     cmd: "{{ pyenv_root }}/bin/pyenv global {{ pyenv_version_global }}"
   changed_when: not pyenv_version_global in pyenv_version_global_current.stdout
+
+- name: Check stat of pyenv_profile_d_path
+  ansible.builtin.stat:
+    path: "{{ pyenv_profile_d_path }}"
+  register: pyenv_profile_d_reg
+  when: pyenv_profile_d_path is defined
+
+- name: Template a profile.d script to set pyenv environment variables
+  ansible.builtin.template:
+    src: pyenv.profile.sh.j2
+    dest: "{{ pyenv_profile_d_path }}/{{ pyenv_priority | string }}-pyenv.sh"
+    owner: "{{ ansible_user }}"
+    mode: '0640'
+  when:
+    - pyenv_profile_d_path is defined
+    - pyenv_profile_d_reg.stat.isdir
+
+- name: Prepend pyenv_root to path in given shell file
+  ansible.builtin.lineinfile:
+    path: "{{ pyenv_add_path_file }}"
+    search_string: 'export PATH="{{ pyenv_root }}"'
+    line: "export PATH={{ pyenv_root }}/bin:$PATH"
+  when: pyenv_add_path_file is defined
+
+- name: Add pyenv init command to path in given shell file
+  ansible.builtin.lineinfile:
+    path: "{{ pyenv_add_path_file }}"
+    search_string: 'eval "$(pyenv init -)"'
+    line: 'eval "$(pyenv init -)"'
+  when: pyenv_add_path_file is defined and pyenv_init

@@ -1,0 +1,8 @@
+# Ansible Managed PyEnv Profile Entry
+{% if pyenv_root is defined %}
+export PYENV_ROOT="{{ pyenv_root }}"
+export PATH="{{ pyenv_root }}/bin:$PATH"
+{% endif %}
+{% if pyenv_init %}
+eval "$(pyenv init -)"
+{% endif %}

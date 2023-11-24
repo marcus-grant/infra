@@ -39,11 +39,11 @@ profile_editor: nvim
 profile_envs:
   - {name: CARGO_HOME, value: $XDG_DATA_HOME/cargo}
   - {name: PNPM_HOME, value: $XDG_DATA_HOME/pnpm}
-  - {name: PYENV_ROOT, value: $XDG_DATA_HOME/pyenv}
+  # - {name: PYENV_ROOT, value: $XDG_DATA_HOME/pyenv}  # DELETEME: Moved to pyenv role
 profile_custom_entries:
   - "{{ '#' }} Secrets"
   - "export EMAIL='{{ admin_email }}'"
-  - 'eval "$(pyenv init -)"'
+  # - 'eval "$(pyenv init -)"'  # DELETEME: if this works with pyenv role, remove
 
 ### Bash
 dotfiles_bash_repo: git@github.com:marcus-grant/dots-bash
@@ -72,6 +72,8 @@ zsh_env_file: env.zsh
 pyenv_root: "$HOME/.local/share/pyenv"
 pyenv_versions: ['3.7.3', '3.11.2', '3.12.0']
 pyenv_version_global: '3.11.2'
+pyenv_profile_d_path: "{{ profile_d_path }}"
+
 # pip
 pip_sys_extra: [pip-completion, pip-tools]
 pip_packages_common: [python-dotenv, numpy, pandas, matplotlib, seaborn]

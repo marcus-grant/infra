@@ -1,8 +1,10 @@
 ---
 # defaults file for marcus_grant.dev.python
 # installs
-pyenv_install_sys_py: false
-pyenv_extra_sys_pkgs: []
-pyenv_root: $HOME/.pyenv
-pyenv_versions: []
-pyenv_version_global: system
+pyenv_install_sys_py: false  # Install python using package manager?
+pyenv_extra_sys_pkgs: []  # Install extra system packages in this role
+pyenv_root: $HOME/.pyenv  # Location of PyEnv root directory
+pyenv_priority: 90  # Profile.d lexical prefix to order loading
+pyenv_init: true  # Whether to add pyenv init command to shell
+pyenv_versions: []  # Versions of python for pyenv to install
+pyenv_version_global: system  # Default global version of python to use
