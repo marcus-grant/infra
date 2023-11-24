@@ -11,21 +11,45 @@ None
 These are the default variables for this role as visible in defaults/main.yml.
 If a variable is required, it won't have a default value.
 
-
 | Variable               | Default | Choices | Comments                             |
 | ---------------------- | ------- | ------- | ------------------------------------ |
-| profile_group          | `sudo`  | str     | Group owner, mac has NO sudo         |
-| profile_paths          | `[]`    | [str]   | Add to PATH (earlier override later) |
-| profile_lc_all         | `*`     | str     | LC_ALL value, override all locale    |
-| profile_editor         | `vim`   | str     | Default editor command               |
-| profile_ls_colors      | `^`     | str     | Default editor command               |
+| profile_group          | `sudo`  | group   | Group owner, mac has NO sudo         |
+| profile_paths          | `[]`    | [path]  | Add to PATH (earlier override later) |
+| profile_lc_all         | **\***  | locale  | LC_ALL value, override all locale    |
+| profile_editor         | `vim`   | command | Default editor command               |
+| profile_ls_colors      | **^**   | options | [LS_COLORS][lsc] options string      |
+| profile_d_path         | **+**   | path    | Default editor command               |
 | profile_xdg_include    | `false` | bool    | *See below XDG section*              |
 | profile_envs           | `[]`    | [{}]    | *See Custom Environment Variables*   |
-| profile_custom_entries | `[]`    | []      | *See Custom Entries Section*         |
+| profile_custom_entries | `[]`    | [{}]    | *See Custom Entries Section*         |
 
 > `*`: Shortens default string of `en_US.UTF-8`.
 > `^`: Shortens the default LS_COLORS string shown in `defaults/main.yml` of role.
+> `+`: Shortens default path `~/.config/profile.d`.
 > ... it's quite long, no need to show here.
+
+### Role Variable Notes
+
+* `profile_paths`
+  * This is a list of paths to add to the `$PATH` variable.
+  * Earlier paths override later paths.
+* `profile_lc_all`
+  * This is the `LC_ALL` variable value.
+  * It overrides all other locale variables.
+  * It's recommended to set this to `en_US.UTF-8` for UTF-8 support.
+  * Another good option is the `C` locale for POSIX support.
+  * Beyond scope to explain locale variables here.
+* `profile_ls_colors`
+  * This is the `LS_COLORS` variable value.
+  * It's a string of options that define the colors for `ls`.
+  * It has different defaults depending on if it's linux or mac/BSD.
+* `profile_d_path`
+  * This is the path to the `profile.d` folder.
+  * It's common practice in POSIX environments to name a folder `*.d` when
+    it contains a collection of files that are sourced by a program.
+  * This is where custom profile entries are stored.
+  * It makes it easier for other roles to add their own profile entries.
+  * It's lexically sorted, so to order their sourcing, prefix with a number.
 
 ### Role Variables (XDG)
 
@@ -89,7 +113,7 @@ Including an example of how to use your role (for instance, with variables passe
 - hosts: all
   vars:  # Most taken from defaults/main.yml
     profile_group: sudo  # Remember macOS doesn't have this, maybe use staff, wheel or admin
-    profile_paths: []  # List of paths to add to $PATH, earlier overrides later
+    profile_paths: [/opt/mybin, ~/.local/bin]  # List of paths to add to $PATH, earlier overrides later
     profile_lc_all: en_US.UTF-8
     profile_xdg_include: false
     profile_xdg_config_home: $HOME/.config  # Defines XDG_CONFIG_HOME
@@ -97,7 +121,8 @@ Including an example of how to use your role (for instance, with variables passe
     profile_xdg_cache_home: $HOME/.cache  # Defines XDG_CACHE_HOME
     profile_xdg_bin_home: $HOME/.local/bin  # Defines XDG_BIN_HOME
     profile_xdg_runtime_dir: $HOME/.cache/run  # Defines XDG_RUNTIME_DIR
-    profile_editor: vim
+    profile_d_path: ~/.config/profile.d  # Defines where to store custom profile entries
+    profile_editor: emacs
     profile_envs:
     - name: "MY_VAR"
       value: "my value"
@@ -120,3 +145,5 @@ GPL-3.0-or-later
 [Personal Site](https://marcusgrant.me)
 [GitHub](https://github.com/marcus-grant)
 [Mastodon](https://fosstodon.org/@marcusgrant)
+
+[lsc]: https://linuxopsys.com/topics/colors-for-ls-mean-change-colors-for-ls-in-bash "LS Colors"

@@ -40,6 +40,17 @@ export EDITOR={{ profile_editor }}
 export GPG_TTY=$(tty)
 export LS_COLORS="{{ profile_ls_colors }}"
 
+# Profile.d Loading Section
+# ==============================
+PROFILE_D_PATH="{{ profile_xdg_config_home }}/profile.d"
+if [ -d $PROFILE_D_PATH ]; then
+    for _file in $PROFILE_D_PATH/*.sh; do
+        if [ -r "$_file" ]; then
+            source "$_file"
+        fi
+    done
+fi
+
 {% if profile_envs | length > 0 and profile_custom_entries | length > 1 %}
 # Ansible Managed Custom Section
 # ==============================

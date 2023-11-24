@@ -8,3 +8,11 @@
     group: "{{ profile_group }}"
     mode: 0640
   notify: Reload Shell
+
+- name: Ensure profile.d directory exists
+  ansible.builtin.file:
+    path: "{{ profile_d_path }}"
+    state: directory
+    owner: "{{ ansible_env.USER }}"
+    group: "{{ profile_group }}"
+    mode: 0750
