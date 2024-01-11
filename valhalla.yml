@@ -19,7 +19,6 @@
 - name: '[ALL VALHALLA] Provision valhalla servers, NOTE: SSH User'
   hosts: [frigg] # TODO: Make this work with jord
   gather_facts: true
-  become: true
   roles:
     - {role: marcus_grant.dev.git, tags: [git, dotfile, ops, dev, deploy]}
 
