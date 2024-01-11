@@ -2,6 +2,13 @@
 # Cloudflare
 cloudflare_valhalla_zoneid: "{{ vault_cloudflare_valhalla_zoneid }}"
 cloudflare_dns_token: "{{ vault_cloudflare_dns_token }}"
+
+### Git / Gitea
+git_default_branch: main  # [main]
+git_user_name: Marcus Grant
+git_user_email: "{{ admin_email }}"
+git_pull_rebase: false  # [false]
+
 base_packages:
   - fail2ban
   - git
