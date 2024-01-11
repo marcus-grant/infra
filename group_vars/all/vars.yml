@@ -12,6 +12,10 @@ main_salt: "{{ vault_main_salt }}"
 
 # Domains
 svartalv_main_domain: "{{ vault_svartalv_main_domain }}"
+valhalla_main_domain: "{{ vault_valhalla_main_domain }}"
+
+# SSH Ports
+ssh_main_port: "{{ vault_ssh_main_port }}"
 
 # Postgres Vault
 postgres_superuser_password: "{{ vault_postgres_superuser_password }}"
