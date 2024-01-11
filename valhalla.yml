@@ -16,11 +16,17 @@
     # - {role: docker_config, tags: [docker-config, docker, config]}
     # tags: [svartalv-common, base-config, server, container, init]
 
-- name: '[ALL VALHALLA] Provision valhalla servers, NOTE: SSH User'
+- name: '[ALL VALHALLA ADMIN] Provision valhalla servers, NOTE: SSH User'
   hosts: [frigg] # TODO: Make this work with jord
   gather_facts: true
+  become_user: "{{ admin_user }}"
+  pre_tasks:
+    - name: Gather facts, to override root ones, incase fact caching enabled
+      ansible.builtin.setup: { gather_timeout: 10 }
+      tags: [always]
   roles:
     - {role: marcus_grant.dev.git, tags: [git, dotfile, ops, dev, deploy]}
+    - {role: marcus_grant.dotfiles.profile, tags: [profile, dotfile, shell]}
 
 # === FRIGG ONLY ===
 # - name: '[FRIGG ONLY] Provision frigg server'
