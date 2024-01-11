@@ -2,3 +2,13 @@
 # Cloudflare
 cloudflare_valhalla_zoneid: "{{ vault_cloudflare_valhalla_zoneid }}"
 cloudflare_dns_token: "{{ vault_cloudflare_dns_token }}"
+base_packages:
+  - fail2ban
+  - git
+  - jq
+  - ncdu
+  - ranger
+  - tree
+  - tmux
+  - vim
+  - zsh

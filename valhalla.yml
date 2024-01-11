@@ -1,0 +1,22 @@
+---
+# Valhalla group playbook
+# === COMMON Valhalla ===
+- name: '[ALL VALHALLA ROOT] Provision valhalla servers, NOTE: Assumed bootstrapped'
+  hosts: [frigg] # TODO: Make this work with jord
+  gather_facts: true
+  become: true
+  roles:
+    - {role: base-packages, tags: [apt, package]}
+# === FRIGG ONLY ===
+# - name: '[FRIGG ONLY] Provision frigg server'
+#   hosts: brokkr
+#   become: true
+#   roles:
+    # - {role: restic_docker, tags: [restic_docker, backup, restic]}
+    # - {role: docker_postgres, tags: [docker_postgres, postgres, db, data, net]}
+    # - {role: restic_postgres, tags: [restic_postgres, postgres, db, data, restic, backup]}
+    # - {role: pgadmin, tags: [pgadmin, postgres, db, data, ui]}
+    # - {role: nginx-certbot, tags: [nginx, certbot, letsencrypt, tls, proxy, net]}
+    # - role: whoami
+    #   tags: [whoami, net]
+    # tags: [brokkr-only, server, services, container, web, docker, admin]
