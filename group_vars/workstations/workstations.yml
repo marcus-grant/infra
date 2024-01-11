@@ -3,16 +3,14 @@
 # ----
 admin_user_group: admin
 
-# Dotfiles
-# --------
-
 ### SSH
-ssh_exclude_hosts: [loki]
+ssh_exclude_hosts: [loki, jord]
 ssh_exclude_groups: [mac, hetzner]
 ssh_custom_keys:
   - {name: git.key, comment: 'git@{{ inventory_hostname }}', pass: '{{ admin_main_git_password }}'}
 ssh_git_key: "{{ ssh_custom_keys[0].name }}"
 ssh_config_custom_entries:
+  - {name: jord, url: "{{ valhalla_main_domain }}", user: root, port: "{{ ssh_main_port }}"}
   - {name: github.com, url: github.com, user: git, key: "{{ ssh_git_key }}", agent: true}
   - {name: codeberg.org, user: git, key: "{{ ssh_git_key }}", agent: true}
   - {name: gitlab.com, user: git, key: "{{ ssh_git_key }}"}
