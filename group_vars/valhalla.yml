@@ -31,7 +31,17 @@ profile_custom_entries:
 # Userdirs
 userdirs_custom_dirs: [~/.cache/run]
 
+# ZSH
+# TODO: Consider moving these & workstation group's commons up to parent grp
+zsh_git_repo: https://github.com/marcus-grant/dots-zsh.git
+zsh_shell_as_default: true
+zsh_rc_file: rc.zsh
+zsh_profile_file: profile.zsh
+zsh_env_file: env.zsh
+zsh_extra_packages: [bat, curl, fd-find, fzf, ripgrep]
+
 base_packages:
+  - curl
   - fail2ban
   - git
   - jq

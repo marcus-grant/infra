@@ -8,13 +8,23 @@
   ansible.builtin.set_fact:
     zsh_pkgs_all: "{{ zsh_pkgs[ansible_os_family] | default(zsh_pkgs_d) + zsh_extra_packages }}"
 
-- name: Ensure zsh is installed
-  become: "{{ ansible_os_family != 'Darwin' }}"
+- name: Ensure zsh is installed (macOS)
   ansible.builtin.package:
     name: "{{ zsh_pkg }}"
     state: present
   loop_control: {loop_var: zsh_pkg}
   loop: "{{ zsh_pkgs_all }}"
+  when: ansible_os_family == 'Darwin'
+
+- name: Ensure zsh is installed (*nixes)
+  become: true
+  become_user: root
+  ansible.builtin.package:
+    name: "{{ zsh_pkg }}"
+    state: present
+  loop_control: {loop_var: zsh_pkg}
+  loop: "{{ zsh_pkgs_all }}"
+  when: ansible_os_family != 'Darwin'
 
 - name: Ensure ZSH dotfile directory parent exists
   ansible.builtin.file:
@@ -49,6 +59,8 @@
     - {src: zprofile.j2, dest: "{{ ansible_env.HOME }}/.zprofile"}
 
 - name: Set ZSH to be the default shell of ansible user
+  become: true
+  become_user: root
   ansible.builtin.user:
     name: "{{ ansible_user_id }}"
     shell: "{{ zsh_default_shell_path }}"

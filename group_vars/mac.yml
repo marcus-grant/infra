@@ -16,7 +16,7 @@ userdirs_custom_dirs: [~/.local, ~/.local/bin, ~/.local/share, ~/.config, ~/.cac
 zsh_default_shell: true
 zsh_parent_dir: /Users/{{ admin_user }}/.config
 zsh_git_repo: 'git@github.com:marcus-grant/dots-zsh.git'
-zsh_extra_packages: [fd, fzf, ripgrep, starship]
+zsh_extra_packages: [bat, fd, fzf, ripgrep, starship]
 
 # Git
 git_extra_packages: [gh, gitui, lazygit]
