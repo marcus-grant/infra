@@ -37,30 +37,13 @@
     - userdirs_xdg_mkdirs
     - userdirs_xdg_dir_path | length > 0
 
-# DELETEME: This might not be needed bc defining XDG paths explicitly,
-# and using userdirs_xdg_use in profile.d then ensuring those dirs exist
-# overrides all the previous functionality of scanning for XDG_ vars in env
-# Get list of all ansible_env variables prefixed with XDG_
-# TODO: Must filter IN XDG_ vars that have valid dirs:
-#   - XDG_BIN_HOME=~/.local/bin
-#   - XDG_DATA_HOME=~/.local/share
-#   - XDG_CONFIG_HOME=~/.config
-#   - XDG_CACHE_HOME=~/.cache
-#   - XDG_RUNTIME_DIR=~/.cache/run
+- name: Create custom directories
+  ansible.builtin.file:
+    path: "{{ userdirs_custom_dir }}"
+    state: directory
+    owner: "{{ ansible_user_id }}"
+    mode: '0750'
+  loop_control: {loop_var: userdirs_custom_dir}
+  loop: "{{ userdirs_custom_dirs }}"
+  when: userdirs_custom_dirs | length > 0
 
-# - name: Register list of environment variables prefixed with XDG_
-#   ansible.builtin.set_fact:
-#     _xdg_vars: "{{ ansible_env.keys() | select('match', '^XDG_') | list }}"
-#   when:
-#     - ansible_env is defined
-#     - userdirs_xdg_use
-#
-# - name: Create custom directories
-#   ansible.builtin.file:
-#     path: "{{ userdirs_custom_dir }}"
-#     state: directory
-#     owner: "{{ ansible_user_id }}"
-#     mode: '0750'
-#   loop_control: {loop_var: userdirs_custom_dir}
-#   loop: "{{ userdirs_custom_dirs }}"
-#   when: userdirs_custom_dirs | length > 0
