@@ -28,6 +28,9 @@ profile_custom_entries:
   - "export EMAIL='{{ admin_email }}'"
   # - 'eval "$(pyenv init -)"'  # DELETEME: if this works with pyenv role, remove
 
+# Userdirs
+userdirs_custom_dirs: [~/.cache/run]
+
 base_packages:
   - fail2ban
   - git

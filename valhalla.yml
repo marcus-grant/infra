@@ -27,6 +27,7 @@
   roles:
     - {role: marcus_grant.dev.git, tags: [git, dotfile, ops, dev, deploy]}
     - {role: marcus_grant.dotfiles.profile, tags: [profile, dotfile, shell]}
+    - {role: marcus_grant.dotfiles.userdirs, tags: [userdir, directory, dotfile, shell, profile]}
 
 # === FRIGG ONLY ===
 # - name: '[FRIGG ONLY] Provision frigg server'
