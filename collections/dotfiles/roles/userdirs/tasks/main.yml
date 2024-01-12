@@ -19,6 +19,24 @@
     mode: 0640
   when: userdirs_xdg_profile_d
 
+# TODO: Consider adding logic so each of the XDG vars being empty strings or None,
+# forces the task to ignore that entry.
+- name: Ensure XDG directories exist
+  ansible.builtin.file:
+    path: "{{ userdirs_xdg_dir_path }}"
+    state: directory
+    mode: '0750'
+  loop_control: {loop_var: userdirs_xdg_dir_path }
+  loop:
+    - "{{ userdirs_xdg_bin_home }}"
+    - "{{ userdirs_xdg_data_home }}"
+    - "{{ userdirs_xdg_config_home }}"
+    - "{{ userdirs_xdg_cache_home }}"
+    - "{{ userdirs_xdg_runtime_dir }}"
+  when:
+    - userdirs_xdg_mkdirs
+    - userdirs_xdg_dir_path | length > 0
+
 # DELETEME: This might not be needed bc defining XDG paths explicitly,
 # and using userdirs_xdg_use in profile.d then ensuring those dirs exist
 # overrides all the previous functionality of scanning for XDG_ vars in env
@@ -33,17 +51,6 @@
 # - name: Register list of environment variables prefixed with XDG_
 #   ansible.builtin.set_fact:
 #     _xdg_vars: "{{ ansible_env.keys() | select('match', '^XDG_') | list }}"
-#   when:
-#     - ansible_env is defined
-#     - userdirs_xdg_use
-#
-# - name: Ensure directories defined in XDG environment variables exist
-#   ansible.builtin.file:
-#     path: "{{ ansible_env[userdirs_xdg_var] }}"
-#     state: directory
-#     mode: '0750'
-#   loop_control: {loop_var: userdirs_xdg_var}
-#   loop: "{{ _xdg_vars }}"
 #   when:
 #     - ansible_env is defined
 #     - userdirs_xdg_use
