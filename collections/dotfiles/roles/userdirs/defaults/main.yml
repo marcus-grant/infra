@@ -1,4 +1,10 @@
 ---
 # defaults file for zsh
 userdirs_xdg_use: true
+userdirs_xdg_profile_d: true
+userdirs_xdg_bin_home: ~/.local/bin
+userdirs_xdg_data_home: ~/.local/share
+userdirs_xdg_config_home: ~/.config
+userdirs_xdg_cache_home: ~/.cache
+userdirs_xdg_runtime_dir: ~/.cache/run
 userdirs_custom_dirs: []
