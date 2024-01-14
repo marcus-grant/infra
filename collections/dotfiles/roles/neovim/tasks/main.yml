@@ -1,12 +1,35 @@
 ---
 # main tasks file for marcus_grant.dotfiles.neovim
 # TODO - SET THE EDITOR VAR WHEN PROFILE ROLE SUPPORTS profile.d loading
-- name: Install neovim packages + extras via package manager
+# TODO - Consider adding appimage install method for debian
+# - name: Install AppImage dependencies (Debian)
+#   become: true
+#   become_user: root
+#   ansible.builtin.apt:
+#     name: "{{ neovim_deb_pkg }}"
+#   loop_control: {loop_var: neovim_deb_pkg}
+#   loop: >-
+#     [build-essential, libjpeg-dev, libpng-dev, libtiff-dev,
+#     fuse libc6 libcairo2 libgdk-pixbuf2.0-0 libgl1 libgtk2.0-0 libfuse2]
+#   when: ansible_os_family == 'Debian'
+
+- name: Install neovim packages + extras via package manager (*nix NOT deb)
+  become: true
+  become_user: root
   ansible.builtin.package:
     name: "{{ neovim_packages }}"
     state: present
   loop_control: {loop_var: neovim_packages}
   loop: "{{ ['neovim'] + neovim_pkgs_extra }}"
+  when: ansible_os_family != 'Darwin'
+
+- name: Install neovim packages + extras via package manager (macOS)
+  ansible.builtin.package:
+    name: "{{ neovim_packages }}"
+    state: present
+  loop_control: {loop_var: neovim_packages}
+  loop: "{{ ['neovim'] + neovim_pkgs_extra }}"
+  when: ansible_os_family == 'Darwin'
 
 - name: Ensure neovim config directory (PARENT) exists
   ansible.builtin.file:
