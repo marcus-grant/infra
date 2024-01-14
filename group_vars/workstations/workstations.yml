@@ -30,7 +30,7 @@ git_pull_rebase: false  # [false]
 
 ### Profile
 profile_group: "{{ admin_user_group }}"
-profile_xdg_include: true
+profile_xdg_include: true  # DELETEME: No longer necessary with userdirs role
 profile_ls_colors: cxexfxdxBxEhebAbAgAcAd
 profile_d_path: ~/.config/profile.d
 profile_editor: nvim

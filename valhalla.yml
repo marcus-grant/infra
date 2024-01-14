@@ -8,12 +8,12 @@
   roles:
     - {role: base-packages, tags: [apt, package]}
     - {role: marcus_grant.dev.git, tags: [git, dotfile, ops, dev, deploy]}
+    - {role: geerlingguy.docker, tags: [docker, server, service, container]}
+    - {role: docker_config, tags: [docker-config, docker, config]}
 
     # - {role: pip-install, tags: [python, pip]}
     # - {role: fail2ban, tags: [security, fail2ban]}
     # - {role: podman-init, tags: [podman, server, service, container]}
-    # - {role: geerlingguy.docker, tags: [docker, server, service, container]}
-    # - {role: docker_config, tags: [docker-config, docker, config]}
     # tags: [svartalv-common, base-config, server, container, init]
 
 - name: '[ALL VALHALLA ADMIN] Provision valhalla servers, NOTE: SSH User'
@@ -27,6 +27,9 @@
   roles:
     - {role: marcus_grant.dev.git, tags: [git, dotfile, ops, dev, deploy]}
     - {role: marcus_grant.dotfiles.profile, tags: [profile, dotfile, shell]}
+    - {role: marcus_grant.dotfiles.userdirs, tags: [userdir, dir, profile, dotfile, xdg]}
+    - {role: marcus_grant.dotfiles.zsh, tags: [zsh, dotfile, shell]}
+    - {role: marcus_grant.dotfiles.neovim, tags: [neovim, nvim, dotfiles, dev]}
 
 # === FRIGG ONLY ===
 # - name: '[FRIGG ONLY] Provision frigg server'

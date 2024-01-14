@@ -13,7 +13,7 @@
     - role: marcus_grant.dotfiles.profile
       tags: [profile, dotfile, shell]
     - role: marcus_grant.dotfiles.userdirs
-      tags: [userdirs, dotfile, shell, directory]
+      tags: [userdirs, dotfile, shell, directory, xdg, profile]
     - role: marcus_grant.dotfiles.zsh
       tags: [zsh, dotfiles, dots, shell]
     - role: marcus_grant.dev.pyenv

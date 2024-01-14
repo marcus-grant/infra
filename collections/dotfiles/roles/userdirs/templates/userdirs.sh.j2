@@ -1,0 +1,20 @@
+# profile.d/10-userdirs.sh
+# managed by ansible role marcus_grant.dotfiles.userdirs
+
+# XDG directory (re-)definitions
+{% if userdirs_xdg_bin_home | length > 0 %}
+XDG_BIN_HOME="{{ userdirs_xdg_bin_home }}"
+{% endif %}
+{% if userdirs_xdg_data_home | length > 0 %}
+XDG_DATA_HOME="{{ userdirs_xdg_data_home }}"
+{% endif %}
+{% if userdirs_xdg_config_home | length > 0 %}
+XDG_CONFIG_HOME="{{ userdirs_xdg_config_home }}"
+{% endif %}
+{% if userdirs_xdg_cache_home | length > 0 %}
+XDG_CACHE_HOME="{{ userdirs_xdg_cache_home }}"
+{% endif %}
+{% if userdirs_xdg_runtime_dir | length > 0 %}
+XDG_RUNTIME_DIR="{{ userdirs_xdg_runtime_dir }}"
+{% endif %}
+

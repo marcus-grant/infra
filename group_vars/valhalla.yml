@@ -3,6 +3,10 @@
 cloudflare_valhalla_zoneid: "{{ vault_cloudflare_valhalla_zoneid }}"
 cloudflare_dns_token: "{{ vault_cloudflare_dns_token }}"
 
+# Docker
+# Docker_Config
+docker_config_group_users: ["{{ admin_user }}"]
+
 # Git
 git_default_branch: main  # [main]
 git_user_name: Marcus Grant
@@ -15,10 +19,11 @@ git_pull_rebase: false  # [false]
 profile_paths: [$HOME/.local/bin]
 
 profile_group: "{{ admin_user }}"
-profile_xdg_include: true
-profile_ls_colors: cxexfxdxBxEhebAbAgAcAd
+profile_xdg_include: false  # handled by dotfiles.userdirs
 profile_d_path: ~/.config/profile.d
 profile_editor: nvim
+# profile_ls_colors: >
+#   di=32:ln=34:so=35:pi=33:ex=31:bd=34;46:cd=34;43:su=30;41:sg=30;45:tw=30;42:ow=30;43
 profile_envs:
   - {name: CARGO_HOME, value: $XDG_DATA_HOME/cargo}
   - {name: PNPM_HOME, value: $XDG_DATA_HOME/pnpm}
@@ -28,7 +33,25 @@ profile_custom_entries:
   - "export EMAIL='{{ admin_email }}'"
   # - 'eval "$(pyenv init -)"'  # DELETEME: if this works with pyenv role, remove
 
+# Userdirs
+userdirs_custom_dirs: [~/.cache/run]
+
+# ZSH
+# TODO: Consider moving these & workstation group's commons up to parent grp
+zsh_git_repo: https://github.com/marcus-grant/dots-zsh.git
+zsh_shell_as_default: true
+zsh_rc_file: rc.zsh
+zsh_profile_file: profile.zsh
+zsh_env_file: env.zsh
+zsh_extra_packages: [bat, curl, fd-find, fzf, ripgrep]
+
+# NeoVim
+neovim_git_repo: https://github.com/marcus-grant/dots-neovim.git
+neovim_pkgs_extra: [fzf, ripgrep, fd-find, libtree-sitter0, libtree-sitter-dev]
+neovim_git_force: true
+
 base_packages:
+  - curl
   - fail2ban
   - git
   - jq
