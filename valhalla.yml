@@ -8,6 +8,7 @@
   roles:
     - {role: base-packages, tags: [apt, package]}
     - {role: marcus_grant.dev.git, tags: [git, dotfile, ops, dev, deploy]}
+    - {role: geerlingguy.docker, tags: [docker, server, service, container]}
 
     # - {role: pip-install, tags: [python, pip]}
     # - {role: fail2ban, tags: [security, fail2ban]}
