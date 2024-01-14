@@ -29,6 +29,7 @@
     - {role: marcus_grant.dotfiles.profile, tags: [profile, dotfile, shell]}
     - {role: marcus_grant.dotfiles.userdirs, tags: [userdir, dir, profile, dotfile, xdg]}
     - {role: marcus_grant.dotfiles.zsh, tags: [zsh, dotfile, shell]}
+    - {role: marcus_grant.dotfiles.neovim, tags: [neovim, nvim, dotfiles, dev]}
 
 # === FRIGG ONLY ===
 # - name: '[FRIGG ONLY] Provision frigg server'

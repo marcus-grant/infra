@@ -41,6 +41,11 @@ zsh_profile_file: profile.zsh
 zsh_env_file: env.zsh
 zsh_extra_packages: [bat, curl, fd-find, fzf, ripgrep]
 
+# NeoVim
+neovim_git_repo: https://github.com/marcus-grant/dots-neovim.git
+neovim_pkgs_extra: [fzf, ripgrep, fd-find, libtree-sitter0, libtree-sitter-dev]
+neovim_git_force: true
+
 base_packages:
   - curl
   - fail2ban
