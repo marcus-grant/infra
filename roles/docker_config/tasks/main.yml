@@ -8,3 +8,15 @@
     owner: root
     group: docker
     recurse: true
+
+- name: Add users to docker group
+  become: true
+  become_user: root
+  ansible.builtin.user:
+    name: "{{ docker_config_user }}"
+    groups: docker
+    append: true
+  loop_control: {loop_var: docker_config_user}
+  loop: "{{ docker_config_group_users }}"
+  when: docker_config_group_users | length > 0
+

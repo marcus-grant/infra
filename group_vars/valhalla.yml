@@ -3,6 +3,10 @@
 cloudflare_valhalla_zoneid: "{{ vault_cloudflare_valhalla_zoneid }}"
 cloudflare_dns_token: "{{ vault_cloudflare_dns_token }}"
 
+# Docker
+# Docker_Config
+docker_config_group_users: ["{{ admin_user }}"]
+
 # Git
 git_default_branch: main  # [main]
 git_user_name: Marcus Grant
