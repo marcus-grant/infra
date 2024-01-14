@@ -15,10 +15,11 @@ git_pull_rebase: false  # [false]
 profile_paths: [$HOME/.local/bin]
 
 profile_group: "{{ admin_user }}"
-profile_xdg_include: true
-profile_ls_colors: cxexfxdxBxEhebAbAgAcAd
+profile_xdg_include: false  # handled by dotfiles.userdirs
 profile_d_path: ~/.config/profile.d
 profile_editor: nvim
+# profile_ls_colors: >
+#   di=32:ln=34:so=35:pi=33:ex=31:bd=34;46:cd=34;43:su=30;41:sg=30;45:tw=30;42:ow=30;43
 profile_envs:
   - {name: CARGO_HOME, value: $XDG_DATA_HOME/cargo}
   - {name: PNPM_HOME, value: $XDG_DATA_HOME/pnpm}
