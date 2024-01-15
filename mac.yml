@@ -10,8 +10,8 @@
       tags: [ssh, ops, shell, remote, manage]
     - role: marcus_grant.dev.git
       tags: [git, dotfile, ops, dev]
-    - role: marcus_grant.dotfiles.profile
-      tags: [profile, dotfile, shell]
+    # - role: marcus_grant.dotfiles.profile
+    #   tags: [profile, dotfile, shell]
     - role: marcus_grant.dotfiles.userdirs
       tags: [userdirs, dotfile, shell, directory, xdg, profile]
     - role: marcus_grant.dotfiles.zsh

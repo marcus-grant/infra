@@ -12,16 +12,16 @@ None
 Below is a table of variables,
 some optional usually with default values or necessary for the role to function.
 
-| Variable                 | Default        | Choices   | Comments                             |
-| ------------------------ | -------------- | ----------| ------------------------------------ |
-| userdirs_xdg_profile_d   | true           | bool      | Create `XDG_` envars. profile.d file |
-| userdirs_profile_d_path  | *              | str(dir)  | Path to directory of profile.d see * |
-| userdirs_xdg_mkdirs      | true           | bool      | Ensure below `XDG_` dirs exist       |
-| userdirs_xdg_bin_home    | ~/.local/bin   | str(dir)  | Custom value for XDG_BIN_HOME        |
-| userdirs_xdg_data_home   | ~/.local/share | str(dir)  | Custom value for XDG_DATA_HOME       |
-| userdirs_xdg_config_home | ~/.config      | str(dir)  | Custom value for XDG_CONFIG_HOME     |
-| userdirs_xdg_cache_home  | ~/.cache       | str(dir)  | Custom value for XDG_CACHE_HOME      |
-| userdirs_xdg_runtime_dir | ~/.cache/run   | str(dir)  | Custom value for XDG_RUNTIME_DIR     |
+| Variable                 | Default        | Choices    | Comments                             |
+| ------------------------ | -------------- | -----------| ------------------------------------ |
+| userdirs_xdg_profile_d   | true           | bool       | Create `XDG_` envars. profile.d file |
+| userdirs_profile_d_path  | *              | str(dir)   | Path to directory of profile.d see * |
+| userdirs_xdg_mkdirs      | true           | bool       | Ensure below `XDG_` dirs exist       |
+| userdirs_xdg_bin_home    | ~/.local/bin   | str(dir)+  | Custom value for XDG_BIN_HOME        |
+| userdirs_xdg_data_home   | ~/.local/share | str(dir)+  | Custom value for XDG_DATA_HOME       |
+| userdirs_xdg_config_home | ~/.config      | str(dir)+  | Custom value for XDG_CONFIG_HOME     |
+| userdirs_xdg_cache_home  | ~/.cache       | str(dir)+  | Custom value for XDG_CACHE_HOME      |
+| userdirs_xdg_runtime_dir | ~/.cache/run   | str(dir)+  | Custom value for XDG_RUNTIME_DIR     |
 | userdirs_custom_dirs     | []             | [str(dir)]| List of paths to create extra dirs   |
 
 > **\***: Default of `userdirs_profile_d_path` can be either of these:
@@ -29,6 +29,9 @@ some optional usually with default values or necessary for the role to function.
 > `~/.config/profile.d` this is also the default value to `profile_d_path`.
 > If both `userdirs_profile_d_path` & `profile_d_path` are undefined,
 > the default to `profile_d_path` of `~/.config/profile.d` gets used.
+
+> **+**: These variables are relative paths to whatever the user home is.
+> In linux this is usually `/home/<user>`, in macOS it's `/Users/<user>`.
 
 ### Role Variables Exaplanation
 

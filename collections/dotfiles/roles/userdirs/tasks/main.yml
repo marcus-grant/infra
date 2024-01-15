@@ -4,12 +4,13 @@
   ansible.builtin.set_fact:
     userdirs_profd: "{{ profile_d_path | default('~/.config/profile.d') }}"
 
-- name: Debug profile_d_path, userdirs_profd & userdirs_profile_d_path
-  ansible.builtin.debug:
-    msg: >
-      profile_d_path: {{ profile_d_path }},
-      userdirs_profd: {{ userdirs_profd }},
-      userdirs_profile_d_path: {{ userdirs_profile_d_path | default('undef') }}
+# DELETEME: Once time has passed with no detected problems
+# - name: Debug profile_d_path, userdirs_profd & userdirs_profile_d_path
+#   ansible.builtin.debug:
+#     msg: >
+#       profile_d_path: {{ profile_d_path }},
+#       userdirs_profd: {{ userdirs_profd }},
+#       userdirs_profile_d_path: {{ userdirs_profile_d_path | default('undef') }}
 
 - name: Template profile.d/10-userdirs.sh partial profile to be sourced
   ansible.builtin.template:
@@ -26,13 +27,13 @@
     path: "{{ userdirs_xdg_dir_path }}"
     state: directory
     mode: '0750'
-  loop_control: {loop_var: userdirs_xdg_dir_path }
+  loop_control: {loop_var: userdirs_xdg_dir_path}
   loop:
-    - "{{ userdirs_xdg_bin_home }}"
-    - "{{ userdirs_xdg_data_home }}"
-    - "{{ userdirs_xdg_config_home }}"
-    - "{{ userdirs_xdg_cache_home }}"
-    - "{{ userdirs_xdg_runtime_dir }}"
+    - "~/{{ userdirs_xdg_bin_home }}"
+    - "~/{{ userdirs_xdg_data_home }}"
+    - "~/{{ userdirs_xdg_config_home }}"
+    - "~/{{ userdirs_xdg_cache_home }}"
+    - "~/{{ userdirs_xdg_runtime_dir }}"
   when:
     - userdirs_xdg_mkdirs
     - userdirs_xdg_dir_path | length > 0
