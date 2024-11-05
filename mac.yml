@@ -24,7 +24,7 @@
       tags: [restic, backup]
     - role: marcus_grant.dotfiles.neovim
       tags: [neovim, nvim, dotfiles, dev]
-    - role: mac-defaults  # TODO: Move to macos collection
+    - role: mac-defaults # TODO: Move to macos collection
       tags: [properties, config, default, system, keyboard]
     - role: marcus_grant.macos.homebrew
       tags: [homebrew, brew, package, cask, tap, install]
@@ -32,7 +32,6 @@
       tags: [mas, app, apps, store, install, uninstall]
     - role: fonts
       tags: [font, ui]
-
 # - hosts: odin
 #   environment:
 #     PATH: "$HOME/Library/Python/3.8/bin:/opt/homebrew/bin:{{ ansible_env.PATH }}"

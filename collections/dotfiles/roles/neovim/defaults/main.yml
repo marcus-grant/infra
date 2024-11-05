@@ -2,5 +2,9 @@
 # defaults file for zsh
 neovim_pkgs_extra: []
 neovim_config_dir: ~/.config/nvim
+neovim_install_method: package # appimage,tar,compile
+neovim_alt_pkg: ""
+neovim_appimage_dest: /usr/local/bin
+neovim_appimage_url: https://github.com/neovim/neovim/releases/download/v0.9.5/nvim.appimage
 neovim_git_vers: HEAD
 neovim_git_force: false

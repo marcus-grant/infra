@@ -7,36 +7,63 @@ admin_user_group: admin
 ssh_exclude_hosts: [loki, jord]
 ssh_exclude_groups: [mac, hetzner]
 ssh_custom_keys:
-  - {name: git.key, comment: 'git@{{ inventory_hostname }}', pass: '{{ admin_main_git_password }}'}
+  - {
+      name: git.key,
+      comment: "git@{{ inventory_hostname }}",
+      pass: "{{ admin_main_git_password }}",
+    }
 ssh_git_key: "{{ ssh_custom_keys[0].name }}"
 ssh_config_custom_entries:
-  - {name: jord, url: "{{ valhalla_main_domain }}", user: root, port: "{{ ssh_main_port }}"}
-  - {name: github.com, url: github.com, user: git, key: "{{ ssh_git_key }}", agent: true}
-  - {name: codeberg.org, user: git, key: "{{ ssh_git_key }}", agent: true}
-  - {name: gitlab.com, user: git, key: "{{ ssh_git_key }}"}
-  - {name: git.marcusgrant.me, port: 48513, user: git, key: "{{ ssh_git_key }}", agent: true}
+  - {
+      name: jord,
+      url: "{{ valhalla_main_domain }}",
+      user: root,
+      port: "{{ ssh_main_port }}",
+    }
+  - {
+      name: github.com,
+      url: github.com,
+      user: git,
+      key: "{{ ssh_git_key }}",
+      agent: true,
+    }
+  - { name: codeberg.org, user: git, key: "{{ ssh_git_key }}", agent: true }
+  - { name: gitlab.com, user: git, key: "{{ ssh_git_key }}" }
+  - {
+      name: git.marcusgrant.me,
+      port: 48513,
+      user: git,
+      key: "{{ ssh_git_key }}",
+      agent: true,
+    }
 ssh_manual_transfers:
-  - {pub: "{{ ssh_git_key }}", location: https://github.com/settings/keys}
-  - {pub: "{{ ssh_git_key }}", location: https://codeberg.org/user/settings/keys}
-  - {pub: id_ed25519, location: "{{ hostvars['brokkr']['ansible_host'] }}"}
-  - {pub: id_ed25519, location: "{{ hostvars['freyja']['ansible_host'] }}"}
-  - {pub: id_ed25519, location: https://console.hetzner.cloud/projects/1125228/security/sshkeys}
+  - { pub: "{{ ssh_git_key }}", location: https://github.com/settings/keys }
+  - {
+      pub: "{{ ssh_git_key }}",
+      location: https://codeberg.org/user/settings/keys,
+    }
+  - { pub: id_ed25519, location: "{{ hostvars['brokkr']['ansible_host'] }}" }
+  - { pub: id_ed25519, location: "{{ hostvars['freyja']['ansible_host'] }}" }
+  - {
+      pub: id_ed25519,
+      location: https://console.hetzner.cloud/projects/1125228/security/sshkeys,
+    }
 
 ### Git / Gitea
-git_default_branch: main  # [main]
+git_default_branch: main # [main]
 git_user_name: Marcus Grant
 git_user_email: "{{ admin_email_alt }}"
-git_pull_rebase: false  # [false]
+git_pull_rebase: false # [false]
 
 ### Profile
 profile_group: "{{ admin_user_group }}"
-profile_xdg_include: true  # DELETEME: No longer necessary with userdirs role
+profile_xdg_include: true # DELETEME: No longer necessary with userdirs role
 profile_ls_colors: cxexfxdxBxEhebAbAgAcAd
 profile_d_path: ~/.config/profile.d
 profile_editor: nvim
 profile_envs:
-  - {name: CARGO_HOME, value: $XDG_DATA_HOME/cargo}
-  - {name: PNPM_HOME, value: $XDG_DATA_HOME/pnpm}
+  - { name: CARGO_HOME, value: $XDG_DATA_HOME/cargo }
+  - { name: PNPM_HOME, value: $XDG_DATA_HOME/pnpm }
   # - {name: PYENV_ROOT, value: $XDG_DATA_HOME/pyenv}  # DELETEME: Moved to pyenv role
 profile_custom_entries:
   - "{{ '#' }} Secrets"
@@ -52,8 +79,9 @@ dotfiles_bash_git_force: false
 vim_git_repo: git@github.com:marcus-grant/dots-vim
 
 ### NeoVim
-neovim_git_repo: git@github.com:marcus-grant/dots-neovim.git
+neovim_git_repo: git@github.com:marcus-grant/lazyvim.git
 neovim_pkgs_extra: [fzf, ripgrep, fd, tree-sitter]
+neovim_install_method: package # The default method, here for reminder
 
 ### TMux
 tmux_git_repo: git@github.com:marcus-grant/dots-tmux
@@ -68,8 +96,8 @@ zsh_env_file: env.zsh
 # ---
 # PyEnv
 pyenv_root: "$HOME/.local/share/pyenv"
-pyenv_versions: ['3.7.3', '3.11.2', '3.12.0']
-pyenv_version_global: '3.11.2'
+pyenv_versions: ["3.7.3", "3.11.2", "3.12.0"]
+pyenv_version_global: "3.11.2"
 pyenv_profile_d_path: "{{ profile_d_path }}"
 
 # pip

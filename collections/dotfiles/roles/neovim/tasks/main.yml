@@ -12,6 +12,8 @@
 #     [build-essential, libjpeg-dev, libpng-dev, libtiff-dev,
 #     fuse libc6 libcairo2 libgdk-pixbuf2.0-0 libgl1 libgtk2.0-0 libfuse2]
 #   when: ansible_os_family == 'Debian'
+- name: Import install task file based off neovim_install_method
+  ansible.builtin.import_tasks: "install-{{ neovim_install_method }}.yml"
 
 - name: Install neovim packages + extras via package manager (*nix NOT deb)
   become: true
@@ -20,7 +22,7 @@
     name: "{{ neovim_packages }}"
     state: present
   loop_control: {loop_var: neovim_packages}
-  loop: "{{ ['neovim'] + neovim_pkgs_extra }}"
+  loop: "{{ neovim_pkgs_extra }}"
   when: ansible_os_family != 'Darwin'
 
 - name: Install neovim packages + extras via package manager (macOS)
@@ -28,7 +30,7 @@
     name: "{{ neovim_packages }}"
     state: present
   loop_control: {loop_var: neovim_packages}
-  loop: "{{ ['neovim'] + neovim_pkgs_extra }}"
+  loop: "{{ neovim_pkgs_extra }}"
   when: ansible_os_family == 'Darwin'
 
 - name: Ensure neovim config directory (PARENT) exists

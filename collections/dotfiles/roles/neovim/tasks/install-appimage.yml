@@ -1,0 +1,8 @@
+---
+# install-appimage.yml tasks file for dotfiles.neovim
+# installs neovim via appimage download, placement, permissions & configs
+- name: install-appimage | Download appimage
+  ansible.builtin.get_url:
+    url: "{{ neovim_appimage_url }}"
+    dest: "{{ neovim_appimage_dest }}"
+    mode: "0775"

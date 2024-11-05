@@ -8,10 +8,10 @@ cloudflare_dns_token: "{{ vault_cloudflare_dns_token }}"
 docker_config_group_users: ["{{ admin_user }}"]
 
 # Git
-git_default_branch: main  # [main]
+git_default_branch: main # [main]
 git_user_name: Marcus Grant
 git_user_email: "{{ admin_email }}"
-git_pull_rebase: false  # [false]
+git_pull_rebase: false # [false]
 
 ### Dotfiles ###
 # Profile
@@ -19,14 +19,14 @@ git_pull_rebase: false  # [false]
 profile_paths: [$HOME/.local/bin]
 
 profile_group: "{{ admin_user }}"
-profile_xdg_include: false  # handled by dotfiles.userdirs
+profile_xdg_include: false # handled by dotfiles.userdirs
 profile_d_path: ~/.config/profile.d
 profile_editor: nvim
 # profile_ls_colors: >
 #   di=32:ln=34:so=35:pi=33:ex=31:bd=34;46:cd=34;43:su=30;41:sg=30;45:tw=30;42:ow=30;43
 profile_envs:
-  - {name: CARGO_HOME, value: $XDG_DATA_HOME/cargo}
-  - {name: PNPM_HOME, value: $XDG_DATA_HOME/pnpm}
+  - { name: CARGO_HOME, value: $XDG_DATA_HOME/cargo }
+  - { name: PNPM_HOME, value: $XDG_DATA_HOME/pnpm }
   # - {name: PYENV_ROOT, value: $XDG_DATA_HOME/pyenv}  # DELETEME: Moved to pyenv role
 profile_custom_entries:
   - "{{ '#' }} Secrets"
@@ -48,6 +48,7 @@ zsh_extra_packages: [bat, curl, fd-find, fzf, ripgrep]
 # NeoVim
 neovim_git_repo: https://github.com/marcus-grant/dots-neovim.git
 neovim_pkgs_extra: [fzf, ripgrep, fd-find, libtree-sitter0, libtree-sitter-dev]
+neovim_install_method: appimage
 neovim_git_force: true
 
 base_packages:
@@ -61,4 +62,3 @@ base_packages:
   - tmux
   - vim
   - zsh
-

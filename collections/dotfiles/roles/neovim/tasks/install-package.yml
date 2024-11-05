@@ -1,0 +1,16 @@
+---
+# install-package.yml tasks file for dotfiles.neovim role
+# Installs neovim using package manager
+- name: install-package | Install neovim via package manager (*nix)
+  become: true
+  become_user: root
+  ansible.builtin.package:
+    name: "{{ neovim_alt_pkg if (neovim_alt_pkg | length > 0) else 'neovim' }}"
+    state: present
+  when: ansible_os_family != 'Darwin'
+
+- name: install-package | Install neovim via package manager (macOS)
+  ansible.builtin.package:
+    name: "{{ neovim_alt_pkg if (neovim_alt_pkg | length > 0) else 'neovim' }}"
+    state: present
+  when: ansible_os_family == 'Darwin'
