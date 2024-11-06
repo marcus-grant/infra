@@ -1,51 +1,115 @@
 ---
-- hosts: loki
+# Freyr, temporary linux laptop
+- hosts: freyr
   gather_facts: true
+  roles:
+    - role: marcus_grant.dotfiles.profile
+      tags: [profile, dot, dotfile, shell, user, env]
+
+    - role: marcus_grant.dotfiles.userdirs
+      tags: [profile, dot, dotfile, shell, user, env]
+
+    - role: marcus_grant.dotfiles.zsh
+      tags: [zsh, shell, dot, dotfile, env]
+
+    - role: marcus_grant.dev.pyenv
+      tags: [dev, python, dot, env, pyenv]
+
+- hosts: freyr
   become: true
   roles:
-    - role: roles/pacman-install
-      tags: [pacman,pkg]
-
     - role: marcus_grant.dotfiles.not_coreutil
-      tags: [dotfiles,not_coreutil,coreutil]
-
-    - role: marcus_grant.dotfiles.git
-      tags: [dotfiles,git,gitea]
-
-    - role: marcus_grant.dotfiles.bash
-      tags: [dotfiles,bash]
-      vars:
-        dotfiles_bash_default_shell: true
-
-    - role: marcus_grant.dotfiles.vim
-      tags: [dotfiles,vim]
-
-    - role: marcus_grant.dotfiles.tmux
-      tags: [dotfiles,tmux]
-
-  post_tasks: # move these to own taskfiles or roles
-    - name: Enable s2idle (sleep mode)
-      shell:
-        cmd: "echo s2idle > /sys/power/mem_sleep"
-      changed_when: false
-      tags: [gpd,idle,sleep,suspend,fix]
+      tags: [zsh, bash, shell, fd, rg, fzf, dot, dotfile, env]
+    
 
 
-- hosts: loki
-  gather_facts: true
-  become_user: "{{ admin_user }}"
-  roles:
-    - role: marcus_grant.dotfiles.git
-      tags: [dotfiles,git,gitea]
+    # - role: roles/pacman-install
+    #   tags: [pacman,pkg]
 
-    - role: marcus_grant.dotfiles.bash
-      tags: [dotfiles,bash]
+    # - role: marcus_grant.dotfiles.not_coreutil
+    #   tags: [dotfiles,not_coreutil,coreutil]
 
-    - role: marcus_grant.dotfiles.vim
-      tags: [dotfiles,vim]
+    # - role: marcus_grant.dotfiles.git
+    #   tags: [dotfiles,git,gitea]
 
-    - role: marcus_grant.dotfiles.tmux
-      tags: [dotfiles,tmux]
+    # - role: marcus_grant.dotfiles.bash
+    #   tags: [dotfiles,bash]
+    #   vars:
+    #     dotfiles_bash_default_shell: true
 
-    - role: roles/flatpak
-      tags: [gui,flatpak]
+    # - role: marcus_grant.dotfiles.vim
+    #   tags: [dotfiles,vim]
+
+    # - role: marcus_grant.dotfiles.tmux
+    #   tags: [dotfiles,tmux]
+
+  # - hosts: freyr
+  #   gather_facts: true
+  #   become_user: "{{ admin_user }}"
+  #   roles:
+  #     - role: marcus_grant.dotfiles.git
+  #       tags: [dotfiles,git,gitea]
+  # 
+  #     - role: marcus_grant.dotfiles.bash
+  #       tags: [dotfiles,bash]
+  # 
+  #     - role: marcus_grant.dotfiles.vim
+  #       tags: [dotfiles,vim]
+  # 
+  #     - role: marcus_grant.dotfiles.tmux
+  #       tags: [dotfiles,tmux]
+  # 
+  #     - role: roles/flatpak
+  #       tags: [gui,flatpak]
+
+# Old loki gaming pc will probably get removed
+# - hosts: loki
+#   gather_facts: true
+#   become: true
+#   roles:
+#     - role: roles/pacman-install
+#       tags: [pacman,pkg]
+# 
+#     - role: marcus_grant.dotfiles.not_coreutil
+#       tags: [dotfiles,not_coreutil,coreutil]
+# 
+#     - role: marcus_grant.dotfiles.git
+#       tags: [dotfiles,git,gitea]
+# 
+#     - role: marcus_grant.dotfiles.bash
+#       tags: [dotfiles,bash]
+#       vars:
+#         dotfiles_bash_default_shell: true
+# 
+#     - role: marcus_grant.dotfiles.vim
+#       tags: [dotfiles,vim]
+# 
+#     - role: marcus_grant.dotfiles.tmux
+#       tags: [dotfiles,tmux]
+# 
+#   post_tasks: # move these to own taskfiles or roles
+#     - name: Enable s2idle (sleep mode)
+#       shell:
+#         cmd: "echo s2idle > /sys/power/mem_sleep"
+#       changed_when: false
+#       tags: [gpd,idle,sleep,suspend,fix]
+# 
+# 
+# - hosts: loki
+#   gather_facts: true
+#   become_user: "{{ admin_user }}"
+#   roles:
+#     - role: marcus_grant.dotfiles.git
+#       tags: [dotfiles,git,gitea]
+# 
+#     - role: marcus_grant.dotfiles.bash
+#       tags: [dotfiles,bash]
+# 
+#     - role: marcus_grant.dotfiles.vim
+#       tags: [dotfiles,vim]
+# 
+#     - role: marcus_grant.dotfiles.tmux
+#       tags: [dotfiles,tmux]
+# 
+#     - role: roles/flatpak
+#       tags: [gui,flatpak]

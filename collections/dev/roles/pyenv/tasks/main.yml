@@ -1,6 +1,9 @@
 ---
 # tasks file for marcus_grant.dev.python
+# become: "{{ not ansible_facts['os_family'] == 'Darwin' }}"
+#
 - name: Install python
+  become: "{{ not ansible_facts['os_family'] == 'Darwin' }}"
   ansible.builtin.package:
     name: "{{ pyenv_py_pkg }}"
     state: present
@@ -12,6 +15,7 @@
   when: pyenv_install_sys_py
 
 - name: Install pyenv dependencies via package manager
+  become: "{{ not ansible_facts['os_family'] == 'Darwin' }}"
   ansible.builtin.package:
     name: "{{ pyenv_dep }}"
     state: present
@@ -22,7 +26,7 @@
 
 - name: Install PyEnv via curl & bash
   ansible.builtin.shell:
-    cmd: 'set -o pipefail;PYENV_ROOT="{{ pyenv_root }}";curl https://pyenv.run|bash'
+    cmd: 'set -o pipefail;export PYENV_ROOT="{{ pyenv_root }}";curl https://pyenv.run|bash'
     creates: "{{ pyenv_root }}/bin/pyenv"
 
 - name: Register command stat of pyenv installed versions
@@ -31,6 +35,7 @@
   changed_when: false
   register: pyenv_installed_versions
 
+# TODO: Fails when a version is already installed
 - name: Install pyenv versions not installed
   ansible.builtin.command:
     cmd: "{{ pyenv_root }}/bin/pyenv install {{ pyenv_version }}"

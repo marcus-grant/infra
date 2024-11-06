@@ -1,0 +1,37 @@
+---
+# dotfile.xdg
+
+# dotfile.profile
+profile_path: 
+profile_group: sudo
+profile_ls_colors: di=32:ln=34:so=35:pi=33:ex=1;31:bd=1;34;47:cd=34;41:su=1;30;41:sg=1;30;46:tw=1;30;42:ow=1;30;43
+profile_editor: vim
+profile_paths:
+  - $HOME/.local/bin  # TODO: Should be its own option here & userdir
+  - /usr/local/sbin
+  - /usr/local/bin
+  - /usr/sbin
+  - /usr/bin
+  - /sbin
+  - /bin
+  - /usr/games
+  - /usr/local/games
+
+userdirs_profile_d_path: "{{ ansible_env.HOME }}/.config/profile.d"
+
+zsh_shell_as_default: true
+zsh_rc_file: rc.zsh
+zsh_profile_file: zprofile
+zsh_env_file: env.zsh
+zsh_env_source_profile: false
+zsh_git_repo: "git@github.com:marcus-grant/dots-zsh"
+
+# DEV
+# python
+pyenv_install_sys_py: false
+# pyenv_extra_sys_pkgs: [ansible, pipx, python3-poetry]
+pyenv_extra_sys_pkgs: [ansible, pipx, python3-poetry]
+pyenv_root: $HOME/.local/pyenv
+pyenv_version_global: 3.11.5
+pyenv_versions: [3.11.5, 3.12.0]
+pyenv_init: false
