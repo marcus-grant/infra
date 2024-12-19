@@ -1,53 +1,8 @@
 ---
-# User
-# ----
+########
+### User
+########
 admin_user_group: admin
-
-### SSH
-ssh_exclude_hosts: [loki, jord]
-ssh_exclude_groups: [mac, hetzner]
-ssh_custom_keys:
-  - {
-      name: git.key,
-      comment: "git@{{ inventory_hostname }}",
-      pass: "{{ admin_main_git_password }}",
-    }
-ssh_git_key: "{{ ssh_custom_keys[0].name }}"
-ssh_config_custom_entries:
-  - {
-      name: jord,
-      url: "{{ valhalla_main_domain }}",
-      user: root,
-      port: "{{ ssh_main_port }}",
-    }
-  - {
-      name: github.com,
-      url: github.com,
-      user: git,
-      key: "{{ ssh_git_key }}",
-      agent: true,
-    }
-  - { name: codeberg.org, user: git, key: "{{ ssh_git_key }}", agent: true }
-  - { name: gitlab.com, user: git, key: "{{ ssh_git_key }}" }
-  - {
-      name: git.marcusgrant.me,
-      port: 48513,
-      user: git,
-      key: "{{ ssh_git_key }}",
-      agent: true,
-    }
-ssh_manual_transfers:
-  - { pub: "{{ ssh_git_key }}", location: https://github.com/settings/keys }
-  - {
-      pub: "{{ ssh_git_key }}",
-      location: https://codeberg.org/user/settings/keys,
-    }
-  - { pub: id_ed25519, location: "{{ hostvars['brokkr']['ansible_host'] }}" }
-  - { pub: id_ed25519, location: "{{ hostvars['freyja']['ansible_host'] }}" }
-  - {
-      pub: id_ed25519,
-      location: https://console.hetzner.cloud/projects/1125228/security/sshkeys,
-    }
 
 ### Git / Gitea
 git_default_branch: main # [main]
@@ -92,8 +47,57 @@ zsh_rc_file: rc.zsh
 zsh_profile_file: profile.zsh
 zsh_env_file: env.zsh
 
-# Dev
-# ---
+### SSH
+ssh_exclude_hosts: [loki, jord]
+ssh_exclude_groups: [mac, hetzner]
+# TODO: Better organize these ssh config items
+ssh_custom_keys:
+  - {
+      name: git.key,
+      comment: "git@{{ inventory_hostname }}",
+      pass: "{{ admin_main_git_password }}",
+    }
+ssh_git_key: "{{ ssh_custom_keys[0].name }}"
+ssh_config_custom_entries:
+  - {
+      name: jord,
+      url: "{{ valhalla_main_domain }}",
+      user: root,
+      port: "{{ ssh_main_port }}",
+    }
+  - {
+      name: github.com,
+      url: github.com,
+      user: git,
+      key: "{{ ssh_git_key }}",
+      agent: true,
+    }
+  - { name: codeberg.org, user: git, key: "{{ ssh_git_key }}", agent: true }
+  - { name: gitlab.com, user: git, key: "{{ ssh_git_key }}" }
+  - {
+      name: git.marcusgrant.me,
+      port: 48513,
+      user: git,
+      key: "{{ ssh_git_key }}",
+      agent: true,
+    }
+ssh_manual_transfers:
+  - { pub: "{{ ssh_git_key }}", location: https://github.com/settings/keys }
+  - {
+      pub: "{{ ssh_git_key }}",
+      location: https://codeberg.org/user/settings/keys,
+    }
+  - { pub: id_ed25519, location: "{{ hostvars['brokkr']['ansible_host'] }}" }
+  - { pub: id_ed25519, location: "{{ hostvars['freyja']['ansible_host'] }}" }
+  - {
+      pub: id_ed25519,
+      location: https://console.hetzner.cloud/projects/1125228/security/sshkeys,
+    }
+
+###########
+### Dev ###
+###########
+
 # PyEnv
 pyenv_root: "$HOME/.local/share/pyenv"
 pyenv_versions: ["3.7.3", "3.11.2", "3.12.0"]

@@ -1,25 +1,25 @@
 ---
-# Freyr, temporary linux laptop
-- hosts: freyr
-  gather_facts: true
-  roles:
-    - role: marcus_grant.dotfiles.profile
-      tags: [profile, dot, dotfile, shell, user, env]
-
-    - role: marcus_grant.dotfiles.userdirs
-      tags: [profile, dot, dotfile, shell, user, env]
-
-    - role: marcus_grant.dotfiles.zsh
-      tags: [zsh, shell, dot, dotfile, env]
-
-    - role: marcus_grant.dev.pyenv
-      tags: [dev, python, dot, env, pyenv]
-
-- hosts: freyr
+- hosts: workstation
   become: true
   roles:
     - role: marcus_grant.dotfiles.not_coreutil
       tags: [zsh, bash, shell, fd, rg, fzf, dot, dotfile, env]
+
+# - hosts: workstation
+#   gather_facts: true
+#   roles:
+#     - role: marcus_grant.dotfiles.profile
+#       tags: [profile, dotfile, shell, user, env]
+# 
+#     - role: marcus_grant.dotfiles.userdirs
+#       tags: [profile, dot, dotfile, shell, user, env]
+# 
+#     - role: marcus_grant.dotfiles.zsh
+#       tags: [zsh, shell, dot, dotfile, env]
+# 
+#     - role: marcus_grant.dev.pyenv
+#       tags: [dev, python, dot, env, pyenv]
+
     
 
 
