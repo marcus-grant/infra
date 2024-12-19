@@ -1,7 +1,9 @@
 ---
 # defaults file for collections/marcus_grant/dotfiles/profile
 # user stuff
-profile_group: sudo
+profile_user: "{{ ansible_env.USER }}"
+profile_group: "{{ ansible_env.USER }}"
+profile_home: "{{ ansible_env.HOME }}"
 
 # path
 profile_paths: []  # List of paths to add to $PATH, earlier overrides later

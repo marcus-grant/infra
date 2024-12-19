@@ -1,29 +1,31 @@
 ---
-########
-### User
-########
-admin_user_group: admin
+##################
+### User / Env ###
+##################
+admin_user_group: sudo  # Used for group permissions
+
+### Profile
+#TODO:Default is sudo anyway: profile_group: "{{ admin_user_group }}"
+#profile_xdg_include: true #TODO: No longer necessary with userdirs role
+#TODO:Remove if default value good enough: profile_ls_colors: cxexfxdxBxEhebAbAgAcAd
+#TODO:RM if default turns out good enough: profile_d_path: ~/.config/profile.d
+#TODO:RM if default turns out good enough: profile_editor: nvim
+# TODO:RM below, once further into definining dev.{node,rust} roles, if unneeded
+# profile_envs:
+#   - { name: CARGO_HOME, value: $XDG_DATA_HOME/cargo }
+#   - { name: PNPM_HOME, value: $XDG_DATA_HOME/pnpm }
+profile_user: "{{ admin_user }}"
+profile_group: "{{ admin_user }}"
+profile_custom_entries:
+  - "{{ '#' }} Secrets"
+  - "export EMAIL='{{ admin_email }}'"
+  # - 'eval "$(pyenv init -)"'  # DELETEME: if this works with pyenv role, remove
 
 ### Git / Gitea
 git_default_branch: main # [main]
 git_user_name: Marcus Grant
 git_user_email: "{{ admin_email_alt }}"
 git_pull_rebase: false # [false]
-
-### Profile
-profile_group: "{{ admin_user_group }}"
-profile_xdg_include: true # DELETEME: No longer necessary with userdirs role
-profile_ls_colors: cxexfxdxBxEhebAbAgAcAd
-profile_d_path: ~/.config/profile.d
-profile_editor: nvim
-profile_envs:
-  - { name: CARGO_HOME, value: $XDG_DATA_HOME/cargo }
-  - { name: PNPM_HOME, value: $XDG_DATA_HOME/pnpm }
-  # - {name: PYENV_ROOT, value: $XDG_DATA_HOME/pyenv}  # DELETEME: Moved to pyenv role
-profile_custom_entries:
-  - "{{ '#' }} Secrets"
-  - "export EMAIL='{{ admin_email }}'"
-  # - 'eval "$(pyenv init -)"'  # DELETEME: if this works with pyenv role, remove
 
 ### Bash
 dotfiles_bash_repo: git@github.com:marcus-grant/dots-bash
