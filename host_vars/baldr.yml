@@ -1,0 +1,67 @@
+---
+# Dotfiles
+# --------
+### Bash
+dotfiles_bash_repo: git@github.com:marcus-grant/dots-bash
+# Git
+# git_(default_branch,user_name,user_email,pull_rebase) set in workstation
+git_gh_enabled: false
+# Neovim
+nvim_git_repo: git@github.com:marcus-grant/dots-neovim
+
+# Homebrew
+# --------
+homebrew_install_if_missing: true
+homebrew_taps:
+  - homebrew/core
+  - homebrew/cask
+  - borgbackup/tap
+  # - iina/homebrew-mpv-iina  # FIXME: Doesnt work
+
+homebrew_installed_casks:
+  - altserver
+  - docker
+  - devdocs
+  - discord
+  - firefox
+  - raycast
+  - vivaldi
+
+homebrew_packages:
+  - bat
+  - bind
+  - borgbackup
+  - bpytop
+  - cowsay
+  - curl
+  - duf
+  - dust
+  - exa
+  - eva
+  - gh
+  - gopass
+  - gpg
+  - httpie
+  - kopia
+  - ncdu
+  - neovim
+  - pass
+  - pipx
+  - pwgen
+  - qrencode
+  - restic
+  - tldr
+  - terraform
+  - tmux
+  - tree
+  - vim
+  - wget
+  - yq
+  - zbar
+
+# Mac App Store (MAS)
+# -------------------
+# NOTE: Vars documentation here:
+# https://github.com/geerlingguy/ansible-collection-mac/blob/master/roles/mas/README.md
+# mas_email: "{{ vault_admin_email }}"
+# mas_password: "{{ inventory_apple_password }}"
