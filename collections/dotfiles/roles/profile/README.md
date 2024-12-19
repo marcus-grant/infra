@@ -15,7 +15,7 @@ If a variable is required, it won't have a default value.
 | ---------------------- | ------- | ------- | ------------------------------------ |
 | profile_group          | `sudo`  | group   | Group owner, mac has NO sudo         |
 | profile_paths          | `[]`    | [path]  | Add to PATH (earlier override later) |
-| profile_lc_all         | **\***  | locale  | LC_ALL value, override all locale    |
+| profile_lc_all         | **&**   | locale  | LC_ALL value, override all locale    |
 | profile_editor         | `vim`   | command | Default editor command               |
 | profile_ls_colors      | **^**   | options | [LS_COLORS][lsc] options string      |
 | profile_d_path         | **+**   | path    | Default editor command               |
@@ -23,7 +23,7 @@ If a variable is required, it won't have a default value.
 | profile_envs           | `[]`    | [{}]    | *See Custom Environment Variables*   |
 | profile_custom_entries | `[]`    | [{}]    | *See Custom Entries Section*         |
 
-> `*`: Shortens default string of `en_US.UTF-8`.
+> `&`: Shortens default string of `en_US.UTF-8`.
 > `^`: Shortens the default LS_COLORS string shown in `defaults/main.yml` of role.
 > `+`: Shortens default path `~/.config/profile.d`.
 > ... it's quite long, no need to show here.
