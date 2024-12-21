@@ -103,9 +103,10 @@ ssh_manual_transfers:
 
 # PyEnv
 pyenv_root: "$HOME/.local/share/pyenv"
-pyenv_versions: ["3.7.3", "3.11.2", "3.12.0"]
-pyenv_version_global: "3.11.2"
-pyenv_profile_d_path: "{{ profile_d_path }}"
+pyenv_versions: ["3.9.21", "3.11.11", "3.12.8"]
+pyenv_version_global: "3.12.8" # NOTE: This must match one of the versions
+# FIXME: Delete this if new pyenv detection of profile_d_path works
+# pyenv_profile_d_path: "{{ profile_d_path }}"
 
 # pip
 pip_sys_extra: [pip-completion, pip-tools]

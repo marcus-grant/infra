@@ -11,7 +11,7 @@ An Ansible role for managing Python and PyEnv on target hosts.
 | `pyenv_root`           | `$HOME/.pyenv` | PyEnv root directory, use $HOME as necessary         |
 | `pyenv_version_global` | `system`       | Global Python version to set, use semver or 'system' |
 | `pyenv_versions`       | `[]`           | List of Python versions to install with PyEnv        |
-| `pyenv_profile_d_path` | N/A            | Path of a profile.d directory to create shell file   |
+| `pyenv_profile_d_path` | **?1**     | Path of a profile.d directory to create shell file   |
 | `pyenv_priority`       | `90`           | Prefix to profile.d file for loading lexical order   |
 | `pyenv_init`           | `true`         | If to add `eval $(pyenv init -)` to shell            |
 | `pyenv_add_path_file`  | N/A            | The shell dotfile to add pyenv configs to            |
@@ -29,6 +29,8 @@ An Ansible role for managing Python and PyEnv on target hosts.
   * If set, assumes a profile.d directory exists at the given path.
     * Assumption is that a shell or profile config will load all files in directory.
     * Allows this role to configure PyEnv without modifying other shell configs.
+    * `marcus_grant.dotfile.profile` uses `profile_d_path`
+      * If this was defined before, it will be used as a default.
   * Defaults to `N/A`, *i.e.* it won't create a file in the profile.d directory.
   * See [marcus_grant.dotfiles.profile](https://github.com/marcus-grant/infra/tree/main/collections/dotfiles/roles/profile)
     for an idea of how this gets used, it creates a `~/.profile.d` directory and

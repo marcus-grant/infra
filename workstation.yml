@@ -4,18 +4,14 @@
   roles:
     - role: marcus_grant.dotfiles.profile
       tags: [profile, dotfile, shell, user, env]
-
     - role: marcus_grant.dotfiles.userdirs
       tags: [profile, dotfile, shell, user, env, xdg]
-
     - role: marcus_grant.dotfiles.zsh
       tags: [zsh, shell, dotfile, env]
-
     - role: marcus_grant.dotfiles.neovim
       tags: [neovim, dotfile, shell, dev, editor]
-
-#     - role: marcus_grant.dev.pyenv
-#       tags: [dev, python, dot, env, pyenv]
+    - role: marcus_grant.dev.pyenv
+      tags: [pyenv, python, dotfile, dev, env]
 
 
 # NOTE: Should root stuff go first?

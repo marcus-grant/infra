@@ -8,3 +8,6 @@ pyenv_priority: 90  # Profile.d lexical prefix to order loading
 pyenv_init: true  # Whether to add pyenv init command to shell
 pyenv_versions: []  # Versions of python for pyenv to install
 pyenv_version_global: system  # Default global version of python to use
+# NOTE: In marcus_grant.dotfile.profile profile_d_path is defined, default to that
+# Otherwise it will simply be undefined
+pyenv_profile_d_path: "{{ profile_d_path if profile_d_path is defined else omit }}"

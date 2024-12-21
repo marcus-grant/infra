@@ -29,24 +29,41 @@
     cmd: 'set -o pipefail;export PYENV_ROOT="{{ pyenv_root }}";curl https://pyenv.run|bash'
     creates: "{{ pyenv_root }}/bin/pyenv"
 
-- name: Register command stat of pyenv installed versions
+- name: Determine pyenv installed versions
   ansible.builtin.command:
-    cmd: "{{ pyenv_root }}/bin/pyenv versions"
+    cmd: "{{ pyenv_root }}/bin/pyenv versions --bare"
   changed_when: false
   register: pyenv_installed_versions
 
-# TODO: Fails when a version is already installed
 - name: Install pyenv versions not installed
   ansible.builtin.command:
-    cmd: "{{ pyenv_root }}/bin/pyenv install {{ pyenv_version }}"
-    creates: "{{ pyenv_root }}/versions/{{ pyenv_version }}"
-  loop_control: {loop_var: pyenv_version}
-  loop: "{{ pyenv_versions }}"
-  register: pyenv_installed_versions
-  when:
-    - pyenv_installed_versions.stdout_lines is defined
-    - pyenv_installed_versions.stdout_lines | length > 0
-    - pyenv_version not in pyenv_installed_versions.stdout_lines
+    cmd: "{{ pyenv_root }}/bin/pyenv install {{ item }}"
+    creates: "{{ pyenv_root }}/versions/{{ item }}"
+  loop: "{{ pyenv_versions | difference(pyenv_installed_versions.stdout_lines | default([])) }}"
+  loop_control:
+    label: "{{ item }}"
+  register: pyenv_install_result
+
+# NOTE: This is being kept till the prev. 2 tasks are confirmed working
+# The below version shows the old way that would fail everytime preexisting ver
+# - name: Register command stat of pyenv installed versions
+#   ansible.builtin.command:
+#     cmd: "{{ pyenv_root }}/bin/pyenv versions"
+#   changed_when: false
+#   register: pyenv_installed_versions
+# 
+# # TODO: Fails when a version is already installed
+# - name: Install pyenv versions not installed
+#   ansible.builtin.command:
+#     cmd: "{{ pyenv_root }}/bin/pyenv install {{ pyenv_version }}"
+#     creates: "{{ pyenv_root }}/versions/{{ pyenv_version }}"
+#   loop_control: {loop_var: pyenv_version}
+#   loop: "{{ pyenv_versions }}"
+#   register: pyenv_installed_versions
+#   when:
+#     - pyenv_installed_versions.stdout_lines is defined
+#     - pyenv_installed_versions.stdout_lines | length > 0
+#     - pyenv_version not in pyenv_installed_versions.stdout_lines
 
 - name: Get current pyenv global version, just the semver string
   ansible.builtin.command:
