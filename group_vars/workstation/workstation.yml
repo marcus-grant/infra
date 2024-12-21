@@ -28,6 +28,11 @@ zsh_profile_file: profile.zsh
 zsh_env_file: env.zsh
 zsh_shell_as_default: true
 
+### NeoVim
+neovim_git_repo: git@github.com:marcus-grant/lazyvim.git
+neovim_install_method: package # The default method, here for reminder
+# NOTE: For debian neovim_pkgs_extra should include libtree-sitter-dev
+
 ### Git / Gitea
 git_default_branch: main # [main]
 git_user_name: Marcus Grant
@@ -41,11 +46,6 @@ dotfiles_bash_git_force: false
 
 ### Vim
 vim_git_repo: git@github.com:marcus-grant/dots-vim
-
-### NeoVim
-neovim_git_repo: git@github.com:marcus-grant/lazyvim.git
-neovim_pkgs_extra: [fzf, ripgrep, fd, tree-sitter]
-neovim_install_method: package # The default method, here for reminder
 
 ### TMux
 tmux_git_repo: git@github.com:marcus-grant/dots-tmux

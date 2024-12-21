@@ -11,6 +11,9 @@
     - role: marcus_grant.dotfiles.zsh
       tags: [zsh, shell, dotfile, env]
 
+    - role: marcus_grant.dotfiles.neovim
+      tags: [neovim, dotfile, shell, dev, editor]
+
 #     - role: marcus_grant.dev.pyenv
 #       tags: [dev, python, dot, env, pyenv]
 

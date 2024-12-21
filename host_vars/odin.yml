@@ -1,2 +1,5 @@
 ---
-
+# NeoVim
+# Change the packages according to debain-sid
+neovim_pkgs_extra: [fzf, ripgrep, libtree-sitter-dev]
+neovim_install_method: package # The default method, here for reminder
