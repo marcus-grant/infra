@@ -6,6 +6,8 @@
       tags: [profile, dotfile, shell, user, env]
     - role: marcus_grant.dotfiles.userdirs
       tags: [profile, dotfile, shell, user, env, xdg]
+    - role: marcus_grant.dev.git
+      tags: [git, dev, deploy, install]
     - role: marcus_grant.dotfiles.zsh
       tags: [zsh, shell, dotfile, env]
     - role: marcus_grant.dotfiles.neovim
