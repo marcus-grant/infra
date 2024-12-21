@@ -1,5 +1,5 @@
 ---
 # vars file for zsh
-zsh_pkgs_d: [zsh]
+zsh_pkgs_d: [zsh, curl]
 zsh_pkgs:  # If any OS family is found to be different, include it below
   some_different_os_family: [zsh-shell]

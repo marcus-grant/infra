@@ -21,6 +21,13 @@ profile_custom_entries:
   - "export EMAIL='{{ admin_email }}'"
   # - 'eval "$(pyenv init -)"'  # DELETEME: if this works with pyenv role, remove
 
+### ZSH
+zsh_git_repo: git@github.com:marcus-grant/dots-zsh.git
+zsh_rc_file: rc.zsh
+zsh_profile_file: profile.zsh
+zsh_env_file: env.zsh
+zsh_shell_as_default: true
+
 ### Git / Gitea
 git_default_branch: main # [main]
 git_user_name: Marcus Grant
@@ -42,12 +49,6 @@ neovim_install_method: package # The default method, here for reminder
 
 ### TMux
 tmux_git_repo: git@github.com:marcus-grant/dots-tmux
-
-### ZSH
-zsh_git_repo: git@github.com:marcus-grant/dots-zsh.git
-zsh_rc_file: rc.zsh
-zsh_profile_file: profile.zsh
-zsh_env_file: env.zsh
 
 ### SSH
 ssh_exclude_hosts: [loki, jord]
