@@ -22,7 +22,7 @@ some optional usually with default values or necessary for the role to function.
 | userdirs_xdg_config_home | ~/.config      | str(dir)+  | Custom value for XDG_CONFIG_HOME     |
 | userdirs_xdg_cache_home  | ~/.cache       | str(dir)+  | Custom value for XDG_CACHE_HOME      |
 | userdirs_xdg_runtime_dir | ~/.cache/run   | str(dir)+  | Custom value for XDG_RUNTIME_DIR     |
-| userdirs_custom_dirs     | []             | [str(dir)]| List of paths to create extra dirs   |
+| userdirs_custom_dirs     | []             | [str(dir)] | List of paths to create extra dirs   |
 
 > **\***: Default of `userdirs_profile_d_path` can be either of these:
 > `profile_d_path` a role variable to `marcus_grant.dotfiles.profile`,

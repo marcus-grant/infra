@@ -5,9 +5,9 @@
     - role: marcus_grant.dotfiles.profile
       tags: [profile, dotfile, shell, user, env]
 
-#     - role: marcus_grant.dotfiles.userdirs
-#       tags: [profile, dotfile, shell, user, env, xdg]
-# 
+    - role: marcus_grant.dotfiles.userdirs
+      tags: [profile, dotfile, shell, user, env, xdg]
+
 #     - role: marcus_grant.dotfiles.zsh
 #       tags: [zsh, shell, dot, dotfile, env]
 # 
@@ -15,6 +15,7 @@
 #       tags: [dev, python, dot, env, pyenv]
 
 
+# NOTE: Should root stuff go first?
 - hosts: workstation
   become: true
   become_user: root

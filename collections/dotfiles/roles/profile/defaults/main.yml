@@ -3,7 +3,6 @@
 # user stuff
 profile_user: "{{ ansible_env.USER }}"
 profile_group: "{{ ansible_env.USER }}"
-profile_home: "{{ ansible_env.HOME }}"
 
 # path
 profile_paths: []  # List of paths to add to $PATH, earlier overrides later
