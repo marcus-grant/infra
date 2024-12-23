@@ -14,6 +14,8 @@
       tags: [neovim, dotfile, shell, dev, editor]
     - role: marcus_grant.dev.pyenv
       tags: [pyenv, python, dotfile, dev, env]
+    # - role: marcus_grant.dotfiles.pip
+    #   tags: [pip, python, pipx, poetry, dev, dotfile, env]
 
 
 # NOTE: Should root stuff go first?

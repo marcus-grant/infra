@@ -12,9 +12,13 @@ An Ansible role for managing Python and PyEnv on target hosts.
 | `pyenv_version_global` | `system`       | Global Python version to set, use semver or 'system' |
 | `pyenv_versions`       | `[]`           | List of Python versions to install with PyEnv        |
 | `pyenv_profile_d_path` | **?1**     | Path of a profile.d directory to create shell file   |
-| `pyenv_priority`       | `90`           | Prefix to profile.d file for loading lexical order   |
+| `pyenv_priority`       | `11`           | Prefix to profile.d file for loading lexical order   |
 | `pyenv_init`           | `true`         | If to add `eval $(pyenv init -)` to shell            |
 | `pyenv_add_path_file`  | N/A            | The shell dotfile to add pyenv configs to            |
+
+>**TODO**: The `pyenv_add_path_file` should be renamed and explained better.
+>Essentially it provides an option to ensure lines in profile or shell files that
+>put pyenv in PATH and runs the eval init command
 
 ### Role Variables Notes
 
