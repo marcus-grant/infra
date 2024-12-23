@@ -1,0 +1,10 @@
+---
+- name: Ensure Homebrew present
+  ansible.builtin.homebrew:
+    state: present
+
+- name: Install Nerd Fonts using Homebrew
+  ansible.builtin.brew:
+    name: "{{ item }}"
+    state: present
+  loop: "{{ nerd_fonts_list }}"

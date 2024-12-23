@@ -57,25 +57,15 @@ pyenv_version_global: "3.12.8" # NOTE: This must match one of the versions
 pip_packages_common: [python-dotenv, numpy, pandas, matplotlib, seaborn]
 pip_packages_global: [pipx, poetry, jupyter, numpy, pandas, matplotlib, flask, django]
 
-### Pacman Packages
-pacman_extra_packages:
-  - flatpak
-  - git
-  - gnome-software
-  - htop
-  - iotop
-  - lazygit
-  - ncdu
-  - pandoc
-  - ranger
-  - snapper
-  - snap-pac
-  - tldr
-  - tree
-  - wl-clipboard
-  - xclip
+###########
+### GUI ###
+###########
+### Nerdfonts
+nerd_fonts_dicts:
+  - { name: "FiraCode", url: "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.3.0/FiraCode.zip" }
+  - { name: "Iosevka", url: "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.3.0/IosevkaTerm.zip" }
+  - { name: "BigBlue", url: "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.3.0/BigBlueTerminal.zip" }
 
-###### GUI
 ### Flatpak
 flatpak_install_gnome_software: true
 flatpak_user_flatpaks:
@@ -93,7 +83,7 @@ flatpak_user_flatpaks:
 #   - com.usebottles.bottles
 #   - org.chromium.Chromium
 #   - com.github.liferooter.textpieces
-
+  
 ### SSH - TODO: Needs verification
 ssh_exclude_hosts: [loki, jord]
 ssh_exclude_groups: [mac, hetzner]
@@ -141,54 +131,3 @@ ssh_manual_transfers:
       location: https://console.hetzner.cloud/projects/1125228/security/sshkeys,
     }
 
-###########
-### Dev ###
-###########
-
-# PyEnv
-pyenv_root: "$HOME/.local/share/pyenv"
-pyenv_versions: ["3.9.21", "3.11.11", "3.12.8"]
-pyenv_version_global: "3.12.8" # NOTE: This must match one of the versions
-# FIXME: Delete this if new pyenv detection of profile_d_path works
-# pyenv_profile_d_path: "{{ profile_d_path }}"
-
-# pip
-pip_packages_common: [python-dotenv, numpy, pandas, matplotlib, seaborn]
-pip_packages_global: [pipx, poetry, jupyter, numpy, pandas, matplotlib, flask, django]
-
-### Pacman Packages
-pacman_extra_packages:
-  - flatpak
-  - git
-  - gnome-software
-  - htop
-  - iotop
-  - lazygit
-  - ncdu
-  - pandoc
-  - ranger
-  - snapper
-  - snap-pac
-  - tldr
-  - tree
-  - wl-clipboard
-  - xclip
-
-###### GUI
-### Flatpak
-flatpak_install_gnome_software: true
-flatpak_user_flatpaks:
-  - org.freecadweb.FreeCAD
-  - org.mozilla.firefox
-  - com.discordapp.Discord
-  - com.mojang.Minecraft
-  - org.libretro.RetroArch
-  - com.spotify.Client
-  - com.usebottles.bottles
-  - org.chromium.Chromium
-  - com.github.liferooter.textpieces
-# flatpak_system_flatpaks:
-#   - com.spotify.Client
-#   - com.usebottles.bottles
-#   - org.chromium.Chromium
-#   - com.github.liferooter.textpieces

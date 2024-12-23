@@ -16,6 +16,8 @@
       tags: [pyenv, python, dotfile, dev, env]
     - role: marcus_grant.dev.pip
       tags: [pip, python, pipx, poetry, dev, dotfile, env]
+    - role: marcus_grant.gui.nerd_fonts
+      tags: [nerd_fonts, font, gui]
 
 
 # NOTE: Should root stuff go first?

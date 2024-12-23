@@ -1,0 +1,12 @@
+#SPDX-License-Identifier: MIT-0
+---
+# defaults file for nerd_fonts
+nerd_fonts_dir: ~/.local/share/fonts
+nerd_fonts_dicts:
+  - { name: "FiraCode.zip", url: "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.3.0/FiraCode.zip" }
+  - { name: "SauceCode.zip", url: "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.3.0/SourceCodePro.zip" }
+
+# Only for macos which uses homebrew package names
+nerd_fonts_list:
+  - font-fira-code-nerd-font
+  - font-hack-nerd-font
