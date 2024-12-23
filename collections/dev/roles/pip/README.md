@@ -1,6 +1,6 @@
 # Ansible Collection Role - marcus_grant.dev.pip
 
-A role that installs, configures and manages pip, pipx, poetry packages.
+A role that installs, configures and manages pip packages (at system level).
 It does so in conjunction with pyenv as well on all their python versions.
 
 ## Requirements

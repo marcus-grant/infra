@@ -14,15 +14,8 @@
     - pip_sys_pipx
     - ansible_os_family in pip_pipx_families
 
-- name: Set fact for system poetry-related packages to install
-  ansible.builtin.set_fact:
-    pip_sys_packages: >
-      {{ pip_sys_packages + (pip_sys_poetry_pkgs[ansible_os_family] | default([])) }}
-  when:
-    - pip_sys_poetry
-    - ansible_os_family in pip_poetry_families
-
 - name: Install system scoped pip packages
+  become: '{{ ansible_os_family != "Darwin" }}'
   ansible.builtin.package:
     name: "{{ pip_sys_package }}"
     state: present

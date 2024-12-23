@@ -109,9 +109,8 @@ pyenv_version_global: "3.12.8" # NOTE: This must match one of the versions
 # pyenv_profile_d_path: "{{ profile_d_path }}"
 
 # pip
-pip_sys_extra: [pip-completion, pip-tools]
 pip_packages_common: [python-dotenv, numpy, pandas, matplotlib, seaborn]
-pip_packages_global: [jupyter]
+pip_packages_global: [pipx, poetry, jupyter, numpy, pandas, matplotlib, flask, django]
 
 ### Pacman Packages
 pacman_extra_packages:
