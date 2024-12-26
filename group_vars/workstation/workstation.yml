@@ -9,6 +9,7 @@ profile_user: "{{ admin_user }}"
 profile_group: "{{ admin_user }}"
 profile_paths: ["$HOME/.local/bin"]
 profile_custom_entries:
+  - "export PASSWORD_STORE_DIR={{ secrets_path }}/pass"
   - "{{ '#' }} Secrets"
   - "export EMAIL='{{ admin_email }}'"
 

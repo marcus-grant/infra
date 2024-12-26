@@ -6,6 +6,7 @@ admin_email: "{{ vault_admin_email }}"
 admin_email_alt: "{{ vault_admin_email_alt }}"
 admin_htpasswd: "{{ vault_admin_htpasswd }}"
 admin_main_git_password: "{{ vault_admin_main_git_password }}"
+secrets_path: "{{ vault_secrets_path }}"
 
 # Main Salt
 main_salt: "{{ vault_main_salt }}"
