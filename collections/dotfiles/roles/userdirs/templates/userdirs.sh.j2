@@ -14,7 +14,8 @@ XDG_CONFIG_HOME="$HOME/{{ userdirs_xdg_config_home }}"
 {% if userdirs_xdg_cache_home | length > 0 %}
 XDG_CACHE_HOME="$HOME/{{ userdirs_xdg_cache_home }}"
 {% endif %}
-{% if userdirs_xdg_runtime_dir | length > 0 %}
+# TODO: Bugged
+{% if userdirs_xdg_runtime_dir is defined and userdirs_xdg_runtime_dir | length > 0 %}
 XDG_RUNTIME_DIR="$HOME/{{ userdirs_xdg_runtime_dir }}"
 {% endif %}
 

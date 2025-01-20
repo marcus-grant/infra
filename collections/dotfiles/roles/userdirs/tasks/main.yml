@@ -33,7 +33,7 @@
     - "~/{{ userdirs_xdg_data_home }}"
     - "~/{{ userdirs_xdg_config_home }}"
     - "~/{{ userdirs_xdg_cache_home }}"
-    - "~/{{ userdirs_xdg_runtime_dir }}"
+    # TODO: - "~/{{ userdirs_xdg_runtime_dir }}" # This is bugged on debian based login sessions of gnome
   when:
     - userdirs_xdg_mkdirs
     - userdirs_xdg_dir_path | length > 0
