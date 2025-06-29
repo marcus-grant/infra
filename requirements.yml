@@ -12,8 +12,10 @@ collections:
   - name: community.postgresql
   - name: community.kubernetes
   - name: kubernetes.core
-  - name: https://github.com/marcus-grant/ansible-collection-dotfiles
+  - name: git+https://github.com/marcus-grant/ansible-collection-dotfiles.git
     type: git
+    version: main
   - name: geerlingguy.mac
   - name: devsec.hardening
   - name: community.docker
+
