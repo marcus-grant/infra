@@ -1,41 +1,64 @@
+#SPDX-License-Identifier: MIT-0
 ---
+- name: Load distro-specific variables
+  ansible.builtin.include_vars: "{{ ansible_facts['os_family'] | lower }}.yml"
+
+- name: Install dependencies
+  ansible.builtin.package:
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ nerd_fonts_dependencies }}"
+  become: true
+
 - name: Create fonts directory
   ansible.builtin.file:
     path: "{{ nerd_fonts_dir }}"
     state: directory
-    mode: '0755'
+    mode: "0755"
 
 - name: Create subdirectories for each nerd font
   ansible.builtin.file:
     path: "{{ nerd_fonts_dir }}/{{ item.name }}"
     state: directory
-    mode: '0755'
+    mode: "0755"
   with_items: "{{ nerd_fonts_dicts }}"
 
 - name: Download Nerd Fonts
   ansible.builtin.get_url:
     url: "{{ item.url }}"
-    dest: "{{ nerd_fonts_dir }}/{{ item.name }}/{{ item.name }}.zip"
-    mode: '0644'
+    dest: "{{ nerd_fonts_dir }}/{{ item.name }}/{{ item.file }}"
+    mode: "0644"
   with_items: "{{ nerd_fonts_dicts }}"
+
+- name: Check if font already extracted
+  ansible.builtin.stat:
+    path: "{{ nerd_fonts_dir }}/{{ item.name }}/.extracted"
+  with_items: "{{ nerd_fonts_dicts }}"
+  register: extracted_markers
 
 - name: Extract Nerd Fonts
   ansible.builtin.unarchive:
-    src: "{{ nerd_fonts_dir }}/{{ item.name }}/{{ item.name }}.zip"
+    src: "{{ nerd_fonts_dir }}/{{ item.name }}/{{ item.file }}"
     dest: "{{ nerd_fonts_dir }}/{{ item.name }}"
     remote_src: yes
-    creates: "{{ nerd_fonts_dir }}/{{ item.name }}/.extracted"
   with_items: "{{ nerd_fonts_dicts }}"
+  when: not extracted_markers.results[item_index].stat.exists
+  loop_control:
+    index_var: item_index
 
-- name: Check for missing font subdirectories
-  ansible.builtin.stat:
-    path: "{{ nerd_fonts_dir }}/{{ item.name }}"
+- name: Mark font as extracted
+  ansible.builtin.file:
+    path: "{{ nerd_fonts_dir }}/{{ item.name }}/.extracted"
+    state: touch
+    mode: "0644"
   with_items: "{{ nerd_fonts_dicts }}"
-  register: font_dirs
+  when: not extracted_markers.results[item_index].stat.exists
+  loop_control:
+    index_var: item_index
 
 - name: Determine if cache needs updating
   ansible.builtin.set_fact:
-    cache_update_required: "{{ font_dirs.results | selectattr('stat.exists', 'eq', false) | list | length > 0 }}"
+    cache_update_required: "{{ extracted_markers.results | selectattr('stat.exists', 'eq', false) | list | length > 0 }}"
 
 - name: Update font cache
   ansible.builtin.command:

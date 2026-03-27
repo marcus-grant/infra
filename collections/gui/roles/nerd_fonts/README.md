@@ -1,88 +1,91 @@
-Role Name
-=========
+# nerd_fonts
 
-Install nerd fonts.
+Installs Nerd Fonts for the current user by downloading zip archives from
+GitHub releases, extracting them, and updating the font cache.
 
-Requirements
-------------
+## Requirements
 
-* For `curl` or `wget` to be installed and accessible.
-* Ansible 2.9 or higher
-* Supported Linux distributions:
-  * Any distribution with fc-cache for managing font caches (e.g., Ubuntu, Debian, Fedora)
-* Internet access to download font archives from Nerd Fonts' GitHub releases.
+- Internet access to download font archives from Nerd Fonts GitHub releases
+- Ansible 2.9 or higher
+- Supported platforms: Linux (any distro with `fontconfig`), macOS (via Homebrew)
 
-Role Variables
---------------
+## Role Variables
 
 ### Default Variables
 
-The following variables can be overridden to customize the role behavior:
-
 ```yaml
-nerd_fonts_dir: "~/.local/share/fonts"
+nerd_fonts_dir: ~/.local/share/fonts
 ```
 
-* Description: Directory where fonts will be downloaded and extracted
-  * Default: `~/.local/share/fonts`
+Directory where fonts will be downloaded and extracted.
 
 ```yaml
 nerd_fonts_dicts:
-  - { name: "FiraCode", url: "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.3.0/FiraCode.zip" }
-  - { name: "Iosevka", url: "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.3.0/IosevkaTerm.zip" }
-  - { name: "BigBlue", url: "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.3.0/BigBlueTerminal.zip" }
-
+  - name: FiraCode
+    file: FiraCode.zip
+    url: "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/FiraCode.zip"
+  - name: SourceCodePro
+    file: SourceCodePro.zip
+    url: "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/SourceCodePro.zip"
 ```
 
-* Description: List of fonts to be installed, including their names and download URLs.
-* Default: Includes example fonts (FiraCode, Iosevka, BigBlue).
+List of fonts to install. Each entry requires:
 
-### Overriding Variables
+- `name` — directory name the font will be extracted into
+- `file` — zip filename used for download destination
+- `url` — full download URL to the zip archive
 
-To customize the fonts or directory, provide your own values in your playbook or inventory.
+### macOS-only Variables
 
 ```yaml
-nerd_fonts_dicts:
-  - { name: "Hack", url: "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.3.0/Hack.zip" }
-
+nerd_fonts_list:
+  - font-fira-code-nerd-font
+  - font-hack-nerd-font
 ```
 
-Dependencies
-------------
+Homebrew cask names used on macOS. Not used on Linux.
 
-None really.
+## Dependencies
 
-Example Playbook
-----------------
+None.
 
-### Basic Example
+## Example Playbook
+
+### Basic usage
 
 ```yaml
 - hosts: all
   roles:
-    - role: nerd_fonts
-      vars:
-        nerd_fonts_dir: "~/.fonts"
+    - role: marcus_grant.gui.nerd_fonts
 ```
 
-### Custom Font Example
+### Custom fonts
 
 ```yaml
 - hosts: all
   roles:
-    - role: nerd_fonts
+    - role: marcus_grant.gui.nerd_fonts
       vars:
         nerd_fonts_dicts:
-          - { name: "JetBrainsMono", url: "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.3.0/JetBrainsMono.zip" }
-          - { name: "UbuntuMono", url: "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.3.0/UbuntuMono.zip" }
+          - name: JetBrainsMono
+            file: JetBrainsMono.zip
+            url: "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/JetBrainsMono.zip"
 ```
 
-License
--------
+### Custom install directory
 
-GPLv3
+```yaml
+- hosts: all
+  roles:
+    - role: marcus_grant.gui.nerd_fonts
+      vars:
+        nerd_fonts_dir: ~/.fonts
+```
 
-Author Information
-------------------
+## License
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+MIT-0
+
+## Author
+
+Marcus Grant

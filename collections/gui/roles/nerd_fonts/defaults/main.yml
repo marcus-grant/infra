@@ -3,8 +3,12 @@
 # defaults file for nerd_fonts
 nerd_fonts_dir: ~/.local/share/fonts
 nerd_fonts_dicts:
-  - { name: "FiraCode.zip", url: "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.3.0/FiraCode.zip" }
-  - { name: "SauceCode.zip", url: "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.3.0/SourceCodePro.zip" }
+  - name: FiraCode
+    file: FiraCode.zip
+    url: "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/FiraCode.zip"
+  - name: SourceCodePro
+    file: SourceCodePro.zip
+    url: "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/SourceCodePro.zip"
 
 # Only for macos which uses homebrew package names
 nerd_fonts_list:
