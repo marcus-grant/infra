@@ -2,7 +2,7 @@
 ##################
 ### User / Env ###
 ##################
-admin_user_group: sudo  # Used for group permissions
+admin_user_group: sudo # Used for group permissions
 
 ### Profile
 profile_user: "{{ admin_user }}"
@@ -25,7 +25,7 @@ neovim_git_repo: git@github.com:marcus-grant/lazyvim.git
 neovim_install_method: package # The default method, here for reminder
 # NOTE: For debian neovim_pkgs_extra should include libtree-sitter-dev
 
-### Git 
+### Git
 git_default_branch: main # [main]
 git_user_name: Marcus Grant
 git_user_email: "{{ admin_email }}"
@@ -42,7 +42,6 @@ vim_git_repo: git@github.com:marcus-grant/dots-vim
 ### TMux
 tmux_git_repo: git@github.com:marcus-grant/dots-tmux
 
-
 ###########
 ### Dev ###
 ###########
@@ -56,16 +55,23 @@ pyenv_version_global: "3.12.8" # NOTE: This must match one of the versions
 
 # pip
 pip_packages_common: [python-dotenv, numpy, pandas, matplotlib, seaborn]
-pip_packages_global: [pipx, poetry, jupyter, numpy, pandas, matplotlib, flask, django]
+pip_packages_global:
+  [pipx, poetry, jupyter, numpy, pandas, matplotlib, flask, django]
 
 ###########
 ### GUI ###
 ###########
 ### Nerdfonts
 nerd_fonts_dicts:
-  - { name: "FiraCode", url: "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.3.0/FiraCode.zip" }
-  - { name: "Iosevka", url: "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.3.0/IosevkaTerm.zip" }
-  - { name: "BigBlue", url: "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.3.0/BigBlueTerminal.zip" }
+  - name: FiraCode
+    file: FiraCode.zip
+    url: "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/FiraCode.zip"
+  - name: Iosevka
+    file: IosevkaTerm.zip
+    url: "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/IosevkaTerm.zip"
+  - name: BigBlue
+    file: BigBlueTerminal.zip
+    url: "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/BigBlueTerminal.zip"
 
 ### Flatpak
 flatpak_install_gnome_software: true
@@ -84,7 +90,7 @@ flatpak_user_flatpaks:
 #   - com.usebottles.bottles
 #   - org.chromium.Chromium
 #   - com.github.liferooter.textpieces
-  
+
 ### SSH - TODO: Needs verification
 ssh_exclude_hosts: [loki, jord]
 ssh_exclude_groups: [mac, hetzner]
@@ -131,4 +137,3 @@ ssh_manual_transfers:
       pub: id_ed25519,
       location: https://console.hetzner.cloud/projects/1125228/security/sshkeys,
     }
-

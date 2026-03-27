@@ -18,4 +18,3 @@ collections:
   - name: geerlingguy.mac
   - name: devsec.hardening
   - name: community.docker
-
