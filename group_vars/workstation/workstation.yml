@@ -14,10 +14,12 @@ profile_custom_entries:
   - "export EMAIL='{{ admin_email }}'"
 
 ### ZSH
+zsh_config_dest: ~/.config/zsh
 zsh_git_repo: git@github.com:marcus-grant/dots-zsh.git
 zsh_rc_file: rc.zsh
 zsh_profile_file: profile.zsh
 zsh_env_file: env.zsh
+zsh_env_source_profile: true
 zsh_shell_as_default: true
 
 ### NeoVim

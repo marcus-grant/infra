@@ -6,3 +6,5 @@
 # Git
 # ---
 git_extra_packages: [lazygit]
+
+zsh_extra_packages: [starship, bat, curl, fd, fzf, ripgrep, atuin, wl-clipboard]
