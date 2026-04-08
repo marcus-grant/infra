@@ -4,6 +4,17 @@
 ##################
 admin_user_group: sudo # Used for group permissions
 
+### SSH
+# SSH Keys - Copies from controller to remote
+ssh_keys_owner: marcus
+ssh_keys_pairs: [{ src: ~/.ssh/git.key }]
+# SSH Config - Templates config entreis for remote
+ssh_config_owner: marcus
+ssh_config_common_entries: # Atomic configs appended from all
+  - "{{ ssh_config_entry_github }}"
+  - "{{ ssh_config_entry_codeberg }}"
+  - "{{ ssh_config_entry_gitlab }}"
+
 ### Profile
 profile_user: "{{ admin_user }}"
 profile_group: "{{ admin_user }}"
@@ -14,6 +25,7 @@ profile_custom_entries:
   - "export EMAIL='{{ admin_email }}'"
 
 ### ZSH
+zsh_owner: marcus
 zsh_config_dest: ~/.config/zsh
 zsh_git_repo: git@github.com:marcus-grant/dots-zsh.git
 zsh_rc_file: rc.zsh
@@ -22,10 +34,13 @@ zsh_env_file: env.zsh
 zsh_env_source_profile: true
 zsh_shell_as_default: true
 
-### NeoVim
+### Neovim
+neovim_owner: marcus
 neovim_git_repo: git@github.com:marcus-grant/lazyvim.git
-neovim_install_method: package # The default method, here for reminder
-# NOTE: For debian neovim_pkgs_extra should include libtree-sitter-dev
+neovim_git_version: main
+# NOTE: Required by nvim-treesitter main branch for parser compilation
+# See: https://github.com/nvim-treesitter/nvim-treesitter/issues/8636
+neovim_extra_packages: [tree-sitter-cli]
 
 ### Git
 git_default_branch: main # [main]
@@ -93,49 +108,3 @@ flatpak_user_flatpaks:
 #   - org.chromium.Chromium
 #   - com.github.liferooter.textpieces
 
-### SSH - TODO: Needs verification
-ssh_exclude_hosts: [loki, jord]
-ssh_exclude_groups: [mac, hetzner]
-# TODO: Better organize these ssh config items
-ssh_custom_keys:
-  - {
-      name: git.key,
-      comment: "git@{{ inventory_hostname }}",
-      pass: "{{ admin_main_git_password }}",
-    }
-ssh_git_key: "{{ ssh_custom_keys[0].name }}"
-ssh_config_custom_entries:
-  - {
-      name: jord,
-      url: "{{ valhalla_main_domain }}",
-      user: root,
-      port: "{{ ssh_main_port }}",
-    }
-  - {
-      name: github.com,
-      url: github.com,
-      user: git,
-      key: "{{ ssh_git_key }}",
-      agent: true,
-    }
-  - { name: codeberg.org, user: git, key: "{{ ssh_git_key }}", agent: true }
-  - { name: gitlab.com, user: git, key: "{{ ssh_git_key }}" }
-  - {
-      name: git.marcusgrant.me,
-      port: 48513,
-      user: git,
-      key: "{{ ssh_git_key }}",
-      agent: true,
-    }
-ssh_manual_transfers:
-  - { pub: "{{ ssh_git_key }}", location: https://github.com/settings/keys }
-  - {
-      pub: "{{ ssh_git_key }}",
-      location: https://codeberg.org/user/settings/keys,
-    }
-  - { pub: id_ed25519, location: "{{ hostvars['brokkr']['ansible_host'] }}" }
-  - { pub: id_ed25519, location: "{{ hostvars['freyja']['ansible_host'] }}" }
-  - {
-      pub: id_ed25519,
-      location: https://console.hetzner.cloud/projects/1125228/security/sshkeys,
-    }

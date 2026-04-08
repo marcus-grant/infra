@@ -7,4 +7,16 @@
 # ---
 git_extra_packages: [lazygit]
 
+# SSH
+# ---
+# SSH Config
+ssh_config_host_entries:
+  - host: jord-prox
+    host_name: 10.10.8.2
+    user: root
+    port: 22
+  # Add more config dicts here...
+
+# ZSH
+# ---
 zsh_extra_packages: [starship, bat, curl, fd, fzf, ripgrep, atuin, wl-clipboard]

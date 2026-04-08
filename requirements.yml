@@ -14,7 +14,7 @@ collections:
   - name: kubernetes.core
   - name: git+https://github.com/marcus-grant/ansible-collection-dotfiles.git
     type: git
-    version: v1.2.1
+    version: v1.5.5
   - name: geerlingguy.mac
   - name: devsec.hardening
   - name: community.docker
