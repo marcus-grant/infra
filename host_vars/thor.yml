@@ -5,7 +5,7 @@
 
 # Git
 # ---
-git_extra_packages: [lazygit]
+git_extra_packages: [github-cli, lazygit, git-lfs, git-crypt]
 
 # SSH
 # ---

@@ -43,10 +43,11 @@ neovim_git_version: main
 neovim_extra_packages: [tree-sitter-cli]
 
 ### Git
-git_default_branch: main # [main]
+git_owner: marcus
+git_default_branch: main
 git_user_name: Marcus Grant
 git_user_email: "{{ admin_email }}"
-git_pull_rebase: false # [false]
+git_pull_rebase: false
 
 ### Bash
 dotfiles_bash_repo: git@github.com:marcus-grant/dots-bash

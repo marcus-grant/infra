@@ -1,7 +1,6 @@
 ---
 - hosts: workstation
   gather_facts: true
-  become: true
   pre_tasks:
     - name: Full system sync and upgrade (Arch)
       community.general.pacman:
@@ -11,16 +10,12 @@
       when: ansible_os_family == 'Archlinux'
       tags: always
   roles:
-    - role: marcus_grant.dev.git
-      tags: [git, dev, deploy, install]
-
-- hosts: workstation
-  gather_facts: true
-  roles:
     - role: marcus_grant.dotfiles.ssh_keys
       tags: [ssh_key, ssh, key, security, deploy]
     - role: marcus_grant.dotfiles.ssh_config
       tags: [ssh_config, ssh, config, security, deploy]
+    - role: marcus_grant.dotfiles.git
+      tags: [git, dev, deploy, shell, git_dotfile]
     - role: marcus_grant.dotfiles.profile
       tags: [profile, dotfile, shell, user, env]
     - role: marcus_grant.dotfiles.userdirs
