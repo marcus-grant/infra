@@ -60,17 +60,11 @@ vim_git_repo: git@github.com:marcus-grant/dots-vim
 ### TMux
 tmux_git_repo: git@github.com:marcus-grant/dots-tmux
 
-###########
-### Dev ###
-###########
-
+### Python
 # PyEnv
-pyenv_root: "$HOME/.local/share/pyenv"
-pyenv_versions: ["3.9.21", "3.11.11", "3.12.8"]
-pyenv_version_global: "3.12.8" # NOTE: This must match one of the versions
-# FIXME: Delete this if new pyenv detection of profile_d_path works
-# pyenv_profile_d_path: "{{ profile_d_path }}"
-
+pyenv_owner: marcus
+pyenv_versions: ["3.13.13", "3.11.15"]
+pyenv_global: "3.13.13"
 # pip
 pip_packages_common: [python-dotenv, numpy, pandas, matplotlib, seaborn]
 pip_packages_global:
