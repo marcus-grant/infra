@@ -15,6 +15,13 @@ ssh_config_common_entries: # Atomic configs appended from all
   - "{{ ssh_config_entry_codeberg }}"
   - "{{ ssh_config_entry_gitlab }}"
 
+### Git
+git_owner: marcus
+git_default_branch: main
+git_user_name: Marcus Grant
+git_user_email: "{{ admin_email }}"
+git_pull_rebase: false
+
 ### Profile
 profile_user: "{{ admin_user }}"
 profile_group: "{{ admin_user }}"
@@ -23,6 +30,9 @@ profile_custom_entries:
   - "export PASSWORD_STORE_DIR={{ secrets_path }}/pass"
   - "{{ '#' }} Secrets"
   - "export EMAIL='{{ admin_email }}'"
+
+### Userdirs
+userdirs_owner: marcus
 
 ### ZSH
 zsh_owner: marcus
@@ -42,18 +52,6 @@ neovim_git_version: main
 # See: https://github.com/nvim-treesitter/nvim-treesitter/issues/8636
 neovim_extra_packages: [tree-sitter-cli]
 
-### Git
-git_owner: marcus
-git_default_branch: main
-git_user_name: Marcus Grant
-git_user_email: "{{ admin_email }}"
-git_pull_rebase: false
-
-### Bash
-dotfiles_bash_repo: git@github.com:marcus-grant/dots-bash
-bash_set_default_shell: false
-dotfiles_bash_git_force: false
-
 ### Vim
 vim_git_repo: git@github.com:marcus-grant/dots-vim
 
@@ -71,8 +69,15 @@ pip_pkgs1: [pytest, polars, pandas, numpy, matplotlib, seaborn]
 pip_pkgs2: [rich, textual, django, fastapi, pydantic]
 pip_packages: "{{ pip_pkgs1 + pip_pkgs2 }}"
 pipx_pkgs1: [httpie, posting, harlequin, visidata, yt-dlp, pelican]
-pipx_pkgs2: [poetry, jupyterlab, ipython, pre-commit, pgcli]
+pipx_pkgs2: [poetry, jupyterlab, ipython, pre-commit, pgcli, ranger-fm]
 pipx_packages: "{{ pipx_pkgs1 + pipx_pkgs2 }}"
+# UV
+uv_owner: marcus
+
+### Bash - # TODO: Need to verify this role's dotfiles are minimal and safe in a root env
+# dotfiles_bash_repo: git@github.com:marcus-grant/dots-bash
+# bash_set_default_shell: false
+# dotfiles_bash_git_force: false
 
 ###########
 ### GUI ###
@@ -88,22 +93,3 @@ nerd_fonts_dicts:
   - name: BigBlue
     file: BigBlueTerminal.zip
     url: "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/BigBlueTerminal.zip"
-
-### Flatpak
-flatpak_install_gnome_software: true
-flatpak_user_flatpaks:
-  - org.freecadweb.FreeCAD
-  - org.mozilla.firefox
-  - com.discordapp.Discord
-  - com.mojang.Minecraft
-  - org.libretro.RetroArch
-  - com.spotify.Client
-  - com.usebottles.bottles
-  - org.chromium.Chromium
-  - com.github.liferooter.textpieces
-# flatpak_system_flatpaks:
-#   - com.spotify.Client
-#   - com.usebottles.bottles
-#   - org.chromium.Chromium
-#   - com.github.liferooter.textpieces
-

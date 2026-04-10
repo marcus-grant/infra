@@ -20,3 +20,29 @@ ssh_config_host_entries:
 # ZSH
 # ---
 zsh_extra_packages: [starship, bat, curl, fd, fzf, ripgrep, atuin, wl-clipboard]
+
+# XDG / .dist scaffold
+# ---
+userdirs_xdg_cache_home: .dist/arch/cache
+userdirs_xdg_config_home: .dist/arch/config
+userdirs_xdg_data_home: .dist/arch/local
+userdirs_user_dirs_enabled: true
+userdirs_custom_dirs:
+  [~/doc, ~/pic, ~/video, ~/audio, ~/game, ~/project, ~/inbox]
+userdirs_user_dirs:
+  documents: doc
+  pictures: pic
+  videos: video
+  music: audio
+  download: inbox
+  desktop: Desktop
+  templates: Templates
+  publicshare: Public
+
+# PyEnv
+# -----
+pyenv_root: ~/state/pyenv
+
+# uv
+# --
+uv_link_mode: hardlink

@@ -28,5 +28,7 @@
       tags: [pyenv, python, dotfile, dev, env, install, deploy]
     - role: marcus_grant.dotfiles.pip
       tags: [pip, python, pipx, poetry, dev, dotfile, env]
+    - role: marcus_grant.dotfiles.uv
+      tags: [uv, python, dev, dotfile, env]
     - role: marcus_grant.gui.nerd_fonts
       tags: [nerd_fonts, font, gui]
