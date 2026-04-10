@@ -65,10 +65,14 @@ tmux_git_repo: git@github.com:marcus-grant/dots-tmux
 pyenv_owner: marcus
 pyenv_versions: ["3.13.13", "3.11.15"]
 pyenv_global: "3.13.13"
-# pip
-pip_packages_common: [python-dotenv, numpy, pandas, matplotlib, seaborn]
-pip_packages_global:
-  [pipx, poetry, jupyter, numpy, pandas, matplotlib, flask, django]
+# Pip & Pipx
+pip_owner: marcus
+pip_pkgs1: [pytest, polars, pandas, numpy, matplotlib, seaborn]
+pip_pkgs2: [rich, textual, django, fastapi, pydantic]
+pip_packages: "{{ pip_pkgs1 + pip_pkgs2 }}"
+pipx_pkgs1: [httpie, posting, harlequin, visidata, yt-dlp, pelican]
+pipx_pkgs2: [poetry, jupyterlab, ipython, pre-commit, pgcli]
+pipx_packages: "{{ pipx_pkgs1 + pipx_pkgs2 }}"
 
 ###########
 ### GUI ###

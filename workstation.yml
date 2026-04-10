@@ -25,8 +25,8 @@
     - role: marcus_grant.dotfiles.neovim
       tags: [neovim, dotfile, shell, dev, editor]
     - role: marcus_grant.dotfiles.pyenv
-      tags: [pyenv, python, dotfile, dev, env, pip, pipx, install deploy]
-    - role: marcus_grant.dev.pip
+      tags: [pyenv, python, dotfile, dev, env, install, deploy]
+    - role: marcus_grant.dotfiles.pip
       tags: [pip, python, pipx, poetry, dev, dotfile, env]
     - role: marcus_grant.gui.nerd_fonts
       tags: [nerd_fonts, font, gui]
