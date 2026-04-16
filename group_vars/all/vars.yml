@@ -36,6 +36,8 @@ ssh_config_entry_gitlab:
   host: gitlab.com
   user: git
   identity_file: ~/.ssh/git.key
+ssh_config_entry_heimdall_opn: "{{ vault_ssh_config_entry_heimdall_opn }}"
+ssh_config_entry_heimdall_pve: "{{ vault_ssh_config_entry_heimdall_pve }}"
 ssh_config_defaults:
   identities_only: "yes"
 

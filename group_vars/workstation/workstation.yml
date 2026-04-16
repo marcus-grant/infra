@@ -5,10 +5,12 @@
 admin_user_group: sudo # Used for group permissions
 
 ### SSH
-# SSH Keys - Copies from controller to remote
-ssh_keys_owner: marcus
-ssh_keys_pairs: [{ src: ~/.ssh/git.key }]
-# SSH Config - Templates config entreis for remote
+# SSH Transfer Keys - Copies from controller to remote
+ssh_transfer_key_owner: marcus
+ssh_transfer_key_pairs: [{ src: ~/.ssh/git.key }]
+# SSH Generate Keys - Generate a key on the host
+ssh_keygen_owner: marcus
+# SSH Config - Templates config entries for remote
 ssh_config_owner: marcus
 ssh_config_common_entries: # Atomic configs appended from all
   - "{{ ssh_config_entry_github }}"

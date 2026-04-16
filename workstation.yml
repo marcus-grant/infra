@@ -10,8 +10,10 @@
       when: ansible_os_family == 'Archlinux'
       tags: always
   roles:
-    - role: marcus_grant.dotfiles.ssh_keys
-      tags: [ssh_key, ssh, key, security, deploy]
+    - role: marcus_grant.dotfiles.ssh_transfer_key
+      tags: [ssh_transfer_key, ssh, key, security, deploy]
+    - role: marcus_grant.dotfiles.ssh_keygen
+      tags: [ssh_keygen, ssh, key, keygen, security, deploy]
     - role: marcus_grant.dotfiles.ssh_config
       tags: [ssh_config, ssh, config, security, deploy]
     - role: marcus_grant.dotfiles.git
