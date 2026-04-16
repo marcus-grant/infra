@@ -2,6 +2,18 @@
 - hosts: workstation
   gather_facts: true
   pre_tasks:
+    - name: Prompt for GPG passphrase
+      ansible.builtin.pause:
+        prompt: "GPG passphrase for key transfer (empty to skip)"
+        echo: false
+      register: _gpg_passphrase_prompt
+      tags: [gpg_transfer]
+    - name: Set GPG passphrase fact
+      ansible.builtin.set_fact:
+        gpg_transfer_passphrase: "{{ _gpg_passphrase_prompt.user_input }}"
+      when: _gpg_passphrase_prompt.user_input | default('') | length > 0
+      no_log: true
+      tags: [gpg_transfer]
     - name: Full system sync and upgrade (Arch)
       community.general.pacman:
         update_cache: true
@@ -22,6 +34,8 @@
       tags: [profile, dotfile, shell, user, env]
     - role: marcus_grant.dotfiles.userdirs
       tags: [profile, dotfile, shell, user, env, xdg]
+    - role: marcus_grant.dotfiles.gpg_transfer
+      tags: [gpg_transfer, gpg, password, security, deploy]
     - role: marcus_grant.dotfiles.zsh
       tags: [zsh, shell, dotfile, env]
     - role: marcus_grant.dotfiles.neovim

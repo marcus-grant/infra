@@ -36,6 +36,13 @@ profile_custom_entries:
 ### Userdirs
 userdirs_owner: marcus
 
+### GPG
+gpg_transfer_owner: marcus
+gpg_transfer_controller_gnupghome: "{{ vault_secrets_path }}/gpg"
+gpg_transfer_gnupghome: "{{ vault_secrets_path }}/gpg"
+gpg_transfer_create_symlink: true
+gpg_transfer_verify: false
+
 ### ZSH
 zsh_owner: marcus
 zsh_config_dest: ~/.config/zsh
