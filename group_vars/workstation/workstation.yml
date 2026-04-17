@@ -43,6 +43,12 @@ gpg_transfer_gnupghome: "{{ vault_secrets_path }}/gpg"
 gpg_transfer_create_symlink: true
 gpg_transfer_verify: false
 
+### Password Store
+password_store_owner: marcus
+password_store_repo: "{{ vault_password_store_repo }}"
+password_store_dir: "{{ vault_secrets_path }}/pass"
+password_store_profile_dropin: true
+
 ### ZSH
 zsh_owner: marcus
 zsh_config_dest: ~/.config/zsh

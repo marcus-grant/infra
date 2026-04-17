@@ -2,6 +2,14 @@
 - hosts: workstation
   gather_facts: true
   pre_tasks:
+    - name: Ensure secrets directory exists
+      become: true
+      become_user: marcus
+      ansible.builtin.file:
+        path: "{{ vault_secrets_path }}"
+        state: directory
+        mode: "0700"
+      tags: [gpg_transfer, password_store, secrets]
     - name: Prompt for GPG passphrase
       ansible.builtin.pause:
         prompt: "GPG passphrase for key transfer (empty to skip)"
@@ -29,13 +37,15 @@
     - role: marcus_grant.dotfiles.ssh_config
       tags: [ssh_config, ssh, config, security, deploy]
     - role: marcus_grant.dotfiles.git
-      tags: [git, dev, deploy, shell, git_dotfile]
+      tags: [git, dev, deploy, password, shell, git_dotfile]
     - role: marcus_grant.dotfiles.profile
       tags: [profile, dotfile, shell, user, env]
     - role: marcus_grant.dotfiles.userdirs
       tags: [profile, dotfile, shell, user, env, xdg]
     - role: marcus_grant.dotfiles.gpg_transfer
       tags: [gpg_transfer, gpg, password, security, deploy]
+    - role: marcus_grant.dotfiles.password_store
+      tags: [password_store, password, security, deploy]
     - role: marcus_grant.dotfiles.zsh
       tags: [zsh, shell, dotfile, env]
     - role: marcus_grant.dotfiles.neovim
