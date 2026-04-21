@@ -99,6 +99,9 @@ uv_owner: marcus
 ###########
 ### Nerdfonts
 nerd_fonts_dicts:
+  - name: JetBrainsMono
+    file: JetBrainsMono.zip
+    url: "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/JetBrainsMono.zip"
   - name: FiraCode
     file: FiraCode.zip
     url: "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/FiraCode.zip"
