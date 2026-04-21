@@ -45,3 +45,8 @@ pyenv_root: ~/state/pyenv
 # uv
 # --
 uv_link_mode: hardlink
+
+
+# Nerd Fonts
+# ----------
+nerd_fonts_dir: ~/.dist/arch/local/fonts
